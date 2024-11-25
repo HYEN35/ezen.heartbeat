@@ -118,23 +118,33 @@ br.mob{display:none}
 .join .joinCnt .btn-full{width:100%;margin-top:30px;font-size:18px;font-weight:700}
 
 /*플레이바*/
-.playBar{position:fixed;top:0;left:250px;width:calc(100% - 250px);height:100px;background:#222;color:#fff;font-size:28px;text-align:center;line-height:100px;z-index:1000}
+.playBar{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;position:fixed;top:0;left:250px;width:calc(100% - 250px);height:100px;background:#222;color:#fff;font-size:14px;text-align:center;z-index:1000}
+.playBar .player{display:none}
+.playBar .stateCnt{font-size:16px}
+.playBar .playInfo{display:flex;justify-content:center;align-items:center;margin-top:10px;font-size:20px}
+.playBar .playInfo .playBtn{margin-right:10px;color:#ddd;font-size:20px}
+.playBar .playInfo .playBtn:hover{color:#fff}
 
 /*뮤직리스트*/
 .listBx>p{margin-bottom:10px;font-size:16px;font-weight:700}
 .listBx .item{display:flex;justify-content:flex-start;align-items:center;cursor:default}
 .listBx .item+.item{margin-top:20px}
-.listBx .item .num{width:24px;height:24px;margin-right:10px;background:#ff1493;color:#fff;font-weight:700;text-align:center;line-height:24px;border-radius:50%}
+.listBx .item .num{width:25px;height:25px;margin-right:10px;background:#ff1493;color:#fff;font-weight:700;text-align:center;line-height:24px;border-radius:50%}
 .listBx .item .num>i{display:block}
-.listBx .item .album{width:50px;height:50px;margin-right:10px;background:#ddd;cursor:pointer}
-.listBx .item .arti{width:calc(100% - 90px)}
-.listBx .item .arti>i{overflow:hidden;display:block;white-space:nowrap;text-overflow:ellipsis}
+.listBx .item .album{width:50px;height:50px;margin-right:10px}
+.listBx .item .arti{width:calc(100% - 135px)}
+.listBx .item .arti>i{display:block}
 .listBx .item .arti>i+i{margin-top:4px}
-.listBx .item .album:hover{position:relative;background:rgba(0,0,0,0.8)}
-.listBx .item .album:hover:before{position:absolute;top:50%;left:50%;color:#fff;font-family:FontAwesome;font-size:30px;transform:translate(-50%, -50%);content:"\f144"}
+.listBx .item .arti .tit{font-weight:500}
+.listBx .playBtn{position:relative;width:40px;margin-left:10px;color:#333;font-size:30px}
+.listBx .playBtn:hover{color:#000}
+.listBx .playBtn:before{font-family:FontAwesome;content:"\f144"}
+.listBx .playBtn.playing:before{content:"\f025"}
+.listBx .playBtn.pause:before{content:"\f28b"}
 
 /*차트*/
 .chart .container .cntWrap{margin-top:100px}
+.chart .album>img{display:block;width:100%;height:100%}
 .chart .section-chart:after{display:block;clear:both;content:""}
 .chart .section-chart .listBx{float:left;width:calc(100% / 3 - 14px);padding:20px;background:#fff;border-radius:10px}
 .chart .section-chart .listBx+.listBx{margin-left:20px}
@@ -169,7 +179,8 @@ br.mob{display:none}
 .playlist .section-list .btnWrap{display:flex;justify-content:flex-end;margin-bottom:10px}
 .playlist .section-list .itemWrap{display:flex;flex-wrap:wrap}
 .playlist .section-list .itemWrap .item{width:50%}
-.playlist .section-list .itemWrap .all{width:100%}
+.playlist .section-list .itemWrap .item:nth-child(2){margin-top:0}
+.playlist .section-list .itemWrap .item .playBtn{margin-left:0;margin-right:10px}
 
 /*커뮤니티*/
 .community .section-artist .tit{margin-bottom:20px;font-size:18px;font-weight:500}
