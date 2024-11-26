@@ -91,6 +91,8 @@
 		}
 	</script>
 	
+	<!--  <img src="${pageContext.request.contextPath}/upload/${sessionScope.PostVO.post_img_name}"alt="게시판 이미지" -->
+	
 	<div class="inner service artist-newjeans" data-name="community">
 		<%@ include file="../../include/menu.jsp" %>
 		<div class="container">
@@ -105,7 +107,7 @@
 							<div class="slideBx">
 								<c:forEach items="${newjinsPosts}" var="newjinsVO">
 									<div class="postBx">
-										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
+										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post" >
 							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
 											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
 												<div>
@@ -154,22 +156,22 @@
 								<c:forEach items="${newjinsfanPosts}" var="PostVO">
 									<div class="postBx">
 										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
-							                <input type="hidden" name="post_id" value="${PostVO.post_id}"/>
+							                <input type="text" name="post_id" value="${PostVO.post_id}" hidden/>
 											<a href="javascript:void(0);" onclick="popPostFanShow(${PostVO.post_id})" >
 												<div>
 													<div class="fan-profile">
-														<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
 														<span class="nickname">${PostVO.nickname }</span>
 														<div class="date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></div>
 													</div>
 													<div class="fan-comment">
 														<div class="fan-cnt">
-															<img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"><br><br>
+															<img src="/upload/${PostVO.post_img_name}" alt="게시판 이미지" style="width:100%;"><br><br> 	
 															<div class="txt">${PostVO.content }</div>
 														</div>
 													</div>
 												</div>
-											</a>				
+											</a>			
 										</form>
 									</div>
 								</c:forEach>

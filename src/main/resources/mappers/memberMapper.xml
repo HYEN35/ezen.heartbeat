@@ -7,6 +7,50 @@
 	<select id="login" resultType="kr.heartbeat.vo.UserVO">
 		select * from user_tbl where email = #{email} and pwd = #{pwd}
 	</select>
+	
+	<!-- 이메일 중복 체크 -->
+    <select id="countEmail" resultType="Integer">
+        SELECT COUNT(*) FROM user_tbl WHERE email = #{email}
+    </select>
+
+    <!-- 전화번호 중복 체크 -->
+    <select id="countPhone" resultType="Integer">
+        SELECT COUNT(*) FROM user_tbl WHERE phone = #{phone}
+    </select>
+
+    <!-- 닉네임 중복 체크 -->
+    <select id="countNickname" resultType="Integer">
+        SELECT COUNT(*) FROM user_tbl WHERE nickname = #{nickname}
+    </select>
+    
+    <insert id="insertUser" parameterType="kr.heartbeat.vo.UserVO">
+        INSERT INTO user_tbl (
+            email,
+            artist_id,
+            pwd,
+            name,
+            nickname,
+            birth,
+            phone,
+            profileimg,
+            level,
+            reg_date,
+            up_date
+        ) VALUES (
+            #{email},
+            #{artist_id},
+            #{pwd},
+            #{name},
+            #{nickname},
+            #{birth},
+            #{phone},
+            #{profileimg},
+            #{level},
+            NOW(),
+            NOW()
+        )
+    </insert>
+    
 
 
 </mapper>
