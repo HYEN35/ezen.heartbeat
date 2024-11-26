@@ -21,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
 	@Inject
 	private UserPersistenceImpl userPersistenceImpl;
+
+	@Autowired
+	JavaMailSenderImpl javaMailSenderImpl;
 	//중복체크
 	@Override
 	public UserVO idCheck(String email) {
