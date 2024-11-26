@@ -82,10 +82,10 @@ public class UserController {
 					int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
 					if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
 						rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
-						url ="redirect:/login";
+						url ="/heartbeat/login";
 					} else { //회원가입 실패
-						rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
-						url = "redirect:/join";
+						rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");	
+						url = "/heartbeat/join";
 					}
 					return url;
 				}
@@ -129,13 +129,13 @@ public class UserController {
 	                    } else {
 	                        // 맴버십 기간이 유효한 경우
 	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
-	                        rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
+							rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
 	                        url = "redirect:/chart";  // 차트 페이지로 이동
 	                    }
 	                } else {
 	                    // 구독 정보가 없는 경우
 	                    session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
-	                    rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
+						rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
 	                    url = "redirect:/chart";  // 차트 페이지로 이동
 	                }
 
@@ -150,10 +150,10 @@ public class UserController {
 	                    if (dbuserVO != null) {
 	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 	                        session.setAttribute("level", dbuserVO.getLevel());  // 사용자 레벨 설정
-	                        rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
-	                        url = "redirect:/chart";  // 일반 사용자 차트 페이지로 이동
+							rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
+	                        url = "/heartbeat/chart";  // 일반 사용자 차트 페이지로 이동
 	                    } else {
-	                        url = "redirect:/login";  // 로그인 페이지로 이동
+	                        url = "/heartbeat/login";  // 로그인 페이지로 이동
 	                    }
 	                }
 	            } else {
@@ -178,8 +178,8 @@ public class UserController {
 		@ResponseBody //@ResponseBody를 사용하면 model 객체를 쓸 수 없다.
 		public HashMap<String,Object> findId(UserVO userVO) {
 		// HashMap을 사용할 때 @ResponseBody로 반환되는 객체를 JSON으로 변환하려면 jackson-databind를 pom.xml에 의존성 주입을 해야 한다.
-
-			UserVO uvo = userServiceImpl.findId(userVO);
+			
+			UserVO userVO = userServiceImpl.findId(name, birth, phone);
 			HashMap<String, Object> response = new HashMap<String, Object>();
 			
 			if(uvo != null) {
@@ -187,7 +187,7 @@ public class UserController {
 				response.put("email", uvo.getEmail());
 			} 
 			response.put("name", userVO.getName());
-			
+
 			return response;
 		}
 		
@@ -204,7 +204,6 @@ public class UserController {
 			redirectAttributes.addFlashAttribute("message", "비밀번호 찾기 실패했습니다. 다시 시도해 주세요.");
 			return "redirect:/login"; 
 		}
-		
 		
 		//로그아웃
 		@GetMapping("/logout")
@@ -226,7 +225,8 @@ public class UserController {
 	       
 	        uvo.setNickname(userVO.getNickname());  // 세션에 저장된 user 객체의 닉네임 업데이트
 	        session.setAttribute("UserVO", uvo);  
-	        rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+			rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+			
 		    return "redirect:/mypage";
 		}
 		
