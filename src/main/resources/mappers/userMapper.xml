@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.heartbeat.mappers.user">
+	<!-- 중복 확인  -->
+	<select id="emailcheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
+		select * from user_tbl
+		where email = #{email}
+	</select>
+	
+	<select id="phonecheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
+		select * from user_tbl
+		where phone = #{phone}
+	</select>
+
+	<select id="nicknamecheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
+		select * from user_tbl
+		where nickname = #{nickname}
+	</select>
+	
+	
+	
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="kr.heartbeat.vo.UserVO">
+	    insert into user_tbl (
+	        email,
+	        artist_id,
+	        pwd,
+	        name,
+	        nickname, 
+	        birth, 
+	        phone, 
+	        profileimg, 
+	        reg_date, 
+	        up_date
+	    ) values (
+	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, 0, now(), now())
+	</insert>
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="kr.heartbeat.vo.UserVO">
+		select * from user_tbl
+		where email = #{email}
+	</select>
+	<!-- 역할 아이디 확인 -->
+	<select id="role" parameterType="kr.heartbeat.vo.UserroleVO" resultType="kr.heartbeat.vo.UserroleVO">
+		select * from user_role_tbl where email = #{email}
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
+		select * from user_tbl
+		where name = #{name} 
+		and DATE_FORMAT(birth, '%Y%m%d') = #{birth} <!-- db에 저장된 YYYY-MM-DD 형식을 입력받은 YYYYMMDD 형식으로 바꿔서 비교한다. -->
+    	and phone = #{phone}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPwd" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
+		select * from user_tbl
+		where email = #{email} 
+    	and name = #{name}
+		and DATE_FORMAT(birth, '%Y%m%d') = #{birth} 
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="modify" parameterType="hashMap">
+		update user_tbl set
+			pwd = #{newPwd}
+			, nickname = #{userVO.nickname}
+			,profileimg = 0
+			,up_date = now()
+		where email = #{userVO.email}
+	</update>
+	
+	<!-- 멤버쉽 수정(level) -->
+	<update id="membership" parameterType="kr.heartbeat.vo.UserVO">
+		update user_tbl set
+			level = #{level}
+			,up_date = now()
+		where email = #{email}
+	</update>
+	
+
+	<!-- 1.사용자 조회 -->
+	<select id="userSearch" parameterType="kr.heartbeat.vo.UserVO" resultType="int">
+		select count(*) from user_tbl
+		where email = #{email} and pwd = #{pwd}
+	</select>
+	<!--2. 회원정보를 삭제유저테이블에 저장-->
+	<insert id="delUserInsert" parameterType="kr.heartbeat.vo.UserVO">
+	    insert into delete_user_tbl (
+	        del_email,
+	        del_artist_id,
+	        del_pwd,
+	        del_name,
+	        del_nickname, 
+	        del_birth, 
+	        del_phone, 
+	        del_profileimg, 
+	        del_level, 
+	        del_reg_date,
+	        del_date
+	    ) values (
+	        #{email}, #{artist_id}, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, 0, #{level},#{reg_date}, now())
+	</insert>
+	<!-- 3. 회원 삭제 -->
+	<delete id="delete" parameterType="kr.heartbeat.vo.UserVO">
+		delete from user_tbl
+		where email = #{email}
+	</delete>
+
+</mapper>
+
+
