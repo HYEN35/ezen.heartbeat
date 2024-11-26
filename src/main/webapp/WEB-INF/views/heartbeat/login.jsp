@@ -30,11 +30,6 @@
 						<a href="/join" id="btnJoin" class="btn-under-01">회원가입</a>
 					</div>
 				</div>
-				<p class="line"><i>혹은</i></p>
-				<div id="snsLogin" class="btnCnt">
-					<button type="button" class="login-google"><i class="fa-brands fa-google"></i></button>
-					<button type="button" class="login-spotify"><i class="fa-brands fa-spotify"></i></button>
-				</div>
 			</div>
 		</div>
 
