@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	JavaMailSenderImpl javaMailSenderImpl;
+<<<<<<< HEAD
 =======
 	
 =======
@@ -57,6 +58,8 @@ public class UserServiceImpl implements UserService {
 >>>>>>> 9373f26 (파일 전체 업로드)
 =======
 >>>>>>> e47ac89 (Revert "병합 후")
+=======
+>>>>>>> 9199170 (Merge remote-tracking branch 'origin/Nayoung' into HyeinKim)
 	//중복체크
 	@Override
 	public UserVO idCheck(String email) {
