@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
