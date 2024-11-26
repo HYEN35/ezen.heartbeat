@@ -47,8 +47,6 @@
 								<ul class="itemWrap">
 									<c:forEach items="${adminPost }" var="avo">
 									<li class="item">
-										<div class="num">	
-										</div>
 										 <a href="/notice/getPostOne?notice_id=${avo.notice_id }&num=${select }" class="tit" style="color:red;"> <i>${avo.title }</i>
 										 <i>${avo.nickname }</i>
 										</a>
