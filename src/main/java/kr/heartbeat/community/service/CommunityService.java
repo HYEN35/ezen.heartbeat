@@ -8,40 +8,40 @@ import kr.heartbeat.vo.UserVO;
 
 
 public interface CommunityService {
-	// ê²Œì‹œë¬¼ ì‘ì„±
-	public void postWrite(PostVO postvo) throws Exception;
-	// ê²Œì‹œë¬¼ ëª©ë¡
-	public List<PostVO> getPostList() throws Exception;
-	// ë‰´ì§„ìŠ¤ íŒ¬ ê²Œì‹œë¬¼ ëª©ë¡
-	public List<PostVO> getFanPostList(int displayPost, int postNum) throws Exception;
-	// íŒ¬ ê²Œì‹œë¬¼ ê°œìˆ˜
-	public int getFanPostCount() throws Exception;	
-	// ê²Œì‹œë¬¼ í•˜ë‚˜ ê°€ì ¸ì˜¤ê¸°
-	public PostVO getPost(PostVO postVO) throws Exception;
-	// ì•„í‹°ìŠ¤íŠ¸ ë ˆë²¨ ê°€ì ¸ì˜¤ê¸°
-	public UserVO getLevel(UserVO uservo) throws Exception;
-	// ê²Œì‹œë¬¼ ìˆ˜ì •
-	public void modifyPost(PostVO postVO) throws Exception;
-	// ê²Œì‹œë¬¼ ì‚­ì œ
-	public void deletePost(int post_id) throws Exception;
-	// ë§´ë²„ì‹­ ë ˆë²¨ í™•ì¸
-	public UserVO checkMemberShipLevel(UserVO uservo) throws Exception;
-	// ëŒ“ê¸€ ì‘ì„±
-	public void commentWrite(CommentVO commentVO) throws Exception;
-	// ëŒ“ê¸€ ëª©ë¡
-	public List<CommentVO> getComment(PostVO postVO) throws Exception;
-	// ì´ ëŒ“ê¸€ ê°œìˆ˜
-	public int totalComment(int post_id) throws Exception;
-	// ëŒ“ê¸€ ì‚­ì œ
-	public void commentdelete(int comment_id) throws Exception;
-	// ìƒˆë¡œ ì‘ì„±í•œ ëŒ“ê¸€ ê°€ì ¸ì˜¤ê¸°
-	public CommentVO getNewComment(int post_id) throws Exception;
-	// ëŒ“ê¸€ ìˆ˜ì •
-	public CommentVO modifyComment(CommentVO commentVO) throws Exception;
-	// ì¢‹ì•„ìš” ë²„íŠ¼
-	public void likeToggle(PostVO postVO) throws Exception;
-	// ì´ ì¢‹ì•„ìš” ê°œìˆ˜
-	public int totalLike(PostVO postVO) throws Exception;
-	// ì¢‹ì•„ìš” ì—¬ë¶€
-	public int checkLike(PostVO postVO) throws Exception;
+	// °Ô½Ã¹° ÀÛ¼º
+		public void postWrite(PostVO postvo) throws Exception;
+		// °Ô½Ã¹° ¸ñ·Ï
+		public List<PostVO> getPostList() throws Exception;
+		// ´ºÁø½º ÆÒ °Ô½Ã¹° ¸ñ·Ï
+		public List<PostVO> getFanPostList(int displayPost, int postNum) throws Exception;
+		// ÆÒ °Ô½Ã¹° °³¼ö
+		public int getFanPostCount() throws Exception;	
+		// °Ô½Ã¹° ÇÏ³ª °¡Á®¿À±â
+		public PostVO getPost(PostVO postVO) throws Exception;
+		// ¾ÆÆ¼½ºÆ® ·¹º§ °¡Á®¿À±â
+		public UserVO getLevel(UserVO uservo) throws Exception;
+		// °Ô½Ã¹° ¼öÁ¤
+		public void modifyPost(PostVO postVO) throws Exception;
+		// °Ô½Ã¹° »èÁ¦
+		public void deletePost(int post_id) throws Exception;
+		// ¸É¹ö½Ê ·¹º§ È®ÀÎ
+		public UserVO checkMemberShipLevel(UserVO uservo) throws Exception;
+		// ´ñ±Û ÀÛ¼º
+		public void commentWrite(CommentVO commentVO) throws Exception;
+		// ´ñ±Û ¸ñ·Ï
+		public List<CommentVO> getComment(PostVO postVO) throws Exception;
+		// ÃÑ ´ñ±Û °³¼ö
+		public int totalComment(int post_id) throws Exception;
+		// ´ñ±Û »èÁ¦
+		public void commentdelete(int comment_id) throws Exception;
+		// »õ·Î ÀÛ¼ºÇÑ ´ñ±Û °¡Á®¿À±â
+		public CommentVO getNewComment(int post_id) throws Exception;
+		// ´ñ±Û ¼öÁ¤
+		public CommentVO modifyComment(CommentVO commentVO) throws Exception;
+		// ÁÁ¾Æ¿ä ¹öÆ°
+		public void likeToggle(PostVO postVO) throws Exception;
+		// ÃÑ ÁÁ¾Æ¿ä °³¼ö
+		public int totalLike(PostVO postVO) throws Exception;
+		// ÁÁ¾Æ¿ä ¿©ºÎ
+		public int checkLike(PostVO postVO) throws Exception;
 }

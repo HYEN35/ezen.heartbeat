@@ -22,22 +22,24 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 	
 	private static String namespace = "kr.heartbeat.mappers.community";
 	
-	@Override // ë§´ë²„ì‹­ ë ˆë²¨ ê°€ì ¸ì˜¤ê¸°
+	@Override // ¸É¹ö½Ê ·¹º§ °¡Á®¿À±â
 	public UserVO checkMemberShipLevel(UserVO uservo) throws Exception {
 		return sql.selectOne(namespace+".checkMemberShipLevel", uservo);
 	}
 	
-	@Override // ê²Œì‹œë¬¼ ì‘ì„±
+	@Override // °Ô½Ã¹° ÀÛ¼º
 	public void postWrite(PostVO postvo) throws Exception {
 		sql.insert(namespace+".postWrite", postvo);
 	}
 	
-	@Override // ì „ì²´ ê²Œì‹œë¬¼ ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
+	@Override // ÀüÃ¼ °Ô½Ã¹° ¸ñ·Ï °¡Á®¿À±â
 	public List<PostVO> getPostList() throws Exception {
+//		System.out.println("===========CommunityPersistenceImplGetPost : "+postvo);
+
 		return sql.selectList(namespace+".getPostList");
 	}
 	
-	@Override // ë‰´ì§„ìŠ¤ íŒ¬ ê²Œì‹œë¬¼  ê°€ì ¸ì˜¤ê¸°
+	@Override // ´ºÁø½º ÆÒ °Ô½Ã¹°  °¡Á®¿À±â
 	public List<PostVO> getFanPostList(int displayPost, int postNum) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 	    map.put("minji", "minji");
@@ -47,80 +49,83 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 	    return sql.selectList(namespace+".getFanPostList", map);
 	}
 	
-	@Override //íŒ¬ ê²Œì‹œë¬¼ ê°œìˆ˜ ê°€ì ¸ì˜¤ê¸° 
+	@Override //ÆÒ °Ô½Ã¹° °³¼ö °¡Á®¿À±â 
 	public int getFanPostCount() throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("minji", "minji");
 		map.put("haerin", "haerin");
 		int a = sql.selectOne(namespace+".getFanPostCount",map);
+		System.out.println("====================ÆÒ °Ô½Ã¹° °³¼ö °¡Á®¿À±â" + a);
 		return a;
 	}
 	
-	@Override // ê²Œì‹œë¬¼ í•˜ë‚˜ ê°€ì ¸ì˜¤ê¸°
+	@Override // °Ô½Ã¹° ÇÏ³ª °¡Á®¿À±â
 	public PostVO getPost(PostVO postVO) throws Exception {
 		return sql.selectOne(namespace+".getPost", postVO);
 	}
 	
-	@Override // ê²Œì‹œë¬¼ ìˆ˜ì •
+	@Override // °Ô½Ã¹° ¼öÁ¤
 	public void modifyPost(PostVO postVO) throws Exception {
 		sql.update(namespace+".modifyPost", postVO);
 		
 	}
 	
-	@Override // ê²Œì‹œë¬¼ ì‚­ì œ
+	@Override // °Ô½Ã¹° »èÁ¦
 	public void deletePost(int post_id) throws Exception {
 		sql.delete(namespace+".deletePost", post_id);
 	}
 	
-	@Override // êµ¬ë… ë“±ê¸‰ ê°€ì ¸ì˜¤ê¸°
+	@Override // ±¸µ¶ µî±Ş °¡Á®¿À±â
 	public UserVO getLevel(UserVO uservo) throws Exception {
 		return sql.selectOne(namespace+".getLevel",uservo);
 	}
 	
-	@Override // ëŒ“ê¸€ ì‘ì„±
+	@Override // ´ñ±Û ÀÛ¼º
 	public void commentWrite(CommentVO commentVO) throws Exception {
 		sql.insert(namespace+".commentWrite", commentVO);
 	}
 	
-	@Override // ëŒ“ê¸€ ê°€ì ¸ì˜¤ê¸° 
+	@Override // ´ñ±Û °¡Á®¿À±â 
 	public List<CommentVO> getComment(PostVO postVO) throws Exception {
 		return sql.selectList(namespace+".getComment", postVO);
 	}
 	
-	@Override // ì´ ëŒ“ê¸€ ìˆ˜ ê°€ì ¸ì˜¤ê¸°
+	@Override // ÃÑ ´ñ±Û ¼ö °¡Á®¿À±â
 	public int totalComment(int post_id) throws Exception {
 		return sql.selectOne(namespace+".totalComment",post_id );
 	}
 	
-	@Override // ëŒ“ê¸€ ìˆ˜ì •
+	@Override // ´ñ±Û ¼öÁ¤
 	public CommentVO modifyComment(CommentVO commentVO) throws Exception {
-		// ëŒ“ê¸€ì„ ë¨¼ì € ìˆ˜ì • (ì—…ë°ì´íŠ¸)
+		// ´ñ±ÛÀ» ¸ÕÀú ¼öÁ¤ (¾÷µ¥ÀÌÆ®)
 	    int result = sql.update(namespace + ".modifyComment", commentVO);
 
-	    // ì—…ë°ì´íŠ¸ê°€ ì„±ê³µì ìœ¼ë¡œ ë˜ì—ˆë‹¤ë©´, í•´ë‹¹ ëŒ“ê¸€ì„ ë‹¤ì‹œ ì¡°íšŒí•˜ì—¬ ë°˜í™˜
+	    // ¾÷µ¥ÀÌÆ®°¡ ¼º°øÀûÀ¸·Î µÇ¾ú´Ù¸é, ÇØ´ç ´ñ±ÛÀ» ´Ù½Ã Á¶È¸ÇÏ¿© ¹İÈ¯
 	    if (result > 0) {
-	        // ìˆ˜ì •ëœ ëŒ“ê¸€ì„ ë‹¤ì‹œ ì¡°íšŒ
+	        // ¼öÁ¤µÈ ´ñ±ÛÀ» ´Ù½Ã Á¶È¸
 	        return sql.selectOne(namespace + ".getmodifyComment", commentVO.getComment_id());
 	    } else {
-	        // ì—…ë°ì´íŠ¸ê°€ ì‹¤íŒ¨í•œ ê²½ìš° (0ì´ë©´ ì‹¤íŒ¨)
-	        return null;  // ë˜ëŠ” ì˜ˆì™¸ ì²˜ë¦¬
+	        // ¾÷µ¥ÀÌÆ®°¡ ½ÇÆĞÇÑ °æ¿ì (0ÀÌ¸é ½ÇÆĞ)
+	        return null;  // ¶Ç´Â ¿¹¿Ü Ã³¸®
 	    }
 	}
 	
-	@Override // ëŒ“ê¸€ ì‚­ì œ
+	@Override // ´ñ±Û »èÁ¦
 	public void commentdelete(int comment_id) throws Exception {
 		sql.delete(namespace+".commentdelete", comment_id);
 	}
 	
-	@Override // ìƒˆë¡œ ì‘ì„±í•œ ëŒ“ê¸€ ê°€ì ¸ì˜¤ê¸°
+	@Override // »õ·Î ÀÛ¼ºÇÑ ´ñ±Û °¡Á®¿À±â
 	public CommentVO getNewComment(int post_id) throws Exception {
+		System.out.println("===========ÆÛ½Ã½ºÅÏ½º È®ÀÎ"+post_id);
 		return sql.selectOne(namespace+".getNewComment", post_id);
 	}
 
-	@Override // ì¢‹ì•„ìš” ë²„íŠ¼
+	@Override // ÁÁ¾Æ¿ä ¹öÆ°
 	public void likeToggle(PostVO postVO) throws Exception {
+		System.out.println(postVO);
 		int result = sql.selectOne(namespace+".likeToggle", postVO);
-		
+		System.out.println(result);
 		if (result > 0 ) {
 			sql.delete(namespace+".deleteLike", postVO);
 		} else {
@@ -136,7 +141,9 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 
 	@Override
 	public int checkLike(PostVO postVO) throws Exception {
+		System.out.println("===============checkLike:" +postVO);
 		return sql.selectOne(namespace+".likeToggle", postVO);
 	}
+
 
 }

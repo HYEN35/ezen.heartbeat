@@ -16,22 +16,23 @@ public class CommunityServiceImpl implements CommunityService {
 	@Autowired
 	private CommunityPersistence communityPersistence;
 	
-	@Override //ë§´ë²„ì‹­ ë ˆë²¨ ê°€ì ¸ì˜¤ê¸° 
+	@Override //¸É¹ö½Ê ·¹º§ °¡Á®¿À±â 
 	public UserVO checkMemberShipLevel(UserVO uservo) throws Exception {
 		return communityPersistence.checkMemberShipLevel(uservo);
 	}
 	
-	@Override //ê²Œì‹œë¬¼ ì‘ì„±
+	@Override //°Ô½Ã¹° ÀÛ¼º
 	public void postWrite(PostVO postvo) throws Exception {
 		communityPersistence.postWrite(postvo);
 	}
 	
-	@Override // ê²Œì‹œë¬¼ ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
+	@Override // °Ô½Ã¹° ¸ñ·Ï °¡Á®¿À±â
 	public List<PostVO> getPostList() throws Exception {
+//		System.out.println("===========CommunityServiceGetPost : "+postvo);
 		return communityPersistence.getPostList();
 	}
 	
-	@Override // íŒ¬ ê²Œì‹œë¬¼ ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
+	@Override // ÆÒ °Ô½Ã¹° ¸ñ·Ï °¡Á®¿À±â
 	public List<PostVO> getFanPostList(int displayPost, int postNum) throws Exception {
 		return communityPersistence.getFanPostList(displayPost, postNum);
 	}
@@ -41,17 +42,17 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityPersistence.getFanPostCount();
 	}
 	
-	@Override // ê²Œì‹œë¬¼ í•˜ë‚˜ ê°€ì ¸ì˜¤ê¸°
+	@Override // °Ô½Ã¹° ÇÏ³ª °¡Á®¿À±â
 	public PostVO getPost(PostVO postVO) throws Exception {
 		return communityPersistence.getPost(postVO);
 	}
 	
-	@Override // ê²Œì‹œë¬¼ ìˆ˜ì •
+	@Override // °Ô½Ã¹° ¼öÁ¤
 	public void modifyPost(PostVO postVO) throws Exception {
 		 communityPersistence.modifyPost(postVO);
 	}
 	
-	@Override // ê²Œì‹œë¬¼ ì‚­ì œ
+	@Override // °Ô½Ã¹° »èÁ¦
 	public void deletePost(int post_id) throws Exception {
 		communityPersistence.deletePost(post_id);
 	}
@@ -61,42 +62,42 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityPersistence.getLevel(uservo);
 	}
 	
-	@Override // ëŒ“ê¸€ ì‘ì„±
+	@Override // ´ñ±Û ÀÛ¼º
 	public void commentWrite(CommentVO commentVO) throws Exception {
 		communityPersistence.commentWrite(commentVO);
 	}
 	
-	@Override // ëŒ“ê¸€ ê°€ì ¸ì˜¤ê¸°
+	@Override // ´ñ±Û °¡Á®¿À±â
 	public List<CommentVO> getComment(PostVO postVO) throws Exception {
 		return communityPersistence.getComment(postVO);
 	}
 	
-	@Override // ì´ ëŒ“ê¸€ ìˆ˜ ê°€ì ¸ì˜¤ê¸°
+	@Override // ÃÑ ´ñ±Û ¼ö °¡Á®¿À±â
 	public int totalComment(int post_id) throws Exception {
 		return communityPersistence.totalComment(post_id);
 	}
 	
-	@Override // ëŒ“ê¸€ ìˆ˜ì •
+	@Override // ´ñ±Û ¼öÁ¤
 	public CommentVO modifyComment(CommentVO commentVO) throws Exception {
 		return communityPersistence.modifyComment(commentVO);
 	}
 	
-	@Override // ëŒ“ê¸€ ì‚­ì œ 
+	@Override // ´ñ±Û »èÁ¦ 
 	public void commentdelete(int comment_id) throws Exception {
 		communityPersistence.commentdelete(comment_id);
 	}
 	
-	@Override // ìƒˆë¡œ ì‘ì„±í•œ ëŒ“ê¸€ ê°€ì ¸ì˜¤ê¸°
+	@Override // »õ·Î ÀÛ¼ºÇÑ ´ñ±Û °¡Á®¿À±â
 	public CommentVO getNewComment(int post_id) throws Exception {
 		return communityPersistence.getNewComment(post_id);
 	}
 
-	@Override // ì¢‹ì•„ìš” ë²„íŠ¼
+	@Override // ÁÁ¾Æ¿ä ¹öÆ°
 	public void likeToggle(PostVO postVO) throws Exception {
 		communityPersistence.likeToggle(postVO);
 	}
 
-	@Override // ì´ ì¢‹ì•„ìš” ê°œìˆ˜
+	@Override // ÃÑ ÁÁ¾Æ¿ä °³¼ö
 	public int totalLike(PostVO postVO) throws Exception {
 		return communityPersistence.totalLike(postVO);
 	}
