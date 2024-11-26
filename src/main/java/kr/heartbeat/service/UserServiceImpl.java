@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -17,6 +18,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 >>>>>>> e47ac89 (Revert "병합 후")
 =======
 >>>>>>> parent of 0097fe9 (병합 후)
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+>>>>>>> 0097fe9 (병합 후)
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
@@ -27,7 +32,7 @@ import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Service
-@Transactional 
+@Transactional
 public class UserServiceImpl implements UserService {
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -307,6 +312,7 @@ public class UserServiceImpl implements UserService {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
 	}
+<<<<<<< HEAD
 
 
 <<<<<<< HEAD
@@ -333,4 +339,6 @@ public class UserServiceImpl implements UserService {
 
 
 >>>>>>> parent of 0097fe9 (병합 후)
+=======
+>>>>>>> 0097fe9 (병합 후)
 }
