@@ -1,3 +1,6 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=parent of 1bdfbfa (cc)
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.annotation.missingNonNullByDefaultAnnotation=ignore
 org.eclipse.jdt.core.compiler.annotation.nonnull=org.springframework.lang.NonNull
@@ -21,17 +24,7 @@ org.eclipse.jdt.core.compiler.problem.nullSpecViolation=warning
 org.eclipse.jdt.core.compiler.problem.nullUncheckedConversion=ignore
 org.eclipse.jdt.core.compiler.problem.potentialNullReference=warning
 org.eclipse.jdt.core.compiler.problem.reportPreviewFeatures=ignore
-<<<<<<< HEAD
-<<<<<<< HEAD
 org.eclipse.jdt.core.compiler.problem.syntacticNullAnalysisForFields=enabled
-=======
-<<<<<<< HEAD
-org.eclipse.jdt.core.compiler.problem.syntacticNullAnalysisForFields=enabled
-=======
->>>>>>> 1bdfbfa (cc)
->>>>>>> 542c26b976f95a6d92ef2e2273db3cce5e4c59e5
 org.eclipse.jdt.core.compiler.processAnnotations=enabled
-=======
->>>>>>> parent of 1bdfbfa (cc)
 org.eclipse.jdt.core.compiler.release=disabled
 org.eclipse.jdt.core.compiler.source=1.8
