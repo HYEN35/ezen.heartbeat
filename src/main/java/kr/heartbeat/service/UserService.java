@@ -17,9 +17,9 @@ public interface UserService {
 	//로그인
 	public UserVO login(UserVO userVO);
 	//아이디찾기
-	public UserVO findId(String name, String birth, String phone);
-	//비밀번호 찾기
-	public UserVO findPwd(String email, String name, String birth);
+	public UserVO findId(UserVO userVO);
+	//비밀번호 찾기 - 메일 전송 버전
+	public int searchPwd(UserVO userVO);
 	
 	//회원정보 수정
 	public void modify(String newPwd, UserVO userVO);

@@ -73,7 +73,7 @@ public class UserController {
 		
 		//회원가입
 				@PostMapping("/join")
-				public String insertUser(UserVO userVO) {
+				public String insertUser(UserVO userVO, RedirectAttributes rttr) {
 					System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 					System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 					String email = userVO.getEmail();
@@ -81,8 +81,10 @@ public class UserController {
 					int resultUser = userServiceImpl.insertUser(userVO);
 					int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
 					if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
+						rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
 						url ="/heartbeat/login";
 					} else { //회원가입 실패
+						rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");	
 						url = "/heartbeat/join";
 					}
 					return url;
@@ -127,11 +129,13 @@ public class UserController {
 	                    } else {
 	                        // 맴버십 기간이 유효한 경우
 	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
+							rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
 	                        url = "redirect:/chart";  // 차트 페이지로 이동
 	                    }
 	                } else {
 	                    // 구독 정보가 없는 경우
 	                    session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
+						rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
 	                    url = "redirect:/chart";  // 차트 페이지로 이동
 	                }
 
@@ -146,6 +150,7 @@ public class UserController {
 	                    if (dbuserVO != null) {
 	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 	                        session.setAttribute("level", dbuserVO.getLevel());  // 사용자 레벨 설정
+							rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
 	                        url = "/heartbeat/chart";  // 일반 사용자 차트 페이지로 이동
 	                    } else {
 	                        url = "/heartbeat/login";  // 로그인 페이지로 이동
@@ -171,41 +176,33 @@ public class UserController {
 		//아이디 찾기
 		@PostMapping("/login/findId")
 		@ResponseBody //@ResponseBody를 사용하면 model 객체를 쓸 수 없다.
-		public HashMap<String,Object> findId(HttpServletRequest request) {
+		public HashMap<String,Object> findId(UserVO userVO) {
 		// HashMap을 사용할 때 @ResponseBody로 반환되는 객체를 JSON으로 변환하려면 jackson-databind를 pom.xml에 의존성 주입을 해야 한다.
-			String name = request.getParameter("name");
-			String birth = request.getParameter("birth");
-			String phone = request.getParameter("phone");
 			
 			UserVO userVO = userServiceImpl.findId(name, birth, phone);
 			HashMap<String, Object> response = new HashMap<String, Object>();
 			
-			if(userVO != null) {
+			if(uvo != null) {
 				response.put("result", "success");
-				response.put("email", userVO.getEmail());
-			}
+				response.put("email", uvo.getEmail());
+			} 
+			response.put("name", userVO.getName());
 
 			return response;
 		}
 		
-		//비밀번호 찾기
-		@PostMapping("/login/findPwd")
-		@ResponseBody
-		public HashMap<String, Object> findPwd(HttpServletRequest request) {
-			String email = request.getParameter("email");
-			String name = request.getParameter("name");
-			String birth = request.getParameter("birth");
+		//비밀번호 찾기 - 메일 전송 버전
+		@PostMapping("/login/searchPwd")
+		public String searchPwd(UserVO userVO, RedirectAttributes redirectAttributes) {
+			System.out.println("(============ : " +userVO.getEmail());
 			
-			UserVO userVO = userServiceImpl.findPwd(email, name, birth);
-			HashMap<String, Object> response = new HashMap<String, Object>();
-			
-			System.out.println("========== Presentaion member getPwd : "+userVO.getPwd());
-			
-			if(userVO != null) {
-				response.put("result", "successpwd");
-				response.put("pwd", userVO.getPwd());
+			int result = userServiceImpl.searchPwd(userVO);
+			if(result == 1) {
+				 redirectAttributes.addFlashAttribute("message", "새 비밀번호가 이메일로 전송되었습니다. 로그인하시고 비밀번호를 바꿔주세요.");
+				 return "redirect:/login";
 			}
-			return response;
+			redirectAttributes.addFlashAttribute("message", "비밀번호 찾기 실패했습니다. 다시 시도해 주세요.");
+			return "redirect:/login"; 
 		}
 		
 		//로그아웃
@@ -217,7 +214,7 @@ public class UserController {
 		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
-		public String modify(@RequestParam("newPwd") String newPwd, UserVO userVO, HttpSession session) {
+		public String modify(@RequestParam("newPwd") String newPwd, UserVO userVO, HttpSession session, RedirectAttributes rttr) {
 			UserVO uvo = (UserVO) session.getAttribute("UserVO");	//세션에서 user 데이터 불러와서 email 값을 전달해야 한다.
 		    userVO.setEmail(uvo.getEmail());
 		   
@@ -228,7 +225,8 @@ public class UserController {
 	       
 	        uvo.setNickname(userVO.getNickname());  // 세션에 저장된 user 객체의 닉네임 업데이트
 	        session.setAttribute("UserVO", uvo);  
-	        
+			rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+			
 		    return "redirect:/mypage";
 		}
 		

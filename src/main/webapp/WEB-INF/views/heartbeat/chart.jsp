@@ -6,6 +6,12 @@
 <%@ page import="javax.servlet.ServletContext" %>
 
 <body>
+	<script>
+	  <c:if test="${not empty message}">
+		  alert("${message}");
+	  </c:if>
+  	</script>
+
 	<div class="inner service chart" data-name="chart">
 	<%@ include file="../include/menu.jsp" %>
 		<div id="playBar" class="playBar">
