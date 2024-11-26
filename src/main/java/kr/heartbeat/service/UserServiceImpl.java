@@ -1,17 +1,20 @@
 package kr.heartbeat.service;
 
+import java.security.SecureRandom;
+import java.util.Date;
+
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.heartbeat.persistence.UserPersistenceImpl;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Service
+@Transactional 
 public class UserServiceImpl implements UserService {
 
 	@Inject
