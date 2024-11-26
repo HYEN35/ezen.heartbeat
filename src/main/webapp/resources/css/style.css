@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 /*랜딩페이지*/
 br.web{display:block}
 br.mob{display:none}
@@ -319,21 +320,23 @@ br.mob{display:none}
 .notice-post .cntArea .btnWrap{display:flex;justify-content:center;align-items:center;margin-top:20px}
 
 /*공지사항 작성글 보기*/
-.notice-show .cntArea .postArea .btnWrap{display:flex;justify-content:flex-end;align-items:center;margin-bottom:20px}
+.notice-show .cntArea .postArea .btnWrap{display:flex;justify-content:flex-end;align-items:center;margin-top:20px}
 .notice-show .cntArea .postArea .tit{margin-bottom:5px;font-size:18px;font-weight:700}
 .notice-show .cntArea .postArea .writer,
 .notice-show .cntArea .postArea .date{color:#444;font-size:14px;font-weight:500}
 .notice-show .cntArea .postArea .cnts{margin-top:20px;padding:20px;background:#f1f1f1;border-radius:20px}
 .notice-show .cntArea .commentArea{margin-top:40px;padding-top:40px;border-top:1px solid #ddd}
-.notice-show .cntArea .commentArea .item{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f1f1f1}
-.notice-show .cntArea .commentArea .writer{font-size:14px}
-.notice-show .cntArea .commentArea .date{color:#444;font-size:12px}
-.notice-show .cntArea .commentArea .cnts{margin:10px 0;font-weight:500}
-.notice-show .cntArea .commentArea .btnWrap{display:flex;justify-content:flex-end;align-items:center}
-.notice-show .cntArea .commentArea .commAdd{display:flex;justify-content:flex-end;align-items:center}
-.notice-show .cntArea .commentArea .commAdd>form{width:100%}
-.notice-show .cntArea .commentArea .commAdd .txtBx{width:100%}
-.notice-show .cntArea .commentArea .commAdd .btn-normal{margin-left:auto;margin-top:10px}
+.notice-show .cntArea .commentArea .item{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f1f1f1}
+.notice-show .cntArea .commentArea .writer{width:100%;font-size:14px}
+.notice-show .cntArea .commentArea .date{width:100%;color:#444;font-size:12px}
+.notice-show .cntArea .commentArea .cnts{width:100%;margin:10px 0;font-weight:500}
+.notice-show .cntArea .commentArea .cnts .txtBx{width:100%}
+.notice-show .cntArea .commentArea .saveButton,
+.notice-show .cntArea .commentArea .editButton{margin-left:auto}
+.notice-show .cntArea .commAdd{display:flex;justify-content:flex-end;align-items:center}
+.notice-show .cntArea .commAdd>form{width:100%}
+.notice-show .cntArea .commAdd .txtBx{width:100%}
+.notice-show .cntArea .commAdd .btn-normal{margin-left:auto;margin-top:10px}
 
 /*공지사항 수정*/
 .notice-edit .cntArea .writer{font-size:16px;font-weight:500}
@@ -390,7 +393,6 @@ br.mob{display:none}
 .pop-post .cntArea .btmBx .imgBx .fileName>div{display:flex;justify-content:flex-start;align-items:center;height:24px}
 .pop-post .cntArea .btmBx .imgBx .fileName .fName{overflow:hidden;max-width:80%;white-space:nowrap;text-overflow:ellipsis}
 .pop-post .cntArea .btmBx .imgBx .fileName .btn-i-del{width:20px;height:20px;margin-left:10px;padding:0}
-
 
 /*팝업 아티스트&팬 포스팅*/
 [class*="pop-post-"]{width:1100px;max-height:unset}
