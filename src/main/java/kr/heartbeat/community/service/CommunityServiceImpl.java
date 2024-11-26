@@ -28,7 +28,6 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	@Override // 게시물 목록 가져오기
 	public List<PostVO> getPostList() throws Exception {
-//		System.out.println("===========CommunityServiceGetPost : "+postvo);
 		return communityPersistence.getPostList();
 	}
 	

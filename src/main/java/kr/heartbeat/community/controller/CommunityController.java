@@ -37,30 +37,33 @@ public class CommunityController {
 	@GetMapping("/community")
 	public String community(UserVO uservo) {
 
+	public String community(UserVO userVO,Model model) {
+		UserVO dbuserVO = userServiceImpl.login(userVO);
+		model.addAttribute("uvo", dbuserVO);
 		return "/community/community";
 	}
 
-	// �돱吏꾩뒪 �럹�씠吏� �뱾�뼱媛�硫댁꽌 寃뚯떆臾� 媛��졇�삤�뒗嫄�
+	// 뉴진스 페이지 들어가면서 게시물 가져오는거
 	@RequestMapping("/artist/newjeans")
 	public String newjeans(@RequestParam("num")int num, PostVO postvo, Model model, UserVO uservo) throws Exception {
 		PageDTO page = new PageDTO();
 		page.setNum(num);
-		page.setCount(communityService.getFanPostCount()); // �돱吏꾩뒪 �뙩 寃뚯떆臾� 媛쒖닔 
-		List<PostVO> newjinsfanPosts = communityService.getFanPostList(page.getDisplayPost(), page.getPostNum()); // �돱吏꾩뒪 �뙩 寃뚯떆臾�
-		List<PostVO> postList = communityService.getPostList(); // �쟾泥� 寃뚯떆臾� 
+		page.setCount(communityService.getFanPostCount()); // 뉴진스 팬 게시물 개수 
+		List<PostVO> newjinsfanPosts = communityService.getFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
+		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
 		UserVO artist_id = communityService.getLevel(uservo); 
 		
 		//artistVO art_name = communityService.getLevel(uservo);
 
 		String url = null;
-		List<PostVO> newjinsPosts = new ArrayList<>(); // 誘쇱� 寃뚯떆臾�
+		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
 
 		if (artist_id.getArtist_id() == 2) {
-			// 寃뚯떆臾� �굹�늻湲�
+			// 게시물 나누기
 			for (PostVO post : postList) {
 				if (post.getArtist_id() == 2) {
 					if ("minji".equals(post.getEmail()) || "haerin".equals(post.getEmail())) {
-						newjinsPosts.add(post); //0개가 맞아
+						newjinsPosts.add(post); 
 					} 
 				}
 			}
@@ -79,6 +82,7 @@ public class CommunityController {
 		return url;
 	}
 
+	// 게시물 작성
 	@PostMapping("/postWrite")
 	public String postWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("postImg")MultipartFile[] postImg) throws Exception {
 		System.out.println("===========CommunityController : "+postvo);
@@ -119,9 +123,8 @@ public class CommunityController {
 		List<PostVO> newjinsfanPosts = communityService.getFanPostList(page.getDisplayPost(), page.getPostNum()); //  돱吏꾩뒪  뙩 寃뚯떆臾 
 		List<PostVO> postList = communityService.getPostList();
 
-		List<PostVO> newjinsPosts = new ArrayList<>(); // 誘쇱  寃뚯떆臾 
-
-		// 寃뚯떆臾   굹 늻湲 
+		List<PostVO> newjinsPosts = new ArrayList<>(); //  민지 게시물
+		// 게시물 나누기
 		for (PostVO post : postList) {
 			if (post.getArtist_id() == 2) {
 				if ("minji".equals(post.getEmail()) || "haerin".equals(post.getEmail())) {
@@ -145,7 +148,7 @@ public class CommunityController {
 	
 
 	
-	// 寃뚯떆臾� �닔�젙
+	//  게시물 수정
 	@PostMapping("/modifyPost")
 	@ResponseBody
 	public String modifyPost(PostVO postVO) throws Exception {
@@ -154,24 +157,24 @@ public class CommunityController {
 			
 	}
 
-	// 寃뚯떆臾� �궘�젣
+	// 게시물 삭제
 	@PostMapping("/deletePost")
 	public String deletePost(@RequestParam("post_id") int post_id, HttpServletRequest request) throws Exception {
 		communityService.deletePost(post_id);
 		
-		// �씠�쟾 �럹�씠吏� URL �뼸湲�
+		// 이전 페이지 URL 얻기
 	    String referer = request.getHeader("Referer");
 	    
 	    
 		return "redirect:"+referer;
 	}
 
-	// �쑀�� 寃뚯떆臾� �긽�꽭蹂닿린
+	// 유저 게시물 상세보기
 	@RequestMapping("/getUserPost")
 	public String getUserPost(PostVO postVO, Model model) throws Exception {
-		PostVO dbpost = communityService.getPost(postVO); // 寃뚯떆臾� �젙蹂�
-		List<CommentVO> commentList = communityService.getComment(postVO); // �뙎湲� 紐⑸줉
-		Integer totlaCommnet = communityService.totalComment(postVO.getPost_id()); // 珥� �뙎湲� 媛쒖닔
+		PostVO dbpost = communityService.getPost(postVO); // 게시물 정보
+		List<CommentVO> commentList = communityService.getComment(postVO); // 댓글 목록
+		Integer totlaCommnet = communityService.totalComment(postVO.getPost_id()); // 총 댓글 개수
 
 		model.addAttribute("totalComment", totlaCommnet);
 		model.addAttribute("commentList", commentList);
@@ -180,37 +183,33 @@ public class CommunityController {
 		return "/popup/pop-post-fan";
 	}
 
-	// �븘�떚�뒪�듃 寃뚯떆臾� �긽�꽭蹂닿린
+	// 아티스트 게시물 상세보기
 	@PostMapping("/getArtistPost")
 	public String getArtistPost(PostVO postVO, Model model) throws Exception{
-		System.out.println("=============�븘�떚�뒪�듃 寃뚯떆臾� �긽�꽭蹂닿린"+postVO);
 		
-		PostVO dbpost = communityService.getPost(postVO); // 寃뚯떆臾� �젙蹂�
-		List<CommentVO> commentList = communityService.getComment(postVO); // �뙎湲� 紐⑸줉
-		Integer totalCommnet = communityService.totalComment(postVO.getPost_id()); // 珥� �뙎湲� 媛쒖닔
-		Integer totalLike = communityService.totalLike(postVO); // 珥� 醫뗭븘�슂 媛쒖닔
-		Integer checkLike = communityService.checkLike(postVO); // 醫뗭븘�슂 �뿬遺� �솗�씤
+		PostVO dbpost = communityService.getPost(postVO); // 게시물 정보
+		List<CommentVO> commentList = communityService.getComment(postVO); // 댓글 목록
+		Integer totalCommnet = communityService.totalComment(postVO.getPost_id()); // 총 댓글 개수
+		Integer totalLike = communityService.totalLike(postVO); //  총 좋아요 개수
+		Integer checkLike = communityService.checkLike(postVO); // 좋아요 여부 확인
 
 		model.addAttribute("totalComment", totalCommnet);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("PostVO", dbpost);
 		model.addAttribute("totalLike", totalLike);
 		model.addAttribute("checkLike", checkLike);
-		System.out.println(checkLike);
-		System.out.println(dbpost);
-
 
 		return "/popup/pop-post-artist";
 	}
 
-	// 寃뚯떆臾� �깉濡쒓퀬移�
+	// 게시물 새로고침
 	@PostMapping("/resetPost")
-	@ResponseBody  // �씠 �뼱�끂�뀒�씠�뀡�쓣 異붽��븯�뿬 JSON �쓳�떟�쓣 諛섑솚�븯�룄濡� �븿
+	@ResponseBody  // 이 어노테이션을 추가하여 JSON 응답을 반환하도록 함
 	public Map<String, Object> resetPost(PostVO postVO, Model model) throws Exception {
 	
-		Integer checkLike = communityService.checkLike(postVO); // 醫뗭븘�슂 �뿬遺� �솗�씤
+		Integer checkLike = communityService.checkLike(postVO); //좋아요 여부 확인
 		
-	    // JSON�쑝濡� �뜲�씠�꽣瑜� 諛섑솚
+	    //  JSON으로 데이터를 반환
 	    Map<String, Object> response = new HashMap<>();
 	    response.put("checkLike", checkLike);
 	    
@@ -218,7 +217,7 @@ public class CommunityController {
 	}
 
 
-	// �뙎湲� �옉�꽦
+	// 댓글 작성
 	@PostMapping("/commentWrites")
 	@ResponseBody
 	public String commentWrite(CommentVO commentVO, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
@@ -227,33 +226,33 @@ public class CommunityController {
 		return "success";
 	}
 
-	// �뙎湲� �옉�꽦
+	// 댓글 작성
 	@PostMapping("/commentWrite")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> commentWrite(CommentVO commentVO, Map<String, Object> response) throws Exception {
-	    // �뙎湲� ���옣
+	    // 댓글 저장
 	    communityService.commentWrite(commentVO);
 
-	    // �깉濡� �옉�꽦�맂 �뙎湲� �젙蹂� 媛��졇�삤湲�
+	    // 새로 작성된 댓글 정보 가져오기
 	    CommentVO newComment = communityService.getNewComment(commentVO.getPost_id());
 	    int totalComment = communityService.totalComment(commentVO.getPost_id());
 	    
-	    // �쓳�떟 �뜲�씠�꽣 �꽕�젙
-	    response.clear(); // 湲곗〈 �뜲�씠�꽣 �젣嫄� (遺덊븘�슂�븳 �뜲�씠�꽣媛� �궓�븘 �엳�쓣 �닔 �엳�쑝誘�濡�)
+	    // 응답 데이터 설정
+	    response.clear(); // 기존 데이터 제거 (불필요한 데이터가 남아 있을 수 있으므로)
 
-	    // �쓳�떟 �뜲�씠�꽣 �꽕�젙
+	    // 응답 데이터 설정
 	    response.put("data", "success");
-	    // �깉 �뙎湲� �젙蹂대쭔 �꽔湲� (commentVO 媛앹껜瑜� 洹몃�濡� �꽔吏� �븡�쓬)
-//	    response.put("newComment", newComment.getComment()); // �깉 �뙎湲� �궡�슜
-//	    response.put("newnick", newComment.getNickname());   // �깉 �뙎湲� �옉�꽦�옄
-//	    response.put("newComment_date", newComment.getComment_date()); // �깉 �뙎湲� �옉�꽦 �떆媛�
-//	    response.put("totalComment", totalComment); // 理쒖떊 �뙎湲� �닔
-	    System.out.println("========�뙎湲� �옉�꽦 response媛� �솗�씤?? :"+ response);
+	    //  새 댓글 정보만 넣기 (commentVO 객체를 그대로 넣지 않음)
+//	    response.put("newComment", newComment.getComment()); //새 댓글 내용
+//	    response.put("newnick", newComment.getNickname());   // 새 댓글 작성자
+//	    response.put("newComment_date", newComment.getComment_date()); // 새 댓글 작성 시간
+//	    response.put("totalComment", totalComment); // 최신 댓글 수
+	    System.out.println("========댓글 작성 response값 확인?? :"+ response);
 
-	    return ResponseEntity.ok(response); // �겢�씪�씠�뼵�듃�뿉寃� �꽦怨� 硫붿떆吏� �쟾�떖
+	    return ResponseEntity.ok(response); // 클라이언트에게 성공 메시지 전달
 	}
 	
-	@PostMapping("/modifyComment") // �뙎湲� �닔�젙
+	@PostMapping("/modifyComment") // 댓글 수정
 	@ResponseBody
 	public String modifyComment(CommentVO commentVO) throws Exception {
 		communityService.modifyComment(commentVO);
@@ -261,33 +260,30 @@ public class CommunityController {
 		return "success";
 	}
 
-	@PostMapping("/commentdelete") // �뙎湲� �궘�젣
-	@ResponseBody // JSON �쓳�떟�쓣 諛섑솚�븯湲� �쐞�빐 @ResponseBody 異붽�
+	@PostMapping("/commentdelete") // 댓글 삭제
+	@ResponseBody // JSON 응답을 반환하기 위해 @ResponseBody 추가
 	public ResponseEntity<Map<String, Object>> commentdelete(int comment_id, int post_id, Map<String, Object> response) throws Exception {
 		communityService.commentdelete(comment_id);
 		Integer totalComment = communityService.totalComment(post_id);
-		System.out.println(post_id);
-		System.out.println(comment_id);
 
-		// 寃곌낵瑜� JSON �삎�떇�쑝濡� 諛섑솚
-		response.put("status", "success"); // �꽦怨� �뿬遺�
-		response.put("comment_id", comment_id); // �궘�젣�맂 �뙎湲� ID
+		// 결과를 JSON 형식으로 반환
+		response.put("status", "success"); // 성공 여부
+		response.put("comment_id", comment_id); //삭제된 댓글 ID
 		response.put("totalComment", totalComment);
 
-		return ResponseEntity.ok(response); // �겢�씪�씠�뼵�듃�뿉寃� �꽦怨� 硫붿떆吏� �쟾�떖
+		return ResponseEntity.ok(response); //  클라이언트에게 성공 메시지 전달
 	}
 	
 	
-	@PostMapping("/likeToggle") // 醫뗭븘�슂 踰꾪듉
+	@PostMapping("/likeToggle") // 좋아요 버튼
 	@ResponseBody 
 	public int likeToggle(PostVO postVO,Map<String, Object> response) throws Exception {
-		System.out.println("寃뚯떆臾쇰쾲�샇�옉 �씠硫붿씪 �쟾�떖 �솗�씤 " + postVO);
 
 		communityService.likeToggle(postVO);
 		Integer totalLike = communityService.totalLike(postVO); 
 		
-		// �쓳�떟 �뜲�씠�꽣 �꽕�젙
-	    response.clear(); // 湲곗〈 �뜲�씠�꽣 �젣嫄� (遺덊븘�슂�븳 �뜲�씠�꽣媛� �궓�븘 �엳�쓣 �닔 �엳�쑝誘�濡�)
+		// 응답 데이터 설정
+	    response.clear(); // 기존 데이터 제거 (불필요한 데이터가 남아 있을 수 있으므로)
 		
 		response.put("totalLike", totalLike);
 
