@@ -214,7 +214,7 @@ public class UserController {
 		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
-		public String modify(@RequestParam("newPwd") String newPwd, UserVO userVO, HttpSession session) {
+		public String modify(@RequestParam("newPwd") String newPwd, UserVO userVO, HttpSession session, RedirectAttributes rttr) {
 			UserVO uvo = (UserVO) session.getAttribute("UserVO");	//세션에서 user 데이터 불러와서 email 값을 전달해야 한다.
 		    userVO.setEmail(uvo.getEmail());
 		   
@@ -225,7 +225,8 @@ public class UserController {
 	       
 	        uvo.setNickname(userVO.getNickname());  // 세션에 저장된 user 객체의 닉네임 업데이트
 	        session.setAttribute("UserVO", uvo);  
-	        
+			rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+			
 		    return "redirect:/mypage";
 		}
 		
