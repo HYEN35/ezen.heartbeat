@@ -260,6 +260,11 @@ br.mob{display:none}
 .mypage .tabCnt .cntBx .cnt .item .dd:after{display:block;clear:both;content:""}
 .mypage .tabCnt .cntBx .cnt .item .dd .txtBx+.txtBx{margin-top:10px}
 .mypage .tabCnt .cntBx .btnWrap{display:flex;justify-content:flex-end;align-items:center}
+.mypage .tabCnt .searchWrap{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.mypage .tabCnt .searchWrap .searchBx{display:flex;justify-content:flex-start;align-items:center}
+.mypage .tabCnt .searchWrap .searchBx .sltBx{width:100px;margin-right:10px}
+.mypage .tabCnt .searchWrap .searchBx .txtBx{margin-right:10px}
+.mypage .tabCnt .searchWrap .btnBx{display:flex;justify-content:flex-start;align-items:center}
 .mypage .tab-myinfo .cnt .nickname .dd .txtBx{float:left;margin-right:10px}
 .mypage .tab-myinfo .cnt .nickname .dd button{float:left}
 .mypage .tab-myinfo .cnt .image .dd button{float:left;margin-right:10px}
