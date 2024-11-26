@@ -3,9 +3,6 @@
 <%@ include file="../include/layout.jsp"%>
 
 <body>
-
-
-
 	<div class="inner service mypage" data-name="mypage">
 		<%@ include file="../include/menu.jsp"%>
 		<div class="container">
@@ -32,11 +29,5 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
 </body>
 </html>
