@@ -27,27 +27,23 @@
 	// 댓글 수정 버튼
 	function commentEditShow(button) {
 		// 클릭된 버튼의 부모 요소에서 댓글과 관련된 요소를 찾음
-	    var parentDiv = $(button).parents('.btnWrap').siblings('.cnts');
+	    var parentDiv = button.closest('div');
 	    
 	    // 수정할 부분과 저장 버튼을 찾음
-	    var comment = parentDiv.children('.comment');
-	    var newcomment = parentDiv.children('.newComment');
-	    var saveButton = parentDiv.children('.saveButton');
-	    var editButton = parentDiv.children('.editButton');
-		
+	    var comment = parentDiv.querySelector('.comment');
+	    var newcomment = parentDiv.querySelector('.newComment');
+	    var saveButton = parentDiv.querySelector('.saveButton');
+	    var editButton = parentDiv.querySelector('.editButton');
 
 	    // 수정 버튼을 클릭하면 기존 댓글 숨기고, 수정 입력창 보이기
-	    //comment.style.display = 'none';
-	    //newcomment.style.display = 'block';
-
-		comment.hide();
-		newcomment.show();
+	    comment.style.display = 'none';
+	    newcomment.style.display = 'block';
 	    
 	    // 수정 버튼은 숨기고 저장 버튼을 보이게 함
 	    saveButton.style.display = 'block';
 	    editButton.style.display = 'none';
+		
 	}
-
 	// 댓글 수정
 	function commentsaveShow(notice_comment_id) {
 	    // 수정된 댓글 값을 가져옵니다.
@@ -120,6 +116,10 @@
 						<form action="/notice/noticeModifyShow" method="post">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="num" value="${num }">
+							<div class="writer">${noticeVO.nickname }</div>
+							<div class="tit">${noticeVO.title }</div>
+							<div class="date"><fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
+							<div class="cnts">${noticeVO.content } </div>
 							<div class="btnWrap">
 								<c:if test="${UserVO.email eq noticeVO.email }">
 									<button type="submit" class="btn-full">수정하기</button>
@@ -127,40 +127,34 @@
 								</c:if>
 								<a href="/notice/notice?num=${num }" class="btn-border">목록</a>
 							</div>
-							<div class="tit">${noticeVO.title }</div>
-							<div class="writer">${noticeVO.nickname }</div>
-							<div class="date"><fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
-							<div class="cnts">${noticeVO.content } </div>
 						</form>
-					</div>					
+					</div>
 					<div class="commentArea">
 						<c:forEach items="${commentVO}" var="cvo">
 							<div class="item">
-								<div class="writer">${cvo.nickname }</div>
+								<div class="tit">${cvo.nickname }</div>
 								<div class="date"><fmt:formatDate value="${cvo.comment_date}" pattern="yy-MM-dd HH:mm"/></div>
 								<div class="cnts">
 									<div class="comment">${cvo.comment }</div>
-									<input type="text" class="newComment" name="comment" style="display:none;" value="${cvo.comment }">
+									<input type="text" class="newComment txtBx" name="comment" style="display:none;" value="${cvo.comment }">
 								</div>
-								<div class="btnWrap">
-									<c:if test="${UserVO.email eq cvo.email }">
-										<button type="button" class="editButton btn-under-01" onclick="commentEditShow(this)">수정</button>
-										<button type="button" class="saveButton btn-under-01" onclick="commentsaveShow(${cvo.notice_comment_id})" style="display:none;">저장</button>
-										<button type="button" class="btn-under-01" onclick="commentDelete(${cvo.notice_comment_id})">삭제</button>
-									</c:if>
-								</div>
+								<c:if test="${UserVO.email eq cvo.email }">
+									<button type="button" class="editButton btn-under-01" onclick="commentEditShow(this)">수정</button>
+									<button type="button" class="saveButton btn-under-01" onclick="commentsaveShow(${cvo.notice_comment_id})" style="display:none;">저장</button>
+									<button type="button" onclick="commentDelete(${cvo.notice_comment_id})" class="btn-under-01">삭제</button>
+								</c:if>
 							</div>
 						</c:forEach>
-						<div class="commAdd">
-							<form action="/notice/commentWrite" method="post" onsubmit="return validateCommentForm()">
-								<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
-								<input type="hidden" name="email" value="${UserVO.email }">
-								<input type="hidden" name="nickname" value="${UserVO.nickname }">
-								<input type="hidden" name="num" value="${num }">
-								<input type="text" name="comment" id="comment" placeholder="댓글 내용을 입력하세요" class="txtBx">
-								<button type="submit" class="btn-normal">등록</button>
-							</form>
-						</div>
+					</div>
+					<div class="commAdd">
+						<form action="/notice/commentWrite" method="post" onsubmit="return validateCommentForm()">
+							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
+							<input type="hidden" name="email" value="${UserVO.email }">
+							<input type="hidden" name="nickname" value="${UserVO.nickname }">
+							<input type="hidden" name="num" value="${num }">
+							<input type="text" name="comment" id="comment" placeholder="댓글 내용을 입력하세요" class="txtBx">
+							<button type="submit" class="btn-normal">등록</button>
+						</form>
 					</div>
 				</div>
 			</div>
