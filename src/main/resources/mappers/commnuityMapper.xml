@@ -9,22 +9,8 @@
   	</select>
   
   	<insert id="postWrite" parameterType="kr.heartbeat.vo.PostVO">
-  		insert 
-  		  into post_tbl 
-  		     ( email
-  		     , artist_id
-  		     , nickname
-  		     , content
-  		     , post_img
-  		     , post_date
-  		     ) value 
-  		     ( #{email}
-  		     , #{artist_id}
-  		     , #{nickname}
-  		     , #{content}
-  		     , #{post_img_name}
-  		     , now()
-  		     )
+  		insert into post_tbl (email, artist_id, nickname, content, post_img, post_date)
+  		value (#{email}, #{artist_id}, #{nickname}, #{content}, #{post_img}, now())
   	</insert>
   	
   	<select id="getPostList" resultType="kr.heartbeat.vo.PostVO" parameterType="kr.heartbeat.vo.PostVO">
@@ -32,22 +18,12 @@
   	</select>
   	<!-- 뉴진스 팬 게시물만 가져오기 -->
   	<select id="getFanPostList" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
-  		SELECT A.post_id
-  			 , A.email
-  			 , A.artist_id
-  			 , A.nickname
-  			 , A.content
-  			 , A.post_img as post_img_name
-  			 , A.post_date
-  			 , B.profileimg
-          FROM post_tbl A
-         INNER JOIN user_tbl B
-            ON B.email = A.email
-         WHERE A.artist_id = 2
-       <!-- AND email not in ('minji','haerin') -->
-        ORDER BY A.post_id DESC
-        LIMIT #{displayPost}, #{postNum};
-
+  		SELECT *
+	    FROM post_tbl
+	    WHERE artist_id = 2
+	    AND email not in (#{minji},#{haerin}) 
+	    ORDER BY post_id DESC
+    	LIMIT #{displayPost}, #{postNum}
   	</select>
   	
   	<!-- 뉴진스 팬 게시물 몇개인지 가져오기 -->
@@ -56,15 +32,11 @@
 	    FROM post_tbl
 	    WHERE artist_id = 2
 	    and email not in (#{minji},#{haerin})  
-	    AND email IS NOT NULL;
+	    AND email IS NOT NULL
 	</select>
  	
   	<select id="getPost" resultType="kr.heartbeat.vo.PostVO" parameterType="kr.heartbeat.vo.PostVO">
-  		select * , post_img as post_img_name
-  		  from post_tbl A
-  		 INNER JOIN user_tbl B
-  		    ON B.email = A.email
-  		 where A.post_id = #{post_id} 
+  		select * from post_tbl where post_id = #{post_id} 
   	</select>	
   	
   	<update id="modifyPost" parameterType="kr.heartbeat.vo.PostVO">
