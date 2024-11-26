@@ -3,6 +3,12 @@
 
 <body>
 	<script>
+		<c:if test="${not empty message}">
+			alert("${message}");
+		</c:if>
+	</script>
+
+	<script>
 		// 입력값 사용 가능 여부
 		let isIdAvailable = false;
 		let isPhoneAvailable = false;
