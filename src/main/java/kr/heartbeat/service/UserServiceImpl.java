@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Service
-@Transactional 
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Inject
@@ -159,10 +161,4 @@ public class UserServiceImpl implements UserService {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
 	}
-
-
-
-
-
-
 }
