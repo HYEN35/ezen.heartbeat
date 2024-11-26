@@ -179,7 +179,7 @@ public class UserController {
 		public HashMap<String,Object> findId(UserVO userVO) {
 		// HashMap을 사용할 때 @ResponseBody로 반환되는 객체를 JSON으로 변환하려면 jackson-databind를 pom.xml에 의존성 주입을 해야 한다.
 			
-			UserVO userVO = userServiceImpl.findId(name, birth, phone);
+			UserVO userVO = userServiceImpl.findId(userVO);
 			HashMap<String, Object> response = new HashMap<String, Object>();
 			
 			if(uvo != null) {
@@ -226,7 +226,7 @@ public class UserController {
 	        uvo.setNickname(userVO.getNickname());  // 세션에 저장된 user 객체의 닉네임 업데이트
 	        session.setAttribute("UserVO", uvo);  
 			rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
-			
+
 		    return "redirect:/mypage";
 		}
 		
