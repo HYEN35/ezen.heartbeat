@@ -151,4 +151,10 @@ public class UserServiceImpl implements UserService {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
 	}
+
+
+
+
+
+
 }
