@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .idea/.gitignore
 .idea/compiler.xml
 .idea/dbnavigator.xml
@@ -17,3 +18,9 @@
 .smarttomcat/controller/conf/Catalina/localhost/ROOT.xml
 .vscode/settings.json
 .idea/workspace.xml
+=======
+.vscode/settings.json
+.classpath
+.factorypath
+.vscode/settings.json
+>>>>>>> origin/main
