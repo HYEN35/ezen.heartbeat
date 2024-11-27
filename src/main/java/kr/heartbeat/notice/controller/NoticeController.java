@@ -26,20 +26,27 @@ public class NoticeController {
 	
 	// 공지 페이지 들어가면서 게시물 가져오기
 	@RequestMapping(value="/notice", method = RequestMethod.GET) 
-	public String notice(int num, Model model) throws Exception{
+	public String notice(int num, String searchType, String keyword, Model model) throws Exception{
+		System.out.println(searchType);
+		System.out.println(keyword);
 		PageDTO page = new PageDTO();
 		page.setNum(num);
-		page.setCount(noticeService.getPostCount()); // 뉴진스 팬 게시물 개수 
+		page.setCount(noticeService.getPostCount(searchType,keyword)); // 뉴진스 팬 게시물 개수 
+		page.setSearchType(searchType);
+		page.setKeyword(keyword);
+
 		
 		List<NoticeVO> adminPost = noticeService.getAdminNotice(); 
-		List<NoticeVO> userPost = noticeService.getUserNotice(page.getDisplayPost(), page.getPostNum());
+		List<NoticeVO> userPost = noticeService.getUserNotice(page.getDisplayPost(), page.getPostNum(),searchType,keyword);
 		
 		
 		model.addAttribute("adminPost", adminPost);		
 		model.addAttribute("userPost", userPost);		
 		model.addAttribute("page", page);		
-		model.addAttribute("select", num);		
-		return "heartbeat/notice"; 
+		model.addAttribute("select", num);	
+		
+		return "heartbeat/notice";	
+		
 	}
 	
 	@GetMapping("/postNotice")
@@ -48,24 +55,11 @@ public class NoticeController {
 	}
 	
 	@PostMapping("/noticeWrite") // 게시물 작성
-	public String postNotice(NoticeVO noticeVO,Model model) throws Exception {
+	public String postNotice(NoticeVO noticeVO) throws Exception {
 		noticeService.postNotice(noticeVO);
-		int num = 1;
-		PageDTO page = new PageDTO();
-		page.setNum(num);
-		page.setCount(noticeService.getPostCount()); // 공지 게시물 개수
+
 		
-		List<NoticeVO> totalPost = noticeService.getPost(page.getDisplayPost(), page.getPostNum());
-		List<NoticeVO> adminPost = noticeService.getAdminNotice(); 
-		List<NoticeVO> userPost = noticeService.getUserNotice(page.getDisplayPost(), page.getPostNum());
-		
-		model.addAttribute("adminPost", adminPost);		
-		model.addAttribute("userPost", userPost);	
-		model.addAttribute("totalPost", totalPost);	
-		model.addAttribute("page", page);
-		model.addAttribute("select", num);
-		
-		return "/heartbeat/notice";
+		return "redirect:/notice/notice?num=1";
 	}
 	
 	@RequestMapping("/getPostOne") // 게시물 상세보기
@@ -102,21 +96,10 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/noticeDelete") // 게시물 삭제
-	public String noticeDelete(@RequestParam("notice_id")int notice_id,Model model) throws Exception{
+	public String noticeDelete(@RequestParam("notice_id")int notice_id) throws Exception{
 		noticeService.noticeDelete(notice_id);
-		int num = 1;
-		PageDTO page = new PageDTO();
-		page.setNum(num);
-		page.setCount(noticeService.getPostCount()); // 공지 게시물 개수
-		
-		List<NoticeVO> adminPost = noticeService.getAdminNotice(); 
-		List<NoticeVO> userPost = noticeService.getUserNotice(page.getDisplayPost(), page.getPostNum());
-		
-		model.addAttribute("adminPost", adminPost);		
-		model.addAttribute("userPost", userPost);	
-		model.addAttribute("page", page);
-		model.addAttribute("select", num);
-		return "/heartbeat/notice";
+
+		return "redirect:/notice/notice?num=1";
 	}
 	
 	@PostMapping("/commentWrite") // 댓글 작성
@@ -128,7 +111,7 @@ public class NoticeController {
 		model.addAttribute("num", num);
 		model.addAttribute("commentVO", commentVO);
 		model.addAttribute("noticeVO", noticeVO);
-		return "/heartbeat/noticeShow";
+		return "redirect:/notice/getPostOne?notice_id="+noticeCommentVO.getNotice_id()+"&num=1";
 	}
 	
 	@PostMapping("/commentUpdate") // 댓글 수정

@@ -103,35 +103,41 @@
     
 		
         function atristNicePay() {
-
             // 결제 전 확인 창
             if (confirm("구매 하시겠습니까?")) {
                 getAccessToken().then(function(accessToken) {
-				var selectedArtist = document.getElementById('artistSelect').value;
+                    var selectedArtist = document.getElementById('artistSelect').value;
                     if (accessToken) {
                         IMP.init("imp72743015");  // 아이엠포트 가맹점 식별 코드
 
                         // 결제 요청
+                        var transactionId = generateUniqueTransactionId();  // 고유 TID 생성 (서버에서 처리)
+
                         IMP.request_pay({
+                        	pg : 'nice_v2',
                             storeId: "store-d6a10a43-829f-4a33-bf02-a85ce1acbcf4",  // 고객사 storeId
-                            paymentId: `payment-${crypto.randomUUID()}`,  // 결제 ID
+                            paymentId: transactionId,  // 결제 ID (고유한 TID로 변경)
                             name: '스트리밍 + ' + selectedArtist + ' 구독권(1개월)',  // 상품명
                             amount: 6900,  // 결제 금액
-                            custom_data : selectedArtist,
+                            custom_data: selectedArtist,
                             currency: "CURRENCY_KRW",  // 통화 설정
                             channelKey: "channel-key-bb343318-fb81-4bd2-b9b1-aa96b8a14a3a",  // 채널 키
                             payMethod: "CARD",  // 결제 방식 (카드)
-                            custom_data: selectedArtist,  // 선택된 아티스트 정보
                             buyer_email: email,  // 구매자 이메일
                             buyer_name: name,    // 구매자 이름
                             buyer_tel: phone,    // 구매자 전화번호
                             level: 2,            // 사용자 레벨
-                            TID: `TID-${crypto.randomUUID()}`  // 고유한 TID 생성 (결제 트랜잭션 ID)
+                            TID: transactionId  // 고유한 TID 생성 (결제 트랜잭션 ID)
                         }, function(rsp) {
                             // 결제 응답 성공 시 처리
-                                artistNicePaySuccess(rsp,selectedArtist);  // 결제 성공 처리 함수 호출
+                            if (rsp.error_msg) {
+                                alert('결제가 취소되었습니다.');  // 결제 취소 알림
+                                console.log("결제 실패:", rsp);
+                                payhide();  // 결제 팝업 숨기기
+                            } else {
+                                artistNicePaySuccess(rsp, selectedArtist);  // 결제 성공 처리 함수 호출
                                 console.log("결제 성공:", rsp);
-                           
+                            }
                         });
                     }
                 });
@@ -139,32 +145,34 @@
                 return false;  // 사용자가 구매를 취소한 경우
             }
         }
+
+        // 서버 측에서 TID 생성 함수 (예시)
+        function generateUniqueTransactionId() {
+            // 서버에서 관리되는 고유 ID 생성 로직
+            return 'TID-' + new Date().getTime();  // 예시로 현재 시간을 기반으로 TID 생성
+        }
         
-        function artistNicePaySuccess(rsp,selectedArtist) {
-        	var selectedArtist = selectedArtist;
-        	console.log(selectedArtist);
+        function artistNicePaySuccess(rsp, selectedArtist) {
+            console.log("결제 성공 후 처리:", selectedArtist);
             // 결제 결과를 서버로 전송 (AJAX 요청)
             $.ajax({
                 type: 'POST',
                 url: '/membership/artistPay',  // 결제 정보 처리 서버 URL
                 contentType: 'application/json',
                 data: JSON.stringify({
-                	custom_data : selectedArtist,
+                    custom_data: selectedArtist,
                     amount: 6900,
                     buyer_email: email,
                     buyer_name: name,
                     level: 2
                 }),
-				success: function(data) {
-                    
-                } 
-	            }),
-	            
-	            alert('결제가 완료되었습니다.');
-	            payhide(); // 결제 완료 후 팝업 닫기
-	            window.location.reload();  // 페이지 새로고침
-	        };
-
+                success: function(data) {
+                    alert('결제가 완료되었습니다.');
+                    payhide(); // 결제 완료 후 팝업 닫기
+                    window.location.reload();  // 페이지 새로고침
+                }
+            });
+        }
 </script>
 
 <div class="wrap">

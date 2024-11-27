@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/layout.jsp"%>
+<% 
+	request.setAttribute("noticePage", "notice");
+%>
 
 <script>
 	// 게시물 삭제 확인 함수
@@ -93,7 +96,8 @@
 				data : {notice_comment_id : notice_comment_id},
 				success:function(response){
 					alert('댓글이 삭제되었습니다');
-					location.reload();
+					// 댓글 삭제 후 새로 고침
+	                location.reload();  // 페이지 새로 고침
 				}
 			})
 		}
@@ -102,63 +106,59 @@
 </script>
 
 <body>
-	<div class="inner service mypage" data-name="mypage">
+	<div class="inner service notice-show" data-name="notice">
 		<%@ include file="../include/menu.jsp"%>
 		<div class="container">
 			<div class="cntWrap">
 				<h2 id="title" class="title"><%=pageTitle%></h2>
-				<div class="cntArea"></div>
-				<form action="/notice/noticeModifyShow" method="post">
-					<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
-					<input type="hidden" name="num" value="${num }">
-					<div>작성자 : ${noticeVO.nickname }</div>
-					<div>
-						<span>제목 : ${noticeVO.title }</span>
+				<div class="cntArea">
+					<div class="postArea">
+						<form action="/notice/noticeModifyShow" method="post">
+							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
+							<input type="hidden" name="num" value="${num }">
+							<div class="writer">${noticeVO.nickname }</div>
+							<div class="tit">${noticeVO.title }</div>
+							<div class="date"><fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
+							<div class="cnts">${noticeVO.content } </div>
+							<div class="btnWrap">
+								<c:if test="${UserVO.email eq noticeVO.email }">
+									<button type="submit" class="btn-full">수정하기</button>
+									<a href="/notice/noticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
+								</c:if>
+								<a href="/notice/notice?num=${num }" class="btn-border">목록</a>
+							</div>
+						</form>
 					</div>
-					<div>
-						<span>내용 : ${noticeVO.content } </span>
-						
+					<div class="commentArea">
+						<c:forEach items="${commentVO}" var="cvo">
+							<div class="item">
+								<div class="tit">${cvo.nickname }</div>
+								<div class="date"><fmt:formatDate value="${cvo.comment_date}" pattern="yy-MM-dd HH:mm"/></div>
+								<div class="cnts">
+									<div class="comment">${cvo.comment }</div>
+									<input type="text" class="newComment txtBx" name="comment" style="display:none;" value="${cvo.comment }">
+								</div>
+								<c:if test="${UserVO.email eq cvo.email }">
+									<button type="button" class="editButton btn-under-01" onclick="commentEditShow(this)">수정</button>
+									<button type="button" class="saveButton btn-under-01" onclick="commentsaveShow(${cvo.notice_comment_id})" style="display:none;">저장</button>
+									<button type="button" onclick="commentDelete(${cvo.notice_comment_id})" class="btn-under-01">삭제</button>
+								</c:if>
+							</div>
+						</c:forEach>
 					</div>
-					<div>작성일 : <fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
-					<c:if test="${UserVO.email eq noticeVO.email }">
-					<button type="submit">수정하기</button>
-					<a href="/notice/noticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()">삭제</a>
-					</c:if>
-					<a href="/notice/notice?num=${num }">목록</a>
-				</form>
-				
-				<div>댓글 목록</div>
-				<c:forEach items="${commentVO}" var="cvo">
-				<div>
-					<div>${cvo.nickname }</div>
-					<div>
-						<div class="comment">${cvo.comment }</div>
-						<input type="text" class="newComment" name="comment" style="display:none;" value="${cvo.comment }">
+					<div class="commAdd">
+						<form action="/notice/commentWrite" method="post" onsubmit="return validateCommentForm()">
+							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
+							<input type="hidden" name="email" value="${UserVO.email }">
+							<input type="hidden" name="nickname" value="${UserVO.nickname }">
+							<input type="hidden" name="num" value="${num }">
+							<input type="text" name="comment" id="comment" placeholder="댓글 내용을 입력하세요" class="txtBx">
+							<button type="submit" class="btn-normal">등록</button>
+						</form>
 					</div>
-					<div><fmt:formatDate value="${cvo.comment_date}" pattern="yy-MM-dd HH:mm"/></div>
-					<c:if test="${UserVO.email eq cvo.email }">
-					<button type="button" class="editButton" onclick="commentEditShow(this)">수정</button>
-					<button type="button" class="saveButton" onclick="commentsaveShow(${cvo.notice_comment_id})" style="display:none;">저장</button>
-					<button type="button" onclick="commentDelete(${cvo.notice_comment_id})">삭제</button>
-					</c:if>
 				</div>
-				</c:forEach>
-				<form action="/notice/commentWrite" method="post" onsubmit="return validateCommentForm()">
-					<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
-					<input type="hidden" name="email" value="${UserVO.email }">
-					<input type="hidden" name="nickname" value="${UserVO.nickname }">
-					<input type="hidden" name="num" value="${num }">
-					<input type="text" name="comment" id="comment" placeholder="댓글 내용을 입력하세요">
-					<button type="submit">댓글 작성</button>
-				</form>
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
 </body>
 </html>

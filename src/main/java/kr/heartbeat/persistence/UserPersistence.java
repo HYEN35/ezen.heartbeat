@@ -17,13 +17,9 @@ public interface UserPersistence {
 	//로그인
 	public UserVO login(UserVO userVO);
 	//아이디찾기
-	public UserVO findId(UserVO userVO);
-	
-	//비밀번호 찾기 - 메일 전송 버전
-	public UserVO searchPwd(UserVO userVO);
-	//새비밀번호
-	public int updatePwd(String email, String newPassword);
-	
+	public UserVO findId(String name, String birth, String phone);
+	//비밀번호 찾기
+	public UserVO findPwd(String email, String name, String birth);
 	
 	//회원수정
 	public void modify(String newPwd, UserVO userVO);

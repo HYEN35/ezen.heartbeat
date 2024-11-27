@@ -48,26 +48,29 @@ public class UserPersistenceImpl implements UserPersistence {
 	}
 	//아이디 찾기
 	@Override
-	public UserVO findId(UserVO userVO) {
-		System.out.println("=====================Persistence name: "+ userVO.getName());
+	public UserVO findId(String name, String birth, String phone) {
+		System.out.println("=====================Persistence name: "+ name);
 		
-		return sql.selectOne(namespace+".findId", userVO);
-	}
-
-	//비밀번호 찾기 - 메일 전송 버전
-	@Override
-	public UserVO searchPwd(UserVO userVO) {		
-		return  sql.selectOne(namespace+".searchPwd", userVO);
-	}
-	//새 비밀번호 		
-	@Override
-	public int updatePwd(String email, String newPassword) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("newPassword", newPassword);
-		return sql.update(namespace+".updatePwd", map);
-	}	
+		HashMap<String, String> map = new HashMap();
+	
+		map.put("name", name);
+		map.put("birth", birth);
+		map.put("phone", phone);
 		
+		return sql.selectOne(namespace+".findId", map);
+	}
+	//비밀번호 찾기
+		@Override
+		public UserVO findPwd(String email, String name, String birth) {
+			System.out.println("=====================Persistence email : "+email);
+			HashMap<String, String> map = new HashMap();
+			
+			map.put("email", email);
+			map.put("name", name);
+			map.put("birth", birth);
+			
+			return sql.selectOne(namespace+".findPwd", map);
+		}	
 	//회원정보수정
 	@Override
 	public void modify(String newPwd, UserVO userVO) {
@@ -110,8 +113,7 @@ public class UserPersistenceImpl implements UserPersistence {
 		System.out.println("===========다오role : " +userrolevo.getEmail());
 		return sql.selectOne(namespace+".role", userrolevo);
 	}
-
-
+	
 
 	
 
