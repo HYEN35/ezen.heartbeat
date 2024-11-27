@@ -6,18 +6,24 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.admin.service.AdminServiceImpl;
 import kr.heartbeat.vo.CommentVO;
+import kr.heartbeat.vo.PageDTO;
 import kr.heartbeat.vo.PostVO;
+import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.UserVO;
 
 @Controller
+@Transactional
 @RequestMapping("/admin/*")
 public class AdminController {
 	
@@ -28,13 +34,11 @@ public class AdminController {
 	@GetMapping("/summary")
 	public String getAdminSummary(Model model) throws Exception {
 	    String today = LocalDate.now().toString();
-	    
+
 	    // 오늘 가입자 수
 	    int todayUserCount = service.count_a(today);
 	    model.addAttribute("count_a", todayUserCount);
-	    System.out.println("가입자 수 ========================= "+todayUserCount);
-	    System.out.println(today);
-	    
+
 	    // 총 구독자 수
 	    int totalSubscribers = service.count_b();
 	    model.addAttribute("count_b", totalSubscribers);
@@ -60,38 +64,105 @@ public class AdminController {
 	    System.out.println("레벨 0 회원 수: " + level0Cnt);
 	    System.out.println("레벨 1 회원 수: " + level1Cnt);
 	    System.out.println("레벨 2 회원 수: " + level2Cnt);
-	    //58464
+
 	    return "/admin/summary";
 	}
+
 	
 	//member 리스트 구현
-	@GetMapping("/member")
-	public void getUserList(Model model) throws Exception {
-		List<UserVO> urList = service.getUserList();
-		model.addAttribute("urList", urList);
+	@RequestMapping("/member")
+	public void getUserList(
+	    Model model,
+	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
+	    @RequestParam(value = "searchType", required = false, defaultValue = "name") String searchType,
+	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+	) throws Exception {
+		
+	    // 검색 및 페이징 처리 로직
+	    PageDTO page = new PageDTO();
+	    page.setNum(num);
+	    page.setCount(service.getUserCount(searchType, keyword));
+	    page.setSearchType(searchType);
+	    page.setKeyword(keyword);
+
+	    List<UserVO> urList = service.getUserList(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+	    model.addAttribute("urList", urList);
+	    model.addAttribute("page", page);
+	    model.addAttribute("select", num);
+	    
+	    System.out.println(searchType);
+	    System.out.println("keyword======="+keyword);
+	    System.out.println(urList);
 	}
 	
+	//member 삭제
+	@GetMapping("/member/delete")
+	public String memberdelete(@RequestParam("email") String email) throws Exception {
+	    service.memberdelete(email);
+	    return "redirect:/admin/member";
+	}
+		
 	//post 리스트 구현
 	@RequestMapping("/post")
-	public void getPostList(Model model) throws Exception {
-		List<PostVO> poList = service.getPostList();
-		model.addAttribute("poList", poList);
-		System.out.println(poList);
+	public void getPostList(
+	    Model model,
+	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
+	    @RequestParam(value = "searchType", required = false, defaultValue = "post_id") String searchType,
+	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+	) throws Exception {
+		
+	    // 검색 및 페이징 처리 로직
+	    PageDTO page = new PageDTO();
+	    page.setNum(num);
+	    page.setCount(service.getPostCount(searchType, keyword));
+	    page.setSearchType(searchType);
+	    page.setKeyword(keyword);
+
+	    List<PostVO> poList = service.getPostList(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+	    model.addAttribute("poList", poList);
+	    model.addAttribute("page", page);
+	    model.addAttribute("select", num);
+	    
+	    System.out.println(num);
+	    System.out.println(page);
 	}
 	
 	//post 삭제 구현
 	@GetMapping("/post/delete")
-	public String delete(@RequestParam("post_id") String post_id) throws Exception {
+	public String delete(@RequestParam("post_id") int post_id) throws Exception {
 		service.podelete(post_id);
 		return "redirect:/admin/post";
 	}
 	
 	//comment 리스트 구현
 	@RequestMapping("/comment")
-	public void getcommentList(Model model) throws Exception {
-		List<CommentVO> coList = service.getCommentList();
-		model.addAttribute("coList", coList);
-		System.out.println(coList);
+	public void getCommentList(
+	    Model model,
+	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
+	    @RequestParam(value = "searchType", required = false, defaultValue = "comment_id") String searchType,
+	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+	) throws Exception {
+		System.out.println(keyword);
+		System.out.println(searchType);
+		
+	    // 검색 및 페이징 처리 로직
+	    PageDTO page = new PageDTO();
+	    page.setNum(num);
+	    page.setCount(service.getCommentCount(searchType, keyword));
+	    page.setSearchType(searchType);
+	    page.setKeyword(keyword);
+
+	    List<CommentVO> coList = service.getCommentList(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+	    model.addAttribute("coList", coList);
+	    model.addAttribute("page", page);
+	    model.addAttribute("select", num);
+	    System.out.println(coList);
+	}
+	
+	@GetMapping("/comment/delete")
+	public String commentdelete(@RequestParam("comment_id") int comment_id) throws Exception {
+		service.codelete(comment_id);
+		return "redirect:/admin/comment";
 	}
 
 	//edit
@@ -106,10 +177,8 @@ public class AdminController {
 	//edit 데이터처리
 	@PostMapping("/edit")
 	public String update(UserVO uvo) throws Exception {
-	    // 암호화 없이 바로 전달받은 비밀번호를 사용
-		System.out.println("데이터처리==========================="+uvo);
+	    System.out.println("전달된 데이터: " + uvo); // 모든 필드 출력
 	    service.update(uvo);
-	    
 	    return "redirect:/admin/edit?email=" + uvo.getEmail();
 	}
 
