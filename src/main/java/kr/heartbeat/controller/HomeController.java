@@ -33,6 +33,6 @@ public class HomeController {
 //	
 //	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
 //	 public String mypage() { return "heartbeat/mypage"; }
-	 
+	 // sfa
 	 
 }
