@@ -9,7 +9,7 @@
 	String pageRequest = request.getRequestURI();
 
 	if (pageRequest.endsWith("index.jsp")) pageName = "HeartBeat";
-	else if (pageRequest.endsWith("Web/login.jsp")) pageName = "로그인 - HeartBeat";
+	else if (pageRequest.endsWith("login.jsp")) pageName = "로그인 - HeartBeat";
 	else if (pageRequest.endsWith("join.jsp")) pageName = "회원가입 - HeartBeat";
 	
 	else if (pageRequest.endsWith("chart.jsp")){

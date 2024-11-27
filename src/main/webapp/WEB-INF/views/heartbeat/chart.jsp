@@ -5,7 +5,15 @@
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
 <%@ page import="javax.servlet.ServletContext" %>
 
+
+
 <body>
+	 <script>
+		<c:if test="${not empty message}">
+		    alert("${message}");
+		</c:if>
+	</script>
+	
 	<div class="inner service chart" data-name="chart">
 	<%@ include file="../include/menu.jsp" %>
 		<div id="playBar" class="playBar">
@@ -20,7 +28,7 @@
 				</div>
 		    </div>
 		</div>
-		<div class="container">
+			<div class="container">
 			<div class="cntWrap">
 				<h2 id="title" class="title">차트</h2>
 				<div class="cntArea">

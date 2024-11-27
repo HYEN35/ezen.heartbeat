@@ -63,27 +63,26 @@ public class SpotifyController {
         
         return "heartbeat/chart"; 
     }
-
+    
     @GetMapping("/playTrack")
     @ResponseBody // ★ @ResponseBody를 쓸 땐 Model을 사용할 수 없다.
     public String playTrack(@RequestParam("trackTitle") String trackTitle, @RequestParam("artist") String artist, Model model) {
-
-        // 괄호와 괄호 안의 내용 제거
-        trackTitle = trackTitle.replaceAll("\\(.*?\\)", "").trim();
-
+    	
+    	// 괄호와 괄호 안의 내용 제거
+    	trackTitle = trackTitle.replaceAll("\\(.*?\\)", "").trim();
         try {
             // YouTube URL 가져오기
             String youTubeUrl = spotifyAPI.getYouTubeUrl(trackTitle, artist);
-
-            //System.out.println("=========youTubeUrl : "+ youTubeUrl);
-
+            
+            System.out.println("=========youTubeUrl : "+ youTubeUrl);
+           
             // URL 반환
             return youTubeUrl != null ? youTubeUrl : "No URL found";
-
+ 			
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred";
         }
     }
-
+    
 }

@@ -2,7 +2,6 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <%
 	String menuPageRequest = request.getRequestURI();
 	
@@ -11,10 +10,11 @@
 	String community = menuPageRequest.endsWith("community.jsp") ? "on" : "";
 	String membership =	menuPageRequest.endsWith("membership.jsp") ? "on" : "";
 	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
-	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
 	String mypage =	menuPageRequest.endsWith("mypage.jsp") ? "on" : "";
 	
 %>
+
+
 
 <div id="menu" class="menu">
 	<div class="wrap">
