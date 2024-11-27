@@ -37,4 +37,6 @@ public interface UserService {
 	public int getMyPostCount(String searchType, String keyword, String email)throws Exception;
 	// 유저 개인 게시물 가져오기
 	public List<PostVO> getUserPost(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception;
+	// 유저 개인 게시물 삭제하기
+	public void deleteMyPost(int post_id) throws Exception;
 }

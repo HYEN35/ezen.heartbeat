@@ -131,6 +131,10 @@ public class UserPersistenceImpl implements UserPersistence {
 		map.put("email", email);
 		return sql.selectList(namespace+".getUserPost", map);
 	}
+	// 유저 개인 게시물 삭제하기
+	public void deleteMyPost(int post_id) throws Exception {
+		sql.delete(namespace+".deleteMyPost", post_id);
+	}
 
 
 

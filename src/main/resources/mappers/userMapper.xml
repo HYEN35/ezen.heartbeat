@@ -149,24 +149,25 @@
 	</select>
 	<!-- 내 게시물 가져오기 -->
 	<select id="getUserPost" parameterType="hashmap" resultType="kr.heartbeat.vo.PostVO">
-		select * from post_tbl 
+	    select * from post_tbl
 	    <where>
-	        <if test="searchType != null and searchType.equals('title')">
-	            title like concat('%',#{keyword},'%')
-	        </if>
-	        
 	        <if test="searchType != null and searchType.equals('content')">
-	            content like concat('%',#{keyword},'%')
-	        </if>
-	        
-	        <if test="searchType != null and searchType.equals('nickname')">
-	            nickname like concat('%',#{keyword},'%')
+	            content like concat('%', #{keyword}, '%')
 	        </if>
 	
+	        <if test="searchType != null and searchType.equals('nickname')">
+				nickname like concat('%',#{keyword},'%')
+			</if>
+	
+	        <!-- email 조건이 항상 적용되도록 넣기 -->
 	        and email = #{email}
 	    </where>
 	    order by post_id desc
 	    limit #{displayPost}, #{postNum}
-</select>
+	</select>
+	<!-- 유저 개인 게시물 삭제하기 -->
+	<delete id="deleteMyPost" parameterType="int">
+		delete from post_tbl where post_id = #{post_id}
+	</delete>
 
 </mapper>

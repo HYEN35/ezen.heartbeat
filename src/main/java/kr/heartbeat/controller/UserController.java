@@ -270,7 +270,7 @@ public class UserController {
 		}
 		// 마이페이지 - 내 게시물 확인
 		@RequestMapping(value="/mypage", method = RequestMethod.GET) 
-		public String mypage(String email,int num, String searchType, String keyword,Model model) throws Exception {
+		public String mypage(String email,int num, String searchType, String keyword,Model model,HttpServletRequest request) throws Exception {
 			PageDTO page = new PageDTO();
 			page.setNum(num);
 			page.setCount(userServiceImpl.getMyPostCount(searchType,keyword,email)); // 내 게시물 개수
@@ -278,14 +278,30 @@ public class UserController {
 			page.setKeyword(keyword);
 			
 			List<PostVO> userPostList = userServiceImpl.getUserPost(page.getDisplayPost(), page.getPostNum(),searchType,keyword,email);
-			System.out.println(userPostList);
 			if (searchType!= null) {
 				model.addAttribute("addClass", "addClass");				
 			}
 			model.addAttribute("userPostList", userPostList);
 			model.addAttribute("page", page);		
 			model.addAttribute("select", num);
+			
 			return "heartbeat/mypage"; 
+		}
+		
+		@PostMapping("/mypage/deletePost")
+		public String mypage(@RequestParam("post_id") String post_id, RedirectAttributes redirectAttributes) throws Exception {
+		    // postIds는 콤마로 구분된 문자열이므로, 이를 분리하여 배열로 변환
+		    String[] postIdArray = post_id.split(",");
+
+		    // 각 post_id에 대해 삭제 처리
+		    for (String postId : postIdArray) {
+		        userServiceImpl.deleteMyPost(Integer.parseInt(postId));  // 삭제 서비스 호출
+		    }
+
+		    // 리다이렉트 시 addClass를 RedirectAttributes에 추가
+		    redirectAttributes.addFlashAttribute("addClass", "addClass");
+
+		    return "redirect:/mypage?num=1";
 		}
 
 
