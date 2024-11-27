@@ -227,7 +227,7 @@
 							<input type="password"  name="pwdCheck" placeholder="* 비밀번호 확인" class="txtBx">
 							<input type="text"  name="name" placeholder="* 이름" class="txtBx">
 							<input type="text"  name="artist_id" placeholder="* 아티스트ID" class="txtBx">
-							<input type="date" name="birth"class="txtBx">
+							<input type="date" name="birth" value="${insert.birth}"class="txtBx">
 							<div class="doubleCheck">
 								<input type="tel" maxlength="11" name="phone" placeholder="* 휴대폰번호"  oninput="resetPhoneAvailability()"  class="txtBx">
 								<button type="button" class="btn-border" onclick="phoneCheck(this.form.phone.value)">중복확인</button>
@@ -241,8 +241,8 @@
 							    <option value="1" <c:if test="${insert.level == 1}">selected</c:if>>level1</option>
 							    <option value="2" <c:if test="${insert.level == 2}">selected</c:if>>level2</option>
 							</select>
-							<input type="date" class="txtBx" name="start_date" value="${insert.start_date}" placeholder="구독권 시작일">
-							<input type="date" class="txtBx" name="end_date" value="${insert.end_date}" placeholder="구독권 종료일">
+							<input type="date" class="txtBx" name="start_date" value="${insert.start_date}">
+							<input type="date" class="txtBx" name="end_date" value="${insert.end_date}">
 							<select class="sltBx" name="role_id">
 							    <option value="0" <c:if test="${insert.role_id == 0}">selected</c:if>>직원</option>
 							    <option value="1" <c:if test="${insert.role_id == 1}">selected</c:if>>아티스트</option>

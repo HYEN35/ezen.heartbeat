@@ -55,7 +55,6 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	}
 
 	//member 리스트
-
 	@Override
 	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();

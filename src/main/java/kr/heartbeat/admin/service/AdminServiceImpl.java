@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.heartbeat.admin.persistence.AdminPersistenceImpl;
 import kr.heartbeat.vo.CommentVO;
@@ -112,26 +113,16 @@ public class AdminServiceImpl implements AdminService {
 	
 	//계정생성
 	@Override
+    @Transactional // 트랜잭션 처리
     public int insertUser(UserVO userVO, int role_id) {
-        // 유저 기본 정보 삽입
+        // 1. user_tbl에 데이터 삽입
         int result = persistence.insertUser(userVO);
         if (result > 0) {
-            // 유저 역할 정보 삽입
+            // 2. user_role_tbl에 데이터 삽입
             UserroleVO userRole = new UserroleVO();
             userRole.setEmail(userVO.getEmail());
             userRole.setRole_id(role_id);
             persistence.insertUserRole(userRole);
-
-            // 구독 정보 삽입 (옵션)
-            if (userVO.getLevel() > 0 && userVO.getArtist_id() > 0) {
-                SubscriptionVO subscription = new SubscriptionVO();
-                subscription.setEmail(userVO.getEmail());
-                subscription.setLevel(userVO.getLevel());
-                subscription.setArtist_id(userVO.getArtist_id());
-                subscription.setStart_date(userVO.getReg_date());
-                subscription.setEnd_date(userVO.getUp_date());
-                persistence.insertSubscription(subscription);
-            }
         }
         return result;
     }

@@ -66,7 +66,7 @@ public class AdminController {
 	    System.out.println("레벨 0 회원 수: " + level0Cnt);
 	    System.out.println("레벨 1 회원 수: " + level1Cnt);
 	    System.out.println("레벨 2 회원 수: " + level2Cnt);
-	    
+	    //58464
 	    return "/admin/summary";
 	}
 
@@ -200,6 +200,7 @@ public class AdminController {
 	                              @RequestParam("name") String name,
 	                              @RequestParam("phone") String phone,
 	                              @RequestParam("nickname") String nickname,
+	                              @RequestParam("birth") String birth,
 	                              @RequestParam("role_id") int role_id,
 	                              RedirectAttributes redirectAttributes) {
 	    System.out.println("========== Controller member(admin) email: " + email);
@@ -216,6 +217,7 @@ public class AdminController {
 	    userVO.setPwd(pwd);
 	    userVO.setName(name);
 	    userVO.setPhone(phone);
+	    userVO.setBirth(birth);
 	    userVO.setNickname(nickname);
 
 	    // 서버 측 유효성 검증
