@@ -2,13 +2,10 @@ package kr.heartbeat.service;
 
 import javax.inject.Inject;
 
-<<<<<<< HEAD
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
->>>>>>> origin/HyeinKim
 import org.springframework.stereotype.Service;
 
 import kr.heartbeat.persistence.UserPersistenceImpl;
@@ -16,12 +13,10 @@ import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Service
-public class UserServiceImpl implements UserService {
-<<<<<<< HEAD
+public class UserServiceImpl implements UserService { AD
 	
 	@Inject
 	private UserPersistenceImpl userPersistenceImpl;
-=======
 
 	@Inject
 	private UserPersistenceImpl userPersistenceImpl;
@@ -29,7 +24,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	JavaMailSenderImpl javaMailSenderImpl;
 
->>>>>>> origin/HyeinKim
 	//중복체크
 	@Override
 	public UserVO idCheck(String email) {
@@ -54,11 +48,6 @@ public class UserServiceImpl implements UserService {
 	public int insertUserRole(String email) {
 		return userPersistenceImpl.insertUserRole(email);
 	}
-<<<<<<< HEAD
-	
-=======
-
->>>>>>> origin/HyeinKim
 	//로그인
 	@Override
 	public UserVO login(UserVO userVO) {
@@ -73,12 +62,11 @@ public class UserServiceImpl implements UserService {
 	}
 	//비밀번호 찾기
 	@Override
-<<<<<<< HEAD
 	public UserVO findPwd(String email, String name, String birth) {
 		System.out.println("========== Service email : "+email);
 		return userPersistenceImpl.findPwd(email, name, birth);
 	}
-=======
+
 	public int searchPwd(UserVO userVO) {
 
 		int result = 0;
@@ -150,8 +138,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-
->>>>>>> origin/HyeinKim
 	//회원수정
 	@Override
 	public void modify(String newPwd, UserVO userVO) {
@@ -169,26 +155,9 @@ public class UserServiceImpl implements UserService {
 	public void delete(UserVO uvo) {
 		userPersistenceImpl.delete(uvo);
 	}
-<<<<<<< HEAD
-	
-	
-=======
-
-
->>>>>>> origin/HyeinKim
 	@Override
 	public UserroleVO role(UserroleVO userrolevo) {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
 	}
-<<<<<<< HEAD
-
-	
-	
-
-	
-
 }
-=======
-}
->>>>>>> origin/HyeinKim
