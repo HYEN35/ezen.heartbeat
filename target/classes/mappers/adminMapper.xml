@@ -236,57 +236,59 @@
 	
 	<!-- 1. 유저 기본 정보 삽입 -->
     <insert id="insertUser" parameterType="kr.heartbeat.vo.UserVO">
-        INSERT INTO user_tbl (
-            email,
-            artist_id,
-            pwd,
-            name,
-            nickname,
-            birth,
-            phone,
-            profileimg,
-            reg_date,
-            up_date
-        ) VALUES (
-            #{email},
-            #{artist_id},
-            #{pwd},
-            #{name},
-            #{nickname},
-            #{birth},
-            #{phone},
-            null,
-            NOW(),
-            NOW()
-        )
-    </insert>
+	    INSERT INTO user_tbl (
+	        email,
+	        artist_id,
+	        pwd,
+	        name,
+	        nickname,
+	        birth,
+	        phone,
+	        profileimg,
+	        level,
+	        reg_date,
+	        up_date
+	    ) VALUES (
+	        #{email},
+	        #{artist_id},
+	        #{pwd},
+	        #{name},
+	        #{nickname},
+	        #{birth},
+	        #{phone},
+	        null,
+	        #{level},
+	        NOW(),
+	        NOW()
+	    )
+	</insert>
 
     <!-- 2. 유저 역할 삽입 -->
     <insert id="insertUserRole" parameterType="kr.heartbeat.vo.UserroleVO">
-        INSERT INTO user_role_tbl (
-            email,
-            role_id
-        ) VALUES (
-            #{email},
-            #{role_id}
-        )
-    </insert>
+	    INSERT INTO user_role_tbl (
+	        email,
+	        role_id
+	    ) VALUES (
+	        #{email},
+	        #{role_id}
+	    )
+	</insert>
 
     <!-- 3. 구독 정보 삽입 -->
     <insert id="insertSubscription" parameterType="kr.heartbeat.vo.SubscriptionVO">
-        INSERT INTO subscription_tbl (
-            email,
-            level,
-            artist_id,
-            start_date,
-            end_date
-        ) VALUES (
-            #{email},
-            #{level},
-            NULL,
-            #{start_date},
-            #{end_date}
-        )
-    </insert>
+	    INSERT INTO subscription_tbl (
+	        email,
+	        level,
+	        artist_id,
+	        start_date,
+	        end_date
+	    ) VALUES (
+	        #{email},
+	        #{level},
+	        #{artist_id},
+	        #{start_date},
+	        #{end_date}
+	    )
+	</insert>
 	
 	</mapper>

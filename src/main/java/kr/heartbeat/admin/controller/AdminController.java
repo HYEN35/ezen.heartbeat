@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.admin.service.AdminServiceImpl;
 import kr.heartbeat.vo.CommentVO;
@@ -182,47 +183,7 @@ public class AdminController {
 	    service.update(uvo);
 	    return "redirect:/admin/edit?email=" + uvo.getEmail();
 	}
-	
-	//insert
-	
-	//이메일 중복확인
-	@PostMapping("/adminjoin/checkEmail")
-	@ResponseBody
-	public String idCheck(HttpServletRequest request) throws Exception {
-		String email = request.getParameter("email");
-		UserVO userVO = service.idCheck(email);
-		String result = null;
 
-		if (userVO != null) result = "success"; 	
-		
-		return result;
-	}
-	//전화번호 중복확인
-	@PostMapping("/adminjoin/checkPhone")
-	@ResponseBody
-	public String phoneCheck(HttpServletRequest request) throws Exception {
-		String phone = request.getParameter("phone");
-		UserVO userVO = service.phoneCheck(phone);
-		String result = null;
-		
-		if (userVO != null) result = "success"; 	
-		
-		return result;
-	}
-	//닉네임 중복확인
-	@PostMapping("/adminjoin/checkNickname")
-	@ResponseBody
-	public String nicknameCheck(HttpServletRequest request) throws Exception {
-		
-		String nickname = request.getParameter("nickname");
-		UserVO userVO = service.nicknameCheck(nickname);
-		String result = null;
-		
-		if (userVO != null) result = "success"; 
-		
-		return result;
-	}
-	
 	@GetMapping("/adminjoin")
 	public String adminJoinPage(Model model) {
 	    List<RoleVO> role = service.getRole();
@@ -231,18 +192,103 @@ public class AdminController {
 	    return "/admin/adminjoin";
 	}
 	
-	//계정생성
+	// 계정 생성
 	@PostMapping("/adminjoin")
-	public String adminInsertUser(UserVO userVO) {
-        System.out.println("========== Controller member(admin) email(id): " + userVO.getEmail());
-        
-        int result = service.insertUser(userVO); // 서비스 호출
-        if (result > 0) { // 성공
-            return "redirect:/admin/member"; // 회원가입 성공 시 이동
-        } else { // 실패
-            return "redirect:/admin/adminjoin"; // 회원가입 실패 시 이동
-        }
-    }
+	public String adminInsertUser(@RequestParam("email") String email,
+	                              @RequestParam("pwd") String pwd,
+	                              @RequestParam("pwdCheck") String pwdCheck,
+	                              @RequestParam("name") String name,
+	                              @RequestParam("phone") String phone,
+	                              @RequestParam("nickname") String nickname,
+	                              @RequestParam("role_id") int role_id,
+	                              RedirectAttributes redirectAttributes) {
+	    System.out.println("========== Controller member(admin) email: " + email);
 
-	
+	    // 서버 측 비밀번호 확인 검증
+	    if (!pwd.equals(pwdCheck)) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+	        return "redirect:/admin/adminjoin";
+	    }
+
+	    // UserVO 생성 및 데이터 설정
+	    UserVO userVO = new UserVO();
+	    userVO.setEmail(email);
+	    userVO.setPwd(pwd);
+	    userVO.setName(name);
+	    userVO.setPhone(phone);
+	    userVO.setNickname(nickname);
+
+	    // 서버 측 유효성 검증
+	    if (!isValidUser(userVO)) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "유효성 검증에 실패했습니다. 입력 데이터를 확인해주세요.");
+	        return "redirect:/admin/adminjoin";
+	    }
+
+	    // 서비스 호출
+	    int result = service.insertUser(userVO, role_id);
+
+	    // 결과에 따른 리다이렉트 처리
+	    if (result > 0) {
+	        return "redirect:/admin/member"; // 회원가입 성공 시 이동
+	    } else {
+	        redirectAttributes.addFlashAttribute("errorMessage", "계정 생성에 실패했습니다. 다시 시도해주세요.");
+	        return "redirect:/admin/adminjoin"; // 회원가입 실패 시 이동
+	    }
+	}
+
+	// 이메일 중복 확인
+	@PostMapping("/adminjoin/checkEmail")
+	@ResponseBody
+	public String idCheck(@RequestParam("email") String email) throws Exception {
+	    // 이메일 중복 여부 확인
+	    boolean isAvailable = service.idCheck(email) == null; // null이면 사용 가능
+	    return isAvailable ? "success" : "fail";
+	}
+
+	// 전화번호 중복 확인
+	@PostMapping("/adminjoin/checkPhone")
+	@ResponseBody
+	public String phoneCheck(@RequestParam("phone") String phone) throws Exception {
+	    boolean isAvailable = service.phoneCheck(phone) == null; // 중복 여부 확인
+	    return isAvailable ? "success" : "fail";
+	}
+
+	// 닉네임 중복 확인
+	@PostMapping("/adminjoin/checkNickname")
+	@ResponseBody
+	public String nicknameCheck(@RequestParam("nickname") String nickname) throws Exception {
+	    boolean isAvailable = service.nicknameCheck(nickname) == null; // 중복 여부 확인
+	    return isAvailable ? "success" : "fail";
+	}
+
+    private boolean isValidUser(UserVO userVO) {
+        if (userVO.getEmail() == null || userVO.getEmail().isEmpty()) {
+            return false;
+        }
+        if (userVO.getPwd() == null || userVO.getPwd().isEmpty()) {
+            return false;
+        }
+        if (userVO.getName() == null || userVO.getName().isEmpty()) {
+            return false;
+        }
+        if (userVO.getPhone() == null || userVO.getPhone().isEmpty()) {
+            return false;
+        }
+        if (userVO.getNickname() == null || userVO.getNickname().isEmpty()) {
+            return false;
+        }
+
+        // 중복 확인 로직 추가
+        if (service.idCheck(userVO.getEmail()) != null) {
+            return false; // 이메일 중복 시 false 반환
+        }
+        if (service.phoneCheck(userVO.getPhone()) != null) {
+            return false; // 전화번호 중복 시 false 반환
+        }
+        if (service.nicknameCheck(userVO.getNickname()) != null) {
+            return false; // 닉네임 중복 시 false 반환
+        }
+
+        return true; // 모든 조건을 통과하면 true 반환
+    }
 }

@@ -152,25 +152,28 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	    sql.update(namespace + ".update", uvo);
 	}
 	
-	//회원가입
+	//계정생성
 	// 유저 기본 정보 삽입
     @Override
     public int insertUser(UserVO userVO) {
         return sql.insert(namespace + ".insertUser", userVO);
     }
-
     // 유저 역할 정보 삽입
     @Override
     public int insertUserRole(UserroleVO userroleVO) {
         return sql.insert(namespace + ".insertUserRole", userroleVO);
     }
-
     // 구독 정보 삽입
     @Override
     public int insertSubscription(SubscriptionVO subscriptionVO) {
         return sql.insert(namespace + ".insertSubscription", subscriptionVO);
     }
-	
+
+    @Override
+    public List<RoleVO> getRole() {
+        return sql.selectList(namespace + ".getRole");
+    }
+    
 	//중복 확인
 	@Override
 	public UserVO idCheck(String email) {
@@ -184,10 +187,5 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	public UserVO nicknameCheck(String nickname) {
 		return sql.selectOne(namespace + ".nicknamecheck", nickname);
 	}
-
-	@Override
-    public List<RoleVO> getRole() {
-        return sql.selectList(namespace + ".getRole");
-    }
 
 }

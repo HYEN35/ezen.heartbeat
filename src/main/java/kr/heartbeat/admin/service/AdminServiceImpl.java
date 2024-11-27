@@ -1,5 +1,6 @@
 package kr.heartbeat.admin.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,45 @@ public class AdminServiceImpl implements AdminService {
 		persistence.update(uvo);
 	}
 	
+	//계정생성
+	@Override
+    public int insertUser(UserVO userVO, int role_id) {
+        // 유저 기본 정보 삽입
+        int result = persistence.insertUser(userVO);
+        if (result > 0) {
+            // 유저 역할 정보 삽입
+            UserroleVO userRole = new UserroleVO();
+            userRole.setEmail(userVO.getEmail());
+            userRole.setRole_id(role_id);
+            persistence.insertUserRole(userRole);
+
+            // 구독 정보 삽입 (옵션)
+            if (userVO.getLevel() > 0 && userVO.getArtist_id() > 0) {
+                SubscriptionVO subscription = new SubscriptionVO();
+                subscription.setEmail(userVO.getEmail());
+                subscription.setLevel(userVO.getLevel());
+                subscription.setArtist_id(userVO.getArtist_id());
+                subscription.setStart_date(userVO.getReg_date());
+                subscription.setEnd_date(userVO.getUp_date());
+                persistence.insertSubscription(subscription);
+            }
+        }
+        return result;
+    }
+    @Override
+    public int insertUserRole(UserroleVO userroleVO) {
+        return persistence.insertUserRole(userroleVO);
+    }
+    @Override
+    public int insertSubscription(SubscriptionVO subscriptionVO) {
+        return persistence.insertSubscription(subscriptionVO);
+    }
+	
+	@Override
+    public List<RoleVO> getRole() {
+        return persistence.getRole();
+    }
+	
 	//중복체크
 	@Override
 	public UserVO idCheck(String email) {
@@ -122,48 +162,6 @@ public class AdminServiceImpl implements AdminService {
 	public UserVO nicknameCheck(String nickname) {
 		return persistence.nicknameCheck(nickname);
 	}
-	
-	//회원가입
-	@Override
-    public int insertUser(UserVO userVO) {
-        System.out.println("========== Service member(admin) email(id): " + userVO.getEmail());
 
-        // 1. 유저 기본 정보 삽입
-        int result = persistence.insertUser(userVO);
-        if (result > 0) {
-            // 2. 유저 역할 삽입
-            UserroleVO userroleVO = new UserroleVO();
-            userroleVO.setEmail(userVO.getEmail());  // UserVO에서 email 추출
-            userroleVO.setRole_id(userVO.getLevel());  // UserVO의 level을 role_id로 사용
-            persistence.insertUserRole(userroleVO); // UserroleVO 객체를 전달
-
-            // 3. 구독 정보 삽입 (옵션)
-            if (userVO.getLevel() > 0 && userVO.getArtist_id() > 0) {  // level, artist_id가 유효하면
-                SubscriptionVO subscription = new SubscriptionVO();
-                subscription.setEmail(userVO.getEmail());
-                subscription.setLevel(userVO.getLevel());
-                subscription.setArtist_id(userVO.getArtist_id());
-                subscription.setStart_date(userVO.getReg_date());  // reg_date를 구독 시작일로 설정
-                subscription.setEnd_date(userVO.getUp_date());  // up_date를 구독 종료일로 설정
-                persistence.insertSubscription(subscription);
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public int insertUserRole(UserroleVO userroleVO) {
-        return persistence.insertUserRole(userroleVO);  // UserroleVO를 받아서 persistence 호출
-    }
-
-    @Override
-    public int insertSubscription(SubscriptionVO subscriptionVO) {
-        return persistence.insertSubscription(subscriptionVO);  // SubscriptionVO를 받아서 persistence 호출
-    }
-	
-	@Override
-    public List<RoleVO> getRole() {
-        return persistence.getRole();
-    }
 
 }

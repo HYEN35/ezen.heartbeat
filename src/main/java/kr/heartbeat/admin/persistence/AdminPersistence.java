@@ -52,15 +52,13 @@ public interface AdminPersistence {
 
 	public void update(UserVO uvo) throws Exception;
 	
-	//회원가입
+	//계정생성
 	// 유저 기본 정보 삽입
-    public int insertUser(UserVO userVO);
-
+	public int insertUser(UserVO userVO);
     // 유저 역할 정보 삽입
-    public int insertUserRole(UserroleVO userroleVO);
-
+	public int insertUserRole(UserroleVO userroleVO);
     // 구독 정보 삽입
-    public int insertSubscription(SubscriptionVO subscriptionVO);
+	public int insertSubscription(SubscriptionVO subscriptionVO);
 	
 	public List<RoleVO> getRole();
 	
