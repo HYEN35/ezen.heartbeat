@@ -1,5 +1,8 @@
 package kr.heartbeat.service;
 
+import java.util.List;
+
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 

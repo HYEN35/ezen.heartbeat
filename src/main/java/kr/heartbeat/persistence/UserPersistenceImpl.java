@@ -1,12 +1,14 @@
 package kr.heartbeat.persistence;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 

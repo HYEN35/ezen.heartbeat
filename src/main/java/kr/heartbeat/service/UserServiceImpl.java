@@ -1,10 +1,13 @@
 package kr.heartbeat.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
 import kr.heartbeat.persistence.UserPersistenceImpl;
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 

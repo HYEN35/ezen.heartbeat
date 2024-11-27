@@ -3,6 +3,7 @@ package kr.heartbeat.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.membership.service.MembershipService;
 import kr.heartbeat.service.UserServiceImpl;
+import kr.heartbeat.vo.PageDTO;
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
