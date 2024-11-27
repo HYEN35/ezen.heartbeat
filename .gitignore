@@ -14,3 +14,4 @@
 .smarttomcat/controller/conf/tomcat-users.xsd
 .smarttomcat/controller/conf/web.xml
 .smarttomcat/controller/conf/Catalina/localhost/ROOT.xml
+.idea/vcs.xml
