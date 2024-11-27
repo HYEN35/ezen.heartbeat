@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.heartbeat.admin.persistence.AdminPersistenceImpl;
 import kr.heartbeat.vo.CommentVO;
@@ -70,8 +71,45 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void podelete(String post_id) throws Exception {
-		persistence.podelete(post_id);
+    @Transactional // 트랜잭션 처리
+    public int insertUser(UserVO userVO, int role_id) {
+        // 1. user_tbl에 데이터 삽입
+        int result = persistence.insertUser(userVO);
+        if (result > 0) {
+            // 2. user_role_tbl에 데이터 삽입
+            UserroleVO userRole = new UserroleVO();
+            userRole.setEmail(userVO.getEmail());
+            userRole.setRole_id(role_id);
+            persistence.insertUserRole(userRole);
+        }
+        return result;
+    }
+    @Override
+    public int insertUserRole(UserroleVO userroleVO) {
+        return persistence.insertUserRole(userroleVO);
+    }
+    @Override
+    public int insertSubscription(SubscriptionVO subscriptionVO) {
+        return persistence.insertSubscription(subscriptionVO);
+    }
+	
+	@Override
+    public List<RoleVO> getRole() {
+        return persistence.getRole();
+    }
+	
+	//중복체크
+	@Override
+	public UserVO idCheck(String email) {
+		return persistence.idCheck(email);
+	}
+	@Override
+	public UserVO phoneCheck(String phone) {
+		return persistence.phoneCheck(phone);
+	}
+	@Override
+	public UserVO nicknameCheck(String nickname) {
+		return persistence.nicknameCheck(nickname);
 	}
 
 	
