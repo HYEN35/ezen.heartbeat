@@ -3,6 +3,7 @@ package kr.heartbeat.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.heartbeat.community.service.CommunityService;
 import kr.heartbeat.membership.service.MembershipService;
 import kr.heartbeat.service.UserServiceImpl;
+import kr.heartbeat.vo.PageDTO;
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
@@ -82,10 +88,10 @@ public class UserController {
 		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
 		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
 			rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
-			url ="/heartbeat/login";
+			url ="redirect:/login";
 		} else { //회원가입 실패
 			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
-			url = "/heartbeat/join";
+			url = "redirect:/join";
 		}
 		return url;
 	}
@@ -151,9 +157,9 @@ public class UserController {
 						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 						session.setAttribute("level", dbuserVO.getLevel());  // 사용자 레벨 설정
 						rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
-						url = "/heartbeat/chart";  // 일반 사용자 차트 페이지로 이동
+						url = "redirect:/chart";  // 일반 사용자 차트 페이지로 이동
 					} else {
-						url = "/heartbeat/login";  // 로그인 페이지로 이동
+						url = "redirect:/login";  // 로그인 페이지로 이동
 					}
 				}
 			} else {
@@ -179,7 +185,7 @@ public class UserController {
 	public HashMap<String,Object> findId(UserVO userVO) {
 		// HashMap을 사용할 때 @ResponseBody로 반환되는 객체를 JSON으로 변환하려면 jackson-databind를 pom.xml에 의존성 주입을 해야 한다.
 			
-			UserVO userVO = userServiceImpl.findId(userVO);
+			UserVO uvo = userServiceImpl.findId(userVO);
 			HashMap<String, Object> response = new HashMap<String, Object>();
 			
 			if(uvo != null) {
@@ -261,6 +267,25 @@ public class UserController {
 			session.setAttribute("UserVO", uvo);  
 			
 			return "redirect:/mypage";
+		}
+		// 마이페이지 - 내 게시물 확인
+		@RequestMapping(value="/mypage", method = RequestMethod.GET) 
+		public String mypage(String email,int num, String searchType, String keyword,Model model) throws Exception {
+			PageDTO page = new PageDTO();
+			page.setNum(num);
+			page.setCount(userServiceImpl.getMyPostCount(searchType,keyword,email)); // 내 게시물 개수
+			page.setSearchType(searchType);
+			page.setKeyword(keyword);
+			
+			List<PostVO> userPostList = userServiceImpl.getUserPost(page.getDisplayPost(), page.getPostNum(),searchType,keyword,email);
+			System.out.println(userPostList);
+			if (searchType!= null) {
+				model.addAttribute("addClass", "addClass");				
+			}
+			model.addAttribute("userPostList", userPostList);
+			model.addAttribute("page", page);		
+			model.addAttribute("select", num);
+			return "heartbeat/mypage"; 
 		}
 
 

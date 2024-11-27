@@ -44,7 +44,7 @@
 					<a href="${pageContext.request.contextPath}/notice/notice?num=1" class="<%=notice %> <%="notice".equals(request.getAttribute("noticePage")) ? "on" : "" %>"><i class="fa-solid fa-table-list"></i>공지 및 문의</a>
 				</li>
 				<li class="item">
-					<a href="${pageContext.request.contextPath}/mypage" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>마이페이지</a>
+					<a href="${pageContext.request.contextPath}/mypage?email=${UserVO.email}&num=1" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>마이페이지</a>
 				</li>
 			</ul>
 		</div>

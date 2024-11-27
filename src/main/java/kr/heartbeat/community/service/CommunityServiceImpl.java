@@ -105,7 +105,6 @@ public class CommunityServiceImpl implements CommunityService {
 	public int checkLike(PostVO postVO) throws Exception {
 		return communityPersistence.checkLike(postVO);
 	}
-	
-	
+			
 
 }

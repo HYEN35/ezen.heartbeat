@@ -129,14 +129,15 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		
 	}
 
-	@Override
+	@Override // 좋아요 개수
 	public int totalLike(PostVO postVO) throws Exception {
 		return sql.selectOne(namespace+".totalLike", postVO);
 	}
 
-	@Override
+	@Override // 좋아요 여부
 	public int checkLike(PostVO postVO) throws Exception {
 		return sql.selectOne(namespace+".likeToggle", postVO);
 	}
+	
 
 }

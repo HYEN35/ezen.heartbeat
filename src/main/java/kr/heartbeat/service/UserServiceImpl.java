@@ -2,6 +2,7 @@ package kr.heartbeat.service;
 
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.heartbeat.persistence.UserPersistenceImpl;
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
@@ -160,5 +162,14 @@ public class UserServiceImpl implements UserService {
 	public UserroleVO role(UserroleVO userrolevo) {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
+	}
+	
+	// 내 게시물 개수 가져오기
+	public int getMyPostCount(String searchType, String keyword, String email)throws Exception {
+		return userPersistenceImpl.getMyPostCount(searchType, keyword, email);
+	}
+	// 유저 개인 게시물 가져오기
+	public List<PostVO> getUserPost(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception {
+		return userPersistenceImpl.getUserPost(displayPost,postNum,searchType,keyword,email);
 	}
 }

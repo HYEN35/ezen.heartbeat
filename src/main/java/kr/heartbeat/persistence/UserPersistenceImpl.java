@@ -1,12 +1,14 @@
 package kr.heartbeat.persistence;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
@@ -111,7 +113,24 @@ public class UserPersistenceImpl implements UserPersistence {
 	}
 	
 
-	
+	// 내 게시물 개수 가져오기
+	public int getMyPostCount(String searchType, String keyword, String email)throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		map.put("email", email);
+		return sql.selectOne(namespace+".getMyPostCount", map);
+	}
+	// 유저 개인 게시물 가져오기
+	public List<PostVO> getUserPost(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("displayPost", displayPost);
+		map.put("postNum", postNum);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		map.put("email", email);
+		return sql.selectList(namespace+".getUserPost", map);
+	}
 
 
 

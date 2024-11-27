@@ -1,5 +1,8 @@
 package kr.heartbeat.persistence;
 
+import java.util.List;
+
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
@@ -32,4 +35,8 @@ public interface UserPersistence {
 	public void delete(UserVO uvo);
 	
 	public UserroleVO role(UserroleVO userrolevo);
+	// 내 게시물 개수 가져오기
+	public int getMyPostCount(String searchType, String keyword, String email)throws Exception;
+	// 유저 개인 게시물 가져오기
+	public List<PostVO> getUserPost(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception;
 }

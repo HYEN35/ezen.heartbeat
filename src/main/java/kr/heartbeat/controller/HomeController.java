@@ -31,6 +31,6 @@ public class HomeController {
 	@RequestMapping(value="/membershipTest", method = RequestMethod.GET)
 	public String membershipTest() { return "heartbeat/membershipTest"; } 
 	
-	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
-	 public String mypage() { return "heartbeat/mypage"; }
+//	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
+//	 public String mypage() { return "heartbeat/mypage"; }
 }

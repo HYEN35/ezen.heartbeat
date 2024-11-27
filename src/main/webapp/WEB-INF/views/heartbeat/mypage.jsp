@@ -7,6 +7,17 @@
 		    alert("${message}");
 		</c:if>
 	</script>
+	
+	<script>
+		$(function(){			
+			$('#search-btn1').click(function(){
+				var searchType = $('#searchType').val();
+				var keyword = $('#keyword').val();				
+				location.href="/mypage?num=1&searchType="+searchType+"&keyword="+keyword;
+			});
+			
+		});
+	</script>
 
 	<script>
 		$(function(){
@@ -249,51 +260,47 @@
 							<div class="cnt">
 								<div class="searchWrap">
 									<div class="searchBx">
-										<select class="sltBx">
-											<option value="#name">작성자</optoin>
-											<option value="#contents">내용</optoin>
+										<select class="sltBx" id="searchType1" name="searchType">
+											<option value="nickname">작성자</optoin>
+											<option value="content">내용</optoin>
 										</select>
-										<input type="text" class="txtBx" placeholder="검색어 입력">
-										<button type="button" class="btn-border">검색</button>
+										<input type="text" name="keyword" id="keyword1" class="txtBx" placeholder="검색어 입력" >
+										<button type="button" id="search-btn1" class="btn-border">검색</button>
 									</div>
 									<div class="btnBx">
 										<button type="button" class="btn-full">전체선택</button>
 										<button type="button" class="btn-border">삭제</button>
 									</div>
 								</div>
+								<c:forEach items="${userPostList }" var="userPost">
 								<ul class="itemWrap">
 									<li class="item">
 										<input type="checkbox" class="check">
-										<div class="num"><i>1</i></div>
+										<div class="num"><i>${userPost.post_id }</i></div>
 										<a href="#none" class="tit">
-											<i>게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다.</i>
-										</a>
-									</li>
-									<li class="item">
-										<input type="checkbox" class="check">
-										<div class="num"><i>2</i></div>
-										<a href="#none" class="tit">
-											<i>게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다.</i>
-										</a>
-									</li>
-									<li class="item">
-										<input type="checkbox" class="check">
-										<div class="num"><i>3</i></div>
-										<a href="#none" class="tit">
-											<i>게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다. 게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다. 게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다. 게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다.</i>
+											<i>${userPost.content }</i>
 										</a>
 									</li>
 								</ul>
+								</c:forEach>
+									
 								<div class="pagination">
-									<button type="button" class="btn-i-prev"></button>
-									<ul class="page">
-										<li class="num on">1</li>
-										<li class="num">2</li>
-										<li class="num">3</li>
-										<li class="num">4</li>
-										<li class="num">5</li>
-									</ul>
-									<button type="button" class="btn-i-next"></button>
+									<c:if test="${page.prev }">
+										<a href="/notice/notice?num=${page.startPageNum-1 }" class="btn-i-prev"></a>
+										</c:if>
+											<div class="page">
+												<c:forEach begin="${page.startPageNum }" end="${page.endPageNum }" var="num">
+												<c:if test="${select != num}">
+												<a href="/notice/notice?num=${num }" class="num">${num }</a>
+												</c:if>
+												<c:if test="${select == num}">
+												<a href="/notice/notice?num=${num }" class="num on">${num }</a>
+												</c:if>
+												</c:forEach>
+											</div>
+										<c:if test="${page.next }">
+										<a href="/notice/notice?num=${page.endPageNum+1 }" class="btn-i-next"></a>
+									</c:if>
 								</div>
 							</div>
 						</div>
