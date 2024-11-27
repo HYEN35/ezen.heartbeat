@@ -14,11 +14,6 @@ public interface UserService {
 	
 	//회원가입
 	public int insertUser(UserVO userVO);
-<<<<<<< HEAD
-=======
-	//회원가입 시 유저 역할 추가
-	public int insertUserRole(String email);
->>>>>>> origin/Nayoung
 	
 	//로그인
 	public UserVO login(UserVO userVO);

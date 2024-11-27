@@ -29,7 +29,6 @@ import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Controller
-@Transactional 
 public class UserController {
 	
 	@Inject
@@ -76,21 +75,20 @@ public class UserController {
 		}
 		
 		//회원가입
-				@PostMapping("/join")
-				public String insertUser(UserVO userVO) {
-					System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
-					System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
-					String email = userVO.getEmail();
-					String url = null;
-					int resultUser = userServiceImpl.insertUser(userVO);
-					int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
-					if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
-						url ="/heartbeat/login";
-					} else { //회원가입 실패
-						url = "/heartbeat/join";
-					}
-					return url;
-				}
+		@PostMapping("/join")
+		public String insertUser(UserVO userVO) {
+			System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
+			System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
+			
+			String url = null;
+			int result = userServiceImpl.insertUser(userVO);
+			if(result == 1) { //회원가입 성공
+				url ="redirect:/login";
+			} else { //회원가입 실패
+				url = "redirect:/join";
+			}
+			return url;
+		}
 		
 
 		//로그인 
@@ -144,15 +142,15 @@ public class UserController {
 	                if (roleId == 0) {
 	                    // 관리자 페이지로 이동
 	                    session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
-	                    url = "/admin/summary";  // 관리자 대시보드로 이동
+	                    url = "redirect:/admin/summary";  // 관리자 대시보드로 이동
 	                } else {
 	                    // 일반 사용자 페이지로 이동
 	                    if (dbuserVO != null) {
 	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 	                        session.setAttribute("level", dbuserVO.getLevel());  // 사용자 레벨 설정
-	                        url = "/heartbeat/chart";  // 일반 사용자 차트 페이지로 이동
+	                        url = "redirect:/chart";  // 일반 사용자 차트 페이지로 이동
 	                    } else {
-	                        url = "/heartbeat/login";  // 로그인 페이지로 이동
+	                        url = "redirect:/login";  // 로그인 페이지로 이동
 	                    }
 	                }
 	            } else {
@@ -268,6 +266,41 @@ public class UserController {
 			
 			return "redirect:/mypage";
 		}
-
+		// 마이페이지 - 내 게시물 확인
+		@RequestMapping(value="/mypage", method = RequestMethod.GET) 
+		public String mypage(String email,int num, String searchType, String keyword,Model model,HttpServletRequest request) throws Exception {
+			PageDTO page = new PageDTO();
+			page.setNum(num);
+			page.setCount(userServiceImpl.getMyPostCount(searchType,keyword,email)); // 내 게시물 개수
+			page.setSearchType(searchType);
+			page.setKeyword(keyword);
+			
+			List<PostVO> userPostList = userServiceImpl.getUserPost(page.getDisplayPost(), page.getPostNum(),searchType,keyword,email);
+			if (searchType!= null) {
+				model.addAttribute("addClass", "addClass");				
+			}
+			model.addAttribute("userPostList", userPostList);
+			model.addAttribute("page", page);		
+			model.addAttribute("select", num);
+			
+			return "heartbeat/mypage"; 
+		}
 		
+		@PostMapping("/mypage/deletePost")
+		public String mypage(@RequestParam("post_id") String post_id, RedirectAttributes redirectAttributes) throws Exception {
+		    // postIds는 콤마로 구분된 문자열이므로, 이를 분리하여 배열로 변환
+		    String[] postIdArray = post_id.split(",");
+
+		    // 각 post_id에 대해 삭제 처리
+		    for (String postId : postIdArray) {
+		        userServiceImpl.deleteMyPost(Integer.parseInt(postId));  // 삭제 서비스 호출
+		    }
+
+		    // 리다이렉트 시 addClass를 RedirectAttributes에 추가
+		    redirectAttributes.addFlashAttribute("addClass", "addClass");
+
+		    return "redirect:/mypage?num=1";
+		}
+
+
 }

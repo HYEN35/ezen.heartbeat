@@ -38,11 +38,8 @@ public class CommunityController {
 	@GetMapping("/community")
 	public String community(UserVO userVO,Model model) {
 		UserVO dbuserVO = userServiceImpl.login(userVO);
-		int level =2; 
 		System.out.println(dbuserVO);
-		
 		model.addAttribute("uvo", dbuserVO);
-		model.addAttribute("level", level);
 		return "/community/community";
 	}
 
