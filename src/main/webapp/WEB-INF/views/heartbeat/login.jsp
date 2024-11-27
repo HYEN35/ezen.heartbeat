@@ -3,35 +3,33 @@
 
 <body>
 	<script>
-			//팝업 아이디찾기
-			function popFindIdShow(){
-				$('.pop-find-id').show();
-				$('.dimmed').show();
-			}
-			function popFindIdHide(){
-				$('.pop-find-id').hide();
-				$('.dimmed').hide();
-				document.findIdFrm.reset(); //팝업 닫으면 input 리셋
-			}
-	
-			//팝업 비밀번호찾기
-			function popFindPasswordShow(){
-				$('.pop-find-password').show();
-				$('.dimmed').show();
-			}
-			function popFindPasswordHide(){
-				$('.pop-find-password').hide();
-				$('.dimmed').hide();
-			    document.findPwdFrm.reset(); 
-			}
-	
-			//비밀번호, 아이디 찾기 결과 보기
-			function resultShow(){
-				$('.resultCnt').show();
-			}
-			
-			// 하이하이 
-		</script>
+		//팝업 아이디찾기
+		function popFindIdShow(){
+			$('.pop-find-id').show();
+			$('.dimmed').show();
+		}
+		function popFindIdHide(){
+			$('.pop-find-id').hide();
+			$('.dimmed').hide();
+			document.findIdFrm.reset(); //팝업 닫으면 input 리셋
+		}
+
+		//팝업 비밀번호찾기
+		function popFindPasswordShow(){
+			$('.pop-find-password').show();
+			$('.dimmed').show();
+		}
+		function popFindPasswordHide(){
+			$('.pop-find-password').hide();
+			$('.dimmed').hide();
+			document.findPwdFrm.reset(); 
+		}
+
+		//비밀번호, 아이디 찾기 결과 보기
+		function resultShow(){
+			$('.resultCnt').show();
+		}
+	</script>
 
 	<div class="inner service login">
 		<div class="container">
