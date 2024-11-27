@@ -24,16 +24,42 @@ public class SpotifyController {
     	// 주간 차트 - https://open.spotify.com/playlist/37i9dQZEVXbJZGli0rRP3r
     	// 바이럴 차트 - https://open.spotify.com/playlist/37i9dQZEVXbM1H8L6Tttw9
         String playlistIdDay = "37i9dQZEVXbNxXF4SkHj9F"; 
-        List<TrackInfo> trackInfoList = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdDay);
         String playlistIdWeek = "37i9dQZEVXbJZGli0rRP3r"; 
-        List<TrackInfo> trackInfoListWeek = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdWeek);
         String playlistIdViral = "37i9dQZEVXbM1H8L6Tttw9"; 
+        List<TrackInfo> trackInfoList = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdDay);
+        List<TrackInfo> trackInfoListWeek = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdWeek);
         List<TrackInfo> trackInfoListViral = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdViral);
-
+        
+        // 드라이브 - https://open.spotify.com/playlist/37i9dQZF1DX3sCx6B9EAOr
+        // 운동 - https://open.spotify.com/playlist/37i9dQZF1DX3ZeFHRhhi7Y
+        // 출퇴근 - https://open.spotify.com/playlist/3LyYTIOLOvwEHgmzbq18dq
+        // 공부 - https://open.spotify.com/playlist/7FWBpBXucyI6TsQNa4cbkS
+        // 작업 - https://open.spotify.com/playlist/37i9dQZF1DX5eq3AONkaho
+        // 자기 전 - https://open.spotify.com/playlist/3JnX5h0ZKQVcpidH25IUQs
+        String playlistIdDrive = "37i9dQZF1DX3sCx6B9EAOr"; 
+        String playlistIdHealth = "37i9dQZEVXbNxXF4SkHj9F"; 
+        String playlistIdGoto = "3LyYTIOLOvwEHgmzbq18dq"; 
+        String playlistIdStudy = "7FWBpBXucyI6TsQNa4cbkS"; 
+        String playlistIdWork = "37i9dQZF1DX5eq3AONkaho"; 
+        String playlistIdSleep = "3JnX5h0ZKQVcpidH25IUQs"; 
+        List<TrackInfo> trackInfoListDrive = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdDrive);
+        List<TrackInfo> trackInfoListHealth = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdHealth);
+        List<TrackInfo> trackInfoListGoto = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdGoto);
+        List<TrackInfo> trackInfoListStudy = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdStudy);
+        List<TrackInfo> trackInfoListWork = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdWork);
+        List<TrackInfo> trackInfoListSleep = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdSleep);
+        
         // Model에 리스트를 추가하여 JSP로 전달
         model.addAttribute("trackInfoList", trackInfoList);    
         model.addAttribute("trackInfoListWeek", trackInfoListWeek);   
         model.addAttribute("trackInfoListViral", trackInfoListViral);   
+        
+        model.addAttribute("trackInfoListDrive", trackInfoListDrive);  
+        model.addAttribute("trackInfoListHealth", trackInfoListHealth);  
+        model.addAttribute("trackInfoListGoto", trackInfoListGoto);  
+        model.addAttribute("trackInfoListStudy", trackInfoListStudy); 
+        model.addAttribute("trackInfoListWork", trackInfoListWork);  
+        model.addAttribute("trackInfoListSleep", trackInfoListSleep);  
         
         return "heartbeat/chart"; 
     }

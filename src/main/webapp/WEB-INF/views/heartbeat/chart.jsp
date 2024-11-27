@@ -98,23 +98,23 @@
 						<p>스테이션</p>
 						<div class="stationBx">
 							<ul>
-								<li class="item" onclick="popStationListShow(this);">
+								<li class="item" onclick="popStationListShow(this, 'drive');">
 									<p class="tit">드라이브 하면서 들으면 좋은 노래</p>
 								</li>
-								<li class="item" onclick="popStationListShow(this);">
+								<li class="item" onclick="popStationListShow(this, 'health');">
 									<p class="tit">운동하면서 들으면 좋은 노래</p>
 								</li>
-								<li class="item" onclick="popStationListShow(this);">
+								<li class="item" onclick="popStationListShow(this, 'goto');">
 									<p class="tit">출퇴근 할 때 들으면 좋은 노래</p>
 								</li>
-								<li class="item" onclick="popStationListShow(this);">
+								<li class="item" onclick="popStationListShow(this, 'study');">
 									<p class="tit">공부 할 때 들으면 좋은 노래</p>
 								</li>
-								<li class="item" onclick="popStationListShow(this);">
-									<p class="tit">노동요</p>
+								<li class="item" onclick="popStationListShow(this, 'work');">
+									<p class="tit">일 할 때 들으면 좋은 노래</p>
 								</li>
-								<li class="item" onclick="popStationListShow(this);">
-									<p class="tit">잘 준비 할 때 들으면 좋은 노래</p>
+								<li class="item" onclick="popStationListShow(this, 'sleep');">
+									<p class="tit">자기 전 들으면 좋은 노래</p>
 								</li>
 							</ul>
 						</div>
@@ -127,9 +127,9 @@
 	<div class="dimmed" onclick="popStationListHide();"></div>
 
 	<!-- [D] 팝업 로그아웃-->
-	<div class="popup pop-alert-logout" data-html="../popup/pop-alert-logout.html"></div>
+	<div class="popup pop-alert-logout" data-html="../popup/pop-alert-logout.jsp"></div>
 	<!-- [D] 팝업 스테이션 추천 리스트 -->
-	<div class="popup pop-station-list" data-html="../popup/pop-station-list.html"></div>
+	<div class="popup pop-station-list"><%@ include file="../popup/pop-station-list.jsp" %></div>
 
 	<script src="https://www.youtube.com/iframe_api"></script>
 	<script>	
@@ -222,14 +222,40 @@
 			colorRandom();
 		});
 
-		//팝업 스테이션
-		function popStationListShow(e){
+		//팝업 스테이션			
+		function popStationListShow(e, type) {
 			$('.pop-station-list').show();
 			$('.dimmed').show();
+			
+	        // 스테이션 목록을 숨깁니다.
+	        $('#driveList').hide();
+	        $('#healthList').hide();
+	        $('#gotoList').hide();
+	        $('#studyList').hide();
+	        $('#workList').hide();
+	        $('#sleepList').hide();
 
-			var stationTitle = $(e).children('.tit').text();
-			$('#stationTitle').html(stationTitle);
-		}
+	        // 선택된 항목의 타이틀을 출력
+	        var stationTitle = $(e).children('.tit').text();
+	        $('#stationTitle').html(stationTitle);
+
+	        // 선택된 타입에 따라 해당 리스트만 보여줍니다.
+	        if (type === 'drive') {
+	            $('#driveList').show();
+	        } else if (type === 'health') {
+	            $('#healthList').show();
+	        } else if (type === 'goto') {
+	        	$('#gotoList').show();
+	        } else if (type==='study') {
+	        	$('#studyList').show();
+	        } else if (type === 'work') {
+	        	 $('#workList').show();
+	        } else if (type ==='sleep') {
+	        	$('#sleepList').show();
+	        }
+	    }
+			
+			
 		function popStationListHide(){
 			$('.pop-station-list').hide();
 			$('.dimmed').hide();
@@ -274,5 +300,7 @@
 			setRandomColors();
 		}
 	</script>
+	
+	
 </body>
 </html>
