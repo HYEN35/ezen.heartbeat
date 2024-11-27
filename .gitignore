@@ -16,3 +16,4 @@
 .smarttomcat/controller/conf/web.xml
 .smarttomcat/controller/conf/Catalina/localhost/ROOT.xml
 .vscode/settings.json
+.idea/workspace.xml
