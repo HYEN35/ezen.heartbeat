@@ -1,0 +1,17 @@
+@charset "utf-8";
+*,*::before,*::after{box-sizing:border-box}
+body{word-wrap:break-word;word-break:keep-all}
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,button,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,main,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tr,th,thead,tbody,td,tfoot,time,tt,u,ul,var,video{margin:0;padding:0;vertical-align:baseline;border:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block}
+[hidden]{display:none}
+a,button{display:block;background:transparent;color:inherit;text-align:center;text-decoration:none;cursor:pointer}
+button{align-items:unset}
+ol,ul{list-style:none}
+table{width:100%;text-align:center;border-collapse:collapse;border-spacing:0;table-layout:fixed}
+th,td{vertical-align:middle}
+i{font-style:normal}
+b{font-weight:normal}
+input[type="radio"],
+input[type="checkbox"]{cursor:pointer}
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button{margin:0;appearance:none}
