@@ -11,7 +11,6 @@
 	String community = menuPageRequest.endsWith("community.jsp") ? "on" : "";
 	String membership =	menuPageRequest.endsWith("membership.jsp") ? "on" : "";
 	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
-	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
 	String mypage =	menuPageRequest.endsWith("mypage.jsp") ? "on" : "";
 	
 %>
