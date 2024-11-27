@@ -3,23 +3,6 @@
 
 <body>
 	<script>
-		<c:if test="${not empty message}">
-		    alert("${message}");
-		</c:if>
-	</script>
-	
-	<script>
-		$(function(){			
-			$('#search-btn1').click(function(){
-				var searchType = $('#searchType').val();
-				var keyword = $('#keyword').val();				
-				location.href="/mypage?num=1&searchType="+searchType+"&keyword="+keyword;
-			});
-			
-		});
-	</script>
-
-	<script>
 		$(function(){
 			mypageTab();
 			tabListShow();
@@ -79,7 +62,7 @@
 	    }
 		
 		//유효성 체크
-		function mypageValidityCheck() {
+		function validityCheck() {
 			if (document.mypageFrm.pwd.value == '') {
 				alert('비밀번호를 입력하세요.');
 				document.mypageFrm.pwd.focus();
@@ -185,6 +168,7 @@
 							<li data-tab="tab-myinfo" class="tab on">내 정보 변경</li>
 							<li data-tab="tab-membership" class="tab">멤버십 변경</li>
 							<li data-tab="tab-post" class="tab">작성글 확인</li>
+							<li data-tab="tab-playlist" class="tab">플레이리스트 확인</li>
 						</ul>
 					</div>
 					<div class="tabCnt">
@@ -223,7 +207,7 @@
 									</ul>
 								</div>
 								<div class="btnWrap">
-									<button type="button" class="btn-full" onclick="mypageValidityCheck()">저장</button>
+									<button type="button" class="btn-full" onclick="validityCheck()">저장</button>
 									<button type="button" class="btn-border">취소</button>
 								</div>
 							</div>
@@ -260,48 +244,122 @@
 							<div class="cnt">
 								<div class="searchWrap">
 									<div class="searchBx">
-										<select class="sltBx" id="searchType1" name="searchType">
-											<option value="nickname">작성자</optoin>
-											<option value="content">내용</optoin>
+										<select class="sltBx">
+											<option value="#name">작성자</optoin>
+											<option value="#contents">내용</optoin>
 										</select>
-										<input type="text" name="keyword" id="keyword1" class="txtBx" placeholder="검색어 입력" >
-										<button type="button" id="search-btn1" class="btn-border">검색</button>
+										<input type="text" class="txtBx" placeholder="검색어 입력">
+										<button type="button" class="btn-border">검색</button>
 									</div>
 									<div class="btnBx">
 										<button type="button" class="btn-full">전체선택</button>
 										<button type="button" class="btn-border">삭제</button>
 									</div>
 								</div>
-								<c:forEach items="${userPostList }" var="userPost">
 								<ul class="itemWrap">
 									<li class="item">
 										<input type="checkbox" class="check">
-										<div class="num"><i>${userPost.post_id }</i></div>
+										<div class="num"><i>1</i></div>
 										<a href="#none" class="tit">
-											<i>${userPost.content }</i>
+											<i>게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다.</i>
+										</a>
+									</li>
+									<li class="item">
+										<input type="checkbox" class="check">
+										<div class="num"><i>2</i></div>
+										<a href="#none" class="tit">
+											<i>게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다.</i>
+										</a>
+									</li>
+									<li class="item">
+										<input type="checkbox" class="check">
+										<div class="num"><i>3</i></div>
+										<a href="#none" class="tit">
+											<i>게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다. 게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다. 게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다. 게시글 제목이 나옵니다. 길어지면 말줄임표로 나오고 클릭하면 해당 게시글로 이동합니다.</i>
 										</a>
 									</li>
 								</ul>
-								</c:forEach>
-									
 								<div class="pagination">
-									<c:if test="${page.prev }">
-										<a href="/notice/notice?num=${page.startPageNum-1 }" class="btn-i-prev"></a>
-										</c:if>
-											<div class="page">
-												<c:forEach begin="${page.startPageNum }" end="${page.endPageNum }" var="num">
-												<c:if test="${select != num}">
-												<a href="/notice/notice?num=${num }" class="num">${num }</a>
-												</c:if>
-												<c:if test="${select == num}">
-												<a href="/notice/notice?num=${num }" class="num on">${num }</a>
-												</c:if>
-												</c:forEach>
-											</div>
-										<c:if test="${page.next }">
-										<a href="/notice/notice?num=${page.endPageNum+1 }" class="btn-i-next"></a>
-									</c:if>
+									<button type="button" class="btn-i-prev"></button>
+									<ul class="page">
+										<li class="num on">1</li>
+										<li class="num">2</li>
+										<li class="num">3</li>
+										<li class="num">4</li>
+										<li class="num">5</li>
+									</ul>
+									<button type="button" class="btn-i-next"></button>
 								</div>
+							</div>
+						</div>
+						<div class="cntBx tab-playlist">
+							<div class="cnt">
+								<div class="btnWrap">
+									<button type="button" class="btn-full">전체선택</button>
+									<button type="button" class="btn-border">삭제</button>
+								</div>
+								<ul class="itemWrap">
+									<li class="item">
+										<input type="checkbox" class="check">
+										<div class="num"><i>1</i></div>
+										<div class="tit"><i>#신나는</i> <i>#운동</i> <i>#명상</i></div>
+										<div class="date"><i>2024-08-27 18:11</i></div>
+										<div class="list">
+											<ul class="listWrap">
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+											</ul>
+										</div>
+									</li>
+									<li class="item">
+										<input type="checkbox" class="check">
+										<div class="num"><i>2</i></div>
+										<div class="tit"><i>#신나는</i> <i>#운동</i> <i>#명상</i></div>
+										<div class="date"><i>2024-08-26 15:13</i></div>
+										<div class="list">
+											<ul class="listWrap">
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+											</ul>
+										</div>
+									</li>
+									<li class="item">
+										<input type="checkbox" class="check">
+										<div class="num"><i>3</i></div>
+										<div class="tit"><i>#신나는</i> <i>#운동</i> <i>#명상</i></div>
+										<div class="date"><i>2024-08-25 06:55</i></div>
+										<div class="list">
+											<ul class="listWrap">
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+												<li><i>가수</i> - <i>노래제목</i></li>
+											</ul>
+										</div>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>

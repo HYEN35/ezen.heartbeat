@@ -1,6 +1,6 @@
 package kr.heartbeat.admin.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.heartbeat.admin.persistence.AdminPersistenceImpl;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
+import kr.heartbeat.vo.RoleVO;
+import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
+import kr.heartbeat.vo.UserroleVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -20,6 +23,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminPersistenceImpl persistence;
 
+	//summary
 	@Override
 	public int count_a(String reg_date) throws Exception {
 	    return persistence.count_a(reg_date);
@@ -31,35 +35,87 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public int count_c() throws Exception {
+	public Map<String, Object> count_c() throws Exception {
 	    return persistence.count_c();
 	}
 	
-	public Map<Integer, Integer> countByMonth() throws Exception {
-        Map<Integer, Integer> monthCounts = new HashMap<>();
-        int currentYear = LocalDate.now().getYear();
-        System.out.println("=asdasdasd"+currentYear);
-            for (int month = 1; month <= 12; month++) {
-                int count = persistence.countByMonth(currentYear, month);
-                monthCounts.put(month, count);
-            }
-        return monthCounts;
-    }
-	
+	//summary 그래프
+	// 회원 총 인원
 	@Override
-	public List<UserVO> getUserList() throws Exception {
-		return persistence.getUserList();
+	public int levelTotalCnt() throws Exception {
+	    return persistence.levelTotalCnt();
+	}
+	
+	//레벨 별 회원수
+	@Override
+	public int levelCnt(int level) throws Exception {
+	    return persistence.levelCnt(level);
+	}
+	
+	//member
+	@Override
+	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword, String roleId) throws Exception {
+	    HashMap<String, Object> map = new HashMap<>();
+	    map.put("displayPost", displayPost);
+	    map.put("postNum", postNum);
+	    map.put("searchType", searchType);
+	    map.put("keyword", keyword);
+	    map.put("roleId", roleId); // role_id 추가
+
+	    return persistence.getUserList(map);
 	}
 	
 	@Override
-	public List<PostVO> getPostList() throws Exception {
-		return persistence.getPostList();
-	}
-	@Override
-	public List<CommentVO> getCommentList() throws Exception {
-		return persistence.getCommentList();
+	public int getUserCount(String searchType, String keyword, String roleId) throws Exception {
+	    HashMap<String, Object> map = new HashMap<>();
+	    map.put("searchType", searchType);
+	    map.put("keyword", keyword);
+	    map.put("roleId", roleId); // role_id 추가
+
+	    return persistence.getUserCount(map);
 	}
 
+	
+	
+	@Override
+	public void memberdelete(String email) throws Exception {
+		persistence.memberdelete(email);
+	}
+	
+	//post
+	@Override
+	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception {	
+		return persistence.getPostList(displayPost, postNum, searchType, keyword);
+	}
+	
+	@Override
+	public int getPostCount(String searchType, String keyword) throws Exception {
+		return persistence.getPostCount(searchType, keyword);
+	}
+
+	
+	@Override
+	public void podelete(int post_id) throws Exception {
+		persistence.podelete(post_id);
+	}
+	
+	//comment
+	@Override
+	public List<CommentVO> getCommentList(int displayPost, int postNum, String searchType, String keyword) throws Exception {	
+		return persistence.getCommentList(displayPost, postNum, searchType, keyword);
+	}
+	
+	@Override
+	public int getCommentCount(String searchType, String keyword) throws Exception {
+		return persistence.getCommentCount(searchType, keyword);
+	}
+	
+	@Override
+	public void codelete(int comment_id) throws Exception {
+		persistence.codelete(comment_id);
+	}
+	
+	//edit
 	@Override
 	public UserVO getUserOne(String email) throws Exception {
 		return persistence.getUserOne(email);
@@ -69,21 +125,29 @@ public class AdminServiceImpl implements AdminService {
 	public void update(UserVO uvo) throws Exception {
 		persistence.update(uvo);
 	}
-
+	
+	//계정생성
 	@Override
-    @Transactional // 트랜잭션 처리
-    public int insertUser(UserVO userVO, int role_id) {
-        // 1. user_tbl에 데이터 삽입
-        int result = persistence.insertUser(userVO);
-        if (result > 0) {
-            // 2. user_role_tbl에 데이터 삽입
-            UserroleVO userRole = new UserroleVO();
-            userRole.setEmail(userVO.getEmail());
-            userRole.setRole_id(role_id);
-            persistence.insertUserRole(userRole);
-        }
-        return result;
-    }
+	@Transactional // 트랜잭션 처리
+	public int insertUser(UserVO userVO, int role_id, SubscriptionVO subscriptionVO) {
+	    // 1. user_tbl에 데이터 삽입
+	    int result = persistence.insertUser(userVO);
+
+	    if (result > 0) {
+	        // 2. user_role_tbl에 데이터 삽입
+	        UserroleVO userRole = new UserroleVO();
+	        userRole.setEmail(userVO.getEmail());
+	        userRole.setRole_id(role_id);
+	        persistence.insertUserRole(userRole);
+
+	        // 3. subscription_tbl에 데이터 삽입 (구독 정보가 있을 경우)
+	        if (subscriptionVO != null) {
+	            persistence.insertSubscription(subscriptionVO);
+	        }
+	    }
+
+	    return result;
+	}
     @Override
     public int insertUserRole(UserroleVO userroleVO) {
         return persistence.insertUserRole(userroleVO);
@@ -112,6 +176,5 @@ public class AdminServiceImpl implements AdminService {
 		return persistence.nicknameCheck(nickname);
 	}
 
-	
 
 }

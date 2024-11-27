@@ -237,7 +237,7 @@
 								<button type="button" class="btn-border"  onclick="nicknameCheck(this.form.nickname.value)">중복확인</button>
 							</div>
 							<select class="sltBx" name="level">
-							    <option value="">해당 없음</option>
+							    <option value="0" <c:if test="${insert.level == 0}">selected</c:if>>해당없음</option>
 							    <option value="1" <c:if test="${insert.level == 1}">selected</c:if>>level1</option>
 							    <option value="2" <c:if test="${insert.level == 2}">selected</c:if>>level2</option>
 							</select>
@@ -249,7 +249,7 @@
 							    <option value="2" <c:if test="${insert.role_id == 2}">selected</c:if>>일반 유저</option>
 							</select>					
 						</div>
-						<button type="submit"  onclick="validityCheck()"class="btn-full">계정생성</button>
+						<button type="submit" onclick="return validityCheck()" class="btn-full">계정생성</button>
 					</form>
 				</div>
 			</div>

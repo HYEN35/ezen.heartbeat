@@ -4,20 +4,29 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.admin.service.AdminServiceImpl;
 import kr.heartbeat.vo.CommentVO;
+import kr.heartbeat.vo.PageDTO;
 import kr.heartbeat.vo.PostVO;
+import kr.heartbeat.vo.RoleVO;
+import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 
 @Controller
+@Transactional
 @RequestMapping("/admin/*")
 public class AdminController {
 	
@@ -28,13 +37,11 @@ public class AdminController {
 	@GetMapping("/summary")
 	public String getAdminSummary(Model model) throws Exception {
 	    String today = LocalDate.now().toString();
-	    
+
 	    // 오늘 가입자 수
 	    int todayUserCount = service.count_a(today);
 	    model.addAttribute("count_a", todayUserCount);
-	    System.out.println("가입자 수 ========================= "+todayUserCount);
-	    System.out.println(today);
-	    
+
 	    // 총 구독자 수
 	    int totalSubscribers = service.count_b();
 	    model.addAttribute("count_b", totalSubscribers);
@@ -60,38 +67,106 @@ public class AdminController {
 	    System.out.println("레벨 0 회원 수: " + level0Cnt);
 	    System.out.println("레벨 1 회원 수: " + level1Cnt);
 	    System.out.println("레벨 2 회원 수: " + level2Cnt);
-	    //58464
+
 	    return "/admin/summary";
 	}
+
 	
 	//member 리스트 구현
-	@GetMapping("/member")
-	public void getUserList(Model model) throws Exception {
-		List<UserVO> urList = service.getUserList();
-		model.addAttribute("urList", urList);
+	@RequestMapping("/member")
+	public void getUserList(
+	    Model model,
+	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
+	    @RequestParam(value = "searchType", required = false, defaultValue = "name") String searchType,
+	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+	    @RequestParam(value = "role_id", required = false) String roleId // role_id 값 처리
+	) throws Exception {
+
+	    // 검색 및 페이징 처리 로직
+	    PageDTO page = new PageDTO();
+	    page.setNum(num);
+	    page.setCount(service.getUserCount(searchType, keyword, roleId)); // role_id 추가
+	    page.setSearchType(searchType);
+	    page.setKeyword(keyword);
+
+	    List<UserVO> urList = service.getUserList(page.getDisplayPost(), page.getPostNum(), searchType, keyword, roleId);
+	    model.addAttribute("urList", urList);
+	    model.addAttribute("page", page);
+	    model.addAttribute("select", num);
+
+	    System.out.println("searchType: " + searchType);
+	    System.out.println("keyword: " + keyword);
+	    System.out.println("roleId: " + roleId);
 	}
 	
+	//member 삭제
+	@GetMapping("/member/delete")
+	public String memberdelete(@RequestParam("email") String email) throws Exception {
+	    service.memberdelete(email);
+	    return "redirect:/admin/member";
+	}
+		
 	//post 리스트 구현
 	@RequestMapping("/post")
-	public void getPostList(Model model) throws Exception {
-		List<PostVO> poList = service.getPostList();
-		model.addAttribute("poList", poList);
-		System.out.println(poList);
+	public void getPostList(
+	    Model model,
+	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
+	    @RequestParam(value = "searchType", required = false, defaultValue = "post_id") String searchType,
+	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+	) throws Exception {
+		
+	    // 검색 및 페이징 처리 로직
+	    PageDTO page = new PageDTO();
+	    page.setNum(num);
+	    page.setCount(service.getPostCount(searchType, keyword));
+	    page.setSearchType(searchType);
+	    page.setKeyword(keyword);
+
+	    List<PostVO> poList = service.getPostList(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+	    model.addAttribute("poList", poList);
+	    model.addAttribute("page", page);
+	    model.addAttribute("select", num);
+	    
+	    System.out.println(num);
+	    System.out.println(page);
 	}
 	
 	//post 삭제 구현
 	@GetMapping("/post/delete")
-	public String delete(@RequestParam("post_id") String post_id) throws Exception {
+	public String delete(@RequestParam("post_id") int post_id) throws Exception {
 		service.podelete(post_id);
 		return "redirect:/admin/post";
 	}
 	
 	//comment 리스트 구현
 	@RequestMapping("/comment")
-	public void getcommentList(Model model) throws Exception {
-		List<CommentVO> coList = service.getCommentList();
-		model.addAttribute("coList", coList);
-		System.out.println(coList);
+	public void getCommentList(
+	    Model model,
+	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
+	    @RequestParam(value = "searchType", required = false, defaultValue = "comment_id") String searchType,
+	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+	) throws Exception {
+		System.out.println(keyword);
+		System.out.println(searchType);
+		
+	    // 검색 및 페이징 처리 로직
+	    PageDTO page = new PageDTO();
+	    page.setNum(num);
+	    page.setCount(service.getCommentCount(searchType, keyword));
+	    page.setSearchType(searchType);
+	    page.setKeyword(keyword);
+
+	    List<CommentVO> coList = service.getCommentList(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+	    model.addAttribute("coList", coList);
+	    model.addAttribute("page", page);
+	    model.addAttribute("select", num);
+	    System.out.println(coList);
+	}
+	
+	@GetMapping("/comment/delete")
+	public String commentdelete(@RequestParam("comment_id") int comment_id) throws Exception {
+		service.codelete(comment_id);
+		return "redirect:/admin/comment";
 	}
 
 	//edit
@@ -106,10 +181,8 @@ public class AdminController {
 	//edit 데이터처리
 	@PostMapping("/edit")
 	public String update(UserVO uvo) throws Exception {
-	    // 암호화 없이 바로 전달받은 비밀번호를 사용
-		System.out.println("데이터처리==========================="+uvo);
+	    System.out.println("전달된 데이터: " + uvo); // 모든 필드 출력
 	    service.update(uvo);
-	    
 	    return "redirect:/admin/edit?email=" + uvo.getEmail();
 	}
 
@@ -121,7 +194,7 @@ public class AdminController {
 	    return "/admin/adminjoin";
 	}
 	
-	// 계정 생성
+	//계정생성
 	@PostMapping("/adminjoin")
 	public String adminInsertUser(@RequestParam("email") String email,
 	                              @RequestParam("pwd") String pwd,
@@ -130,13 +203,31 @@ public class AdminController {
 	                              @RequestParam("phone") String phone,
 	                              @RequestParam("nickname") String nickname,
 	                              @RequestParam("birth") String birth,
+	                              @RequestParam("level") int level,
 	                              @RequestParam("role_id") int role_id,
+	                              @RequestParam(value = "artist_id", required = false) Integer artist_id,
+	                              @RequestParam(value = "start_date", required = false) String start_date,
+	                              @RequestParam(value = "end_date", required = false) String end_date,
 	                              RedirectAttributes redirectAttributes) {
 	    System.out.println("========== Controller member(admin) email: " + email);
 
-	    // 서버 측 비밀번호 확인 검증
+	 // 비밀번호 확인 검증
 	    if (!pwd.equals(pwdCheck)) {
-	        redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+	        redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
+	        return "redirect:/admin/adminjoin";
+	    }
+
+	    // 서버 측 유효성 검증
+	    if (service.idCheck(email) != null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "중복된 이메일입니다.");
+	        return "redirect:/admin/adminjoin";
+	    }
+	    if (service.phoneCheck(phone) != null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "중복된 전화번호입니다.");
+	        return "redirect:/admin/adminjoin";
+	    }
+	    if (service.nicknameCheck(nickname) != null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "중복된 닉네임입니다.");
 	        return "redirect:/admin/adminjoin";
 	    }
 
@@ -147,22 +238,28 @@ public class AdminController {
 	    userVO.setName(name);
 	    userVO.setPhone(phone);
 	    userVO.setBirth(birth);
+	    userVO.setLevel(level);
 	    userVO.setNickname(nickname);
 
-	    // 서버 측 유효성 검증
-	    if (!isValidUser(userVO)) {
-	        redirectAttributes.addFlashAttribute("errorMessage", "유효성 검증에 실패했습니다. 입력 데이터를 확인해주세요.");
-	        return "redirect:/admin/adminjoin";
+	 // SubscriptionVO 생성 (구독 정보가 있을 경우에만)
+	    SubscriptionVO subscriptionVO = null;
+	    if (level > 0 && start_date != null && end_date != null) {
+	        subscriptionVO = new SubscriptionVO();
+	        subscriptionVO.setEmail(email);
+	        subscriptionVO.setLevel(level);
+	        subscriptionVO.setArtist_id(artist_id); // 기본값 0
+	        subscriptionVO.setStart_date(start_date);
+	        subscriptionVO.setEnd_date(end_date);
 	    }
 
 	    // 서비스 호출
-	    int result = service.insertUser(userVO, role_id);
+	    int result = service.insertUser(userVO, role_id, subscriptionVO);
 
-	    // 결과에 따른 리다이렉트 처리
+	 // 결과에 따른 리다이렉트 처리
 	    if (result > 0) {
 	        return "redirect:/admin/member"; // 회원가입 성공 시 이동
 	    } else {
-	        redirectAttributes.addFlashAttribute("errorMessage", "계정 생성에 실패했습니다. 다시 시도해주세요.");
+	        redirectAttributes.addFlashAttribute("errorMessage", "계정 생성에 실패했습니다.");
 	        return "redirect:/admin/adminjoin"; // 회원가입 실패 시 이동
 	    }
 	}

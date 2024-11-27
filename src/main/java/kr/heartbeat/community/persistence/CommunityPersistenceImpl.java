@@ -34,6 +34,8 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 	
 	@Override // 전체 게시물 목록 가져오기
 	public List<PostVO> getPostList() throws Exception {
+//		System.out.println("===========CommunityPersistenceImplGetPost : "+postvo);
+
 		return sql.selectList(namespace+".getPostList");
 	}
 	
@@ -53,6 +55,7 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		map.put("minji", "minji");
 		map.put("haerin", "haerin");
 		int a = sql.selectOne(namespace+".getFanPostCount",map);
+		System.out.println("====================팬 게시물 개수 가져오기" + a);
 		return a;
 	}
 	
@@ -114,13 +117,15 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 	
 	@Override // 새로 작성한 댓글 가져오기
 	public CommentVO getNewComment(int post_id) throws Exception {
+		System.out.println("===========퍼시스턴스 확인"+post_id);
 		return sql.selectOne(namespace+".getNewComment", post_id);
 	}
 
 	@Override // 좋아요 버튼
 	public void likeToggle(PostVO postVO) throws Exception {
+		System.out.println(postVO);
 		int result = sql.selectOne(namespace+".likeToggle", postVO);
-		
+		System.out.println(result);
 		if (result > 0 ) {
 			sql.delete(namespace+".deleteLike", postVO);
 		} else {
@@ -129,15 +134,15 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		
 	}
 
-	@Override // 좋아요 개수
+	@Override
 	public int totalLike(PostVO postVO) throws Exception {
 		return sql.selectOne(namespace+".totalLike", postVO);
 	}
 
-	@Override // 좋아요 여부
+	@Override
 	public int checkLike(PostVO postVO) throws Exception {
+		System.out.println("===============checkLike:" +postVO);
 		return sql.selectOne(namespace+".likeToggle", postVO);
 	}
-	
 
 }

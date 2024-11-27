@@ -11,17 +11,24 @@
 					<div class="topCnt">
 						<div class="searchWrap">
 							<div class="searchBx">
-								<select class="sltBx">
-									<option value="#name">이름</option>
-									<option value="#email">이메일</option>
-									<option value="#nickname">닉네임</option>
+								<select id="searchType" class="sltBx">
+									<option value="name">이 름</option>
+									<option value="email">이메일</option>
+									<option value="nickname">닉네임</option>
+									<option value="phone">연락처</option>
 								</select>
-								<input type="text" class="txtBx" placeholder="검색어 입력">
-								<button type="button" class="btn-border">검색</button>
+								<input type="search" name="keyword" id="keyword" class="txtBx" placeholder="검색어 입력">
+								<button id="search-btn" type="button" class="btn-border">검색</button>
+								<!-- Role ID 필터 -->
+							    <label>
+							        <input type="checkbox" name="role_id" value="1"> 아티스트
+							    </label>
+							    <label>
+							        <input type="checkbox" name="role_id" value="2"> 일반 유저
+							    </label>
 							</div>
 							<div class="btnBx">
-								<!-- [D] 신규등록 미정 -->
-								<!-- <button type="button" class="btn-full">신규등록</button> -->
+								<a href="/admin/adminjoin" class="btn-full">신규등록</a>
 							</div>
 						</div>
 					</div>
@@ -41,10 +48,32 @@
 								</div>
 								<div class="btnWrap">
 									<a href="/admin/edit?email=${uvo.email}" class="btn-border">수정</a>
-									<button type="button" class="btn-border-01" onclick="deleteMember(this);">삭제</button>
+									<button type="button" class="btn-border-01" onclick="deleteItem('${uvo.email}')">삭제</button>
 								</div>
 							</li>	
 						</c:forEach>
+						</ul>
+						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
+						<ul class="pagenation">
+							<c:if test="${page.prev}">
+							<li><a href="/admin/member?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
+							</c:if>
+							
+							<%-- 페이지 번호 버튼 --%>
+							<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+							<li>
+								<c:if test="${select != num}">
+								<a href="/admin/member?num=${num}">${num}</a>
+								</c:if>
+								<c:if test="${select == num}">
+								<a href="" class="num on">${num}</a>
+								</c:if>
+							</li>
+							</c:forEach>
+							
+							<c:if test="${page.next}">
+							<li><a href="/admin/member?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
+							</c:if>
 						</ul>
 					</div>
 				</div>
@@ -54,14 +83,44 @@
 
 	<div class="dimmed"></div>
 
-	<script>
-		//회원삭제
-		function deleteMember(e){
-			var name = $(e).closest('.item').find('#name').text();
-			if(confirm(name + ' 회원을 삭제하시겠습니까?')){
-				alert("삭제가 완료되었습니다.");
-			}
-		}
-	</script>
+<script>
+	// 회원 삭제
+	function deleteItem(memberId) {
+	    if (confirm('회원 ID ' + memberId + '을(를) 삭제하시겠습니까?')) {
+	        // 삭제 요청을 서버로 전송
+	        window.location.href = '/admin/member/delete?email=' + memberId;
+	    }
+	}
+   
+	//검색
+	$(function(){
+		
+		$('#search-btn').click(function(){
+			var searchType = $('#searchType').val();
+			var keyword = $('#keyword').val();				
+			location.href="/admin/member?num=1&searchType="+searchType+"&keyword="+keyword;
+		});
+		
+	});
+	
+	//검색 필터(체크박스-아티스트,유저)
+	$(function() {
+	    $('#search-btn').click(function() {
+	        var searchType = $('#searchType').val();
+	        var keyword = $('#keyword').val();
+	        
+	        // 체크된 role_id 값 가져오기
+	        var roleIds = [];
+	        $('input[name="role_id"]:checked').each(function() {
+	            roleIds.push($(this).val());
+	        });
+
+	        // role_id 파라미터 추가
+	        var roleIdParam = roleIds.length > 0 ? "&role_id=" + roleIds.join(",") : "";
+
+	        location.href = "/admin/member?num=1&searchType=" + searchType + "&keyword=" + keyword + roleIdParam;
+	    });
+	});
+</script>
 </body>
 </html>

@@ -9,7 +9,7 @@
 	String pageRequest = request.getRequestURI();
 
 	if (pageRequest.endsWith("index.jsp")) pageName = "HeartBeat";
-	else if (pageRequest.endsWith("login.jsp")) pageName = "로그인 - HeartBeat";
+	else if (pageRequest.endsWith("Web/login.jsp")) pageName = "로그인 - HeartBeat";
 	else if (pageRequest.endsWith("join.jsp")) pageName = "회원가입 - HeartBeat";
 	
 	else if (pageRequest.endsWith("chart.jsp")){
@@ -32,22 +32,7 @@
 		pageName = "마이페이지 - HeartBeat";
 		pageTitle = "마이페이지";
 	}
-	else if (pageRequest.endsWith("notice.jsp")) {
-		pageName = "공지 및 문의 - HeartBeat";
-		pageTitle = "공지 및 문의";
-	}
-	else if (pageRequest.endsWith("noticeShow.jsp")) {
-		pageName = "공지 및 문의 - HeartBeat";
-		pageTitle = "공지 및 문의";
-	}
-	else if (pageRequest.endsWith("noticePost.jsp")) {
-		pageName = "공지 및 문의 - HeartBeat";
-		pageTitle = "공지 및 문의 작성";
-	}
-	else if (pageRequest.endsWith("noticeModify.jsp")) {
-		pageName = "공지 및 문의 - HeartBeat";
-		pageTitle = "공지 및 문의 수정";
-	}
+	
 	else if (pageRequest.endsWith("artist/newjeans.jsp")) {
 		pageName = "뉴진스";
 		pageTitle = "뉴진스";
