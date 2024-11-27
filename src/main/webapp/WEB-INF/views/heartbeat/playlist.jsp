@@ -1,7 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/layout.jsp" %>
 
+
+
 <body>
+	<script>
+	$(function(){
+		popAlertPurchaseShow();
+	})
+	
+	//팝업 얼럿 멤버십구매
+	function popAlertPurchaseShow(){
+		if (${uvo.level}  == 0) {
+			$('.pop-alert-purchase').show();
+			$('.dimmed').show();				
+		}
+	}
+	function popAlertPurchaseHide(){
+		$('.pop-alert-purchase').hide();
+		$('.dimmed').hide();
+	}
+
+</script>
+
+
+
 	<div class="inner service playlist" data-name="playlist">
 		<%@ include file="../include/menu.jsp" %>
 		<div id="menu" class="menu" data-html="../layout/menu.html"></div>
@@ -129,6 +152,101 @@
 	</div>
 
 	<div class="dimmed" onclick="popAlertCheckHide()"></div>
+<<<<<<< HEAD
+=======
+	<!-- [D] 팝업 멤버십구매메세지 -->
+	<div class="popup pop-alert-purchase"><%@ include file="../popup/pop-alert-purchase.jsp" %></div>
+	
+	<script src="https://www.youtube.com/iframe_api"></script>
+	<script>	
+		let isPlaying = false; // 재생 상태 관리 변수
+		let youtubeVideoId = "";
+
+		async function playTrack(button) {
+
+			const music_name = button.getAttribute("data-music-name");
+			const art_name = button.getAttribute("data-art-name");
+
+			try {
+				const response = await fetch(`/playTrack?trackTitle=` + encodeURIComponent(music_name) + `&artist=` + encodeURIComponent(art_name));
+				const youTubeUrl = await response.text();
+
+				if (youTubeUrl === "No URL found") {
+					alert("Unable to find a YouTube link for this track.");
+				} else if (youTubeUrl === "Error occurred") {
+					alert("An error occurred while fetching the track.");
+				} else {
+					youtubeVideoId = youTubeUrl;
+					console.log(youtubeVideoId);
+					onYouTubeIframeAPIReady(youtubeVideoId);
+					
+					$(".nowPlayInfo").show();
+					$(".playBtn").removeClass('playing');
+					$(".playBtn").removeClass('pause');
+					$(".state.now").show().siblings(".state.ready").hide();
+					$(button).addClass('playing');				
+					$(".playBar .playInfo").show();				
+
+					$("#nowPlayArtist").html(art_name);
+					$("#nowPlayMusic").html(music_name);
+				}
+			} catch (error) {
+				console.error("Error playing track:", error);
+			}
+		}
+
+		//음악 재생, 일시정지, 멈춤
+		let player;
+
+		// IFrame Player
+		function onYouTubeIframeAPIReady(youTubeUrl) {
+			const videoId = youTubeUrl;
+			//기존 플레이어가 있으면 제거
+			if (player) {
+		        player.destroy();
+		    }
+
+		    player = new YT.Player('player', {
+		        width: '0',
+		        height: '0',
+		        videoId: videoId, // YouTube 영상 ID
+		        playerVars: {
+		            autoplay: 1,   // 자동 재생
+		            mute: 0,       // 음소거 해제
+		            controls: 1,   // 컨트롤 표시
+		            rel: 0         // 관련 동영상 비활성화
+		        },
+		        events: {
+		            onReady: onPlayerReady,
+		            onStateChange: onPlayerStateChange
+		        }
+		    });
+		}
+		
+		function onPlayerReady(event) {
+		    console.log("플레이어 준비 완료");
+		}
+		
+		function onPlayerStateChange(event) {
+		    console.log("플레이어 상태 변경: ", event.data);
+		}
+		
+		// 버튼 클릭 이벤트
+
+		function playOn(){
+			player.playVideo();
+			$(".playing").removeClass("pause");
+			$(".state.now").show().siblings(".state.ready").hide();
+		}
+
+		function playPause(){
+			player.pauseVideo();
+			$(".playing").addClass("pause");
+			$(".state.now").hide().siblings(".state.ready").show();
+		}
+	</script>
+
+>>>>>>> origin/Nayoung
 	<script>
 		$(function(){
 			colorRandom();

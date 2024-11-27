@@ -9,9 +9,16 @@
 	String playlist = menuPageRequest.endsWith("playlist.jsp") ? "on" : "";
 	String community = menuPageRequest.endsWith("community.jsp") ? "on" : "";
 	String membership =	menuPageRequest.endsWith("membership.jsp") ? "on" : "";
+<<<<<<< HEAD
 	String mypage =	menuPageRequest.endsWith("mypage.jsp") ? "on" : "";
 	
 	
+=======
+	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
+	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
+	String mypage =	menuPageRequest.endsWith("mypage.jsp") ? "on" : "";
+	
+>>>>>>> origin/Nayoung
 %>
 
 
@@ -43,6 +50,12 @@
 					<a href="${pageContext.request.contextPath}/membership" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
 				</li>
 				<li class="item">
+<<<<<<< HEAD
+=======
+					<a href="${pageContext.request.contextPath}notice/notice?num=1" class="<%=notice %>"><i class="fa-solid fa-bell"></i>공지 및 문의</a>
+				</li>
+				<li class="item">
+>>>>>>> origin/Nayoung
 					<a href="${pageContext.request.contextPath}/mypage" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>마이페이지</a>
 				</li>
 			</ul>

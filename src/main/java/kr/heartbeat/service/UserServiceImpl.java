@@ -1,7 +1,10 @@
 package kr.heartbeat.service;
 
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+>>>>>>> origin/Nayoung
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -35,6 +38,15 @@ public class UserServiceImpl implements UserService {
 		System.out.println("========== Service member email(id) : "+userVO.getEmail());
 		return userPersistenceImpl.insertUser(userVO);
 	}
+<<<<<<< HEAD
+=======
+	//회원가입 시 유저 역할 추가
+	@Override
+	public int insertUserRole(String email) {
+		return userPersistenceImpl.insertUserRole(email);
+	}
+	
+>>>>>>> origin/Nayoung
 	//로그인
 	@Override
 	public UserVO login(UserVO userVO) {
@@ -77,6 +89,7 @@ public class UserServiceImpl implements UserService {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
 	}
+<<<<<<< HEAD
 	
 	// 내 게시물 개수 가져오기
 	public int getMyPostCount(String searchType, String keyword, String email)throws Exception {
@@ -90,4 +103,12 @@ public class UserServiceImpl implements UserService {
 	public void deleteMyPost(int post_id) throws Exception {
 		userPersistenceImpl.deleteMyPost(post_id);
 	}
+=======
+
+	
+	
+
+	
+
+>>>>>>> origin/Nayoung
 }

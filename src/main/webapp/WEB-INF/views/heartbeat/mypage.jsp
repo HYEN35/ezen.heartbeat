@@ -4,6 +4,7 @@
 <body>
 	
 	<script>
+<<<<<<< HEAD
 		<c:if test="${not empty message}">
 		    alert("${message}");
 		</c:if>
@@ -56,6 +57,8 @@
 	</script>
 
 	<script>
+=======
+>>>>>>> origin/Nayoung
 		$(function(){
 			mypageTab();
 			tabListShow();
