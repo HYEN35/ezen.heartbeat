@@ -12,8 +12,9 @@
 			$('.pop-find-id').hide();
 			$('.dimmed').hide();
 			document.findIdFrm.reset(); //팝업 닫으면 input 리셋
+			$('.resultCnt').hide();
 		}
-
+		
 		//팝업 비밀번호찾기
 		function popFindPasswordShow(){
 			$('.pop-find-password').show();
@@ -22,13 +23,20 @@
 		function popFindPasswordHide(){
 			$('.pop-find-password').hide();
 			$('.dimmed').hide();
-			document.findPwdFrm.reset(); 
+		    document.findPwdFrm.reset(); 
 		}
-
-		//비밀번호, 아이디 찾기 결과 보기
+		
+		//아이디 찾기 결과 보기
 		function resultShow(){
 			$('.resultCnt').show();
 		}
+	</script>
+		
+	 <script>
+	  	//alert
+		<c:if test="${not empty message}">
+		    alert("${message}");
+		</c:if>
 	</script>
 
 	<div class="inner service login">
@@ -54,7 +62,6 @@
 						<button type="button" id="findPwd" class="btn-under-01" onclick="popFindPasswordShow();">비밀번호 찾기</button>
 						<a href="${pageContext.request.contextPath}/join" id="btnJoin" class="btn-under-01">회원가입</a>
 					</div>
-				</div>
 			</div>
 		</div>
 	</div>

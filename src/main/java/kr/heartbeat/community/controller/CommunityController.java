@@ -91,7 +91,8 @@ public class CommunityController {
 	public String postWrite(PostVO postvo, Model model, HttpServletRequest request) throws Exception {
 		System.out.println("===========CommunityController : "+postvo);
 		communityService.postWrite(postvo);
-
+		int num = 1;
+		
 		return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
 	
