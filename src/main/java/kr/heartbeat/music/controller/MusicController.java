@@ -1,17 +1,25 @@
 package kr.heartbeat.music.controller;
-import kr.heartbeat.music.config.SpotifyAPI;
-import kr.heartbeat.music.persistence.MusicPersistence;
-import kr.heartbeat.music.service.MusicService;
-import kr.heartbeat.vo.PlaylistDTO;
-import kr.heartbeat.vo.TrackInfo;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import kr.heartbeat.music.config.SpotifyAPI;
+import kr.heartbeat.music.persistence.MusicPersistence;
+import kr.heartbeat.music.service.MusicService;
+import kr.heartbeat.service.UserServiceImpl;
+import kr.heartbeat.vo.PlaylistDTO;
+import kr.heartbeat.vo.UserVO;
 
 @Controller
 public class MusicController {
@@ -56,16 +64,15 @@ public class MusicController {
 	}
 
 	@GetMapping("/playlist")
-	public String getPlaylistTrackInfo(Model model) {
-		//https://open.spotify.com/playlist/37i9dQZEVXbNxXF4SkHj9F
-		String playlistId = "37i9dQZEVXbNxXF4SkHj9F";
-		List<TrackInfo> trackInfoList = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistId);
-
-		// Model에 리스트를 추가하여 JSP로 전달
-		model.addAttribute("trackInfoList", trackInfoList);
-
+	public String getPlaylistTrackInfo(UserVO userVO, HttpSession session,  Model model) {
+		UserVO uvo = (UserVO) session.getAttribute("UserVO");	
+		int level = 1;
+		model.addAttribute("uvo", uvo);
+		model.addAttribute("level", level);
 		return "heartbeat/playlist";
 	}
+	
+	
 
 	@GetMapping("/playlist/play")
 	@ResponseBody // ★ @ResponseBody를 쓸 땐 Model을 사용할 수 없다.

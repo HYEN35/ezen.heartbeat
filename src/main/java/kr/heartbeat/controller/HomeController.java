@@ -12,7 +12,6 @@ public class HomeController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() { return "heartbeat/login"; }  
 	
-	
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join() { return "heartbeat/join"; }  
 
@@ -22,8 +21,8 @@ public class HomeController {
 	//@RequestMapping(value="/playlist", method = RequestMethod.GET)
 	//public String playlist() { return "heartbeat/playlist"; } 
 	
-	@RequestMapping(value="/community", method = RequestMethod.GET)
-	public String community() { return "community/community"; } 
+	//@RequestMapping(value="/community", method = RequestMethod.GET)
+	//public String community() { return "community/community"; } 
 	
 	@RequestMapping(value="/membership", method = RequestMethod.GET)
 	public String membership() { return "heartbeat/membership"; } 
