@@ -15,8 +15,8 @@
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
 		<property name="url" value="jdbc:mariadb://127.0.0.1:3306/heartbeat" />
-		<property name="username" value="dba" />
-		<property name="password" value="dbapwd" />
+		<property name="username" value="root" />
+		<property name="password" value="1111" />
 	</bean>
 	
 	<!-- SQL문을 수행 : SqlSession -->
@@ -45,6 +45,11 @@
 	<context:component-scan base-package="kr.heartbeat.membership.service" />
 	<context:component-scan base-package="kr.heartbeat.admin.persistence" />
 	<context:component-scan base-package="kr.heartbeat.admin.service" />
+	<context:component-scan base-package="kr.heartbeat.music.config" />
+	<context:component-scan base-package="kr.heartbeat.music.service" />
+	<context:component-scan base-package="kr.heartbeat.music.persistence" />
+	<context:component-scan base-package="kr.heartbeat.notice.persistence" />
+	<context:component-scan base-package="kr.heartbeat.notice.service" />
 	
 	
 </beans>
