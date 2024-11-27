@@ -12,18 +12,17 @@ public class HomeController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() { return "heartbeat/login"; }  
 	
-	
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join() { return "heartbeat/join"; }  
 
-//	@RequestMapping(value="/chart", method = RequestMethod.GET)
-//	public String chart() { return "heartbeat/chart"; } 
+	/*@RequestMapping(value="/chart", method = RequestMethod.GET)
+	public String chart() { return "heartbeat/chart"; } */
 	
-	@RequestMapping(value="/playlist", method = RequestMethod.GET)
-	public String playlist() { return "heartbeat/playlist"; } 
+	/*@RequestMapping(value="/playlist", method = RequestMethod.GET)
+	public String playlist() { return "heartbeat/playlist"; } */
 	
-	@RequestMapping(value="/community", method = RequestMethod.GET)
-	public String community() { return "community/community"; } 
+	//@RequestMapping(value="/community", method = RequestMethod.GET)
+	//public String community() { return "community/community"; } 
 	
 	@RequestMapping(value="/membership", method = RequestMethod.GET)
 	public String membership() { return "heartbeat/membership"; } 
@@ -33,8 +32,4 @@ public class HomeController {
 	
 	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
 	 public String mypage() { return "heartbeat/mypage"; }
-	 
-	 
-	 
-	 
 }

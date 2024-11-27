@@ -2,11 +2,14 @@
 .classpath
 .factorypath
 .vscode/settings.json
+<<<<<<< HEAD
 .idea/compiler.xml
 .idea/dbnavigator.xml
 .idea/jarRepositories.xml
 .idea/misc.xml
 .idea/vcs.xml
+=======
+>>>>>>> origin/Nayoung
 .smarttomcat/controller/conf/catalina.policy
 .smarttomcat/controller/conf/catalina.properties
 .smarttomcat/controller/conf/context.xml
@@ -18,4 +21,14 @@
 .smarttomcat/controller/conf/tomcat-users.xsd
 .smarttomcat/controller/conf/web.xml
 .smarttomcat/controller/conf/Catalina/localhost/ROOT.xml
+<<<<<<< HEAD
 .classpath
+=======
+.settings/org.eclipse.jdt.core.prefs
+.idea/compiler.xml
+.idea/dbnavigator.xml
+.idea/misc.xml
+.idea/workspace.xml
+.idea/jarRepositories.xml
+.idea/vcs.xml
+>>>>>>> origin/Nayoung

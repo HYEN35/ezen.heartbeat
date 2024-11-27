@@ -2,6 +2,7 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%
 	String menuPageRequest = request.getRequestURI();
 	
@@ -9,12 +10,11 @@
 	String playlist = menuPageRequest.endsWith("playlist.jsp") ? "on" : "";
 	String community = menuPageRequest.endsWith("community.jsp") ? "on" : "";
 	String membership =	menuPageRequest.endsWith("membership.jsp") ? "on" : "";
+	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
+	String notice =	menuPageRequest.endsWith("notice.jsp") ? "on" : "";
 	String mypage =	menuPageRequest.endsWith("mypage.jsp") ? "on" : "";
 	
-	
 %>
-
-
 
 <div id="menu" class="menu">
 	<div class="wrap">
@@ -43,7 +43,7 @@
 					<a href="${pageContext.request.contextPath}/membership" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
 				</li>
 				<li class="item">
-					<a href="${pageContext.request.contextPath}/notice/notice?num=1" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>공지 및 문의</a>
+					<a href="${pageContext.request.contextPath}notice/notice?num=1" class="<%=notice %>"><i class="fa-solid fa-bell"></i>공지 및 문의</a>
 				</li>
 				<li class="item">
 					<a href="${pageContext.request.contextPath}/mypage" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>마이페이지</a>
