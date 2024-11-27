@@ -56,27 +56,15 @@ public class AdminPersistenceImpl implements AdminPersistence {
 
 	//member 리스트
 	@Override
-	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("displayPost", displayPost);
-		map.put("postNum", postNum);
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
-		
-		return sql.selectList(namespace+ ".user_list", map);
+	public List<UserVO> getUserList(HashMap<String, Object> map) throws Exception {
+	    return sql.selectList(namespace + ".user_list", map);
 	}
 	
 	@Override
-	public int getUserCount(String searchType, String keyword) throws Exception {
-		HashMap map = new HashMap();
-		
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
-		
-		return sql.selectOne(namespace + ".getUserList", map);
+	public int getUserCount(HashMap<String, Object> map) throws Exception {
+	    return sql.selectOne(namespace + ".getUserCount", map);
 	}
-	
+
 	@Override
 	public void memberdelete(String email) throws Exception {
 		sql.delete(namespace + ".memberdelete", email);

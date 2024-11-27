@@ -17,10 +17,10 @@
 	   	<div class="userCnt">
 	   		<div class="user" onclick="dropMenuShow();">
 	   			<div class="image"><img src="${pageContext.request.contextPath}/img/profile/user.png" onerror=this.src="${pageContext.request.contextPath}/img/user.png" alt="닉네임"></div>
-	   			<div class="name">${UserVO.nickname }</div>
+	   			<div class="name">${UserVO.nickname}</div>
 	   		</div>
 	   		<div class="dropMenu">
-	   			<button type="button" class="btn-under-02" onclick="popLogoutShow();">로그아웃</button>
+	   			<a href="/logout" class="btn-under-02">로그아웃</a>
 	   		</div>
 	   	</div>
 	   	<div class="menuCnt">

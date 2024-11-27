@@ -12,7 +12,3 @@ public class SubscriptionVO {
 	private String start_date;
 	private String end_date;
 }
-
-
-
-	

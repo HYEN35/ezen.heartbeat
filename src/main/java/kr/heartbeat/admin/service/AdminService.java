@@ -27,10 +27,10 @@ public interface AdminService {
 	public int levelCnt(int level) throws Exception;
 	
 	//member
-	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword) throws Exception;
+	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword, String roleId) throws Exception;
 	
-	public int getUserCount(String searchType, String keyword) throws Exception;
-									
+	public int getUserCount(String searchType, String keyword, String roleId) throws Exception;
+								
 	public void memberdelete(String email) throws Exception;
 	
 	//post
@@ -54,7 +54,7 @@ public interface AdminService {
 	
 	//계정생성
 	// 유저 기본 정보 삽입
-	public int insertUser(UserVO userVO, int role_id);
+	public int insertUser(UserVO userVO, int role_id, SubscriptionVO subscriptionVO);
     // 유저 역할 정보 삽입
 	public int insertUserRole(UserroleVO userroleVO);
     // 구독 정보 삽입

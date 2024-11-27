@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.admin.service.AdminServiceImpl;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PageDTO;
+import kr.heartbeat.vo.PageDTO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
+import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 
 @Controller
@@ -75,24 +82,25 @@ public class AdminController {
 	    Model model,
 	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
 	    @RequestParam(value = "searchType", required = false, defaultValue = "name") String searchType,
-	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+	    @RequestParam(value = "role_id", required = false) String roleId // role_id 값 처리
 	) throws Exception {
-		
+
 	    // 검색 및 페이징 처리 로직
 	    PageDTO page = new PageDTO();
 	    page.setNum(num);
-	    page.setCount(service.getUserCount(searchType, keyword));
+	    page.setCount(service.getUserCount(searchType, keyword, roleId)); // role_id 추가
 	    page.setSearchType(searchType);
 	    page.setKeyword(keyword);
 
-	    List<UserVO> urList = service.getUserList(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+	    List<UserVO> urList = service.getUserList(page.getDisplayPost(), page.getPostNum(), searchType, keyword, roleId);
 	    model.addAttribute("urList", urList);
 	    model.addAttribute("page", page);
 	    model.addAttribute("select", num);
-	    
-	    System.out.println(searchType);
-	    System.out.println("keyword======="+keyword);
-	    System.out.println(urList);
+
+	    System.out.println("searchType: " + searchType);
+	    System.out.println("keyword: " + keyword);
+	    System.out.println("roleId: " + roleId);
 	}
 	
 	//member 삭제
@@ -190,7 +198,7 @@ public class AdminController {
 	    return "/admin/adminjoin";
 	}
 	
-	// 계정 생성
+	//계정생성
 	@PostMapping("/adminjoin")
 	public String adminInsertUser(@RequestParam("email") String email,
 	                              @RequestParam("pwd") String pwd,
@@ -199,13 +207,31 @@ public class AdminController {
 	                              @RequestParam("phone") String phone,
 	                              @RequestParam("nickname") String nickname,
 	                              @RequestParam("birth") String birth,
+	                              @RequestParam("level") int level,
 	                              @RequestParam("role_id") int role_id,
+	                              @RequestParam(value = "artist_id", required = false) Integer artist_id,
+	                              @RequestParam(value = "start_date", required = false) String start_date,
+	                              @RequestParam(value = "end_date", required = false) String end_date,
 	                              RedirectAttributes redirectAttributes) {
 	    System.out.println("========== Controller member(admin) email: " + email);
 
-	    // 서버 측 비밀번호 확인 검증
+	 // 비밀번호 확인 검증
 	    if (!pwd.equals(pwdCheck)) {
-	        redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+	        redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
+	        return "redirect:/admin/adminjoin";
+	    }
+
+	    // 서버 측 유효성 검증
+	    if (service.idCheck(email) != null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "중복된 이메일입니다.");
+	        return "redirect:/admin/adminjoin";
+	    }
+	    if (service.phoneCheck(phone) != null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "중복된 전화번호입니다.");
+	        return "redirect:/admin/adminjoin";
+	    }
+	    if (service.nicknameCheck(nickname) != null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "중복된 닉네임입니다.");
 	        return "redirect:/admin/adminjoin";
 	    }
 
@@ -216,22 +242,28 @@ public class AdminController {
 	    userVO.setName(name);
 	    userVO.setPhone(phone);
 	    userVO.setBirth(birth);
+	    userVO.setLevel(level);
 	    userVO.setNickname(nickname);
 
-	    // 서버 측 유효성 검증
-	    if (!isValidUser(userVO)) {
-	        redirectAttributes.addFlashAttribute("errorMessage", "유효성 검증에 실패했습니다. 입력 데이터를 확인해주세요.");
-	        return "redirect:/admin/adminjoin";
+	 // SubscriptionVO 생성 (구독 정보가 있을 경우에만)
+	    SubscriptionVO subscriptionVO = null;
+	    if (level > 0 && start_date != null && end_date != null) {
+	        subscriptionVO = new SubscriptionVO();
+	        subscriptionVO.setEmail(email);
+	        subscriptionVO.setLevel(level);
+	        subscriptionVO.setArtist_id(artist_id); // 기본값 0
+	        subscriptionVO.setStart_date(start_date);
+	        subscriptionVO.setEnd_date(end_date);
 	    }
 
 	    // 서비스 호출
-	    int result = service.insertUser(userVO, role_id);
+	    int result = service.insertUser(userVO, role_id, subscriptionVO);
 
-	    // 결과에 따른 리다이렉트 처리
+	 // 결과에 따른 리다이렉트 처리
 	    if (result > 0) {
 	        return "redirect:/admin/member"; // 회원가입 성공 시 이동
 	    } else {
-	        redirectAttributes.addFlashAttribute("errorMessage", "계정 생성에 실패했습니다. 다시 시도해주세요.");
+	        redirectAttributes.addFlashAttribute("errorMessage", "계정 생성에 실패했습니다.");
 	        return "redirect:/admin/adminjoin"; // 회원가입 실패 시 이동
 	    }
 	}

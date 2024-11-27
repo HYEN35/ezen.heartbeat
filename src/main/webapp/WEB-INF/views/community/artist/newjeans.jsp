@@ -4,9 +4,6 @@
 	request.setAttribute("artistPage", "artist");
 %>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/vendor/slick.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/vendor/slick-theme.css">
-<script src="${pageContext.request.contextPath}/js/vendor/slick.min.js"></script>
 
 <body>	
 	<script>

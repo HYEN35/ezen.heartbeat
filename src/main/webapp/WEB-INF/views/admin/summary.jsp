@@ -23,7 +23,7 @@
 				    <div class="adm-container">
 					    <div class="adm-split-row">
 							<div class="adm-split-col">
-								<h4>회원 성별 분석</h4>
+								<h4>구독자 분석</h4>
 								<p>
 								    회원 총 인원 : ${total}<br>
 								    level 0 : ${level0Cnt} &nbsp;<span class="box blue"></span>&nbsp; 

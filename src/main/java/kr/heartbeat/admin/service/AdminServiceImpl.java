@@ -1,6 +1,7 @@
 package kr.heartbeat.admin.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,10 @@ import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
+import kr.heartbeat.vo.RoleVO;
+import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
+import kr.heartbeat.vo.UserroleVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Service
@@ -53,14 +57,28 @@ public class AdminServiceImpl implements AdminService {
 	
 	//member
 	@Override
-	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword) throws Exception {	
-		return persistence.getUserList(displayPost, postNum, searchType, keyword);
+	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword, String roleId) throws Exception {
+	    HashMap<String, Object> map = new HashMap<>();
+	    map.put("displayPost", displayPost);
+	    map.put("postNum", postNum);
+	    map.put("searchType", searchType);
+	    map.put("keyword", keyword);
+	    map.put("roleId", roleId); // role_id 추가
+
+	    return persistence.getUserList(map);
 	}
 	
 	@Override
-	public int getUserCount(String searchType, String keyword) throws Exception {
-		return persistence.getUserCount(searchType, keyword);
+	public int getUserCount(String searchType, String keyword, String roleId) throws Exception {
+	    HashMap<String, Object> map = new HashMap<>();
+	    map.put("searchType", searchType);
+	    map.put("keyword", keyword);
+	    map.put("roleId", roleId); // role_id 추가
+
+	    return persistence.getUserCount(map);
 	}
+
+	
 	
 	@Override
 	public void memberdelete(String email) throws Exception {
@@ -113,19 +131,26 @@ public class AdminServiceImpl implements AdminService {
 	
 	//계정생성
 	@Override
-    @Transactional // 트랜잭션 처리
-    public int insertUser(UserVO userVO, int role_id) {
-        // 1. user_tbl에 데이터 삽입
-        int result = persistence.insertUser(userVO);
-        if (result > 0) {
-            // 2. user_role_tbl에 데이터 삽입
-            UserroleVO userRole = new UserroleVO();
-            userRole.setEmail(userVO.getEmail());
-            userRole.setRole_id(role_id);
-            persistence.insertUserRole(userRole);
-        }
-        return result;
-    }
+	@Transactional // 트랜잭션 처리
+	public int insertUser(UserVO userVO, int role_id, SubscriptionVO subscriptionVO) {
+	    // 1. user_tbl에 데이터 삽입
+	    int result = persistence.insertUser(userVO);
+
+	    if (result > 0) {
+	        // 2. user_role_tbl에 데이터 삽입
+	        UserroleVO userRole = new UserroleVO();
+	        userRole.setEmail(userVO.getEmail());
+	        userRole.setRole_id(role_id);
+	        persistence.insertUserRole(userRole);
+
+	        // 3. subscription_tbl에 데이터 삽입 (구독 정보가 있을 경우)
+	        if (subscriptionVO != null) {
+	            persistence.insertSubscription(subscriptionVO);
+	        }
+	    }
+
+	    return result;
+	}
     @Override
     public int insertUserRole(UserroleVO userroleVO) {
         return persistence.insertUserRole(userroleVO);

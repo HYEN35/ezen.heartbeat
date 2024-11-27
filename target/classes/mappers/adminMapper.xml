@@ -37,55 +37,67 @@
 	    
 	    <!-- 특정 레벨의 유저 수 조회 -->
 	    <select id="levelCnt"  parameterType="int" resultType="int">
-	        SELECT COUNT(*) AS count FROM user_tbl u
-			LEFT JOIN subscription_tbl s ON u.email = s.email
-			WHERE s.level = #{level};
+	        SELECT COUNT(*) AS count
+		    FROM user_tbl u
+		    INNER JOIN user_role_tbl r ON u.email = r.email
+		    WHERE r.role_id = 2 AND u.level = #{level};
 	    </select>
 
 		<!-- member -->
 		<select id="user_list" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
-		select * from user_tbl
-
-			<if test='searchType.equals("name")'>
-				where name like concat('%', #{keyword}, '%')
-			</if>
+			SELECT * FROM user_tbl u
+			INNER JOIN user_role_tbl r ON u.email = r.email
+			<where>
+			    <if test='searchType.equals("name")'>
+			        u.name LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("email")'>
+			        u.email LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("nickname")'>
+			        u.nickname LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("phone")'>
+			        u.phone LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
 			
-			<if test='searchType.equals("email")'>
-				where email like concat('%', #{keyword}, '%')
-			</if>
-			
-			<if test='searchType.equals("nickname")'>
-				where nickname like concat('%', #{keyword}, '%')
-			</if>
-			
-			<if test='searchType.equals("phone")'>
-				where phone like concat('%', #{keyword}, '%')
-			</if>
-
-			order by email desc
-			limit #{displayPost}, #{postNum}
-
+			    <!-- Role ID 조건 -->
+			    <if test='roleId != null'>
+			        AND r.role_id IN (${roleId})
+			    </if>
+			</where>
+			ORDER BY u.email DESC
+			LIMIT #{displayPost}, #{postNum}
 		</select>
-		
-		<select id="getUserList" parameterType="hashMap" resultType="int">
-		select count(*) from user_tbl
-
-			<if test='searchType.equals("name")'>
-			where name like concat('%', #{keyword}, '%')
-			</if>
 			
-			<if test='searchType.equals("email")'>
-				where email like concat('%', #{keyword}, '%')
-			</if>
+		<select id="getUserCount" parameterType="hashMap" resultType="int">
+			SELECT COUNT(*) FROM user_tbl u
+			INNER JOIN user_role_tbl r ON u.email = r.email
+			<where>
+			    <if test='searchType.equals("name")'>
+			        u.name LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("email")'>
+			        u.email LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("nickname")'>
+			        u.nickname LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("phone")'>
+			        u.phone LIKE CONCAT('%', #{keyword}, '%')
+			    </if>
 			
-			<if test='searchType.equals("nickname")'>
-				where nickname like concat('%', #{keyword}, '%')
-			</if>
-			
-			<if test='searchType.equals("phone")'>
-				where phone like concat('%', #{keyword}, '%')
-			</if>
-
+			    <!-- Role ID 조건 -->
+			    <if test='roleId != null'>
+			        AND r.role_id IN (${roleId})
+			    </if>
+			</where>
 		</select>
 		
 		<delete id="memberdelete" parameterType="String">
