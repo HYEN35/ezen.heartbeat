@@ -19,16 +19,14 @@
 	                resultShow(); 
 	                $("#userName").text(name); 
 	                $("#userEmail").text(data.email);
-	         		
-	                $("#successMessage").show();
 	                $("#failureMessage").hide();
-	            }
-	            else {
+	         
+	            } else {
 	            	resultShow(); 
-	            	 $("#failUserName").text(name); 
+            	 	$("#failUserName").text(name); 
 	                $("#successMessage").hide();
 	                $("#failureMessage").show();
-	            }
+	            } 
 	        }
 	    });
 	    
@@ -53,9 +51,10 @@
             <p class="txt" id="successMessage">
                 <i id="userName"></i>님의 이메일은 <i id="userEmail"></i>입니다.
             </p>
-             <p class="txt"  id="failureMessage">	  
-             	<i id="failUserName"></i>님의 이메일을 찾지 못했습니다. 다시 입력해주세요.
-           	</p>
+			<p class="txt"  id="failureMessage">	  
+				<i id="failUserName"></i>님의 이메일을 찾지 못했습니다. 다시 입력해주세요.
+			  </p>
         </div>
     </div>
 </div>
+
