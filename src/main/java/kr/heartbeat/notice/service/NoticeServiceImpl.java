@@ -30,8 +30,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override // 유저 게시물 가져오기
-	public List<NoticeVO> getUserNotice(int displayPost, int postNum) throws Exception {
-		return noticePersistence.getUserNotice(displayPost,postNum);
+	public List<NoticeVO> getUserNotice(int displayPost, int postNum,String searchType, String keyword) throws Exception {
+		return noticePersistence.getUserNotice(displayPost,postNum,searchType,keyword);
 	}
 	@Override // 게시물 상세보기
 	public NoticeVO getPostOne(int notice_id) throws Exception {
@@ -46,8 +46,8 @@ public class NoticeServiceImpl implements NoticeService {
 		noticePersistence.noticeDelete(notice_id);
 	}
 	@Override // 게시물 개수 가져오기
-	public int getPostCount() throws Exception {
-		return noticePersistence.getPostCount();
+	public int getPostCount(String searchType, String keyword) throws Exception {
+		return noticePersistence.getPostCount(searchType,keyword);
 	}
 	@Override // 댓글 작성
 	public void commentWrite(NoticeCommentVO noticeCommentVO) throws Exception {

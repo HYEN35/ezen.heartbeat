@@ -91,36 +91,8 @@ public class CommunityController {
 	public String postWrite(PostVO postvo, Model model, HttpServletRequest request) throws Exception {
 		System.out.println("===========CommunityController : "+postvo);
 		communityService.postWrite(postvo);
-		int num = 1;
-		
-		PageDTO page = new PageDTO();
-		page.setNum(num);
-		page.setCount(communityService.getFanPostCount());
-		List<PostVO> newjinsfanPosts = communityService.getFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
-		List<PostVO> postList = communityService.getPostList();
 
-		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
-
-		// 게시물 나누기
-		for (PostVO post : postList) {
-			if (post.getArtist_id() == 2) {
-				if ("minji".equals(post.getEmail()) || "haerin".equals(post.getEmail())) {
-					newjinsPosts.add(post);
-				} 
-			}
-		}
-		
-		page.setNum(num);
-		page.setCount(newjinsfanPosts.size());
-		
-
-		model.addAttribute("newjinsPosts", newjinsPosts);
-		model.addAttribute("newjinsfanPosts", newjinsfanPosts);
-		model.addAttribute("page", page);
-		model.addAttribute("select", num);
-
-		String referer = request.getHeader("Referer");
-		return "redirect:"+referer;
+		return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
 	
 	// 게시물 수정

@@ -3,12 +3,6 @@
 
 <body>
 	<script>
-		<c:if test="${not empty message}">
-		    alert("${message}");
-		</c:if>
-	</script>
-
-	<script>
 		$(function(){
 			mypageTab();
 			tabListShow();
@@ -68,7 +62,7 @@
 	    }
 		
 		//유효성 체크
-		function mypageValidityCheck() {
+		function validityCheck() {
 			if (document.mypageFrm.pwd.value == '') {
 				alert('비밀번호를 입력하세요.');
 				document.mypageFrm.pwd.focus();
@@ -212,7 +206,7 @@
 									</ul>
 								</div>
 								<div class="btnWrap">
-									<button type="button" class="btn-full" onclick="mypageValidityCheck()">저장</button>
+									<button type="button" class="btn-full" onclick="validityCheck()">저장</button>
 									<button type="button" class="btn-border">취소</button>
 								</div>
 							</div>

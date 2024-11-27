@@ -24,11 +24,25 @@
 			order by notice_id desc
 		</select>
 		<!-- 공지사항 유저 게시물 목록 가져오기 -->
-		<select id="getUserNotice" resultType="kr.heartbeat.vo.NoticeVO">
-			select * from notice_tbl 
-			where email not in ('admin')
-			order by notice_id desc
-			limit #{displayPost}, #{postNum}
+		<select id="getUserNotice" parameterType="hashMap" resultType="kr.heartbeat.vo.NoticeVO">
+		    select * from notice_tbl 
+		    <where>
+		        <if test="searchType != null and searchType.equals('title')">
+		            title like concat('%',#{keyword},'%')
+		        </if>
+		        
+		        <if test="searchType != null and searchType.equals('content')">
+		            content like concat('%',#{keyword},'%')
+		        </if>
+		        
+		        <if test="searchType != null and searchType.equals('nickname')">
+		            nickname like concat('%',#{keyword},'%')
+		        </if>
+		
+		        and email not in ('admin')
+		    </where>
+		    order by notice_id desc
+		    limit #{displayPost}, #{postNum}
 		</select>
 		<!-- 게시물 상세보기 -->
 		<select id="getPostOne" parameterType="int" resultType="kr.heartbeat.vo.NoticeVO">
@@ -45,11 +59,25 @@
 			delete from notice_tbl where notice_id = #{notice_id}
 		</delete>
 		<!-- 게시물 개수 -->
-		<select id="getPostCount" resultType="int">
-			select count(*)
-			from notice_tbl
-			where email not in ('admin')
+		<select id="getPostCount" parameterType="hashMap" resultType="int">
+		    select count(*) from notice_tbl
+		    <where>
+		        <if test="searchType != null and searchType.equals('title')">
+		            title like concat('%',#{keyword},'%')
+		        </if>
+		        
+		        <if test="searchType != null and searchType.equals('content')">
+		            content like concat('%',#{keyword},'%')
+		        </if>
+		        
+		        <if test="searchType != null and searchType.equals('nickname')">
+		            nickname like concat('%',#{keyword},'%')
+		        </if>
+		
+		        and email not in ('admin')
+		    </where>
 		</select>
+
 		<!-- 댓글 작성 -->
 		<insert id="commentWrite" parameterType="kr.heartbeat.vo.NoticeCommentVO">
 			insert into notice_comment_tbl (notice_id, email, nickname, comment, comment_date)
