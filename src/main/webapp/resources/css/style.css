@@ -135,7 +135,7 @@ br.mob{display:none}
 .listBx .item .album{width:50px;height:50px;margin-right:10px}
 .listBx .item .arti{width:calc(100% - 135px)}
 .listBx .item .arti>i{display:block}
-.listBx .item .arti>i+i{margin-top:4px}
+.listBx .item .arti>i+i{margin-top:4px} 
 .listBx .item .arti .tit{font-weight:500}
 .listBx .playBtn{position:relative;width:40px;margin-right:10px;color:#333;font-size:30px}
 .listBx .playBtn:hover{color:#000}

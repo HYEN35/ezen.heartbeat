@@ -125,7 +125,7 @@ public class UserController {
 	                        dbuserVO = userServiceImpl.login(dbuserVO);  // 로그인 재실행
 	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 	                        model.addAttribute("alertMsg", "맴버십 이용 기간이 종료되었습니다.");
-	                        return "heartbeat/membership";  // 맴버십 페이지로 이동
+	                        return "redirect:/membership";  // 맴버십 페이지로 이동
 	                    } else {
 	                        // 맴버십 기간이 유효한 경우
 	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
@@ -144,7 +144,7 @@ public class UserController {
 	                if (roleId == 0) {
 	                    // 관리자 페이지로 이동
 	                    session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
-	                    url = "/admin/summary";  // 관리자 대시보드로 이동
+	                    url = "redirect:/admin/summary";  // 관리자 대시보드로 이동
 	                } else {
 	                    // 일반 사용자 페이지로 이동
 	                    if (dbuserVO != null) {
