@@ -28,6 +28,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/font.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/admin.css">
 	<script src="https://kit.fontawesome.com/dda279453f.js"></script>
 	<script src="${pageContext.request.contextPath}/js/vendor/jquery-1.12.4.min.js"></script>
