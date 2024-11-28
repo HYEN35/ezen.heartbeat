@@ -1,5 +1,9 @@
 package kr.heartbeat.persistence;
 
+import java.util.List;
+
+import kr.heartbeat.vo.NoticeVO;
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
@@ -27,10 +31,21 @@ public interface UserPersistence {
 	
 	//회원수정
 	public void modify(String newPwd, UserVO userVO);
-	//멤버쉽 수정(level)
-	public void membership(UserVO userVO);
+
 	//회원 탈퇴
 	public void delete(UserVO uvo);
 	
 	public UserroleVO role(UserroleVO userrolevo);
+	// 내 게시물 개수 가져오기
+	public int getMyPostCount(String searchType, String keyword, String email)throws Exception;
+	// 유저 개인 게시물 가져오기
+	public List<PostVO> getUserPost(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception;
+	// 유저 개인 게시물 삭제하기
+	public void deleteMyPost(int post_id) throws Exception;
+	// 내 문의 개수 가져오기
+	public int getMyNoticeCount(String searchType, String keyword, String email)throws Exception;
+	// 내 문의 가져오기
+	public List<NoticeVO> getUserNotice(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception;
+	// 내 문의 삭제하기
+	public void deleteMyNotice(int notice_id) throws Exception;
 }

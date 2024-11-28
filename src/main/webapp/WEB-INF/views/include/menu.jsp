@@ -37,7 +37,7 @@
 					<a href="${pageContext.request.contextPath}/playlist" class="<%=playlist %>"><i class="fa-solid fa-icons"></i>플레이리스트</a>
 				</li>
 				<li class="item">
-					<a href="${pageContext.request.contextPath}/community/community?email=${UserVO.email}" class="<%=community %> <%="artist".equals(request.getAttribute("artistPage")) ? "on" : "" %>"><i class="fa-solid fa-comment"></i>커뮤니티</a>
+					<a href="${pageContext.request.contextPath}/community/community" class="<%=community %> <%="artist".equals(request.getAttribute("artistPage")) ? "on" : "" %>"><i class="fa-solid fa-comment"></i>커뮤니티</a>
 				</li>
 				<li class="item">
 					<a href="${pageContext.request.contextPath}/membership" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
@@ -47,6 +47,9 @@
 				</li>
 				<li class="item">
 					<a href="${pageContext.request.contextPath}/mypage" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>마이페이지</a>
+					<a href="${pageContext.request.contextPath}/mymembership" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>맴버십 확인</a>
+					<a href="${pageContext.request.contextPath}/mypost?num=1" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>게시물 확인</a>
+					<a href="${pageContext.request.contextPath}/mynotice?num=1" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>문의 확인</a>
 				</li>
 			</ul>
 		</div>

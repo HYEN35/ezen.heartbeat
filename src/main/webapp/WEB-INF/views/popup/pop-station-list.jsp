@@ -7,7 +7,7 @@
 	</div>
 	<div class="cntArea">
 		<!-- 드라이브 -->
-		 <ul class="listBx" id="driveList">
+	 	<ul class="listBx" id="driveList">
 	        	<c:forEach var="trackInfoListDrive" items="${trackInfoListDrive}" varStatus="status">
 		            <c:if test="${status.index < 15}">
 		                <li class="item">

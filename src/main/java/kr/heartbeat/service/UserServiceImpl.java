@@ -2,6 +2,7 @@ package kr.heartbeat.service;
 
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.heartbeat.persistence.UserPersistenceImpl;
+import kr.heartbeat.vo.NoticeVO;
+import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
@@ -145,11 +148,7 @@ public class UserServiceImpl implements UserService {
 		System.out.println("========== 로그인 Service member getNickname : "+userVO.getNickname());
 		userPersistenceImpl.modify(newPwd,userVO);
 	}
-	//멤버쉽 수정(level)
-	@Override
-	public void membership(UserVO userVO) {
-		userPersistenceImpl.membership(userVO);
-	}
+
 	//회원 탈퇴
 	@Override
 	public void delete(UserVO uvo) {
@@ -162,11 +161,31 @@ public class UserServiceImpl implements UserService {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
 	}
-
-
+	
+	// 내 게시물 개수 가져오기
+	public int getMyPostCount(String searchType, String keyword, String email)throws Exception {
+		return userPersistenceImpl.getMyPostCount(searchType, keyword, email);
+	}
+	// 유저 개인 게시물 가져오기
+	public List<PostVO> getUserPost(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception {
+		return userPersistenceImpl.getUserPost(displayPost,postNum,searchType,keyword,email);
+	}
+	// 유저 개인 게시물 삭제하기
+	public void deleteMyPost(int post_id) throws Exception {
+		userPersistenceImpl.deleteMyPost(post_id);
+	}
+	// 내 문의 개수 가져오기
+	public int getMyNoticeCount(String searchType, String keyword, String email)throws Exception {
+		return userPersistenceImpl.getMyNoticeCount(searchType, keyword, email);
+	}
+	// 내 문의 가져오기
+	public List<NoticeVO> getUserNotice(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception {
+		return userPersistenceImpl.getUserNotice(displayPost,postNum,searchType,keyword,email);
+	}
+	// 내 문의 삭제하기
+	public void deleteMyNotice(int notice_id) throws Exception {
+		userPersistenceImpl.deleteMyNotice(notice_id);
+	}
 	
 	
-
-	
-
 }

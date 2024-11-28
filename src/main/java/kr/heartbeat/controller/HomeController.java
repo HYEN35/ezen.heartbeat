@@ -21,17 +21,12 @@ public class HomeController {
 	//@RequestMapping(value="/playlist", method = RequestMethod.GET)
 	//public String playlist() { return "heartbeat/playlist"; } 
 	
-	//@RequestMapping(value="/community", method = RequestMethod.GET)
-	//public String community() { return "community/community"; } 
+//	@RequestMapping(value="/community", method = RequestMethod.GET)
+//	public String community() { return "community/community"; } 
 	
 	@RequestMapping(value="/membership", method = RequestMethod.GET)
 	public String membership() { return "heartbeat/membership"; } 
 	
-	@RequestMapping(value="/membershipTest", method = RequestMethod.GET)
-	public String membershipTest() { return "heartbeat/membershipTest"; } 
-	
-	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
-	 public String mypage() { return "heartbeat/mypage"; }
-	 
-	 
+//	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
+//	 public String mypage() { return "heartbeat/mypage"; }
 }

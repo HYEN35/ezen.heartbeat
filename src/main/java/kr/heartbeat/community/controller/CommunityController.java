@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,19 +37,19 @@ public class CommunityController {
 	private UserServiceImpl userServiceImpl;
 
 	@GetMapping("/community")
-	public String community(UserVO userVO,Model model) {
-		UserVO dbuserVO = userServiceImpl.login(userVO);
-		int level =2; 
-		System.out.println(dbuserVO);
-		
-		model.addAttribute("uvo", dbuserVO);
+	public String community(HttpSession session,Model model) {
+		UserVO uvo = (UserVO) session.getAttribute("UserVO");
+		int level =2;
 		model.addAttribute("level", level);
+		model.addAttribute("uvo", uvo);
 		return "/community/community";
+		
 	}
 
 	// 뉴진스 페이지 들어가면서 게시물 가져오는거
 	@RequestMapping("/artist/newjeans")
-	public String newjeans(@RequestParam("num")int num, PostVO postvo, Model model, UserVO uservo) throws Exception {
+	public String newjeans(@RequestParam("num")int num, Model model,HttpSession session) throws Exception {
+		UserVO uservo = (UserVO) session.getAttribute("UserVO");
 		PageDTO page = new PageDTO();
 		page.setNum(num);
 		page.setCount(communityService.getFanPostCount()); // 뉴진스 팬 게시물 개수 
@@ -89,7 +90,6 @@ public class CommunityController {
 	// 게시물 작성
 	@PostMapping("/postWrite")
 	public String postWrite(PostVO postvo, Model model, HttpServletRequest request) throws Exception {
-		System.out.println("===========CommunityController : "+postvo);
 		communityService.postWrite(postvo);
 		int num = 1;
 		
@@ -134,7 +134,6 @@ public class CommunityController {
 	// 아티스트 게시물 상세보기
 	@PostMapping("/getArtistPost")
 	public String getArtistPost(PostVO postVO, Model model) throws Exception{
-		System.out.println("=============아티스트 게시물 상세보기"+postVO);
 		
 		PostVO dbpost = communityService.getPost(postVO); // 게시물 정보
 		List<CommentVO> commentList = communityService.getComment(postVO); // 댓글 목록
@@ -147,9 +146,6 @@ public class CommunityController {
 		model.addAttribute("PostVO", dbpost);
 		model.addAttribute("totalLike", totalLike);
 		model.addAttribute("checkLike", checkLike);
-		System.out.println(checkLike);
-		System.out.println(dbpost);
-
 
 		return "/popup/pop-post-artist";
 	}
@@ -199,7 +195,6 @@ public class CommunityController {
 //	    response.put("newnick", newComment.getNickname());   // 새 댓글 작성자
 //	    response.put("newComment_date", newComment.getComment_date()); // 새 댓글 작성 시간
 //	    response.put("totalComment", totalComment); // 최신 댓글 수
-	    System.out.println("========댓글 작성 response값 확인?? :"+ response);
 
 	    return ResponseEntity.ok(response); // 클라이언트에게 성공 메시지 전달
 	}
@@ -217,8 +212,6 @@ public class CommunityController {
 	public ResponseEntity<Map<String, Object>> commentdelete(int comment_id, int post_id, Map<String, Object> response) throws Exception {
 		communityService.commentdelete(comment_id);
 		Integer totalComment = communityService.totalComment(post_id);
-		System.out.println(post_id);
-		System.out.println(comment_id);
 
 		// 결과를 JSON 형식으로 반환
 		response.put("status", "success"); // 성공 여부
@@ -232,7 +225,6 @@ public class CommunityController {
 	@PostMapping("/likeToggle") // 좋아요 버튼
 	@ResponseBody 
 	public int likeToggle(PostVO postVO,Map<String, Object> response) throws Exception {
-		System.out.println("게시물번호랑 이메일 전달 확인 " + postVO);
 
 		communityService.likeToggle(postVO);
 		Integer totalLike = communityService.totalLike(postVO); 
