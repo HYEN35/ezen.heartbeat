@@ -342,6 +342,47 @@ public class UserController {
 			return "/heartbeat/myNoticeShow";
 		}
 		
+		@PostMapping("/myNoticeModifyShow") // 게시물 수정 페이지 이동
+		public String noticeModifyShow(int notice_id,int num,Model model) throws Exception{
+			NoticeVO noticeVO = noticeService.getPostOne(notice_id);
+			
+			model.addAttribute("num", num);
+			model.addAttribute("noticeVO", noticeVO);
+			return "/heartbeat/myNoticeModify";
+		}
+		
+		@PostMapping("/myNoticeModify") // 게시물 수정
+		public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,Model model) throws Exception{
+			
+			noticeService.noticeModify(noticeVO);
+			NoticeVO dbnoticeVO = noticeService.getPostOne(noticeVO.getNotice_id());
+			List<NoticeCommentVO> commentVO = noticeService.getComment(dbnoticeVO.getNotice_id());
+			model.addAttribute("num", num);
+			model.addAttribute("noticeVO", dbnoticeVO);
+			model.addAttribute("commentVO", commentVO);
+			return "/heartbeat/myNoticeShow";
+		}
+		
+		@RequestMapping("/myNoticeDelete") // 게시물 삭제
+		public String noticeDelete(@RequestParam("notice_id")int notice_id) throws Exception{
+			noticeService.noticeDelete(notice_id);
+
+			return "redirect:/mynotice?num=1";
+		}
+		
+		@PostMapping("/myCommentWrite") // 댓글 작성
+		public String commentWrite(@RequestParam("num")int num,NoticeCommentVO noticeCommentVO,Model model) throws Exception{
+			noticeService.commentWrite(noticeCommentVO);
+			NoticeVO noticeVO = noticeService.getPostOne(noticeCommentVO.getNotice_id());
+			List<NoticeCommentVO> commentVO = noticeService.getComment(noticeCommentVO.getNotice_id());
+			
+			model.addAttribute("num", num);
+			model.addAttribute("commentVO", commentVO);
+			model.addAttribute("noticeVO", noticeVO);
+			return "redirect:/getMyPostOne?notice_id="+noticeCommentVO.getNotice_id()+"&num=1";
+		}
+		
+		
 		// 내 공지 삭제 
 		@PostMapping("/mypage/deleteNotice")
 		public String deleteNotice(@RequestParam("notice_id") String notice_id) throws Exception {
