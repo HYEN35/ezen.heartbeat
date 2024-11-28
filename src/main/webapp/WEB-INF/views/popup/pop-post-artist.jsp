@@ -80,6 +80,7 @@
 					// 수정 버튼 보이기, 저장 버튼 숨기기
 					editButton.style.display = "inline-block";
 					saveButton.style.display = "none";
+					
 				}
 			}
 		})
@@ -333,7 +334,7 @@
 	    $('.dimmed').hide();
 
 	    // 페이지 새로 고침
-	    location.reload(); // 페이지 새로 고침
+	    //location.reload(); // 페이지 새로 고침
 	}
 	
 	// 새로고침 버튼 

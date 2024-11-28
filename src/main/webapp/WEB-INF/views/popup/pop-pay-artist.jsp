@@ -185,11 +185,11 @@
 			<i>구독 아티스트 선택</i>
 			<select class="sltBx" id="artistSelect">
 				<option value="aespa">AESPA</option>
-				<option value="BLACKPINK">BLACKPINK</option>
+				<option value="블랙핑크 (BLACKPINK)">블랙핑크 (BLACKPINK)</option>
 				<option value="bts">BTS</option>
 				<option value="ive">IVE</option>
-				<option value="ITZY">ITZY</option>
-				<option value="NewJeans">NewJeans</option>
+				<option value="있지 (ITZY)">있지 (ITZY)</option>
+				<option value="뉴진스 (NewJeans)">뉴진스 (NewJeans)</option>
 				<option value="nct127">NCT-127</option>
 				<option value="nctdream">NCT-DREAM</option>
 				<option value="seventeen">SEVENTEEN</option>
