@@ -20,7 +20,7 @@
 	   			<div class="name">${UserVO.nickname }</div>
 	   		</div>
 	   		<div class="dropMenu">
-	   			<button type="button" class="btn-under-02" onclick="popLogoutShow();">로그아웃</button>
+	   			<a href="/logout" class="btn-under-02">로그아웃</a>
 	   		</div>
 	   	</div>
 	   	<div class="menuCnt">

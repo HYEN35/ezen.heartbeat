@@ -125,7 +125,7 @@
 									<button type="submit" class="btn-full">수정하기</button>
 									<a href="/notice/noticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
 								</c:if>
-								<a href="/notice/notice?num=${num }" class="btn-border">목록</a>
+								<a href="/mynotice?num=${num }" class="btn-border">목록</a>
 							</div>
 						</form>
 					</div>

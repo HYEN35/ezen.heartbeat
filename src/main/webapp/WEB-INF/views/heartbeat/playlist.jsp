@@ -1,11 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/layout.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="kr.heartbeat.music.config.SpotifyAPI" %>
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
+<%@ page import="javax.servlet.ServletContext" %>
+
+
 
 <body>
+	<script>
+	$(function(){
+		popAlertPurchaseShow();
+	})
+	
+	//팝업 얼럿 멤버십구매
+	function popAlertPurchaseShow(){
+		if (${uvo.level}  == 0) {
+			$('.pop-alert-purchase').show();
+			$('.dimmed').show();				
+		}
+	}
+	function popAlertPurchaseHide(){
+		$('.pop-alert-purchase').hide();
+		$('.dimmed').hide();
+	}
+
+</script>
+
+
+
 	<div class="inner service playlist" data-name="playlist">
 		<%@ include file="../include/menu.jsp" %>
-		<div id="playBar" class="playBar">플레이바</div>
+		<div id="playBar" class="playBar">
+			<div id="player" style="display:none"></div>
+		    <div class="stateCnt">
+				<span class="state ready"><i class="fas fa-music"></i> Ready to play a Music</span>
+				<span class="state now" style="display:none"><i class="fa-solid fa-music"></i> Now playing Music</span>
+				<div class="playInfo" style="display:none">
+					<button id="play" class="playBtn play" onclick="playOn();"><i class="fa-solid fa-circle-play"></i></button>
+					<button	ton id="pause" class="playBtn pause" onclick="playPause();"><i class="fa-solid fa-circle-pause"></i></button>
+					<div class="nowPlayInfo"><i id="nowPlayArtist"></i> - <i id="nowPlayMusic"></i></div>
+				</div>
+		    </div>
+		</div>
 		<div class="container">
 			<div class="cntWrap">
 				<h2 id="title" class="title"><%=pageTitle %></h2>
@@ -43,6 +80,98 @@
 	</div>
 
 	<div class="dimmed" onclick="popAlertCheckHide()"></div>
+	<!-- [D] 팝업 멤버십구매메세지 -->
+	<div class="popup pop-alert-purchase"><%@ include file="../popup/pop-alert-purchase.jsp" %></div>
+	
+	<script src="https://www.youtube.com/iframe_api"></script>
+	<script>	
+		let isPlaying = false; // 재생 상태 관리 변수
+		let youtubeVideoId = "";
+
+		async function playTrack(button) {
+
+			const music_name = button.getAttribute("data-music-name");
+			const art_name = button.getAttribute("data-art-name");
+
+			try {
+				const response = await fetch(`/playTrack?trackTitle=` + encodeURIComponent(music_name) + `&artist=` + encodeURIComponent(art_name));
+				const youTubeUrl = await response.text();
+
+				if (youTubeUrl === "No URL found") {
+					alert("Unable to find a YouTube link for this track.");
+				} else if (youTubeUrl === "Error occurred") {
+					alert("An error occurred while fetching the track.");
+				} else {
+					youtubeVideoId = youTubeUrl;
+					console.log(youtubeVideoId);
+					onYouTubeIframeAPIReady(youtubeVideoId);
+					
+					$(".nowPlayInfo").show();
+					$(".playBtn").removeClass('playing');
+					$(".playBtn").removeClass('pause');
+					$(".state.now").show().siblings(".state.ready").hide();
+					$(button).addClass('playing');				
+					$(".playBar .playInfo").show();				
+
+					$("#nowPlayArtist").html(art_name);
+					$("#nowPlayMusic").html(music_name);
+				}
+			} catch (error) {
+				console.error("Error playing track:", error);
+			}
+		}
+
+		//음악 재생, 일시정지, 멈춤
+		let player;
+
+		// IFrame Player
+		function onYouTubeIframeAPIReady(youTubeUrl) {
+			const videoId = youTubeUrl;
+			//기존 플레이어가 있으면 제거
+			if (player) {
+		        player.destroy();
+		    }
+
+		    player = new YT.Player('player', {
+		        width: '0',
+		        height: '0',
+		        videoId: videoId, // YouTube 영상 ID
+		        playerVars: {
+		            autoplay: 1,   // 자동 재생
+		            mute: 0,       // 음소거 해제
+		            controls: 1,   // 컨트롤 표시
+		            rel: 0         // 관련 동영상 비활성화
+		        },
+		        events: {
+		            onReady: onPlayerReady,
+		            onStateChange: onPlayerStateChange
+		        }
+		    });
+		}
+		
+		function onPlayerReady(event) {
+		    console.log("플레이어 준비 완료");
+		}
+		
+		function onPlayerStateChange(event) {
+		    console.log("플레이어 상태 변경: ", event.data);
+		}
+		
+		// 버튼 클릭 이벤트
+
+		function playOn(){
+			player.playVideo();
+			$(".playing").removeClass("pause");
+			$(".state.now").show().siblings(".state.ready").hide();
+		}
+
+		function playPause(){
+			player.pauseVideo();
+			$(".playing").addClass("pause");
+			$(".state.now").hide().siblings(".state.ready").show();
+		}
+	</script>
+
 	<script>
 		$(function() {
 			colorRandom();
@@ -80,8 +209,8 @@
             if (selectedTags < 1) {
                 alert('해시태그를 선택해 주세요! 해시태그는 3개를 선택해주세요.');
             }
-            else if (selectedTags < 1) {
-                alert('해시태그는 1개를 선택해주세요.');
+            else if (selectedTags < 3) {
+                alert('해시태그는 3개를 선택해주세요.');
             }
             else {
                 $.ajax({
@@ -107,7 +236,11 @@
                             var html = '';
                             filteredResponse.forEach(function(music) {
                                 html += '<li class="item">'
-                                html += '	<div class="album"><i></i></div>'
+                                html += '	<button type="button" id="play" class="playBtn" '
+                                html +=         'data-art-name="' + music.art_name + '" '
+                                html +=         'data-music-name="' + music.music_name + '" '
+                                html +=         'onclick="playTrack(this)">';
+                                html += '	</button>'
                                 html += '	<div class="arti">'
                                 html += '		<i class="name">'+music.art_name+'</i>'
                                 html += '		<i class="tit">'+music.music_name+'</i>'
@@ -128,7 +261,6 @@
                 });
             }
 		}
-		
 		// 해시태그 랜덤 컬러 설정
 		function colorRandom() {
 			function getRandomDarkColor() {
