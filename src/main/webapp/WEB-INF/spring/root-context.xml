@@ -45,6 +45,11 @@
 	<context:component-scan base-package="kr.heartbeat.membership.service" />
 	<context:component-scan base-package="kr.heartbeat.admin.persistence" />
 	<context:component-scan base-package="kr.heartbeat.admin.service" />
+	<context:component-scan base-package="kr.heartbeat.music.config" />
+	<context:component-scan base-package="kr.heartbeat.music.service" />
+	<context:component-scan base-package="kr.heartbeat.music.persistence" />
+	<context:component-scan base-package="kr.heartbeat.notice.persistence" />
+	<context:component-scan base-package="kr.heartbeat.notice.service" />
 	
 	
 </beans>
