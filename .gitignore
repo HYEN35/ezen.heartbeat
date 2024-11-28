@@ -1,4 +1,15 @@
+<<<<<<< HEAD
 .idea/.gitignore
+=======
+.vscode/settings.json
+<<<<<<< HEAD
+.classpath
+.factorypath
+.vscode/settings.json
+=======
+.idea/.gitignore
+>>>>>>> origin/kimhonghyun
+>>>>>>> origin/main
 .idea/compiler.xml
 .idea/dbnavigator.xml
 .idea/jarRepositories.xml

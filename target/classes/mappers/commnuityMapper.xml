@@ -103,5 +103,4 @@
   	<select id="totalLike" parameterType="int" resultType="int">
   		select count(*) from like_tbl where post_id = #{post_id}
   	</select>
-  	
   </mapper>

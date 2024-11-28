@@ -44,4 +44,5 @@ public interface CommunityService {
 	public int totalLike(PostVO postVO) throws Exception;
 	// 좋아요 여부
 	public int checkLike(PostVO postVO) throws Exception;
+
 }

@@ -27,8 +27,8 @@ import kr.heartbeat.vo.TrackInfo;
 @Component
 public class SpotifyAPI {
 	
-	private static final String CLIENT_ID = "3c4ae2cae71d42cd8550f1f2a7d8cd02";
-    private static final String CLIENT_SECRET = "e4843b34b2724c5ca273c0206350ccdb";
+	private static final String CLIENT_ID = "c97a1d7e522a4d5dad16e5e5f470341f";
+    private static final String CLIENT_SECRET = "9db26e7793cf42dd804092d872f900d8";
     private static final String REDIRECT_URI = "http://localhost:8080/callback";
     
     private SpotifyApi spotifyApi;

@@ -27,11 +27,6 @@ public class HomeController {
 	@RequestMapping(value="/membership", method = RequestMethod.GET)
 	public String membership() { return "heartbeat/membership"; } 
 	
-	@RequestMapping(value="/membershipTest", method = RequestMethod.GET)
-	public String membershipTest() { return "heartbeat/membershipTest"; } 
-	
-	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
-	 public String mypage() { return "heartbeat/mypage"; }
-	 
-	 
+//	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
+//	 public String mypage() { return "heartbeat/mypage"; }
 }

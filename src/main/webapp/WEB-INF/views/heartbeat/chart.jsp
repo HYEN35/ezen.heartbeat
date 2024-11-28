@@ -167,7 +167,7 @@
 		}
 
 		//음악 재생, 일시정지, 멈춤
-		let player;
+		let player; // YouTube Player 객체
 
 		// IFrame Player
 		function onYouTubeIframeAPIReady(youTubeUrl) {
@@ -254,8 +254,7 @@
 	        	$('#sleepList').show();
 	        }
 	    }
-			
-			
+		
 		function popStationListHide(){
 			$('.pop-station-list').hide();
 			$('.dimmed').hide();
