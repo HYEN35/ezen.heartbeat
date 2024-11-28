@@ -37,11 +37,13 @@ public class CommunityController {
 	private UserServiceImpl userServiceImpl;
 
 	@GetMapping("/community")
-	public String community(HttpSession session,Model model) {
-		UserVO uvo = (UserVO) session.getAttribute("UserVO");
-		int level =2;
+	public String community(UserVO userVO,Model model) {
+		UserVO dbuserVO = userServiceImpl.login(userVO);
+		int level =2; 
+		System.out.println(dbuserVO);
+		
+		model.addAttribute("uvo", dbuserVO);
 		model.addAttribute("level", level);
-		model.addAttribute("uvo", uvo);
 		return "/community/community";
 		
 	}
@@ -91,7 +93,8 @@ public class CommunityController {
 	@PostMapping("/postWrite")
 	public String postWrite(PostVO postvo, Model model, HttpServletRequest request) throws Exception {
 		communityService.postWrite(postvo);
-
+		int num = 1;
+		
 		return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
 	

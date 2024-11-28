@@ -196,9 +196,8 @@
 			</select>
 		</div>
 		<div class="btnWrap">
-			<input type="button" class="btn-pay-naver" onclick="atristNicePay()" value="일반 결제 버튼">
+			<input type="button" class="btn-pay-nice" onclick="atristNicePay()" value="일반 결제 버튼">
 			<input type="button" class="btn-pay-kakao" onclick="atristkakaoPay()" value="카카오페이 결제 버튼">
-			<a href="#none" class="btn-pay-toss"></a>
 		</div>
 	</div>
 </div>
