@@ -3,11 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="kr.heartbeat.mappers.admin">
+	<mapper namespace="kr.heartbeat.mappers.admin">
   
-  	<select id="list" resultType="kr.heartbeat.vo.UserVO">
-		select * from user_tbl 
-	</select>
+		<!-- summary -->
+	  	<select id="count_a" resultType="int">
+		    SELECT COUNT(email)
+		    FROM user_tbl
+		    WHERE DATE(reg_date) = CURDATE();
+		</select>
+		
+		<select id="count_b" resultType="int">
+		    SELECT COUNT(s.email)
+			FROM subscription_tbl s
+			JOIN user_role_tbl u ON s.email = u.email
+			WHERE u.role_id IN (2);
+		</select>
 	
 		<select id="count_c" resultType="map">
 		    SELECT a.art_name AS artist_name, COUNT(u.email) AS email_count
@@ -343,4 +353,4 @@
 	    )
 	</insert>
 	
-  </mapper>
+	</mapper>

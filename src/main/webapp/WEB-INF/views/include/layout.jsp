@@ -9,7 +9,7 @@
 	String pageRequest = request.getRequestURI();
 
 	if (pageRequest.endsWith("index.jsp")) pageName = "HeartBeat";
-	else if (pageRequest.endsWith("Web/login.jsp")) pageName = "로그인 - HeartBeat";
+	else if (pageRequest.endsWith("login.jsp")) pageName = "로그인 - HeartBeat";
 	else if (pageRequest.endsWith("join.jsp")) pageName = "회원가입 - HeartBeat";
 	
 	else if (pageRequest.endsWith("chart.jsp")){
@@ -24,23 +24,49 @@
 		pageName = "커뮤니티 - HeartBeat";
 		pageTitle = "커뮤니티";
 	}
-	else if (pageRequest.endsWith("membership.jsp")) {
+	else if (pageRequest.endsWith("purchase.jsp")) {
 		pageName = "멤버십 - HeartBeat";
 		pageTitle = "멤버십";
 	}
 	else if (pageRequest.endsWith("mypage.jsp")) {
 		pageName = "마이페이지 - HeartBeat";
-		pageTitle = "마이페이지";
+		pageTitle = "내 정보 변경";
 	}
-	
+	else if (pageRequest.endsWith("mymembership.jsp")) {
+		pageName = "마이페이지 - HeartBeat";
+		pageTitle = "멤버십 변경";
+	}
+	else if (pageRequest.endsWith("mypost.jsp")) {
+		pageName = "마이페이지 - HeartBeat";
+		pageTitle = "내 작성글 확인";
+	}
+	else if (pageRequest.endsWith("myNoticeShow.jsp")) {
+		pageName = "마이페이지 - HeartBeat";
+		pageTitle = "내 작성글 확인";
+	}
+	else if (pageRequest.endsWith("myNoticeModify.jsp")) {
+		pageName = "마이페이지 - HeartBeat";
+		pageTitle = "내 작성글 수정";
+	}
+	else if (pageRequest.endsWith("notice.jsp")) {
+		pageName = "공지 및 문의 - HeartBeat";
+		pageTitle = "공지 및 문의";
+	}
+	else if (pageRequest.endsWith("noticeShow.jsp")) {
+		pageName = "공지 및 문의 - HeartBeat";
+		pageTitle = "공지 및 문의";
+	}
+	else if (pageRequest.endsWith("noticePost.jsp")) {
+		pageName = "공지 및 문의 - HeartBeat";
+		pageTitle = "공지 및 문의 작성";
+	}
+	else if (pageRequest.endsWith("noticeModify.jsp")) {
+		pageName = "공지 및 문의 - HeartBeat";
+		pageTitle = "공지 및 문의 수정";
+	}
 	else if (pageRequest.endsWith("artist/newjeans.jsp")) {
 		pageName = "뉴진스";
 		pageTitle = "뉴진스";
-	}
-	
-	else if (pageRequest.endsWith("admin/login.jsp")) {
-		pageName = "관리자 로그인";
-		pageTitle = "관리자 로그인";
 	}
 %>
 

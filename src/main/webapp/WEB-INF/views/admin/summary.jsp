@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/adminLayout.jsp" %>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery.min.js"></script>
-<!-- google charts -->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
 <body>
 	<div class="inner admin summary" data-name="summary">
 		<%@ include file="../include/admin.jsp" %>
@@ -16,26 +11,45 @@
 					<!-- 상단 정보 -->
 				    <div class="summary-info">
 				        <div class="summary-info">
-				            <span class="info">오늘 가입한 유저 <i id="todayuser">${count_a}</i></span>
+				            <span class="info">오늘 가입한 유저 : <i id="todayuser">${count_a}</i></span>
 				        </div>
 				        <div class="summary-info">
-				            <span class="info">총 구독자 수 <i id="totalsub">${count_b}</i></span>
+				            <span class="info">총 구독자 수 : <i id="totalsub">${count_b}</i></span>
 				        </div>
 				        <div class="summary-info">
-				            <span class="info">가장 많은 구독자를 보유한 아티스트 <i id="topartist">${count_c}</i></span>
+				            <span class="info">가장 많은 구독자를 보유한 아티스트 : <i id="topartist">${count_c.artist_name} 구독자 : ${count_c.email_count}</i></span>
 				        </div>
 				    </div>
-				    <!-- 차트 영역 -->
-				    <div class="chart-area">
-			        	<h4>사이트 방문자 성별 현황 그래프</h4>
-					    <div id="Line_Controls_Chart">
-					      <!-- 라인 차트 생성할 영역 -->
-					  		<div id="lineChartArea" style="padding:0px 20px 0px 0px;"></div>
-					      <!-- 컨트롤바를 생성할 영역 -->
-					  		<div id="controlsArea" style="padding:0px 20px 0px 0px;"></div>
+				    <div class="adm-container">
+					    <div class="adm-split-row">
+							<div class="adm-split-col">
+								<h4>회원 성별 분석</h4>
+								<p>
+								    회원 총 인원 : ${total}<br>
+								    level 0 : ${level0Cnt} &nbsp;<span class="box blue"></span>&nbsp; 
+								    | level 1 : ${level1Cnt} &nbsp; <span class="box red"></span>&nbsp; 
+								    | level 2 : ${level2Cnt} &nbsp; <span class="box purple"></span>
+								</p>
+								<div class="progress-result">
+								    <progress id="level0Cnt" max="${total}" value="${level0Cnt}" class="progress-blue"></progress>
+								    <progress id="level1Cnt" max="${total}" value="${level1Cnt}" class="progress-red"></progress>
+								    <progress id="level2Cnt" max="${total}" value="${level2Cnt}" class="progress-purple"></progress>
+								    <input type="hidden" id="total" value="${total}">
+								    
+								    <div class="progress-bar-txt txt1">
+								        <strong id="level0-result-txt"></strong> <strong>%</strong>
+								    </div>
+								    <div class="progress-bar-txt txt2">
+								        <strong id="level1-result-txt"></strong> <strong>%</strong>
+								    </div>
+								    <div class="progress-bar-txt txt3">
+								        <strong id="level2-result-txt"></strong> <strong>%</strong>
+								    </div>
+								</div>
 							</div>
-				    </div>
-				</div>
+						</div>
+					</div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -43,92 +57,32 @@
 	<div class="dimmed"></div>
 
 	<script>
-	var chartDrowFun = {
-		    chartDrow: function() {
-		        var chartDateformat = 'yyyy년MM월dd일';
-		        var chartLineCount = 10;
-		        var controlLineCount = 10;
+	window.onload = function() {
+	    var total = parseInt("${total}") || 0;
+	    var level0Cnt = parseInt("${level0Cnt}") || 0;
+	    var level1Cnt = parseInt("${level1Cnt}") || 0;
+	    var level2Cnt = parseInt("${level2Cnt}") || 0;
 
-		        function drawDashboard() {
-		            var data = new google.visualization.DataTable();
-		            data.addColumn('datetime', ${monthCounts.month });
-		            data.addColumn('number', ${monthCounts.count });
+	    function calculatePercentage(count) {
+	        if (total === 0) return "0.00"; // 총 회원 수가 0이면 0% 반환
+	        return (count / total * 100).toFixed(2);
+	    }
 
-		            for (var i = 0; i <= 33; i++) {
-		                var total = Math.floor(Math.random() * 300) + 1;
-		                var userTotal = Math.floor(Math.random() * total) + 1;
-		                dataRow = [new Date('2024', '08', i, '10'), userTotal];
-		                data.addRow(dataRow);
-		            }
+	    var level0Percentage = calculatePercentage(level0Cnt);
+	    var level1Percentage = calculatePercentage(level1Cnt);
+	    var level2Percentage = calculatePercentage(level2Cnt);
 
-		            var chart = new google.visualization.ChartWrapper({
-		                chartType: 'LineChart',
-		                containerId: 'lineChartArea',
-		                options: {
-		                    isStacked: 'percent',
-		                    focusTarget: 'category',
-		                    height: 500,
-		                    width: '100%',
-		                    legend: { position: "top", textStyle: { fontSize: 13 } },
-		                    pointSize: 5,
-		                    tooltip: { textStyle: { fontSize: 12 }, showColorCode: true, trigger: 'both' },
-		                    hAxis: { 
-		                        format: 'yyyy년MM월',
-		                        gridlines: {
-		                            count: 4,
-		                            units: {
-		                                months: { format: ['yyyy년MM월'] }
-		                            }
-		                        },
-		                        textStyle: { fontSize: 12 } 
-		                    },
-		                    vAxis: { minValue: 100, viewWindow: { min: 0 }, gridlines: { count: -1 }, textStyle: { fontSize: 12 } },
-		                    animation: { startup: true, duration: 1000, easing: 'in' },
-		                    annotations: { pattern: chartDateformat, textStyle: {
-		                        fontSize: 15,
-		                        bold: true,
-		                        italic: true,
-		                        color: '#871b47',
-		                        auraColor: '#d799ae',
-		                        opacity: 0.8,
-		                        pattern: chartDateformat
-		                    } }
-		                }
-		            });
-
-		            var control = new google.visualization.ControlWrapper({
-		                controlType: 'ChartRangeFilter',
-		                containerId: 'controlsArea',
-		                options: {
-		                    ui: {
-		                        chartType: 'LineChart',
-		                        chartOptions: {
-		                            chartArea: { width: '60%', height: 80 },
-		                            hAxis: { baselineColor: 'none', format: chartDateformat, textStyle: { fontSize: 12 }, gridlines: { count: controlLineCount, units: {
-		                                years: { format: ['yyyy년'] },
-		                                months: { format: ['MM월'] },
-		                                days: { format: ['dd일'] },
-		                                hours: { format: ['HH시'] }
-		                            } } }
-		                        }
-		                    },
-		                    filterColumnIndex: 0
-		                }
-		            });
-
-		            var dashboard = new google.visualization.Dashboard(document.getElementById('Line_Controls_Chart'));
-		            window.addEventListener('resize', function() { dashboard.draw(data); }, false);
-		            dashboard.bind([control], [chart]);
-		            dashboard.draw(data);
-		        }
-		        google.charts.setOnLoadCallback(drawDashboard);
-		    }
-		}
-
-		$(document).ready(function() {
-		    google.charts.load('current', { packages: ['line', 'controls'] });
-		    chartDrowFun.chartDrow();
-		});
+	    document.getElementById('level0-result-txt').textContent = level0Percentage;
+	    document.getElementById('level1-result-txt').textContent = level1Percentage;
+	    document.getElementById('level2-result-txt').textContent = level2Percentage;
+	};
+	
+	console.log("총 회원 수:", total);
+    console.log("레벨 0 회원 수:", level0Cnt);
+    console.log("레벨 1 회원 수:", level1Cnt);
+    console.log("레벨 2 회원 수:", level2Cnt);
+    
 	</script>
+
 </body>
 </html>

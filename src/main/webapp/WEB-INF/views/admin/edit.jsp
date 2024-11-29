@@ -12,7 +12,7 @@
 						<form action="/admin/edit" method="post" autocomplete="off">
 							<div class="infoWrap">
 								<input type="text" class="txtBx" name="name" value="${modify.name}" placeholder="이름">
-								<input type="email" class="txtBx" name="email" value="${modify.email}" placeholder="이메일">
+								<input type="email" class="txtBx" name="email" value="${modify.email}" readonly>
 								<input type="text" class="txtBx" name="nickname" value="${modify.nickname}" placeholder="닉네임">
 								<input type="date" class="txtBx" name="birth" value="${modify.birth}" placeholder="생년월일">
 								<input type="number" class="txtBx" name="phone" value="${modify.phone}" placeholder="핸드폰번호">
