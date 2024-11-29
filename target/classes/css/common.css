@@ -10,13 +10,10 @@ body{overflow:auto;min-width:320px;font-size:14px;font-family:"Noto Sans KR", sa
 a,
 button{font-family:"Noto Sans KR", sans-serif}
 [class*='btn-']{height:40px;padding:0 10px;border-radius:10px}
-a[class*='btn-']{width:fit-content;line-height:40px}
+a[class*='btn-']{width:max-content;line-height:40px}
 [class*='btn-']+[class*='btn-']{margin-left:10px}
-[class*='btn-under'],
-[class*='btn-normal']{height:auto;padding:0}
+[class*='btn-under']{height:auto;padding:0}
 .btn-full{background:#ff1493;color:#fff}
-.btn-normal{color:#ff1493}
-.btn-normal-01{color:#6d6d6d}
 .btn-border{color:#ff1493;border:1px solid #ff1493}
 .btn-border-01{color:#6d6d6d;border:1px solid #6d6d6d}
 .btn-under{color:#ff1493;text-decoration:underline}
@@ -35,7 +32,6 @@ input.check{width:16px;height:16px;margin:0;cursor:pointer}
 
 .sltBx,
 .txtBx{display:block;width:200px;height:40px;padding:0 5px;font-family:"Noto Sans KR", sans-serif;border:1px solid #dedede;border-radius:4px}
-.post-txtBx{display:inline-block;width:600px;height:300px;padding:0 5px;font-family:"Noto Sans KR", sans-serif;border:1px solid #dedede;border-radius:4px}
 ::placeholder{color:#888;font-family:"Noto Sans KR", sans-serif}
 textarea{display:block;width:200px;padding:5px;color:inherit;font-family:"Noto Sans KR", sans-serif;border:1px solid #dedede;border-radius:4px;resize:none}
 label[for]{cursor:pointer}
