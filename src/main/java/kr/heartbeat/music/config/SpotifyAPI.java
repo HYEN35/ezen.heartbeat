@@ -202,7 +202,7 @@ public class SpotifyAPI {
     	                String videoId = item.getJSONObject("id").getString("videoId");
 
     	                // "title" 및 "description" 추출
-    	                String title = item.getJSONObject("snippet").getString("title");
+    	                String title = item.getJSONObject("snippet").getString("title").toLowerCase();
     	                String description = item.getJSONObject("snippet").getString("description");
 
     	                System.out.println("Title: " + title);
@@ -210,7 +210,7 @@ public class SpotifyAPI {
     	                System.out.println("Video ID: " + videoId);
 
     	                // "Official MV" 또는 "official mv"가 제목이나 설명에 포함되어 있는지 확인
-    	                if (title.contains("Official MV") || description.contains("Official MV")) {
+    	                if (title.contains("Official MV") || description.contains("Official MV") || description.contains("official music video")) {
     	                   youtubeUrl = videoId;
     	                    System.out.println("Official MV Found: " + youtubeUrl);
     	                    break;  // 첫 번째 공식 MV를 찾으면 반복문 종료

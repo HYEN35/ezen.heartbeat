@@ -33,17 +33,15 @@ public interface AdminService {
 								
 	public void memberdelete(String email) throws Exception;
 	
-	//Staff
-	public int getStaffCount(String searchType, String keyword) throws Exception;
-	
-	public List<UserVO> getStaffList(int displayPost, int postNum, String searchType, String keyword) throws Exception;
-								
-	public void staffdelete(String email) throws Exception;
-	
 	//post
 	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception;
 	
-	public List<CommentVO> getCommentList() throws Exception;
+	public int getPostCount(String searchType, String keyword) throws Exception;
+	
+	public void podelete(int post_id) throws Exception;
+	
+	//comment
+	public List<CommentVO> getCommentList(int displayPost, int postNum, String searchType, String keyword) throws Exception;
 	
 	public int getCommentCount(String searchType, String keyword) throws Exception;
 	

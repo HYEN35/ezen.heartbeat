@@ -20,6 +20,8 @@
 		where nickname = #{nickname}
 	</select>
 	
+	
+	
 	<!-- 회원가입 -->
 	<insert id="join" parameterType="kr.heartbeat.vo.UserVO">
 	    insert into user_tbl (
@@ -80,7 +82,7 @@
 	</update>
 	
 	<!-- 회원 정보 수정 -->
-	<update id="modify" parameterType="hashMap" >
+	<update id="modify" parameterType="hashMap">
 		update user_tbl set
 			pwd = #{newPwd}
 			, nickname = #{userVO.nickname}
@@ -208,5 +210,3 @@
 	</delete>
 
 </mapper>
-
-

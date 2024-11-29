@@ -20,12 +20,13 @@ public class SpotifyController {
 
     @GetMapping("/chart")
     public String getPlaylistTrackInfo(Model model) {
-    	// 일일 차트 -  https://open.spotify.com/playlist/37i9dQZEVXbNxXF4SkHj9F
+    	// 일일 차트 -  https://open.spotify.com/playlist/37i9dQZEVXbNxXF4SkHj9F    	
     	// 주간 차트 - https://open.spotify.com/playlist/37i9dQZEVXbJZGli0rRP3r
     	// 바이럴 차트 - https://open.spotify.com/playlist/37i9dQZEVXbM1H8L6Tttw9
-        String playlistIdDay = "37i9dQZEVXbNxXF4SkHj9F"; 
-        String playlistIdWeek = "37i9dQZEVXbJZGli0rRP3r"; 
-        String playlistIdViral = "37i9dQZEVXbMDoHDwVN2tF"; 
+    	//https://open.spotify.com/playlist/37i9dQZEVXbJZGli0rRP3r
+        String playlistIdDay = "4cRo44TavIHN54w46OqRVc"; 
+        String playlistIdWeek = "6wM4OcNf0K38Aq53knIYaS"; 
+        String playlistIdViral = "1CW5PH1aYDo3tiNbwPesNN"; 
         List<TrackInfo> trackInfoList = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdDay);
         List<TrackInfo> trackInfoListWeek = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdWeek);
         List<TrackInfo> trackInfoListViral = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdViral);

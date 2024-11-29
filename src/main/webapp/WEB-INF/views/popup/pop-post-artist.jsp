@@ -37,7 +37,7 @@
 		postInput.value = postText.innerText.trim();
 		
 	}
-	
+	var content = "";
 	// 게시물 수정 저장 버튼
 	function popPostSaveShow(button){
 		var postDiv = button.closest('.postBx');
@@ -70,7 +70,10 @@
 				content : newPostText
 			},
 			success : function(data) {
-				if (data === "success") {
+				alert(data.result);
+				if (data.result === "success") {
+					content = data.content;
+					
 					postText.innerText = newPostText // 게시물 텍스트 업데이트
 					postInput.style.display = 'none';
 					postText.style.display = 'block';
@@ -327,13 +330,15 @@
 	    }
 	}
 	
-	function popPostArtistHide() {
+	
+	//==========================================
+	function popPostArtistHide(post_id) {
 	    // 팝업 숨기기
 	    $('.pop-post-artist').hide();
 	    $('.dimmed').hide();
-
+	    
 	    // 페이지 새로 고침
-	    location.reload(); // 페이지 새로 고침
+	    //location.reload(); // 페이지 새로 고침
 	}
 	
 	// 새로고침 버튼 
@@ -416,7 +421,7 @@
 
 <div class="wrap">
 	<div class="topArea">
-		<button type="button" class="btn-i-close" onclick="popPostArtistHide();"></button>
+		<button type="button" class="btn-i-close" onclick="popPostArtistHide('${PostVO.post_id}')"></button>
 	</div>
 	<div class="cntArea">
 		<div class="postBx" data-post-id="${PostVO.post_id }">

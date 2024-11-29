@@ -70,22 +70,6 @@ public class AdminPersistenceImpl implements AdminPersistence {
 		sql.delete(namespace + ".memberdelete", email);
 	}
 	
-	//member 리스트
-	@Override
-	public List<UserVO> getStaffList(HashMap<String, Object> map) throws Exception {
-	    return sql.selectList(namespace + ".staff_list", map);
-	}
-	
-	@Override
-	public int getStaffCount(HashMap<String, Object> map) throws Exception {
-	    return sql.selectOne(namespace + ".getStaffCount", map);
-	}
-
-	@Override
-	public void staffdelete(String email) throws Exception {
-		sql.delete(namespace + ".staffdelete", email);
-	}
-	
 	//post 리스트
 	@Override
 	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception {

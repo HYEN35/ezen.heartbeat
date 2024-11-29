@@ -227,8 +227,7 @@ public class UserController {
 			
 			return "heartbeat/mypage"; 
 		}
-		
-		
+
 		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
@@ -382,7 +381,6 @@ public class UserController {
 			return "redirect:/getMyPostOne?notice_id="+noticeCommentVO.getNotice_id()+"&num=1";
 		}
 		
-		
 		// 내 공지 삭제 
 		@PostMapping("/mypage/deleteNotice")
 		public String deleteNotice(@RequestParam("notice_id") String notice_id) throws Exception {
@@ -393,6 +391,9 @@ public class UserController {
 			for (String noticeId : noticeIdArray) {
 				userServiceImpl.deleteMyNotice(Integer.parseInt(noticeId));  // 삭제 서비스 호출
 			}
+			
+
+			
 			return "redirect:/mynotice?num=1";
 		}
 

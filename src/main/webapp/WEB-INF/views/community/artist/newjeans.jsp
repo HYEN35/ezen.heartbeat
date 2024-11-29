@@ -98,7 +98,7 @@
 				<h2 class="title"><%=pageTitle %></h2>
 				<div class="cntArea">
 					<div class="section-banner">
-						<img src="${pageContext.request.contextPath}/img/artist/newjeans-header.jpg" alt="newjeans" class="thumb">
+						<img src="/img/artist/newjeans-header.jpg" alt="newjeans" class="thumb">
 					</div>
 					<div class="section-artist-post">
 						<div class="artistWrap">

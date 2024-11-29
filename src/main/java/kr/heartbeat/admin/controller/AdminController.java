@@ -109,37 +109,6 @@ public class AdminController {
 	    service.memberdelete(email);
 	    return "redirect:/admin/member";
 	}
-	
-	//staff 리스트 구현
-	@RequestMapping("/staff")
-	public void getStaffList(
-	        Model model,
-	        @RequestParam(value = "num", required = false, defaultValue = "1") int num,
-	        @RequestParam(value = "searchType", required = false, defaultValue = "name") String searchType,
-	        @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
-	) throws Exception {
-	    
-	    // 검색 및 페이징 처리 로직
-	    PageDTO page = new PageDTO();
-	    page.setNum(num);
-	    page.setCount(service.getStaffCount(searchType, keyword));
-	    page.setSearchType(searchType);
-	    page.setKeyword(keyword);
-
-	    List<UserVO> staffList = service.getStaffList(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
-	    
-	    model.addAttribute("staffList", staffList);
-	    model.addAttribute("page", page);
-	    model.addAttribute("select", num);
-
-	}
-
-	//staff 삭제
-	@GetMapping("/staff/delete")
-	public String deleteStaff(@RequestParam("email") String email) throws Exception {
-	    service.memberdelete(email); // 기존 memberdelete 재활용
-	    return "redirect:/admin/staff";
-	}
 		
 	//post 리스트 구현
 	@RequestMapping("/post")
