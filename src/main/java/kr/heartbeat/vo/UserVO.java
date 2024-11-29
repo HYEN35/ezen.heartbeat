@@ -1,7 +1,5 @@
 package kr.heartbeat.vo;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.Data;
 
 @Data
@@ -17,6 +15,4 @@ public class UserVO {
 	private int level;
 	private String reg_date;
 	private String up_date;
-	
-	private MultipartFile profileimgf;
 }

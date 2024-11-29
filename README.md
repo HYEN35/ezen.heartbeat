@@ -1,2 +1,0 @@
-# ezen.heartbeat
-heartbeat project
