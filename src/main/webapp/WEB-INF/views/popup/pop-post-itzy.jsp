@@ -12,7 +12,7 @@
 		<button type="button" class="btn-i-close" onclick="popPostHide();"></button>
 	</div>
 	<div class="cntArea">
-		<form action="/community/newjeansPostWrite" method="post" enctype="multipart/form-data" name="popPost">
+		<form action="/community/itzyPostWrite" method="post" enctype="multipart/form-data" name="popPost">
 			<input type="hidden" name="email" value="${UserVO.email }">
 			<input type="hidden" name="artist_id" value="${UserVO.artist_id}">
 			<input type="hidden" name="nickname" value="${UserVO.nickname}">

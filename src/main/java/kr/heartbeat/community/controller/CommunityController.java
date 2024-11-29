@@ -62,8 +62,8 @@ public class CommunityController {
 		UserVO uservo = (UserVO) session.getAttribute("UserVO");
 		PageDTO page = new PageDTO();
 		page.setNum(num);
-		page.setCount(communityService.getFanPostCount()); // 뉴진스 팬 게시물 개수 
-		List<PostVO> newjinsfanPosts = communityService.getFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
+		page.setCount(communityService.getNewjeansFanPostCount()); // 뉴진스 팬 게시물 개수 
+		List<PostVO> newjinsfanPosts = communityService.getNewjeansFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
 		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
 		UserVO artist_id = communityService.getLevel(uservo); 
 		
@@ -97,22 +97,9 @@ public class CommunityController {
 		return url;
 	}
 	
-	// 있지 페이지 들어가면서 게시물 가져오기
-	@RequestMapping("/artist/itzy")
-	public String itzy(@RequestParam("num")int num) {
-		
-		return "/community/artist/itzy";
-	}
-	// 블랙핑크 페이지 들어가면서 게시물 가져오기
-	@RequestMapping("/artist/blackpink")
-	public String blackpink(@RequestParam("num")int num) {
-		
-		return "/community/artist/blackpink";
-	}
-
 	// 뉴진스 게시물 작성
-	@PostMapping("/postWrite")
-	public String postWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
+	@PostMapping("/newjeansPostWrite")
+	public String newjeansPostWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
 		//프로필 이미지 저장 경로 지정
 				String realPath="C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\";
 				String file1,file2="";
@@ -129,8 +116,79 @@ public class CommunityController {
 				return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
 	
+	// 있지 페이지 들어가면서 게시물 가져오기
+	@RequestMapping("/artist/itzy")
+	public String itzy(@RequestParam("num")int num,Model model,HttpSession session) throws Exception {
+		UserVO uservo = (UserVO) session.getAttribute("UserVO");
+		PageDTO page = new PageDTO();
+		page.setNum(num);
+		page.setCount(communityService.getItzyFanPostCount()); // 있지 팬 게시물 개수 
+		List<PostVO> newjinsfanPosts = communityService.getItzyFanPostList(page.getDisplayPost(), page.getPostNum()); // 있지 팬 게시물
+		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
+		UserVO artist_id = communityService.getLevel(uservo); 
+		
+		
+		//artistVO art_name = communityService.getLevel(uservo);
 
-	// 뉴진스 게시물 삭제
+		String url = null;
+		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
+
+		if (artist_id.getArtist_id() == 20117) {
+			// 게시물 나누기
+			for (PostVO post : postList) {
+				if (post.getArtist_id() == 20117) {
+					if ("chaeryeong".equals(post.getEmail()) || "lia".equals(post.getEmail()) || "ryujin".equals(post.getEmail()) || "yeji".equals(post.getEmail()) || "yuna".equals(post.getEmail()) ) {
+						newjinsPosts.add(post);
+					}
+				}
+			}
+			
+			
+			model.addAttribute("newjinsPosts", newjinsPosts);
+			model.addAttribute("newjinsfanPosts", newjinsfanPosts);
+			model.addAttribute("page", page);
+			model.addAttribute("select", num);
+			url = "/community/artist/itzy";;
+		} else {
+
+			url = "/community/community";
+		}
+
+		return url;
+		
+	}
+	
+	// 있지 게시물 작성
+	@PostMapping("/itzyPostWrite")
+	public String itzyPostWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
+		//프로필 이미지 저장 경로 지정
+		String realPath="C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\";
+		String file1,file2="";
+		
+		if(postImg !=null && !postImg.isEmpty()) {
+			String fileName=UUID.randomUUID().toString() + "_"+ postImg.getOriginalFilename() ;
+			file1=realPath + fileName;
+			postImg.transferTo(new File(file1));
+			file2 =fileName;
+			postvo.setPost_img(file2);
+		}
+		communityService.postWrite(postvo);
+		
+		return "redirect:/community/artist/itzy?email="+postvo.getEmail()+"&num=1";
+	}
+	
+	
+	// 블랙핑크 페이지 들어가면서 게시물 가져오기
+	@RequestMapping("/artist/blackpink")
+	public String blackpink(@RequestParam("num")int num) {
+		
+		return "/community/artist/blackpink";
+	}
+
+	
+	
+
+	// 게시물 삭제
 	@PostMapping("/deletePost")
 	public String deletePost(@RequestParam("post_id") int post_id, HttpServletRequest request) throws Exception {
 		communityService.deletePost(post_id);

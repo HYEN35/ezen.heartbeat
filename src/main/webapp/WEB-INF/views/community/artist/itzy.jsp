@@ -56,13 +56,13 @@
 
 		//팝업 팬포스트작성
 		function popPostShow(){
-			$('.pop-post').show();
+			$('.pop-post-itzy').show();
 			$('.dimmed').show();
 			//uploadFileName();
 			multipleUploadFile();
 		}
 		function popPostHide(){
-			$('.pop-post').hide();
+			$('.pop-post-itzy').hide();
 			$('.dimmed').hide();
 		}
 
@@ -189,6 +189,6 @@
 	<!-- [D] 팝업 팬 포스트 -->
 	<div class="popup pop-post-fan"><%@ include file="../../popup/pop-post-fan.jsp" %></div>
 	<!-- [D] 팝업 포스트작성 -->
-	<div class="popup pop-post"><%@ include file="../../popup/pop-post.jsp" %></div>
+	<div class="popup pop-post-itzy"><%@ include file="../../popup/pop-post-itzy.jsp" %></div>
 </body>
 </html>
