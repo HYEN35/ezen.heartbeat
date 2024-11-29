@@ -21,42 +21,6 @@
 .menu .menuCnt .item>a:hover{color:#000}
 .menu .menuCnt .item>a>i{position:relative;top:2px;margin-right:10px;font-size:20px}
 
-/*===== progress =====*/
-progress {width:100%; height:30px; appearance: none;}
-progress::-webkit-progress-bar {
-    background:#f0f0f0;
-    border-radius:15px;
-    box-shadow: inset 3px 3px 10px #ccc;
-}
-.progress-blue::-webkit-progress-value {
-    border-radius:15px;
-    background: linear-gradient(to right, #0652DD, #3498db);
-}
-.progress-red::-webkit-progress-value {
-    border-radius:15px;
-    background: linear-gradient(to right, #eb4d4b, #ff7979);
-}
-.progress-success::-webkit-progress-value {
-    border-radius:15px;
-    background: linear-gradient(to right, #6ab04c, #badc58);
-}
-.progress-warning::-webkit-progress-value {
-    border-radius:15px;
-    background: linear-gradient(to right, #f0932b, #f9ca24);
-}
-.progress-purple::-webkit-progress-value {
-    border-radius:15px;
-    background: linear-gradient(to right, #4834d4, #686de0);
-}
-.progress-info::-webkit-progress-value {
-    border-radius:15px;
-    background: linear-gradient(to right, #22a6b3, #7ed6df);
-}
-.progress-result {position:relative; margin-top:10px;}
-.progress-bar-txt {position:absolute; right:20px; z-index:9;}
-.txt1 {top:9px;}
-.txt2 {top:46px;}
-
 /*관리자페이지 common*/
 .admin{background:#f2f2f2}
 .admin .logo{width:142px;height:40px;background:url(../img/logo.png) center no-repeat;background-size:contain;text-indent:-9999px}

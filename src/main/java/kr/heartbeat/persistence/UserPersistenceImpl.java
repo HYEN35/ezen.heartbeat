@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import kr.heartbeat.vo.NoticeVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
@@ -38,6 +39,11 @@ public class UserPersistenceImpl implements UserPersistence {
 	public int insertUser(UserVO userVO) {
 		return sql.insert(namespace+".join", userVO);
 	}
+	//회원가입 시 유저 역할 추가
+	@Override
+	public int insertUserRole(String email) {
+		return sql.insert(namespace+".joinUserRole", email);
+	}
 	//로그인
 	@Override
 	public UserVO login(UserVO userVO) {
@@ -45,29 +51,26 @@ public class UserPersistenceImpl implements UserPersistence {
 	}
 	//아이디 찾기
 	@Override
-	public UserVO findId(String name, String birth, String phone) {
-		System.out.println("=====================Persistence name: "+ name);
+	public UserVO findId(UserVO userVO) {
+		System.out.println("=====================Persistence name: "+ userVO.getName());
 		
-		HashMap<String, String> map = new HashMap();
-	
-		map.put("name", name);
-		map.put("birth", birth);
-		map.put("phone", phone);
-		
-		return sql.selectOne(namespace+".findId", map);
+		return sql.selectOne(namespace+".findId", userVO);
 	}
-	//비밀번호 찾기
-		@Override
-		public UserVO findPwd(String email, String name, String birth) {
-			System.out.println("=====================Persistence email : "+email);
-			HashMap<String, String> map = new HashMap();
-			
-			map.put("email", email);
-			map.put("name", name);
-			map.put("birth", birth);
-			
-			return sql.selectOne(namespace+".findPwd", map);
-		}	
+
+	//비밀번호 찾기 - 메일 전송 버전
+	@Override
+	public UserVO searchPwd(UserVO userVO) {		
+		return  sql.selectOne(namespace+".searchPwd", userVO);
+	}
+	//새 비밀번호 		
+	@Override
+	public int updatePwd(String email, String newPassword) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("email", email);
+		map.put("newPassword", newPassword);
+		return sql.update(namespace+".updatePwd", map);
+	}	
+		
 	//회원정보수정
 	@Override
 	public void modify(String newPwd, UserVO userVO) {
@@ -79,13 +82,6 @@ public class UserPersistenceImpl implements UserPersistence {
 
 	    sql.update(namespace + ".modify", map); 
     }
-	//멤버쉽 수정(level)
-	@Override
-	public void membership(UserVO userVO) {
-		System.out.println("===================Persistence getEmail"+ userVO.getEmail());
-		System.out.println("===================Persistence level"+ userVO.getLevel());
-		sql.update(namespace+".membership", userVO);
-	}
 	//회원 탈퇴
 	@Override
 	public void delete( UserVO uvo) {
@@ -110,7 +106,8 @@ public class UserPersistenceImpl implements UserPersistence {
 		System.out.println("===========다오role : " +userrolevo.getEmail());
 		return sql.selectOne(namespace+".role", userrolevo);
 	}
-	
+
+
 
 	// 내 게시물 개수 가져오기
 	public int getMyPostCount(String searchType, String keyword, String email)throws Exception {
@@ -133,6 +130,30 @@ public class UserPersistenceImpl implements UserPersistence {
 	// 유저 개인 게시물 삭제하기
 	public void deleteMyPost(int post_id) throws Exception {
 		sql.delete(namespace+".deleteMyPost", post_id);
+	}
+	
+	// 내 문의 개수 가져오기
+	public int getMyNoticeCount(String searchType, String keyword, String email)throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		map.put("email", email);
+		return sql.selectOne(namespace+".getMyNoticeCount", map);
+	}
+	// 내 문의 가져오기
+	public List<NoticeVO> getUserNotice(int displayPost, int postNum, String searchType, String keyword, String email) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("displayPost", displayPost);
+		map.put("postNum", postNum);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		map.put("email", email);
+		return sql.selectList(namespace+".getUserNotice", map);
+	}
+	
+	// 내 문의 삭제하기
+	public void deleteMyNotice(int notice_id) throws Exception {
+		sql.delete(namespace+".deleteMyNotice", notice_id);
 	}
 
 

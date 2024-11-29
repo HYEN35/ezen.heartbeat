@@ -1,7 +1,19 @@
+<<<<<<< HEAD
+.idea/.gitignore
+=======
 .vscode/settings.json
+<<<<<<< HEAD
 .classpath
 .factorypath
 .vscode/settings.json
+=======
+.idea/.gitignore
+>>>>>>> origin/kimhonghyun
+>>>>>>> origin/main
+.idea/compiler.xml
+.idea/dbnavigator.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
 .smarttomcat/controller/conf/catalina.policy
 .smarttomcat/controller/conf/catalina.properties
 .smarttomcat/controller/conf/context.xml

@@ -88,7 +88,6 @@
 	// 게시물 삭제
 	function deletePost(post_id){
 		// 사용자에게 삭제 확인 메세지 띄우기
-		alert(post_id);
 		var ifconfrimed = confirm("게시물을 삭제하시겠습니까?");
 		
 		// 확인을 누르면 폼을 제출

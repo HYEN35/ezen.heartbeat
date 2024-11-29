@@ -8,13 +8,18 @@
 	String chart = menuPageRequest.endsWith("chart.jsp") ? "on" : "";
 	String playlist = menuPageRequest.endsWith("playlist.jsp") ? "on" : "";
 	String community = menuPageRequest.endsWith("community.jsp") ? "on" : "";
-	String membership =	menuPageRequest.endsWith("membership.jsp") ? "on" : "";
-	String mypage =	menuPageRequest.endsWith("mypage.jsp") ? "on" : "";
-	
+	String membership =	menuPageRequest.endsWith("purchase.jsp") ? "on" : "";
+	String notice =	menuPageRequest.endsWith("notice.jsp") ||
+					menuPageRequest.endsWith("noticeModify.jsp") ||
+					menuPageRequest.endsWith("noticePost.jsp") || 
+					menuPageRequest.endsWith("noticeShow.jsp") ||
+					menuPageRequest.endsWith("myNoticeModify.jsp") ||
+					menuPageRequest.endsWith("myNoticeShow.jsp") ? "on" : "";
+	String mypage =	menuPageRequest.endsWith("mypage.jsp") ||
+					menuPageRequest.endsWith("mymembership.jsp") ||
+					menuPageRequest.endsWith("mypost.jsp") ? "on" : "";
 	
 %>
-
-
 
 <div id="menu" class="menu">
 	<div class="wrap">
@@ -37,10 +42,13 @@
 					<a href="${pageContext.request.contextPath}/playlist" class="<%=playlist %>"><i class="fa-solid fa-icons"></i>플레이리스트</a>
 				</li>
 				<li class="item">
-					<a href="${pageContext.request.contextPath}/community/community?email=${UserVO.email}" class="<%=community %> <%="artist".equals(request.getAttribute("artistPage")) ? "on" : "" %>"><i class="fa-solid fa-comment"></i>커뮤니티</a>
+					<a href="${pageContext.request.contextPath}/community/community" class="<%=community %> <%="artist".equals(request.getAttribute("artistPage")) ? "on" : "" %>"><i class="fa-solid fa-comment"></i>커뮤니티</a>
 				</li>
 				<li class="item">
-					<a href="${pageContext.request.contextPath}/membership" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
+					<a href="${pageContext.request.contextPath}/purchase" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
+				</li>
+				<li class="item">
+					<a href="${pageContext.request.contextPath}notice/notice?num=1" class="<%=notice %>"><i class="fa-solid fa-bell"></i>공지 및 문의</a>
 				</li>
 				<li class="item">
 					<a href="${pageContext.request.contextPath}/mypage" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>마이페이지</a>

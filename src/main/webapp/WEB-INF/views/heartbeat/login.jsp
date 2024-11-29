@@ -3,35 +3,41 @@
 
 <body>
 	<script>
-			//팝업 아이디찾기
-			function popFindIdShow(){
-				$('.pop-find-id').show();
-				$('.dimmed').show();
-			}
-			function popFindIdHide(){
-				$('.pop-find-id').hide();
-				$('.dimmed').hide();
-				document.findIdFrm.reset(); //팝업 닫으면 input 리셋
-			}
-	
-			//팝업 비밀번호찾기
-			function popFindPasswordShow(){
-				$('.pop-find-password').show();
-				$('.dimmed').show();
-			}
-			function popFindPasswordHide(){
-				$('.pop-find-password').hide();
-				$('.dimmed').hide();
-			    document.findPwdFrm.reset(); 
-			}
-	
-			//비밀번호, 아이디 찾기 결과 보기
-			function resultShow(){
-				$('.resultCnt').show();
-			}
-			
-			// 하이하이 
-		</script>
+		//팝업 아이디찾기
+		function popFindIdShow(){
+			$('.pop-find-id').show();
+			$('.dimmed').show();
+		}
+		function popFindIdHide(){
+			$('.pop-find-id').hide();
+			$('.dimmed').hide();
+			document.findIdFrm.reset(); //팝업 닫으면 input 리셋
+			$('.resultCnt').hide();
+		}
+		
+		//팝업 비밀번호찾기
+		function popFindPasswordShow(){
+			$('.pop-find-password').show();
+			$('.dimmed').show();
+		}
+		function popFindPasswordHide(){
+			$('.pop-find-password').hide();
+			$('.dimmed').hide();
+		    document.findPwdFrm.reset(); 
+		}
+		
+		//아이디 찾기 결과 보기
+		function resultShow(){
+			$('.resultCnt').show();
+		}
+	</script>
+		
+	 <script>
+	  	//alert
+		<c:if test="${not empty message}">
+		    alert("${message}");
+		</c:if>
+	</script>
 
 	<div class="inner service login">
 		<div class="container">
@@ -56,12 +62,6 @@
 						<button type="button" id="findPwd" class="btn-under-01" onclick="popFindPasswordShow();">비밀번호 찾기</button>
 						<a href="${pageContext.request.contextPath}/join" id="btnJoin" class="btn-under-01">회원가입</a>
 					</div>
-				</div>
-				<p class="line"><i>혹은</i></p>
-				<div id="snsLogin" class="btnCnt">
-					<button type="button" class="login-google"><i class="fa-brands fa-google"></i></button>
-					<button type="button" class="login-spotify"><i class="fa-brands fa-spotify"></i></button>
-				</div>
 			</div>
 		</div>
 	</div>
