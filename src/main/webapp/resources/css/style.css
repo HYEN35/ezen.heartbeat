@@ -271,9 +271,9 @@ br.mob{display:none}
 
 .my-page .cnt .nickname .dd .txtBx{float:left;margin-right:10px}
 .my-page .cnt .nickname .dd button{float:left}
+.my-page .cnt .image .dd:after{display:block;clear:both;content:""}
 .my-page .cnt .image .dd button{float:left;margin-right:10px}
-.my-page .cnt .image .dd .file{float:left;display:block;overflow:hidden;width:200px;height:40px;padding:0 5px;border:1px solid #dedede;border-radius:4px;text-overflow:ellipsis;white-space:nowrap}
-.my-page .cnt .image .dd .file>i{display:block;width:100%;height:100%;line-height:40px}
+.my-page .cnt .image .dd .fileName{overflow:hidden;display:block;float:left;width:80%;height:100%;line-height:40px;text-overflow:ellipsis;white-space:nowrap}
 .my-page .btnWrap{margin-top:20px;padding-top:20px;border-top:1px solid #dedede}
 .my-membership .current{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:500}
 .my-membership .current>i{font-weight:700}

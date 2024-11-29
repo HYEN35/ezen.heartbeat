@@ -29,11 +29,6 @@
 		        
 		        $('#fileNameDisplay').text(fileName); // 화면에 파일명 표시
 		    });
-			
-			
-			
-			mypageTab();
-			tabListShow();
 		});
 
 		//닉네임 중복 확인 여부
@@ -184,14 +179,13 @@
 											<div class="dd">
 												<input type="file" id="profileImageInput" name="profileimgf" hidden accept=".jpg, .jpeg, .png">
 												<button type="button" class="btn-border" onclick="$(this).siblings('input').click();">사진 변경</button>
-												<p id="fileNameDisplay">선택된 파일 없음</p>
+												<p id="fileNameDisplay" class="fileName">선택된 파일 없음</p>
 											</div>
 										</li>
 										<li class="item">
 											<p class="dt">회원 탈퇴</p>
 											<div class="dd">
-												<button type="button" class="btn-under-01"
-													onclick="popDeleteUserShow()">탈퇴하기</button>
+												<button type="button" class="btn-under-01" onclick="popDeleteUserShow()">탈퇴하기</button>
 											</div>
 										</li>
 									</ul>
