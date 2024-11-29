@@ -19,9 +19,15 @@
 								</select>
 								<input type="search" name="keyword" id="keyword" class="txtBx" placeholder="검색어 입력">
 								<button id="search-btn" type="button" class="btn-border">검색</button>
+								<!-- Role ID 필터 -->
+							    <label>
+							        <input type="checkbox" name="role_id" value="1"> 아티스트
+							    </label>
+							    <label>
+							        <input type="checkbox" name="role_id" value="2"> 일반 유저
+							    </label>
 							</div>
 							<div class="btnBx">
-								<!-- [D] 신규등록 미정 -->
 								<a href="/admin/adminjoin" class="btn-full">신규등록</a>
 							</div>
 						</div>
@@ -95,6 +101,25 @@
 			location.href="/admin/member?num=1&searchType="+searchType+"&keyword="+keyword;
 		});
 		
+	});
+	
+	//검색 필터(체크박스-아티스트,유저)
+	$(function() {
+	    $('#search-btn').click(function() {
+	        var searchType = $('#searchType').val();
+	        var keyword = $('#keyword').val();
+	        
+	        // 체크된 role_id 값 가져오기
+	        var roleIds = [];
+	        $('input[name="role_id"]:checked').each(function() {
+	            roleIds.push($(this).val());
+	        });
+
+	        // role_id 파라미터 추가
+	        var roleIdParam = roleIds.length > 0 ? "&role_id=" + roleIds.join(",") : "";
+
+	        location.href = "/admin/member?num=1&searchType=" + searchType + "&keyword=" + keyword + roleIdParam;
+	    });
 	});
 </script>
 </body>

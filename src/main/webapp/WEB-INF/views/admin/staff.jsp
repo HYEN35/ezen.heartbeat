@@ -70,9 +70,9 @@
 
 <script>
 	// 직원 삭제
-	function deleteItem(email) {
-		if (confirm('직원 이메일 ' + email + '을(를) 삭제하시겠습니까?')) {
-		    window.location.href = '/admin/staff/delete?email=' + email;
+	function deleteItem(staffId) {
+		if (confirm('직원 이메일 ' + staffId + '을(를) 삭제하시겠습니까?')) {
+		    window.location.href = '/admin/staff/delete?email=' + staffId;
 	  }
 	}
 	

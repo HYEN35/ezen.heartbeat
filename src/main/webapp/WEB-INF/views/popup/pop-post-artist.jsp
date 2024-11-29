@@ -338,7 +338,7 @@
 	    $('.dimmed').hide();
 	    
 	    // 페이지 새로 고침
-	    //location.reload(); // 페이지 새로 고침
+	    location.reload(); // 페이지 새로 고침
 	}
 	
 	// 새로고침 버튼 
