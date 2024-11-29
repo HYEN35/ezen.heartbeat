@@ -26,7 +26,7 @@ public interface UserService {
 	public int searchPwd(UserVO userVO);
 
 	//회원정보 수정
-	public void modify(String newPwd, UserVO userVO);
+	public void modify(UserVO userVO);
 
 	//회원탈퇴
 	public void delete(UserVO uvo);

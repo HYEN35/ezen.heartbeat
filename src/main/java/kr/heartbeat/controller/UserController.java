@@ -1,9 +1,12 @@
 package kr.heartbeat.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.membership.service.MembershipService;
@@ -82,19 +86,32 @@ public class UserController {
 
 	//회원가입
 	@PostMapping("/join")
-	public String insertUser(UserVO userVO, RedirectAttributes rttr) {
+	public String insertUser(UserVO userVO)throws IOException {
 		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
 		String url = null;
+		//프로필 사진 업로드 부분
+		String realPath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\"; 
+        String file1, file2 = "";
+        
+        MultipartFile uploadfilef = userVO.getProfileimgf(); 
+        System.out.println("================"+uploadfilef);
+        if (uploadfilef != null && !uploadfilef.isEmpty()) {
+            String fileName = UUID.randomUUID().toString() + "_" + uploadfilef.getOriginalFilename();
+            file1 = realPath + fileName; 
+            uploadfilef.transferTo(new File(file1)); 
+            file2 = fileName;
+            userVO.setProfileimg(file2);
+        }
+
+
 		int resultUser = userServiceImpl.insertUser(userVO);
-		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
-		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
-			rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
-			url ="redirect:/login";
-		} else { //회원가입 실패
-			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
-			url = "redirect:/join";
+		int reulstUserRole = userServiceImpl.insertUserRole(email); 
+		if(resultUser == 1 && reulstUserRole==1) { 
+			url ="/heartbeat/login";
+		} else { 
+			url = "/heartbeat/join";
 		}
 		return url;
 	}
@@ -232,21 +249,51 @@ public class UserController {
 		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
-		public String modify(@RequestParam("newPwd") String newPwd, UserVO userVO, HttpSession session, RedirectAttributes rttr) {
-			UserVO uvo = (UserVO) session.getAttribute("UserVO");	//세션에서 user 데이터 불러와서 email 값을 전달해야 한다.
-		    userVO.setEmail(uvo.getEmail());
-		   
-		    System.out.println("========== 정보수정 Presentaion member newPwd : "+newPwd);
-		    System.out.println("========== 정보수정 Presentaion member user nickname : "+userVO.getNickname());
-		    
-	        userServiceImpl.modify(newPwd, userVO);
-	       
-	        uvo.setNickname(userVO.getNickname());  // 세션에 저장된 user 객체의 닉네임 업데이트
-	        session.setAttribute("UserVO", uvo);  
-			rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+		public String modify(@RequestParam(value = "newPwd", required = false) String newPwd,
+		                     @RequestParam(value = "nickname", required = false) String nickname,
+		                     @RequestParam(value = "profileimgf", required = false) MultipartFile profileImage,
+		                     HttpSession session) throws IOException {
 
-		    return "redirect:/mypage";
+			UserVO userVO = (UserVO) session.getAttribute("UserVO");
+		    
+		    // 비밀번호 수정 처리
+		    if (newPwd != null && !newPwd.isEmpty()) {
+		    	userVO.setPwd(newPwd); 
+		    }
+
+		    // 닉네임 수정 처리
+		    if (nickname != null && !nickname.isEmpty()) {
+		    	userVO.setNickname(nickname); 
+		    }
+
+		    // 프로필 사진 수정 처리
+		    if (profileImage != null && !profileImage.isEmpty()) {
+		        String fileName = UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
+		        String filePath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" + fileName;
+
+		        // 기존 프로필 사진 삭제
+		        if (userVO.getProfileimg() != null && !userVO.getProfileimg().isEmpty()) {
+		            String oldFilePath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" +userVO.getProfileimg();
+		            File oldFile = new File(oldFilePath);
+		            if (oldFile.exists()) {
+		                oldFile.delete();
+		            }
+		        }
+
+		        // 새로운 프로필 사진 저장
+		        profileImage.transferTo(new File(filePath));
+		        userVO.setProfileimg(fileName); // 새로운 파일명을 UserVO에 설정
+		    }
+
+		    // 수정된 사용자 정보 DB에 저장
+		    userServiceImpl.modify(userVO); // userServiceImpl 수정 메소드 호출
+
+		    // 세션 갱신
+		    session.setAttribute("UserVO", userVO); // 세션에 수정된 사용자 정보 업데이트
+
+		    return "redirect:/mypage"; // 마이페이지로 리다이렉트
 		}
+		
 		
 		//마이페이지 - 탈퇴
 		@PostMapping("mypage/delete")

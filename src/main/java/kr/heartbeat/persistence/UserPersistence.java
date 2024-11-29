@@ -29,7 +29,7 @@ public interface UserPersistence {
 	public int updatePwd(String email, String newPassword);
 
 	//회원수정
-	public void modify(String newPwd, UserVO userVO);
+	public void modify(UserVO userVO);
 
 	//회원 탈퇴
 	public void delete(UserVO uvo);

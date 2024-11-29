@@ -1,9 +1,15 @@
 package kr.heartbeat.community.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.community.service.CommunityService;
@@ -104,11 +111,21 @@ public class CommunityController {
 
 	// 뉴진스 게시물 작성
 	@PostMapping("/postWrite")
-	public String postWrite(PostVO postvo, Model model, HttpServletRequest request) throws Exception {
-		communityService.postWrite(postvo);
-		int num = 1;
-		
-		return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
+	public String postWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
+		//프로필 이미지 저장 경로 지정
+				String realPath="C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\";
+				String file1,file2="";
+				
+				if(postImg !=null && !postImg.isEmpty()) {
+					String fileName=UUID.randomUUID().toString() + "_"+ postImg.getOriginalFilename() ;
+					file1=realPath + fileName;
+					postImg.transferTo(new File(file1));
+					file2 =fileName;
+					postvo.setPost_img(file2);
+				}
+				communityService.postWrite(postvo);
+				
+				return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
 	
 
@@ -127,11 +144,28 @@ public class CommunityController {
 	// 게시물 수정
 	@PostMapping("/modifyPost")
 	@ResponseBody
-	public String modifyPost(PostVO postVO) throws Exception {
-		communityService.modifyPost(postVO);
-		return "success";
-		
+	public ResponseEntity<Map<String,Object>> modifyPost(PostVO postVO, @RequestParam("post_img_name") MultipartFile postImgFile) throws Exception {
+	    if (postImgFile != null && !postImgFile.isEmpty()) {
+	        // 이미지가 있을 경우 이미지 파일 처리
+	        String fileName = saveImage(postImgFile);  // 이미지 저장 메서드
+	        postVO.setPost_img(fileName);
+	    }
+	    
+	    Map<String,Object> reMap = new HashMap<String,Object>(); reMap.put("post_img",postVO.getPost_img());
+	    
+	    communityService.modifyPost(postVO);  // 게시물 수정 서비스 호출
+	    return ResponseEntity.ok(reMap);  // 수정 성공 응답
 	}
+
+	private String saveImage(MultipartFile file) throws IOException {
+	    String uploadDir = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\";
+	    String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+	    Path path = Paths.get(uploadDir + fileName);
+	    Files.copy(file.getInputStream(), path);
+	    return fileName;
+	}
+	
+	
 	// 유저 게시물 상세보기
 	@RequestMapping("/getUserPost")
 	public String getUserPost(PostVO postVO, Model model) throws Exception {
