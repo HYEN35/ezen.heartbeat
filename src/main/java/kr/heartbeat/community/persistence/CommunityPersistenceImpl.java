@@ -58,8 +58,8 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		map.put("hanni", "hanni");
 	    map.put("danielle", "danielle");
 	    map.put("hyein", "hyein");
-		int a = sql.selectOne(namespace+".getFanPostCount",map);
-		return a;
+		int count = sql.selectOne(namespace+".getFanPostCount",map);
+		return count;
 	}
 	
 	@Override // 게시물 하나 가져오기
