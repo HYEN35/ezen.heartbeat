@@ -46,13 +46,10 @@
 		//uploadFileName();
 		multipleUploadFile();
 	}
-<<<<<<< HEAD
 	function popPostFanHide(){
 		$('.pop-post-fan').hide();
 	    $('.dimmed').hide();
 	}
-=======
->>>>>>> origin/kimhonghyun
 </script>
 
 <body>
@@ -91,16 +88,11 @@
 						                <span class="info content">내용 : <i class="elps">${pvo.content}</i></span>
 						            </div>
 						            <div class="btnWrap">
-<<<<<<< HEAD
 						         	   <a href="javascript:void(0);" class="btn-border" onclick="popPostFanShow(${pvo.post_id})" >보기</a>
-=======
-						         	   <a href="javascript:void(0);" onclick="popPostFanShow(${pvo.post_id})" >보기</a>
->>>>>>> origin/kimhonghyun
 						                <button type="button" class="btn-border-01" onclick="deleteItem(${pvo.post_id})">삭제</button>
 						            </div>
 						        </li>
 						    </c:forEach>
-<<<<<<< HEAD
 						</ul>
 						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
 						<div class="pagination">
@@ -126,48 +118,14 @@
 								</c:if>
 							</ul>
 						</div>
-=======
-						</ul>
-						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
-						<ul class="pagenation">
-							<c:if test="${page.prev}">
-							<li><a href="/admin/post?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
-							</c:if>
-							
-							<%-- 페이지 번호 버튼 --%>
-							<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
-							<li>
-								<c:if test="${select != num}">
-								<a href="/admin/post?num=${num}">${num}</a>
-								</c:if>
-								<c:if test="${select == num}">
-								<a href="" class="num on">${num}</a>
-								</c:if>
-							</li>
-							</c:forEach>
-							
-							<c:if test="${page.next}">
-							<li><a href="/admin/post?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
-							</c:if>
-						</ul>
->>>>>>> origin/kimhonghyun
 					</div>
 				</div>
 			</div>
 		</div>
-<<<<<<< HEAD
 	</div>	
 
 	<div class="dimmed" onclick="popPostFanHide();"></div>
 
-=======
-	</div>
-	
-	
-	
-
-	<div class="dimmed"></div>
->>>>>>> origin/kimhonghyun
 	<!-- [D] 팝업 팬 포스트 -->
 	<div class="popup pop-post-fan"><%@ include file="../popup/pop-post-fan.jsp" %></div>
 	<!-- [D] 팝업 아티스트 포스트 -->

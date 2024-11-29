@@ -46,7 +46,6 @@
 						</c:forEach>	
 						</ul>
 						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
-<<<<<<< HEAD
 						<div class="pagination">
 							<ul class="page">
 								<c:if test="${page.prev}">
@@ -69,29 +68,6 @@
 								<li><a href="/admin/comment?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
 								</c:if>
 							</ul>
-=======
-						<ul class="pagenation">
-							<c:if test="${page.prev}">
-							<li><a href="/admin/comment?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
-							</c:if>
-							
-							<%-- 페이지 번호 버튼 --%>
-							<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
-							<li>
-								<c:if test="${select != num}">
-								<a href="/admin/comment?num=${num}">${num}</a>
-								</c:if>
-								<c:if test="${select == num}">
-								<a href="/admin/comment?num=${num}" class="num on">${num}</a>
-								</c:if>
-							</li>
-							</c:forEach>
-							
-							<c:if test="${page.next}">
-							<li><a href="/admin/comment?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
-							</c:if>
-						</ul>
->>>>>>> origin/kimhonghyun
 						</div>
 					</div>
 				</div>

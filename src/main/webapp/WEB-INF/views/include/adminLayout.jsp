@@ -18,6 +18,10 @@
 		pageName = "회원 리스트 - HeartBeat 관리자";
 		pageTitle = "회원 리스트";
 	}
+	else if (pageRequest.endsWith("/admin/staff.jsp")){
+		pageName = "회원 리스트 - HeartBeat 관리자";
+		pageTitle = "직원 리스트";
+	}
 	else if (pageRequest.endsWith("/admin/post.jsp")){
 		pageName = "게시글 확인 - HeartBeat 관리자";
 		pageTitle = "게시글 확인";
