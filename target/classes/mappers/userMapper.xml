@@ -36,7 +36,7 @@
 	        reg_date, 
 	        up_date
 	    ) values (
-	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, 0, now(), now())
+	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, #{profileimg}, now(), now())
 	</insert>
 	
 	<!-- 회원가입 시 유저 역할 추가 -->
@@ -77,11 +77,11 @@
 	<!-- 회원 정보 수정 -->
 	<update id="modify" parameterType="hashMap">
 		update user_tbl set
-			pwd = #{newPwd}
-			, nickname = #{userVO.nickname}
-			,profileimg = 0
-			,up_date = now()
-		where email = #{userVO.email}
+        pwd = #{userVO.pwd},
+        nickname = #{userVO.nickname},
+        profileimg = #{userVO.profileimg},
+        up_date = now()
+    where email = #{userVO.email}
 	</update>
 	
 	<!-- 멤버쉽 수정(level) -->

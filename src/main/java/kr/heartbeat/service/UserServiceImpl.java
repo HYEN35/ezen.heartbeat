@@ -58,10 +58,9 @@ public class UserServiceImpl implements UserService {
 	}
 	//회원수정
 	@Override
-	public void modify(String newPwd, UserVO userVO) {
-		System.out.println("========== 로그인 Service member newPwd : "+newPwd);
+	public void modify(UserVO userVO) {
 		System.out.println("========== 로그인 Service member getNickname : "+userVO.getNickname());
-		userPersistenceImpl.modify(newPwd,userVO);
+		userPersistenceImpl.modify(userVO);
 	}
 	//멤버쉽 수정(level)
 	@Override

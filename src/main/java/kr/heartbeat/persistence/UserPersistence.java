@@ -22,7 +22,7 @@ public interface UserPersistence {
 	public UserVO findPwd(String email, String name, String birth);
 	
 	//회원수정
-	public void modify(String newPwd, UserVO userVO);
+	public void modify(UserVO userVO);
 	//멤버쉽 수정(level)
 	public void membership(UserVO userVO);
 	//회원 탈퇴
