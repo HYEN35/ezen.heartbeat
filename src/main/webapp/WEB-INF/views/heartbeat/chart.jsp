@@ -42,12 +42,12 @@
 								    <c:if test="${status.index < 10}">
 										<li class="item">
 											<div class="num">${status.index + 1}</div>
-								          	<button class="playBtn" onclick="playTrack('${trackInfo.title}', '${trackInfo.artist}', this);"></button>
 								            <div class="album"><img src="${trackInfo.albumImageUrl}" alt="Album Image" class="album-image" style="width:100%;height:100%" /></div>
 								            <div class="arti">
 									            <i class="tit">${trackInfo.title}</i>
 									            <i class="name">${trackInfo.artist}</i>
 								            </div>
+								          	<button class="playBtn" onclick="playTrack('${trackInfo.title}', '${trackInfo.artist}', this);"></button>
 							       		</li>
 								    </c:if>
 								</c:forEach>
@@ -62,12 +62,12 @@
 								    <c:if test="${statusWeek.index < 10}">
 										<li class="item">
 											<div class="num">${statusWeek.index + 1}</div>
-								          	<button class="playBtn" onclick="playTrack('${trackInfoListWeek.title}', '${trackInfoListWeek.artist}', this)"></button>
 								            <div class="album"><img src="${trackInfoListWeek.albumImageUrl}" alt="Album Image" class="album-image"/></div>
 							               <div class="arti">
 									            <i class="tit">${trackInfoListWeek.title}</i>
 									            <i class="name">${trackInfoListWeek.artist}</i>
 								            </div>
+								          	<button class="playBtn" onclick="playTrack('${trackInfoListWeek.title}', '${trackInfoListWeek.artist}', this)"></button>
 							       		</li>
 								    </c:if>
 								</c:forEach>
@@ -82,12 +82,12 @@
 								    <c:if test="${statusViral.index < 10}">
 										<li class="item">
 											<div class="num">${statusViral.index + 1}</div>
-								          	<button class="playBtn" onclick="playTrack('${trackInfoListViral.title}', '${trackInfoListViral.artist}', this)"></button>
 								            <div class="album"><img src="${trackInfoListViral.albumImageUrl}" alt="Album Image" class="album-image"/></div>
 								            <div class="arti">
 								            	<i class="tit">${trackInfoListViral.title}</i>
 								            	<i class="name">${trackInfoListViral.artist}</i>
 								            </div>
+								          	<button class="playBtn" onclick="playTrack('${trackInfoListViral.title}', '${trackInfoListViral.artist}', this)"></button>
 							       		</li>
 								    </c:if>
 								</c:forEach>
