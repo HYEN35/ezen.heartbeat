@@ -453,7 +453,7 @@ br.mob{display:none}
 .pop-pay .cntArea .infoWrap>i{display:block;margin-bottom:10px;font-weight:500}
 .pop-pay .cntArea .infoWrap .sltBx{width:100%}
 .pop-pay .cntArea .btnWrap{display:flex;justify-content:center;align-items:center;margin-top:30px}
-.pop-pay .cntArea .btnWrap [class*="btn-pay-"]{display:block;width:60px;height:60px;font-size:0;border-radius:50%;border:none}
+.pop-pay .cntArea .btnWrap [class*="btn-pay-"]{display:block;width:60px;height:60px;font-size:0;border-radius:50%;border:none;cursor:pointer}
 .pop-pay .cntArea .btnWrap [class*="btn-pay-"]+[class*="btn-pay-"]{margin-left:14px}
 .pop-pay .cntArea .btnWrap .btn-pay-nice{background:url(../img/i-normal.png) center no-repeat;background-size:contain}
 .pop-pay .cntArea .btnWrap .btn-pay-kakao{background:url(../img/i-kakao.png) center no-repeat;background-size:contain}
