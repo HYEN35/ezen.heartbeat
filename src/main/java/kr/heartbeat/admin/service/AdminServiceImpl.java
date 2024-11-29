@@ -1,6 +1,5 @@
 package kr.heartbeat.admin.service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,7 @@ import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
-import kr.heartbeat.vo.RoleVO;
-import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
-import kr.heartbeat.vo.UserroleVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Service
@@ -77,12 +73,38 @@ public class AdminServiceImpl implements AdminService {
 
 	    return persistence.getUserCount(map);
 	}
-
-	
 	
 	@Override
 	public void memberdelete(String email) throws Exception {
 		persistence.memberdelete(email);
+	}
+	
+	//Staff
+	@Override
+	public int getStaffCount(String searchType, String keyword) throws Exception {
+	    HashMap<String, Object> map = new HashMap<>();
+	    map.put("searchType", searchType);
+	    map.put("keyword", keyword);
+	    
+	    return persistence.getStaffCount(map);
+	}
+
+	@Override
+	public List<UserVO> getStaffList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
+	    HashMap<String, Object> map = new HashMap<>();
+	    map.put("displayPost", displayPost);
+	    map.put("postNum", postNum);
+	    map.put("searchType", searchType);
+	    map.put("keyword", keyword);
+
+	    return persistence.getStaffList(map);
+	}
+
+	
+	
+	@Override
+	public void staffdelete(String email) throws Exception {
+		persistence.staffdelete(email);
 	}
 	
 	//post
