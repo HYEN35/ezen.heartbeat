@@ -19,6 +19,7 @@
 								</select>
 								<input type="search" name="keyword" id="keyword" class="txtBx" placeholder="검색어 입력">
 								<button id="search-btn" type="button" class="btn-border">검색</button>
+<<<<<<< HEAD
 								<!-- Role ID 필터 -->
 							    <label>
 							        <input type="checkbox" name="role_id" value="1"> 아티스트
@@ -28,6 +29,11 @@
 							    </label>
 							</div>
 							<div class="btnBx">
+=======
+							</div>
+							<div class="btnBx">
+								<!-- [D] 신규등록 미정 -->
+>>>>>>> origin/kimhonghyun
 								<a href="/admin/adminjoin" class="btn-full">신규등록</a>
 							</div>
 						</div>
@@ -54,6 +60,7 @@
 						</c:forEach>
 						</ul>
 						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
+<<<<<<< HEAD
 						<div class="pagination">
 							<ul class="page">
 								<c:if test="${page.prev}">
@@ -77,6 +84,29 @@
 								</c:if>
 							</ul>
 						</div>
+=======
+						<ul class="pagenation">
+							<c:if test="${page.prev}">
+							<li><a href="/admin/member?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
+							</c:if>
+							
+							<%-- 페이지 번호 버튼 --%>
+							<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+							<li>
+								<c:if test="${select != num}">
+								<a href="/admin/member?num=${num}">${num}</a>
+								</c:if>
+								<c:if test="${select == num}">
+								<a href="" class="num on">${num}</a>
+								</c:if>
+							</li>
+							</c:forEach>
+							
+							<c:if test="${page.next}">
+							<li><a href="/admin/member?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
+							</c:if>
+						</ul>
+>>>>>>> origin/kimhonghyun
 					</div>
 				</div>
 			</div>
@@ -104,6 +134,7 @@
 		});
 		
 	});
+<<<<<<< HEAD
 	
 	//검색 필터(체크박스-아티스트,유저)
 	$(function() {
@@ -123,6 +154,8 @@
 	        location.href = "/admin/member?num=1&searchType=" + searchType + "&keyword=" + keyword + roleIdParam;
 	    });
 	});
+=======
+>>>>>>> origin/kimhonghyun
 </script>
 </body>
 </html>

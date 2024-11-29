@@ -89,6 +89,47 @@ public class AdminServiceImpl implements AdminService {
 	    return persistence.getStaffCount(map);
 	}
 
+	
+	
+	@Override
+	public void memberdelete(String email) throws Exception {
+		persistence.memberdelete(email);
+	}
+	
+	//post
+	@Override
+	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception {	
+		return persistence.getPostList(displayPost, postNum, searchType, keyword);
+	}
+	
+	@Override
+	public int getPostCount(String searchType, String keyword) throws Exception {
+		return persistence.getPostCount(searchType, keyword);
+	}
+
+	
+	@Override
+	public void podelete(int post_id) throws Exception {
+		persistence.podelete(post_id);
+	}
+	
+	//comment
+	@Override
+	public List<CommentVO> getCommentList(int displayPost, int postNum, String searchType, String keyword) throws Exception {	
+		return persistence.getCommentList(displayPost, postNum, searchType, keyword);
+	}
+	
+	@Override
+	public int getCommentCount(String searchType, String keyword) throws Exception {
+		return persistence.getCommentCount(searchType, keyword);
+	}
+	
+	@Override
+	public void codelete(int comment_id) throws Exception {
+		persistence.codelete(comment_id);
+	}
+	
+	//edit
 	@Override
 	public List<UserVO> getStaffList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
 	    HashMap<String, Object> map = new HashMap<>();

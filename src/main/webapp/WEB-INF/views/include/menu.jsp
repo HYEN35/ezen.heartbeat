@@ -18,7 +18,12 @@
 					menuPageRequest.endsWith("myNoticeShow.jsp") ? "on" : "";
 	String mypage =	menuPageRequest.endsWith("mypage.jsp") ||
 					menuPageRequest.endsWith("mymembership.jsp") ||
+<<<<<<< HEAD
 					menuPageRequest.endsWith("mypost.jsp") ? "on" : "";	
+=======
+					menuPageRequest.endsWith("mypost.jsp") ? "on" : "";
+	
+>>>>>>> origin/kimhonghyun
 %>
 
 <div id="menu" class="menu">
@@ -48,10 +53,15 @@
 					<a href="${pageContext.request.contextPath}/purchase" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
 				</li>
 				<li class="item">
+<<<<<<< HEAD
 					<a href="${pageContext.request.contextPath}notice/notice?num=1" class="<%=notice %>"><i class="fa-solid fa-bell"></i>공지 및 문의</a>
+=======
+					<a href="${pageContext.request.contextPath}/notice/notice?num=1" class="<%=notice %> <%="notice".equals(request.getAttribute("noticePage")) ? "on" : "" %>"><i class="fa-solid fa-table-list"></i>공지 및 문의</a>
+>>>>>>> origin/kimhonghyun
 				</li>
 				<li class="item">
 					<a href="${pageContext.request.contextPath}/mypage" class="<%=mypage %>"><i class="fa-solid fa-user-pen"></i>마이페이지</a>
+					
 				</li>
 			</ul>
 		</div>

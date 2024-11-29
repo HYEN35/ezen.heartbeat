@@ -20,8 +20,8 @@
   	<select id="getFanPostList" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
   		SELECT *
 	    FROM post_tbl
-	    WHERE artist_id = 2
-	    AND email not in (#{minji},#{haerin}) 
+	    WHERE artist_id = 20109
+	    AND email not in (#{minji},#{haerin},#{hanni},#{danielle},#{hyein}) 
 	    ORDER BY post_id DESC
     	LIMIT #{displayPost}, #{postNum}
   	</select>
@@ -30,8 +30,8 @@
   	<select id="getFanPostCount" parameterType="hashMap" resultType="int">
 	    SELECT COUNT(*)
 	    FROM post_tbl
-	    WHERE artist_id = 2
-	    and email not in (#{minji},#{haerin})  
+	    WHERE artist_id = 20109
+	    and email not in (#{minji},#{haerin},#{hanni},#{danielle},#{hyein})  
 	    AND email IS NOT NULL
 	</select>
  	
