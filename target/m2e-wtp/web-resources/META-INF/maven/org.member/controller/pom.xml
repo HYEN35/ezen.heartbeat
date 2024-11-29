@@ -281,15 +281,7 @@
 			<version>2.10.1</version>
 		</dependency>
 	    
-		<!-- 새 비밀번호 매일 전송 -->
-	    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context-support</artifactId>
-		    <version>${org.springframework-version}</version>
-		</dependency>
 	    
-<<<<<<< HEAD
 	    <!-- 새 비밀번호 매일 전송 -->
 	    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>
@@ -298,8 +290,6 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 	    
-=======
->>>>>>> origin/main
 		<!-- https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail -->
 		<dependency>
 		    <groupId>com.sun.mail</groupId>
