@@ -32,9 +32,9 @@ import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Controller
-@Transactional 
+@Transactional
 public class UserController {
-	
+
 	@Inject
 	private UserServiceImpl userServiceImpl;
 	@Autowired
@@ -100,53 +100,53 @@ public class UserController {
 	}
 
 
-		//로그인 
-		@PostMapping("/login")
-		public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr,Model model) throws Exception {
-			UserVO dbuserVO = userServiceImpl.login(userVO);
-			UserroleVO rolelevel = userServiceImpl.role(userrolevo);
-			String email = userVO.getEmail();
-			String url = null;
-			Date date = new Date();
-	        // 원하는 형식으로 변환할 SimpleDateFormat 객체
-	        SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd");	        
-	        // Date 객체를 원하는 형식의 문자열로 포맷팅
-	        String formattedDate = desiredFormat.format(date);	        
-	        // 출력
-	        System.out.println(formattedDate);  // 예시: 2024-11-20
-			
-	        if (dbuserVO != null) {
-	            // 패스워드가 일치하는 경우
-	            if (userVO.getPwd().equals(dbuserVO.getPwd())) {
-	                // 맴버십 종료 날짜 확인
-	                SubscriptionVO subscriptionVO = membershipService.checkEndDate(email);
-	                Date nowDate = desiredFormat.parse(formattedDate);
-	                if (subscriptionVO != null) {
-	                    Date endDate = desiredFormat.parse(subscriptionVO.getEnd_date());
-	                    long now = nowDate.getTime() - endDate.getTime();
-	                    System.out.println(now);
+	//로그인
+	@PostMapping("/login")
+	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr,Model model) throws Exception {
+		UserVO dbuserVO = userServiceImpl.login(userVO);
+		UserroleVO rolelevel = userServiceImpl.role(userrolevo);
+		String email = userVO.getEmail();
+		String url = null;
+		Date date = new Date();
+		// 원하는 형식으로 변환할 SimpleDateFormat 객체
+		SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd");
+		// Date 객체를 원하는 형식의 문자열로 포맷팅
+		String formattedDate = desiredFormat.format(date);
+		// 출력
+		System.out.println(formattedDate);  // 예시: 2024-11-20
 
-	                    // 맴버십 종료 여부 확인
-	                    if (now >= 0) {
-	                        // 맴버십 기간 종료 시
-	                        membershipService.deleteLevel(email);
-	                        membershipService.updateLevel(email, 0, 0);
-	                        dbuserVO = userServiceImpl.login(dbuserVO);  // 로그인 재실행
-	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
-	                        model.addAttribute("alertMsg", "맴버십 이용 기간이 종료되었습니다.");
-	                        return "redirect:/membership";  // 맴버십 페이지로 이동
-	                    } else {
-	                        // 맴버십 기간이 유효한 경우
-	                        session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
-	                        rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
-	                        url = "redirect:/chart";  // 차트 페이지로 이동
-	                    }
-	                } else {
-	                    // 구독 정보가 없는 경우
-	                    session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
-	                    rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
-	                    url = "redirect:/chart";  // 차트 페이지로 이동
-	                }
+		if (dbuserVO != null) {
+			// 패스워드가 일치하는 경우
+			if (userVO.getPwd().equals(dbuserVO.getPwd())) {
+				// 맴버십 종료 날짜 확인
+				SubscriptionVO subscriptionVO = membershipService.checkEndDate(email);
+				Date nowDate = desiredFormat.parse(formattedDate);
+				if (subscriptionVO != null) {
+					Date endDate = desiredFormat.parse(subscriptionVO.getEnd_date());
+					long now = nowDate.getTime() - endDate.getTime();
+					System.out.println(now);
+
+					// 맴버십 종료 여부 확인
+					if (now >= 0) {
+						// 맴버십 기간 종료 시
+						membershipService.deleteLevel(email);
+						membershipService.updateLevel(email, 0, 0);
+						dbuserVO = userServiceImpl.login(dbuserVO);  // 로그인 재실행
+						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
+						model.addAttribute("alertMsg", "맴버십 이용 기간이 종료되었습니다.");
+						return "heartbeat/purchase";  // 맴버십 페이지로 이동
+					} else {
+						// 맴버십 기간이 유효한 경우
+						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
+						rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
+						url = "redirect:/chart";  // 차트 페이지로 이동
+					}
+				} else {
+					// 구독 정보가 없는 경우
+					session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
+					rttr.addFlashAttribute("message", "로그인에 성공하셨습니다. Heartbeat에 오신걸 환영합니다.");
+					url = "redirect:/chart";  // 차트 페이지로 이동
+				}
 
 				// 역할에 따른 페이지 분기 (관리자 및 일반 사용자)
 				int roleId = rolelevel.getRole_id();
@@ -178,14 +178,14 @@ public class UserController {
 			url = "redirect:/login";  // 로그인 페이지로 이동
 		}
 
-			
-			return url;
-		}
-		
-		//아이디 찾기
-		@PostMapping("/login/findId")
-		@ResponseBody //@ResponseBody를 사용하면 model 객체를 쓸 수 없다.
-		public HashMap<String,Object> findId(UserVO userVO) {
+
+		return url;
+	}
+
+	//아이디 찾기
+	@PostMapping("/login/findId")
+	@ResponseBody //@ResponseBody를 사용하면 model 객체를 쓸 수 없다.
+	public HashMap<String,Object> findId(UserVO userVO) {
 		// HashMap을 사용할 때 @ResponseBody로 반환되는 객체를 JSON으로 변환하려면 jackson-databind를 pom.xml에 의존성 주입을 해야 한다.
 			
 			UserVO uvo = userServiceImpl.findId(userVO);
@@ -196,7 +196,7 @@ public class UserController {
 				response.put("email", uvo.getEmail());
 			} 
 			response.put("name", userVO.getName());
-			
+
 			return response;
 		}
 		
@@ -213,7 +213,6 @@ public class UserController {
 			redirectAttributes.addFlashAttribute("message", "비밀번호 찾기 실패했습니다. 다시 시도해 주세요.");
 			return "redirect:/login"; 
 		}
-		
 		
 		//로그아웃
 		@GetMapping("/logout")
@@ -244,7 +243,8 @@ public class UserController {
 	       
 	        uvo.setNickname(userVO.getNickname());  // 세션에 저장된 user 객체의 닉네임 업데이트
 	        session.setAttribute("UserVO", uvo);  
-	        rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+			rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+
 		    return "redirect:/mypage";
 		}
 		
@@ -342,6 +342,47 @@ public class UserController {
 			return "/heartbeat/myNoticeShow";
 		}
 		
+		@PostMapping("/myNoticeModifyShow") // 게시물 수정 페이지 이동
+		public String noticeModifyShow(int notice_id,int num,Model model) throws Exception{
+			NoticeVO noticeVO = noticeService.getPostOne(notice_id);
+			
+			model.addAttribute("num", num);
+			model.addAttribute("noticeVO", noticeVO);
+			return "/heartbeat/myNoticeModify";
+		}
+		
+		@PostMapping("/myNoticeModify") // 게시물 수정
+		public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,Model model) throws Exception{
+			
+			noticeService.noticeModify(noticeVO);
+			NoticeVO dbnoticeVO = noticeService.getPostOne(noticeVO.getNotice_id());
+			List<NoticeCommentVO> commentVO = noticeService.getComment(dbnoticeVO.getNotice_id());
+			model.addAttribute("num", num);
+			model.addAttribute("noticeVO", dbnoticeVO);
+			model.addAttribute("commentVO", commentVO);
+			return "/heartbeat/myNoticeShow";
+		}
+		
+		@RequestMapping("/myNoticeDelete") // 게시물 삭제
+		public String noticeDelete(@RequestParam("notice_id")int notice_id) throws Exception{
+			noticeService.noticeDelete(notice_id);
+
+			return "redirect:/mynotice?num=1";
+		}
+		
+		@PostMapping("/myCommentWrite") // 댓글 작성
+		public String commentWrite(@RequestParam("num")int num,NoticeCommentVO noticeCommentVO,Model model) throws Exception{
+			noticeService.commentWrite(noticeCommentVO);
+			NoticeVO noticeVO = noticeService.getPostOne(noticeCommentVO.getNotice_id());
+			List<NoticeCommentVO> commentVO = noticeService.getComment(noticeCommentVO.getNotice_id());
+			
+			model.addAttribute("num", num);
+			model.addAttribute("commentVO", commentVO);
+			model.addAttribute("noticeVO", noticeVO);
+			return "redirect:/getMyPostOne?notice_id="+noticeCommentVO.getNotice_id()+"&num=1";
+		}
+		
+		
 		// 내 공지 삭제 
 		@PostMapping("/mypage/deleteNotice")
 		public String deleteNotice(@RequestParam("notice_id") String notice_id) throws Exception {
@@ -352,9 +393,6 @@ public class UserController {
 			for (String noticeId : noticeIdArray) {
 				userServiceImpl.deleteMyNotice(Integer.parseInt(noticeId));  // 삭제 서비스 호출
 			}
-			
-
-			
 			return "redirect:/mynotice?num=1";
 		}
 
