@@ -36,10 +36,6 @@
 		        const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
 		        console.log(newContent); // newContent 확인
 		        $('.pop-post-artist .cntArea').html(newContent);
-		        
-
-		        
-
 		        // 팝업을 보여줍니다.
 		    }).fail(function() {
 		        console.error('Error loading post data.');
