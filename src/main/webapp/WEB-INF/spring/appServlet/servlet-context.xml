@@ -21,7 +21,7 @@
     <resources mapping="/video/**" location="/resources/video/" />
 	
 	 <!-- 업로드된 파일을 실제 파일 시스템의 "resources/upload" 경로에서 제공하도록 설정 -->
-    <resources mapping="/upload/**" location="file:C:/Spring/workspace/ezen-heartbeat/src/main/webapp/resources/upload/" />
+    <resources mapping="/upload/**" location="file:D:/Project/heartbeat.kr/ezen.heartbeat/src/main/webapp/resources/upload/" />
 	
 
 	

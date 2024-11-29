@@ -61,7 +61,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	   public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	      registry.addResourceHandler("/upload/**")
-	        .addResourceLocations("file:/C:/Spring/workspace/ezen-heartbeat/src/main/webapp/resources/upload/");
+	        .addResourceLocations("file:/D:/Project/heartbeat.kr/ezen.heartbeat/src/main/webapp/resources/upload/");
 	   }
 
 	@Override
