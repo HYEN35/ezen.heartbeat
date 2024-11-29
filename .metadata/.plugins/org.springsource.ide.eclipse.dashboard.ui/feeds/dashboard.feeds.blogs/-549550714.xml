@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Spring]]></title><description><![CDATA[Level up your Java code and explore what Spring can do for you.]]></description><link>https://spring.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 26 Nov 2024 03:15:13 GMT</lastBuildDate><item><title><![CDATA[Bootiful Spring Boot 3.4: Start Here]]></title><link>https://spring.io/blog/2024/11/25/bootiful-34-index</link><guid isPermaLink="true">https://spring.io/blog/2024/11/25/bootiful-34-index</guid><dc:creator><![CDATA[joshlong]]></dc:creator><pubDate>Mon, 25 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Hi, Spring fans! And happy Spring Boot 3.4 release to those who celebrate!&lt;/p&gt;
+&lt;p&gt;I know, I know what you&apos;re thinking: Josh, Spring Boot 3.4 already shipped! I know it. Spring Boot 3.4 dropped a week earlier this year! In the last couple of years, we¡¯ve  released Spring Boot on the same day as Thanksgiving Day in the USA, which is tedious for us here in the United States because it requires more preparation. This year, it¡¯s a week early! Why do I mention this? Well, I¡¯ve had some time already - before Thanksgiving, even - to explore the fantastic possibilities unlocked by using Spring Boot 3.4. While I&apos;ve also played with it plenty over the last six months, it was super satisfying to go to the &lt;a href=&quot;https://start.spring.io&quot;&gt;Spring Initializr&lt;/a&gt;, add a few dependencies, and get a working build with no modifications required to work with the versions of the dependencies. It all just comes together so nicely!  There are a ton of features, it&apos;s just absolutely brimming with them. It&apos;s &lt;em&gt;stuffed&lt;/em&gt;, you might say, like that turkey I&apos;ll be eating in a few short days!&lt;/p&gt;
+&lt;p&gt;Spring Boot delivers value on its own, of course, but it¡¯s also the premier vehicle by which to consume the rest of the Spring portfolio. As always, this release includes dependency updates, fixes for CVEs, and tons of new features. And there¡¯s an implied support timeline. Did you know that we only support open-source releases of Spring Boot for about a year? So, if you¡¯re using Spring Boot 3.2, you need to upgrade to Spring Boot 3.3 because 3.2 is now out of open-source support. If you want to know where you stand, please check &lt;a href=&quot;https://spring.io/projects/spring-boot#support&quot;&gt;each project¡¯s support pages&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We¡¯re in the waning days of the Spring Boot 3.x and Spring Framework 6.x generation. But sometime next year, we¡¯ll see Spring Boot 4.x and Spring Framework 7.x! So make sure you¡¯re staying upgraded and handling whatever deprecations result.&lt;/p&gt;
+&lt;p&gt;When you upgrade to a new version of Spring Boot, you get all the work the entire Spring team has done over the last six months. It¡¯s a massive undertaking and integration, and we do it for you like clockwork every six months. I don&apos;t foolishly hope to give you a sense of all the new and novel features. I can¡¯t. It would take the next six months to chronicle this release effectively. So, instead, I¡¯m going to take a different tack, looking at some of the high-level features and focusing, perhaps, on one or two of them across some (but still not all!) of the new released projects in Spring Boot 3.4.&lt;/p&gt;
+&lt;p&gt;OK? OK. Let¡¯s dive right into it. We¡¯ll work our way through the stack starting at the level of Spring Framework, on top of which absolutely everything else builds, and then ultimately getting to projects like Spring Modulith and Spring AI, which build on top of Spring Boot.&lt;/p&gt;
+&lt;p&gt;Here are all the installments:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-framework&quot;&gt;Spring Framework&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-data&quot;&gt;Spring Data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-batch&quot;&gt;Spring Batch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-integration&quot;&gt;Spring Integration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-security&quot;&gt;Spring Security&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-boot&quot;&gt;Spring Boot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-modulith&quot;&gt;Spring Modulith&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://spring.io/blog/2024/11/24/bootiful-34-ai&quot;&gt;Spring AI&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;spring-ai&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#spring-ai&quot; aria-label=&quot;spring ai permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Spring AI&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[Bootiful Spring Boot 3.4: Spring AI]]></title><link>https://spring.io/blog/2024/11/24/bootiful-34-ai</link><guid isPermaLink="true">https://spring.io/blog/2024/11/24/bootiful-34-ai</guid><dc:creator><![CDATA[joshlong]]></dc:creator><pubDate>Sun, 24 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I love Spring AI. It¡¯s an amazing project designed to bring the patterns and practices of AI engineering to the Spring Boot developer. It¡¯s got clean idiomatic abstractions that¡¯ll make any Sring developer feel right at home, and it has a ton of integrations with all manner of different vector stores, embedding models, transcription models, image modes, and chat models.&lt;/p&gt;
+&lt;p&gt;The new release, &lt;a href=&quot;https://spring.io/blog/2024/11/20/spring-ai-1-0-0-m4-released&quot;&gt;m4&lt;/a&gt;, builds upon Spring Boot 3.4 and adds a ton of new features. As usual, I can¡¯t hope to look at all the new features, but the release notes do an exquisite job.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;there¡¯s new Amazon Bedrock Convertse support&lt;/li&gt;
+&lt;li&gt;there¡¯s been a ton of work done to support more expressive function calling, both in Java and  Kotlin&lt;/li&gt;
+&lt;li&gt;there¡¯s the first cut of support for the ideas taking shape in the AI community around &quot;advanced and modular RAG&quot;. RAG, of course, is retrieval augmented generation and refers to using data from a system or service to inform the response generated by a chat model. These ideas are articulated in &lt;a href=&quot;https://export.arxiv.org/abs/2407.21059&quot;&gt;this paepr&lt;/a&gt; and &lt;a href=&quot;https://arxiv.org/abs/2312.10997&quot;&gt;this one&lt;/a&gt;, and the building blocks are taking root in this new release. Amazing!&lt;/li&gt;
+&lt;li&gt;updates across the board to various vector store integrations and chat models&lt;/li&gt;
+&lt;li&gt;there¡¯s&lt;a href=&quot;https://docs.spring.io/spring-ai/reference/api/chat/comparison.html&quot;&gt;aeven a comprehensive chat model comparison&lt;/a&gt; page in the documentation&lt;/li&gt;
+&lt;li&gt;vector storage and embedding improvements, including enhancements to vector stores like Azure and Milvus&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The evolving nature of the functional callback support has so enamored me. Spring AI aims to make connecting your AI models with your data and business logic easy. Remember: the name of the game here is integration. Most people aren¡¯t going to build their models. They¡¯re going to integrate existing ones into their business logic and services. And where does all that stuff live? In Spring, of course. Spring AI is a natural! And it keeps getting easier. In this release, there¡¯s new support for describing and then letting models invoke functions if they decide they¡¯ve got the need to do so.&lt;/p&gt;
+&lt;p&gt;Here¡¯s a simple example demonstrating the definition of a &lt;code&gt;FunctionCallback&lt;/code&gt;  and the Spring AI &lt;code&gt;ChatClient,&lt;/code&gt; which is your first port of call for all interactions with a Sprign AI  &lt;code&gt;ChatModel.&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package com.example.bootiful_34.ai;
+
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.model.function.FunctionCallback;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+class AiConfiguration {
+
+	@Bean
+	ChatClient chatClient(ChatClient.Builder builder, FunctionCallback weatherFunctionCallback) {
+		return builder.defaultFunctions(weatherFunctionCallback).build();
+	}
+
+	@Bean
+	FunctionCallback weatherFunctionCallback() {
+		return FunctionCallback.builder()
+			.description(&quot;returns the weather for a given city&quot;)
+			.function(&quot;getCurrentWeatherForACity&quot;,
+					(WeatherRequest wr) -&gt; new WeatherResponse(wr.city(),
+							wr.city().equalsIgnoreCase(&quot;san francisco&quot;) ? 68.0f : 72.0f))
+			.inputType(WeatherRequest.class)
+			.build();
+	}
+
+}
+
+record WeatherRequest(String city) {
+}
+
+record WeatherResponse(String city, float temperature) {
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It¡¯s a pretty trivial example: given a &lt;code&gt;WeatherRequest&lt;/code&gt; specifying a city, we make up and return some temperature. In this case, I¡¯ve got a hardcoded case for San Francisco.&lt;/p&gt;
+&lt;p&gt;We put all of this to work in the test, knowing that the model won¡¯t know the current weather in a given city, and so we will have to defer to a function that we provide. It knows about the nature of the function because we¡¯ve given it a description when we configured the FunctionCallback&lt;code&gt;. It knows that the city parameter is  &lt;/code&gt;String&lt;code&gt;and that San Francisco is a city, so it passes the string&lt;/code&gt;San Francisco` to our function, allowing us to provide the expected response. We verify as much with the test, asserting that the response is the hardcoded magic number.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package com.example.bootiful_34.ai;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class AiConfigurationTest {
+
+	@Test
+	void functionCallbacks(@Autowired ChatClient cc) {
+		var weatherInSf = cc.prompt(&quot;give me the weather for the city of san francisco&quot;).call().content();
+		Assertions.assertNotNull(weatherInSf);
+		Assertions.assertTrue(weatherInSf.contains(&quot;68&quot;));
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And just like that, we¡¯ve given our AI model the ability to ask questions about our systems and services and to support a more agentic workflow.  Easy!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Bootiful Spring Boot 3.4: Spring Batch]]></title><link>https://spring.io/blog/2024/11/24/bootiful-34-batch</link><guid isPermaLink="true">https://spring.io/blog/2024/11/24/bootiful-34-batch</guid><dc:creator><![CDATA[joshlong]]></dc:creator><pubDate>Sun, 24 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;The new release of Spring Batch 5.2 has a ton of features!
+Spring Batch is a compelling way to handle large but finite sequential data access. Think: reading from an SQL database and writing to a CSV, or reading from an FTP server and writing out an analysis of a MongoDB - batch processing. You know what this is. Half the job (pardon the pun!) is the integration of various sources of data and multiple sinks of data. The other aspect, as you can imagine with workloads that take a long time and could fail, is maintaining durable and extensive metadata related to each batch job¡¯s run. Again, I can¡¯t cover everything new and novel in depth in this release!
+So, let¡¯s look at some of the features from a high level.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;we¡¯ve gone from one to three - count &apos;em: &lt;em&gt;three&lt;/em&gt;! - job repository implementations. In recent terms, Spring Batch has only had the JDBC-backed &lt;code&gt;JobRepository&lt;/code&gt;. In the not-too-distant past, it had two &lt;code&gt;JobRepository&lt;/code&gt; implementations: one supporting JDBC, and another supporting &quot;persistence&quot; via in-memory &lt;code&gt;Map&lt;/code&gt;s. The &lt;code&gt;Map&lt;/code&gt; option was nice for tests or workloads where the durability of the results was less important than pure performance. We removed the &lt;code&gt;Map&lt;/code&gt; implementation, telling people to use an in-memory SQL database like H2 with the JDBC &lt;code&gt;JobRepository&lt;/code&gt;. Some wanted pure performance, and the H2 option wasn¡¯t good enough. In this release, we¡¯ve introduced a &quot;resource&quot;-less &lt;code&gt;JobRepository&lt;/code&gt; that saves no state, not even in memory. We¡¯ve also added a durable alternative to the JDBC-based &lt;code&gt;JobRepository&lt;/code&gt; with a  MongoDB-backed &lt;code&gt;JobRepository&lt;/code&gt; implementation.&lt;/li&gt;
+&lt;li&gt;new support for registering hints for Spring Data JPA¡¯s queries using the JPA &lt;code&gt;ItemReader&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;new support for data classes - Kotlin &lt;code&gt;data class&lt;/code&gt; or Java &lt;code&gt;record&lt;/code&gt; instances - when using the JDBC-based &lt;code&gt;ItemReader&lt;/code&gt;s.&lt;/li&gt;
+&lt;li&gt;support for adapting more function types - not just &lt;code&gt;Function&amp;#x3C;I,O&gt;&lt;/code&gt; - to &lt;code&gt;ItemReader&lt;/code&gt;, &lt;code&gt;ItemWriter&lt;/code&gt;, and &lt;code&gt;ItemProcessor&lt;/code&gt; types.&lt;/li&gt;
+&lt;li&gt;concurrent steps with blocking queue item readers and writers&lt;/li&gt;
+&lt;li&gt;a &lt;code&gt;CompositeItemReader&amp;#x3C;T&gt;&lt;/code&gt; that can sequentially drain data from more than one delegated &lt;code&gt;ItemReader&amp;#x3C;T&gt;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;simplifications in job registration&lt;/li&gt;
+&lt;li&gt;configurable line separator support in &lt;code&gt;RecursiveCollectionLineAggregator&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;compositeitemreadert&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#compositeitemreadert&quot; aria-label=&quot;compositeitemreadert permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code&gt;CompositeItemReader&amp;#x3C;T&gt;&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Let¡¯s take a look at two of my favorite new features: &lt;code&gt;CompositeItemReader&amp;#x3C;T&gt;&lt;/code&gt;s and the SEDA-friendly &lt;code&gt;BlockingQueueItemWriter&lt;/code&gt; and &lt;code&gt;BlockingQueueItemReader&lt;/code&gt; implementations.&lt;/p&gt;
+&lt;p&gt;Here¡¯s the definition of the lone &lt;code&gt;Job&lt;/code&gt; in this Spring Batch application:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package com.example.bootiful_34.batch;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+@Configuration
+class BatchConfiguration {
+
+	static final BlockingQueue&amp;#x3C;Customer&gt; CUSTOMERS = new LinkedBlockingQueue&amp;#x3C;&gt;();
+
+	@Bean
+	Job job(JobRepository repository, Step one, Step two) {
+		return new JobBuilder(&quot;job&quot;, repository)//
+			.incrementer(new RunIdIncrementer()) //
+			.start(one)//
+			.next(two)//
+			.build();
+	}
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It¡¯s a simple job with two &lt;code&gt;Step&lt;/code&gt; instances, one flowing into another. A quick reminder: in Spring Batch, a &lt;code&gt;Step&lt;/code&gt; is a unit of work. It describes four things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;how much data constitutes a &quot;batch&quot; of work? (this is called a &quot;chunk&quot; in Spring Batch parlance)&lt;/li&gt;
+&lt;li&gt;The source from which data is meant to be read (represented by an instance of an &lt;code&gt;ItemReader&amp;#x3C;T&gt;&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;The sink to which data is meant to be written (represented by an instance of the &lt;code&gt;ItemWriter&amp;#x3C;T&gt;&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;a processor that processes data from the source and goes to the sink.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each  &lt;code&gt;Step&lt;/code&gt; reads as much as one chunk¡¯s worth of data using the &lt;code&gt;ItemReader&amp;#x3C;I&gt;&lt;/code&gt;, passes a collection-like thing called a Chunk to the &lt;code&gt;ItemProcessor&amp;#x3C;I,O&gt;&lt;/code&gt; for arbitrary manipulation, and then sends the output of the &lt;code&gt;ItemProcessor&amp;#x3C;I,O&gt;&lt;/code&gt; to the &lt;code&gt;ItemWriter&amp;#x3C;O&gt;&lt;/code&gt;. &lt;code&gt;I&lt;/code&gt; and &lt;code&gt;O&lt;/code&gt; can represent the same generic or different types. Then, the loop continues until all the data from &lt;code&gt;ItemReader&lt;/code&gt; is drained. The step is considered finished, and execution moves on to the next step.&lt;/p&gt;
+&lt;p&gt;In this sample application, we will read data from the &lt;code&gt;customer&lt;/code&gt; table, reading the &lt;code&gt;id&lt;/code&gt;, &lt;code&gt;name&lt;/code&gt;, &lt;code&gt;os&lt;/code&gt;, and &lt;code&gt;language&lt;/code&gt; records. We¡¯re &lt;em&gt;also&lt;/em&gt; going to read similar data from a &lt;code&gt;.csv&lt;/code&gt; file. We¡¯ll use the handy new &lt;code&gt;CompositeItemReader&amp;#x3C;Customer&gt;&lt;/code&gt; to do short work of this and spare us from having to do separate normalizing steps.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package com.example.bootiful_34.batch;
+
+import org.springframework.aot.hint.RuntimeHints;
+import org.springframework.aot.hint.RuntimeHintsRegistrar;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
+import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.item.queue.BlockingQueueItemWriter;
+import org.springframework.batch.item.support.CompositeItemReader;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportRuntimeHints;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.transaction.PlatformTransactionManager;
+
+import javax.sql.DataSource;
+import java.util.List;
+
+@Configuration
+@ImportRuntimeHints(StepOneConfiguration.CustomersCsvRuntimeHintsRegistrar.class)
+class StepOneConfiguration {
+
+	private static final Resource CSV = new ClassPathResource(&quot;/customers.csv&quot;);
+
+	@Bean
+	FlatFileItemReader&amp;#x3C;Customer&gt; customerCsvItemReader() {
+		return new FlatFileItemReaderBuilder&amp;#x3C;Customer&gt;()//
+			.resource(CSV)
+			.delimited()
+			.names(&quot;id&quot;, &quot;name&quot;, &quot;language&quot;, &quot;os&quot;)
+			.name(&quot;customerCsvItemReader&quot;)
+			.fieldSetMapper(fs -&gt; new Customer(fs.readInt(0), fs.readString(1), fs.readString(2), fs.readString(3)))
+			.build();
+	}
+
+	@Bean
+	JdbcCursorItemReader&amp;#x3C;Customer&gt; customerJdbcItemReader(DataSource dataSource) {
+		return new JdbcCursorItemReaderBuilder&amp;#x3C;Customer&gt;()//
+			.name(&quot;customerJdbcItemReader&quot;)//
+			.dataSource(dataSource)//
+			.sql(&quot;select id, name, language, os from customer&quot;)//
+			.rowMapper((rs, rowNum) -&gt; new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)))//
+			.build();
+	}
+
+	@Bean
+	CompositeItemReader&amp;#x3C;Customer&gt; customerCompositeItemReader(JdbcCursorItemReader&amp;#x3C;Customer&gt; customerJdbcItemReader,
+			FlatFileItemReader&amp;#x3C;Customer&gt; customerCsvItemReader) {
+		return new CompositeItemReader&amp;#x3C;&gt;(List.of(customerJdbcItemReader, customerCsvItemReader));
+	}
+
+	@Bean
+	BlockingQueueItemWriter&amp;#x3C;Customer&gt; customerBlockingQueueItemWriter() {
+		return new BlockingQueueItemWriter&amp;#x3C;&gt;(BatchConfiguration.CUSTOMERS);
+	}
+
+	@Bean
+	Step one(JobRepository repository, PlatformTransactionManager txm,
+			CompositeItemReader&amp;#x3C;Customer&gt; customerCompositeItemReader,
+			BlockingQueueItemWriter&amp;#x3C;Customer&gt; customerBlockingQueueItemWriter) {
+		return new StepBuilder(&quot;one&quot;, repository)//
+			.&amp;#x3C;Customer, Customer&gt;chunk(10, txm)//
+			.reader(customerCompositeItemReader)//
+			.writer(customerBlockingQueueItemWriter)//
+			.build();
+	}
+
+	static class CustomersCsvRuntimeHintsRegistrar implements RuntimeHintsRegistrar {
+
+		@Override
+		public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
+			hints.resources().registerResource(CSV);
+		}
+
+	}
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this example, we¡¯ve got &lt;em&gt;three&lt;/em&gt; &lt;code&gt;ItemReader&lt;/code&gt; beans, but the step only consumes one &lt;code&gt;CompositeItemReader&amp;#x3C;T&gt;&lt;/code&gt; bean. It, in turn, will sequentially read whatever comes from the &lt;code&gt;FlatFileItemReader&amp;#x3C;Customer&gt;&lt;/code&gt; and the &lt;code&gt;JdbcCursorItemReader&amp;#x3C;Customer&gt;&lt;/code&gt; beans.&lt;/p&gt;
+&lt;p&gt;We¡¯ve not configured an &lt;code&gt;ItemProcessor&amp;#x3C;Customer,Customer&gt;&lt;/code&gt; in this example.&lt;/p&gt;
+&lt;h3 id=&quot;staged-event-driven-architecture-and-batch-yep&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#staged-event-driven-architecture-and-batch-yep&quot; aria-label=&quot;staged event driven architecture and batch yep permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Staged Event Driven Architecture and Batch? Yep!&lt;/h3&gt;
+&lt;p&gt;For the &lt;code&gt;ItemWriter&amp;#x3C;Customer&gt;&lt;/code&gt;, we¡¯re using yet another new and novel addition to the framework: the &lt;code&gt;BlockingQueueItemWriter&amp;#x3C;Customer&gt;&lt;/code&gt;! The idea is simple: the writer writes data to a Java &lt;code&gt;java.util.concurrent.BlockingQueue&lt;/code&gt;. The &lt;code&gt;BlockingQueue&lt;/code&gt; variable is a &lt;code&gt;static final&lt;/code&gt; variable defined in the &lt;code&gt;BatchConfiguration&lt;/code&gt; class called &lt;code&gt;CUSTOMERS&lt;/code&gt;. And the next step will have a configured &lt;code&gt;BlockingQueueItemReader&amp;#x3C;T&gt;&lt;/code&gt; that will &lt;em&gt;read&lt;/em&gt; from the same &lt;code&gt;java.util.concurrent.BlockingQueue&lt;/code&gt;. Super simple, right? Yes! But it¡¯s going to be a huge time saver.&lt;/p&gt;
+&lt;p&gt;Traditionally, a Spring Batch app only had context associated with the current step. As data flowed through a job, a Spring Batch &lt;code&gt;Step&lt;/code&gt; only afforded you three bites at the apple: from the &lt;code&gt;ItemReader&amp;#x3C;I&gt;&lt;/code&gt;, the &lt;code&gt;ItemProcessor&amp;#x3C;I,O&gt;&lt;/code&gt; and the &lt;code&gt;ItemWriter&amp;#x3C;O&gt;&lt;/code&gt;. Want to do more processing on the data after it¡¯s written? It¡¯ll have to wait until the next step! You¡¯ll have already written it to disk or something durable, and then you must reread it. Spring Batch keeps track of how far you¡¯ve gotten in your reads and writes, so why must we be so paranoid? Why do we need to write everything durably so often?&lt;/p&gt;
+&lt;p&gt;That no longer needs to be the case now, as Spring Batch supports writing a given &lt;code&gt;Step&lt;/code&gt; output to a &lt;code&gt;BlockingQueue&lt;/code&gt;. &lt;code&gt;BlockingQueue&lt;/code&gt; instances, notably, have the added benefit of supporting a limit on how much data is written. This plays nicely with the style of &lt;a href=&quot;https://en.wikipedia.org/wiki/Staged_event-driven_architecture&quot;&gt;&lt;strong&gt;Staged Event Driven Architecture&lt;/strong&gt;&lt;/a&gt; (SEDA). The idea behind SEDA is to define work in terms of the different stages through which data is passed. As data moves from one stage to another, it flows into (bounded) queues. These bounded queues provide backpressure. You can¡¯t overwhelm the processors of a given stage if the work is rejected or simply written off to disk before it arrives if capacity has been exceeded. This is called &lt;em&gt;backpressure&lt;/em&gt;, and it is crucial to scalability.&lt;/p&gt;
+&lt;p&gt;Each stage takes its work only from a queue. This provides a natural way to load-balance: spin up more instances of a given stage¡¯s processor, and the work gets divided evenly across them. You could take this architecture even further with Spring Batch¡¯s remote partitioning and chunking paradigms, allowing you to divide work across a cluster.&lt;/p&gt;
+&lt;p&gt;This architecture is typically associated with messaging systems - the queues are usually assumed to be queues (or topics) in a message bus; however, the principles behind the architecture work just fine in a batch-processing system.&lt;/p&gt;
+&lt;p&gt;Let¡¯s take a look at step two!&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package com.example.bootiful_34.batch;
+
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.queue.BlockingQueueItemReader;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
+
+@Configuration
+class StepTwoConfiguration {
+
+	@Bean
+	Step two(JobRepository repository, PlatformTransactionManager transactionManager,
+			BlockingQueueItemReader&amp;#x3C;Customer&gt; blockingQueueItemReader, ItemWriter&amp;#x3C;Customer&gt; customerItemWriter) {
+		return new StepBuilder(&quot;two&quot;, repository)//
+			.&amp;#x3C;Customer, Customer&gt;chunk(10, transactionManager)//
+			.reader(blockingQueueItemReader)//
+			.writer(customerItemWriter)//
+			.build();
+	}
+
+	@Bean
+	BlockingQueueItemReader&amp;#x3C;Customer&gt; blockingQueueItemReader() {
+		return new BlockingQueueItemReader&amp;#x3C;&gt;(BatchConfiguration.CUSTOMERS);
+	}
+
+	@Bean
+	ItemWriter&amp;#x3C;Customer&gt; customerItemWriter() {
+		return chunk -&gt; chunk.forEach(System.out::println);
+	}
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here, we¡¯ve defined another &lt;code&gt;Step&lt;/code&gt;, reading from the same &lt;code&gt;BlockingQueue&lt;/code&gt; and then simply printing everything out.&lt;/p&gt;
+&lt;p&gt;Robust, easy, and scalable batch processing? What else could you ask for? By the way, remember that most of what Spring Batch does?input and output?benefits immeasurably from Java 21¡¯s virtual threads, which Spring Boot has supported for three releases now! Don¡¯t forget to set &lt;code&gt;spring.threads.virtual.enabled=true&lt;/code&gt; if you¡¯re on Java 21+. (And you &lt;em&gt;are&lt;/em&gt; on at least Java 21, aren¡¯t you?)&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Bootiful Spring Boot 3.4: Spring Boot]]></title><link>https://spring.io/blog/2024/11/24/bootiful-34-boot</link><guid isPermaLink="true">https://spring.io/blog/2024/11/24/bootiful-34-boot</guid><dc:creator><![CDATA[joshlong]]></dc:creator><pubDate>Sun, 24 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;And now we¡¯re back where we started: Spring Boot 3.4! This release is what pulls everything together. When you look at Spring Boot, remember that it normalizes the integration of all the projects it assembles and tries, wherever possible, to smooth out whatever integration issues might arise from using those projects together. In addition, it provides facilities that benefit users of all those other frameworks.&lt;/p&gt;
+&lt;p&gt;Case in point: when we introduced GraalVM native image support in Spring Framework 6 and Spring Boot 3, it was delivered in three tranches. One: a component model, lifecycle, and core SPI delivered in Spring Framework. Two: this core component model allowed all the other projects that built upon Spring Framework (you know: Spring Data, Spring Security, Spring Batch, Spring Integration, etc.) to then provide the right GraalVM native image experience for their projects. Finally, Three: Spring Boot packaged up that experience into one cohesive whole, providing GraalVM integrations for itself as well as some third-party projects, providing the build tooling plugins, and generally arranging everything so that the stuff that has to happen at compile time, before your code is ever run, gets done. Spring Boot also integrates ambient things like the GraalVM reachability metadata repository and the Buildpacks support for containerizing GraalVM native images. When it¡¯s done right, the result is something to behold, and there¡¯s a reason that Spring Boot has taken the world by storm. It lets you focus on production, and it lets Spring be Spring. (Teamwork makes the dream work!)&lt;/p&gt;
+&lt;p&gt;And this release is no exception. There are so many awesome things in this release! Let¡¯s do our usual &lt;a href=&quot;https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes&quot;&gt;review of the new and novel in the release notes&lt;/a&gt; and then dive right into some of my favorite new features (ignoring all the amazing features that are implied in the projects that the Spring Boot 3.4 release pulls in!).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;they¡¯ve enhanced and normalized the auto-configuration experience for the underlying &lt;code&gt;HttpRequestFactory&lt;/code&gt; implementations that get plugged into either the &lt;code&gt;RestClient&lt;/code&gt; or &lt;code&gt;RestTemplate.&lt;/code&gt; If you have Apache HTTP Components, you¡¯ll get a &lt;code&gt;HttpComponentsClientHttpRequestFactory&lt;/code&gt;. If not, but you have Jetty, you¡¯ll get a &lt;code&gt;JettyClientHttpRequestFactory&lt;/code&gt;. If not, but you have Reactor Netty, you¡¯ll get a &lt;code&gt;ReactorClientHttpRequestFactory&lt;/code&gt;. If not, but you have more recent versions of the JDK, you¡¯ll get &lt;code&gt;JdkClientHttpRequestFactory&lt;/code&gt;. If not, and if you have nothing else, you¡¯ll get a &lt;code&gt;SimpleClientHttpRequestFactory&lt;/code&gt;, essentially just &lt;code&gt;HttpURLConnection&lt;/code&gt; from the JDK. Yeck! NB: this release also inverts the defaults. Before, you would¡¯ve gotten the &lt;code&gt;HttpURLConnection&lt;/code&gt; by default, even on JVM¡¯s, which support the &lt;code&gt;HttpClient&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;there¡¯s also a new &lt;code&gt;ClientHttpRequestFactoryBuilder&lt;/code&gt;, which allows you to build these implementations programmatically and consistently.&lt;/li&gt;
+&lt;li&gt;All these clients follow redirects by default, though you can opt-out now.&lt;/li&gt;
+&lt;li&gt;Applications are now shut down gracefully by default. We¡¯ve had graceful shutdowns for &lt;em&gt;years&lt;/em&gt; in Spring Boot. The basic idea is that Spring Boot will shut down immediately when a container orchestrator, platform, or operator sends the shutdown (&lt;code&gt;SIGTERM&lt;/code&gt;) command to the JVM. It¡¯ll allow any ongoing transactions to taper off for a configurable period. Then, it¡¯ll shut down. During this window, it¡¯ll reject new HTTP requests and so on.&lt;/li&gt;
+&lt;li&gt;You can now use &lt;code&gt;@AutoConfigureTestDatabase&lt;/code&gt; with containers without telling test support that you don¡¯t want to replace it.&lt;/li&gt;
+&lt;li&gt;This release brings more coarse-grained support to Actuator endpoint visibility.&lt;/li&gt;
+&lt;li&gt;This release¡¯s baseline is   HTMLUnit 4.3, which lives in a different Maven coordinate. So, update your code accordingly.&lt;/li&gt;
+&lt;li&gt;Support for structured logging has been introduced with built-in support for Elastic Common Schema (&lt;code&gt;ecs&lt;/code&gt;), Graylog Extended Log Format (&lt;code&gt;gelf&lt;/code&gt;) and Logstash (&lt;code&gt;logstash&lt;/code&gt;). To enable structured file logging set &lt;code&gt;logging.structured.format.file&lt;/code&gt; to &lt;code&gt;ecs&lt;/code&gt;, &lt;code&gt;gelf&lt;/code&gt; or &lt;code&gt;logstash&lt;/code&gt;. Similarly, set &lt;code&gt;logging.structured.format.console&lt;/code&gt; to enable structured console logging.&lt;/li&gt;
+&lt;li&gt;It¡¯s now possible to send OTLP spans over the gRPC transport.&lt;/li&gt;
+&lt;li&gt;Client certificates can now be used to authenticate with a Couchbase cluster as an alternative to basic username and password authentication&lt;/li&gt;
+&lt;li&gt;FreeMarker variables that are used by the auto-configured FreeMarker¡¯s Configuration object can now be customized&lt;/li&gt;
+&lt;li&gt;Now that ActiveMQ Classic supports an embedded broker again, the auto-configuration has been updated to support it. (Embedded ActiveMQ is back if you add &lt;code&gt;org.apache.activemq&lt;/code&gt;:&lt;code&gt;activemq-broker&lt;/code&gt;!)&lt;/li&gt;
+&lt;li&gt;there¡¯s now a mechanism to document and signal the deprecation of auto configuration: &lt;code&gt;META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.replacements&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;OtlpMeterRegistry&lt;/code&gt; and Undertow both do the right thing when using virtual threads now&lt;/li&gt;
+&lt;li&gt;Spring Boot now uses the &lt;code&gt;paketobuildpacks/builder-jammy-java-tiny&lt;/code&gt; by default. This builder supports ARM and x64 platforms out of the box.&lt;/li&gt;
+&lt;li&gt;Docker Compose now supports multiple Docker Compose configuration files and supports custom parameters passed to the Docker Compose command line when running Docker Compose files on startup.&lt;/li&gt;
+&lt;li&gt;The Spring Boot Actuator endpoints reflect more information about SSL bundles&lt;/li&gt;
+&lt;li&gt;Additional information about scheduled tasks is available at the &lt;code&gt;/actuator/scheduledtasks&lt;/code&gt; endpoint.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So many new features! Where does one even begin? I wasn¡¯t exactly sure, so I figured I¡¯d look not at the code but at the runtime experience that spring boot controls, particularly at two features: GraalVM native images in build-packs on Apple silicon and graceful shutdown. Let¡¯s look at graceful shutdown. There¡¯s not much to understand here.&lt;/p&gt;
+&lt;p&gt;Let¡¯s look at a particularly innocuous little class that does many things right.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package com.example.bootiful_34.boot;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestClient;
+
+@Controller
+@ResponseBody
+class GracefulController {
+
+	private final RestClient http;
+
+	GracefulController(RestClient.Builder http) {
+		this.http = http.build();
+	}
+
+	@GetMapping(&quot;/delay&quot;)
+	String delay() {
+		return this.http.get().uri(&quot;https://httpbin.org/delay/5&quot;).retrieve().body(String.class);
+	}
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;First, this class is using the updated auto-configured &lt;code&gt;RestClient&lt;/code&gt; builder, which is new in Spring Boot 3.4. I¡¯m running on Java 21+ (Java 23, as it happens), so I got the new &lt;code&gt;JdkClientHttpRequestFactory&lt;/code&gt;, based on the awesome &lt;code&gt;java.net.http.HttpClient&lt;/code&gt;. It¡¯s already a win, and we¡¯re just getting started!&lt;/p&gt;
+&lt;p&gt;Each request sent to his controller endpoint results in an HTTP request being made to the HTTPBin endpoint. The HTTPBin website is designed to artificially prolong the duration of the response by as many seconds as we stipulate in the HTTP request. In this case, it¡¯s 5 seconds. That¡¯s a long time! And remember, we¡¯re using a servlet container, so each request requires one thread by default. So you invoke &lt;code&gt;localhost:8080/delay&lt;/code&gt; (remember you might have to log in since we locked down the application with spring security earlier...), and it¡¯ll block for five long seconds. It¡¯ll just sit there, wasting time on a thread, of which there are precious few by default. Thankfully, this is Spring Boot, so with the flip of a config switch, we¡¯ve enabled Java 21¡¯s virtual threads: &lt;code&gt;spring.threads.virtual.enabled=true&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now, when a user makes a request, the RestClient launches a request, and as it sits there waiting for five seconds, the JVM automatically moves the request of the operating system threads into a sort of holding pattern. Why does this matter? because now somebody else is free to use that thread 8in the meantime! This results in much better, guilt-free scalability. But it¡¯s not a new feature. You could¡¯ve used this as sprint boot 3.2.&lt;/p&gt;
+&lt;p&gt;What is nice about this situation is that each request also takes time to complete. Five seconds plus network latency, surely. So what happens if an operator, Kubernetes or Cloud Foundry, comes along and wants to shut down the application? We¡¯re still waiting for the request to finish! And so, too, shall the JVM. 30s, by default, you can configure it with &lt;code&gt;spring.lifecycle.timeout-per-shutdown-phase=30s&lt;/code&gt;. So, if the platform shuts the application down (you can simulate it by pressing the red square in JetBrains IntelliJ IDEA), it waits up to 30 seconds to finish any in-flight requests. Then it¡¯ll shut down. Otherwise, it¡¯ll shut down immediately. Nice.&lt;/p&gt;
+&lt;p&gt;A nice improvement for Apple Silicon enjoyers is that the &lt;a href=&quot;https://buildpacks.io&quot;&gt;Buildpacks&lt;/a&gt; support has been updated to work correctly on Apple Silicon.&lt;/p&gt;
+&lt;p&gt;So, let¡¯s turn this application itself into a GraalVM native image.
+Run the following at the root of the &lt;code&gt;bootiful-34&lt;/code&gt; folder.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;./mvnw -DskipTests clean -Pnative spring-boot:build-image
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here¡¯s the script I use to compile and then run it on my Apple Silicon-powered Apple M4 laptop.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/usr/bin/env bash
+
+rm -rf target
+./mvnw -DskipTests spring-javaformat:apply 
+./mvnw -DskipTests -Pnative spring-boot:build-image 
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here¡¯s the script I use to run it. This assumes you¡¯ve got Docker or something Docker-like running locally and that you¡¯ve got an environment variable (as I do) in your host operating system specifying an OpenAI API key named &lt;code&gt;SPRING_AI_OPENAI_API_KEY&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/usr/bin/env bash
+
+export SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal/mydatabase
+docker run \
+  -e SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL \
+  -e SPRING_AI_OPENAI_API_KEY=$SPRING_AI_OPENAI_API_KEY \
+  docker.io/library/bootiful-34:0.0.1-SNAPSHOT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You know what blows my mind?
+Sometimes, at least on my machine, the Linux container with the GraalVM native image binary running on Apple Silicon runs faster than when compiled directly into a macOS native binary and runs on macOS!
+I have no earthly idea how!
+This application is the kitchen sink!
+We¡¯ve got a web server, a Spring Batch &lt;code&gt;Job&lt;/code&gt;, a couple of Spring Integration flows, lots of SQL &lt;code&gt;DataSource&lt;/code&gt; access, Spring Modulith, Spring AI invoking functions locally, three different kinds of security &lt;em&gt;and&lt;/em&gt; a full-blown OAuth IDP (Spring Authorization Server), some HTTP endpoints, some Spring Data JDBC entities, and repositories, and so much more.
+And so, believe me when I tell you, this isn¡¯t a typical workload, and I was not expecting the binary to run faster on my machine under Linux.
+On macOS, running directly, it sometimes starts up between 0.450 and 0.5 seconds. In Docker, I¡¯ve seen it run as quickly as 0.264 seconds.
+Color me confused!&lt;/p&gt;
+&lt;p&gt;The numbers are even more stark in my more typical applications-focused services.
+I¡¯ve got a more trivial application in the same Github repository called &lt;code&gt;demo&lt;/code&gt;. &lt;code&gt;demo&lt;/code&gt; is just Spring Data JDBC talking to PostgreSQL and Spring MVC.
+It does nothing.
+The Buildpacks version of the native image starts up consistently in around 0.050 seconds, whereas the macOS native image starts up in around 0.080 seconds!
+It¡¯s not quite double, but it¡¯s not &lt;em&gt;nothing&lt;/em&gt;, either!
+I love Buildpacks!
+And it¡¯s so nice to test that everything works on my local machine now.&lt;/p&gt;
+&lt;p&gt;Spring Boot provides a solid foundation upon which some of our other projects can be built. Two projects have already been released with Spring Boot 3.4 support: Spring Modulith and Spring AI. So, I¡¯ll cover those two here. The other one, which builds upon Spring Boot 3.4?Spring Cloud?will be along shortly.&lt;/p&gt;
+&lt;p&gt;Spring Boot 3.4 is amazing. Remember, this release is one of the last before we get to Spring Boot 4.0 next year, so when you upgrade, pay attention to any deprecations. It¡¯s better to sort and sift those out right now!&lt;/p&gt;</content:encoded></item></channel></rss>

@@ -43,7 +43,7 @@
 							<button type="button" class="btn-under-01" onclick="popAddArtistShow();">아티스트 추가 요청</button>
 							<ul>
 								<li class="item">
-									<a href="${pageContext.request.contextPath}/community/artist/newjeans?num=1">
+									<a href="${pageContext.request.contextPath}/community/artist/newjeans?email=${UserVO.email}&num=1">
 										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
 										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
 										<div class="artistName"><i>뉴진스</i></div>
