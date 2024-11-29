@@ -22,11 +22,3 @@
 .smarttomcat/controller/conf/tomcat-users.xsd
 .smarttomcat/controller/conf/web.xml
 .smarttomcat/controller/conf/Catalina/localhost/ROOT.xml
-<<<<<<< HEAD
-<<<<<<< HEAD
-.idea/vcs.xml
-.idea/encodings.xml
-=======
->>>>>>> de3c9ff (Merge branch 'main' into kimhonghyun)
-=======
->>>>>>> origin/kimhonghyun

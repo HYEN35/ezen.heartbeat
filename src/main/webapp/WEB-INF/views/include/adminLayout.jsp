@@ -7,29 +7,6 @@
     String pageName = (String) request.getAttribute("pageName");
     String pageTitle = (String) request.getAttribute("pageTitle");
 	String pageRequest = request.getRequestURI();
-
-	if (pageRequest.endsWith("/admin/adminjoin.jsp")) pageName = "계정생성 - HeartBeat 관리자";
-    else if (pageRequest.endsWith("/admin/edit.jsp")){ pageName = "회원정보 수정 - HeartBeat 관리자"; }
-	else if (pageRequest.endsWith("/admin/summary.jsp")){
-		pageName = "요약정보 - HeartBeat 관리자";
-		pageTitle = "요약정보";
-	}
-	else if (pageRequest.endsWith("/admin/member.jsp")){
-		pageName = "회원 리스트 - HeartBeat 관리자";
-		pageTitle = "회원 리스트";
-	}
-	else if (pageRequest.endsWith("/admin/staff.jsp")){
-		pageName = "회원 리스트 - HeartBeat 관리자";
-		pageTitle = "직원 리스트";
-	}
-	else if (pageRequest.endsWith("/admin/post.jsp")){
-		pageName = "게시글 확인 - HeartBeat 관리자";
-		pageTitle = "게시글 확인";
-	}
-	else if (pageRequest.endsWith("/admin/comment.jsp")){
-        pageName = "댓글 확인 - HeartBeat 관리자";
-        pageTitle = "댓글 확인";
-    }
 %>
 
 <!DOCTYPE html>
@@ -51,7 +28,6 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/font.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/admin.css">
 	<script src="https://kit.fontawesome.com/dda279453f.js"></script>
 	<script src="${pageContext.request.contextPath}/js/vendor/jquery-1.12.4.min.js"></script>

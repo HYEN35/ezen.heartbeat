@@ -124,23 +124,6 @@
 										</form>
 									</div>
 								</c:forEach>
-								<div class="postBx">
-									<a href="#none" onclick="popPostArtistShow();">
-										<div>
-											<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_hanni.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="하니"></div>
-											<div class="arti-comment">
-												<div class="arti-top">
-													<span class="arti-mark"><span class="blind">artist</span></span>
-													<span class="arti-name">하니</span>
-												</div>
-												<div class="arti-cnt">
-													<div class="txt">모든 게 typical, so I've been praying so hard for a miracle 부르고 있어 나의 이름을 더는 안 봐 drama it's good karma Done scrolling thousand times 다 알고 있어 뻔한 수작일 뿐이야 완전 쉬운 공식이야, it's like biting an apple</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-
 							</div>
 						</div>
 					</div>

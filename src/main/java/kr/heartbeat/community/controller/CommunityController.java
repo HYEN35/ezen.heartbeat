@@ -44,7 +44,8 @@ public class CommunityController {
 	private UserServiceImpl userServiceImpl;
 
 	@GetMapping("/community")
-	public String community(UserVO userVO,Model model) {
+	public String community(Model model,HttpSession session) {
+		UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		int level =2; 
 		System.out.println(dbuserVO);
