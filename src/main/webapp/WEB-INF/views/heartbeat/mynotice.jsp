@@ -59,10 +59,9 @@
 	        }
 	    }
 		
-	</script>
+	</script>	
 	
-	
-	<div class="inner service mypage" data-name="mypage">
+	<div class="inner service my-notice" data-name="notice">
 		<%@ include file="../include/menu.jsp" %>
 		
 		<div class="container">
@@ -71,11 +70,10 @@
 				<div class="cntArea">
 					<div class="tabBtn">
 						<ul>
-							<li data-tab="tab-myinfo" class="tab on">내 문의 확인</li>
-
+							<li data-tab="tab-notice" class="tab"><a href="/notice/notice?num=1">전체 공지 및 문의</a></li>
+							<li data-tab="tab-notice" class="tab on"><a href="/mynotice?num=1">내 문의글 확인</a></li>
 						</ul>
-					</div>
-					
+					</div>					
 					<div class="tabCnt">
 						<div > <!-- class="cntBx tab-post" -->
 							<div class="cnt">
@@ -94,17 +92,15 @@
 								    </div>
 								</div>
 								<form id="deleteForm" action="/mypage/deleteNotice" method="POST">
-								    <c:forEach items="${userNoticeList}" var="userNotice">
-								        <ul class="itemWrap">
+								    <ul class="itemWrap">
+								    	<c:forEach items="${userNoticeList}" var="userNotice">
 								            <li class="item">
 								                <input type="checkbox" class="check" value="${userNotice.notice_id}">
-								                <div class="num">게시물 번호 : <i>${userNotice.notice_id}</i></div>
-								                <a href="/getMyPostOne?notice_id=${userNotice.notice_id }&num=${select}" class="tit">
-								                  	  게시물 제목 : <i>${userNotice.title}</i>
-								                </a>
+								                <div class="num"><i>${userNotice.notice_id}</i></div>
+								                <a href="/getMyPostOne?notice_id=${userNotice.notice_id }&num=${select}" class="tit"><i>${userNotice.title}</i></a>
 								            </li>
-								        </ul>
-								    </c:forEach>
+								    	</c:forEach>
+								    </ul>
 								</form>
 								<div class="pagination">
 									<c:if test="${page.prev }">
@@ -130,10 +126,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	
-	
-	
+	</div>	
 </body>
 </html>

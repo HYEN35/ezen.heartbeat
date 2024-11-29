@@ -2,11 +2,12 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
-	<script>
-		<c:if test="${not empty message}">
-			alert("${message}");
-		</c:if>
-	</script>
+	 <script>
+		  	//alert
+			<c:if test="${not empty message}">
+			    alert("${message}");
+			</c:if>
+		</script>
 
 	<script>
 		// 입력값 사용 가능 여부
@@ -218,7 +219,7 @@
 							<input type="text"  name="name" placeholder="* 이름" class="txtBx">
 							<div class="birthBx">
 								<span class="txt">생년월일</span>
-								<input type="date" name="birth"class="txtBx" value="2000-05-15">
+								<input type="date" name="birth" class="txtBx" value="2000-05-15">
 							</div>
 							<div class="doubleCheck">
 								<input type="tel" maxlength="11" name="phone" placeholder="* 휴대폰번호"  oninput="resetPhoneAvailability()"  class="txtBx">
