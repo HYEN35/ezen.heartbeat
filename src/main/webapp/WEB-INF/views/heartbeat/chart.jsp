@@ -5,11 +5,6 @@
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
 <%@ page import="javax.servlet.ServletContext" %>
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> origin/kimhonghyun
 <body>
 	 <script>
 		<c:if test="${not empty message}">
