@@ -28,17 +28,17 @@
 								<input type="hidden" id="total" value="${total}">
 								<div class="itemWrap">
 									<div class="item lev-00">
-										<div class="count">level 0 <b>${level0Cnt}명</b><span class="box blue"></span></div>
+										<div class="count">level 0 <b>${level0Cnt}명</b></div>
 										<progress id="level0Cnt" max="${total}" value="${level0Cnt}" class="progressBar"></progress>
 										<strong id="level0-result-txt"></strong> <strong>%</strong>
 									</div>
 									<div class="item lev-01">
-										<div class="count">level 1 <b>${level1Cnt}명</b><span class="box red"></span></div>
+										<div class="count">level 1 <b>${level1Cnt}명</b></div>
 										<progress id="level1Cnt" max="${total}" value="${level1Cnt}" class="progressBar"></progress>
 										<strong id="level1-result-txt"></strong> <strong>%</strong>
 									</div>
 									<div class="item lev-02">
-										<div class="count">level 2 <b>${level2Cnt}명</b><span class="box purple"></div>
+										<div class="count">level 2 <b>${level2Cnt}명</b></div>
 										<progress id="level2Cnt" max="${total}" value="${level2Cnt}" class="progressBar"></progress>
 										<strong id="level2-result-txt"></strong> <strong>%</strong>
 									</div>

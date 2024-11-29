@@ -434,6 +434,22 @@ br.mob{display:none}
 [class*="pop-post-"] .replyBx .input .txtBx{width:calc(100% - 50px);margin-right:10px;padding:0 10px;background:#ededed;border-radius:20px;border:none}
 [class*="pop-post-"] .replyBx .input .btn-i-send{width:40px;height:40px;padding:0;background:#ededed;color:#333;border-radius:50%}
 
+/*팝업 회원 탈퇴*/
+.pop-delete-user{width:400px}
+.pop-delete-user .listBx .txtBx{width:100%}
+.pop-delete-user .listBx .txtBx+.txtBx{margin-top:10px}
+.pop-delete-user .btnBx{display:flex;justify-content:flex-end;align-items:center;margin-top:20px;padding-top:20px;border-top:1px solid #dedede}
+
+/*팝업 페이결제*/
+.pop-pay{width:400px}
+.pop-pay .cntArea .infoWrap>i{display:block;margin-bottom:10px;font-weight:500}
+.pop-pay .cntArea .infoWrap .sltBx{width:100%}
+.pop-pay .cntArea .btnWrap{display:flex;justify-content:center;align-items:center;margin-top:30px}
+.pop-pay .cntArea .btnWrap [class*="btn-pay-"]{display:block;width:60px;height:60px;font-size:0;border-radius:50%;border:none;cursor:pointer}
+.pop-pay .cntArea .btnWrap [class*="btn-pay-"]+[class*="btn-pay-"]{margin-left:14px}
+.pop-pay .cntArea .btnWrap .btn-pay-nice{background:url(../img/i-normal.png) center no-repeat;background-size:contain}
+.pop-pay .cntArea .btnWrap .btn-pay-kakao{background:url(../img/i-kakao.png) center no-repeat;background-size:contain}
+
 /*Tablet*/
 @media all and (max-width:1366px){
 	.headerWrap,

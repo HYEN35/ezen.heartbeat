@@ -11,12 +11,12 @@
 		function popFindIdHide(){
 			$('.pop-find-id').hide();
 			$('.dimmed').hide();
-			
+
 			var email = $("#userEmail").text(); // 이미 설정된 이메일 가져오기
 		    if (email) {
 		        $("input[name='email']").val(email);
 		    }
-			
+
 			document.findIdFrm.reset(); //팝업 닫으면 input 리셋
 			$('.resultCnt').hide();
 		}
