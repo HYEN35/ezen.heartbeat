@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-.idea/.gitignore
-=======
 .vscode/settings.json
 <<<<<<< HEAD
 .classpath
@@ -9,11 +6,11 @@
 =======
 .idea/.gitignore
 >>>>>>> origin/kimhonghyun
->>>>>>> origin/main
 .idea/compiler.xml
 .idea/dbnavigator.xml
 .idea/jarRepositories.xml
 .idea/misc.xml
+.idea/vcs.xml
 .smarttomcat/controller/conf/catalina.policy
 .smarttomcat/controller/conf/catalina.properties
 .smarttomcat/controller/conf/context.xml
@@ -25,5 +22,8 @@
 .smarttomcat/controller/conf/tomcat-users.xsd
 .smarttomcat/controller/conf/web.xml
 .smarttomcat/controller/conf/Catalina/localhost/ROOT.xml
+<<<<<<< HEAD
 .idea/vcs.xml
 .idea/encodings.xml
+=======
+>>>>>>> de3c9ff (Merge branch 'main' into kimhonghyun)

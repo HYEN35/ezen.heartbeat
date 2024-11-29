@@ -13,7 +13,7 @@
 		<org.springframework-version>4.3.8.RELEASE</org.springframework-version>
 		<!-- springframework-version을 4.3.8로 설정 -->
 		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>                   
+		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	
 	<dependencies>
@@ -290,6 +290,7 @@
 		</dependency>
 	    
 <<<<<<< HEAD
+<<<<<<< HEAD
 	    <!-- 새 비밀번호 매일 전송 -->
 	    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>
@@ -300,6 +301,8 @@
 	    
 =======
 >>>>>>> origin/main
+=======
+>>>>>>> de3c9ff (Merge branch 'main' into kimhonghyun)
 		<!-- https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail -->
 		<dependency>
 		    <groupId>com.sun.mail</groupId>
@@ -307,8 +310,6 @@
 		    <version>1.6.7</version>
 		</dependency>
 
-
-	
 		
 	</dependencies>
 	
