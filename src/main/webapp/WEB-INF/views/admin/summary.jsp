@@ -10,41 +10,38 @@
 				<div class="cntArea">
 					<!-- 상단 정보 -->
 				    <div class="summary-info">
-				        <div class="summary-info">
+				        <div class="item">
 				            <span class="info">오늘 가입한 유저 : <i id="todayuser">${count_a}</i></span>
 				        </div>
-				        <div class="summary-info">
+				        <div class="item">
 				            <span class="info">총 구독자 수 : <i id="totalsub">${count_b}</i></span>
 				        </div>
-				        <div class="summary-info">
+				        <div class="item">
 				            <span class="info">가장 많은 구독자를 보유한 아티스트 : <i id="topartist">${count_c.artist_name} 구독자 : ${count_c.email_count}</i></span>
 				        </div>
 				    </div>
 				    <div class="adm-container">
 					    <div class="adm-split-row">
 							<div class="adm-split-col">
-								<h4>회원 성별 분석</h4>
-								<p>
-								    회원 총 인원 : ${total}<br>
-								    level 0 : ${level0Cnt} &nbsp;<span class="box blue"></span>&nbsp; 
-								    | level 1 : ${level1Cnt} &nbsp; <span class="box red"></span>&nbsp; 
-								    | level 2 : ${level2Cnt} &nbsp; <span class="box purple"></span>
-								</p>
-								<div class="progress-result">
-								    <progress id="level0Cnt" max="${total}" value="${level0Cnt}" class="progress-blue"></progress>
-								    <progress id="level1Cnt" max="${total}" value="${level1Cnt}" class="progress-red"></progress>
-								    <progress id="level2Cnt" max="${total}" value="${level2Cnt}" class="progress-purple"></progress>
-								    <input type="hidden" id="total" value="${total}">
-								    
-								    <div class="progress-bar-txt txt1">
-								        <strong id="level0-result-txt"></strong> <strong>%</strong>
-								    </div>
-								    <div class="progress-bar-txt txt2">
-								        <strong id="level1-result-txt"></strong> <strong>%</strong>
-								    </div>
-								    <div class="progress-bar-txt txt3">
-								        <strong id="level2-result-txt"></strong> <strong>%</strong>
-								    </div>
+								<h4 class="tit">회원 등급 분석</h4>
+								<p class="total">회원 총 인원 : ${total}</p>
+								<input type="hidden" id="total" value="${total}">
+								<div class="itemWrap">
+									<div class="item lev-00">
+										<div class="count">level 0 <b>${level0Cnt}명</b><span class="box blue"></span></div>
+										<progress id="level0Cnt" max="${total}" value="${level0Cnt}" class="progressBar"></progress>
+										<strong id="level0-result-txt"></strong> <strong>%</strong>
+									</div>
+									<div class="item lev-01">
+										<div class="count">level 1 <b>${level1Cnt}명</b><span class="box red"></span></div>
+										<progress id="level1Cnt" max="${total}" value="${level1Cnt}" class="progressBar"></progress>
+										<strong id="level1-result-txt"></strong> <strong>%</strong>
+									</div>
+									<div class="item lev-02">
+										<div class="count">level 2 <b>${level2Cnt}명</b><span class="box purple"></div>
+										<progress id="level2Cnt" max="${total}" value="${level2Cnt}" class="progressBar"></progress>
+										<strong id="level2-result-txt"></strong> <strong>%</strong>
+									</div>
 								</div>
 							</div>
 						</div>

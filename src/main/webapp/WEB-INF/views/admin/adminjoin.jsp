@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../include/layout.jsp" %>
+<%@ include file="../include/adminLayout.jsp" %>
 
 <body>
 	<script>
@@ -209,7 +209,7 @@
 		}
 	</script>
 	
-	<div class="inner service join">
+	<div class="inner admin join">
 		<div class="container">
 			<div class="wrap">
 				<h1 class="logo">HeartBeat</h1>
@@ -227,7 +227,10 @@
 							<input type="password"  name="pwdCheck" placeholder="* 비밀번호 확인" class="txtBx">
 							<input type="text"  name="name" placeholder="* 이름" class="txtBx">
 							<input type="text"  name="artist_id" placeholder="* 아티스트ID" class="txtBx">
-							<input type="date" name="birth" value="${insert.birth}"class="txtBx">
+							<div class="birthBx">
+								<span class="txt">생년월일</span>
+								<input type="date" name="birth" value="${insert.birth}" class="txtBx">
+							</div>
 							<div class="doubleCheck">
 								<input type="tel" maxlength="11" name="phone" placeholder="* 휴대폰번호"  oninput="resetPhoneAvailability()"  class="txtBx">
 								<button type="button" class="btn-border" onclick="phoneCheck(this.form.phone.value)">중복확인</button>
@@ -236,13 +239,19 @@
 								<input type="text" name="nickname" placeholder="* 닉네임" oninput="resetNickAvailability()"  class="txtBx">
 								<button type="button" class="btn-border"  onclick="nicknameCheck(this.form.nickname.value)">중복확인</button>
 							</div>
-							<select class="sltBx" name="level">
-							    <option value="0"  selected>해당 없음</option>
-							    <option value="1" >level1</option>
-							    <option value="2">level2</option>
-							</select>
-							<input type="date" class="txtBx" name="start_date" value="${insert.start_date}">
-							<input type="date" class="txtBx" name="end_date" value="${insert.end_date}">
+							<div class="levelBx">
+								<span class="txt">등급</span>
+								<select class="sltBx" name="level">
+									<option value="0"  selected>해당 없음</option>
+									<option value="1" >level1</option>
+									<option value="2">level2</option>
+								</select>
+							</div>
+							<div class="dateBx">
+								<span class="txt">구독기간</span>
+								<input type="date" class="txtBx" name="start_date" value="${insert.start_date}">
+								<input type="date" class="txtBx" name="end_date" value="${insert.end_date}">
+							</div>
 							<select class="sltBx" name="role_id">
 							    <option value="0" <c:if test="${insert.role_id == 0}">selected</c:if>>직원</option>
 							    <option value="1" <c:if test="${insert.role_id == 1}">selected</c:if>>아티스트</option>

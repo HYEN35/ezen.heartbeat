@@ -50,7 +50,53 @@
 .admin .midCnt .item .btnWrap [class*='btn-']+[class*='btn-']{margin-left:10px}
 
 /*회원수정*/
-.editMemeber .midCnt{width:400px;margin:0 auto}
-.editMemeber .infoWrap .txtBx{width:100%}
-.editMemeber .infoWrap .txtBx+.txtBx{margin-top:15px}
-.editMemeber .btnWrap{display:flex;justify-content:end;align-items:center;margin-top:20px}
+.editMember .midCnt{width:400px;margin:0 auto}
+.editMember .infoWrap .txtBx{width:100%}
+.editMember .infoWrap .txtBx+.txtBx{margin-top:15px}
+.editMember .btnWrap{display:flex;justify-content:end;align-items:center;margin-top:20px}
+
+/*회원가입*/
+.join{display:flex;align-items:center;width:100%;height:100vh}
+.join .container{width:500px;min-height:unset;margin:0 auto;background:#fff;border-radius:20px}
+.join .wrap{padding:20px}
+.join .logo{margin-bottom:30px}
+.join .joinCnt .inputBx+.inputBx{margin-top:10px}
+.join .joinCnt .inputBx .doubleCheck{display:flex;justify-content:flex-start;align-items:center;margin-bottom:10px}
+.join .joinCnt .inputBx .doubleCheck .txtBx{margin-right:10px;margin-bottom:0}
+.join .joinCnt .inputBx .doubleCheck .btn-border{width:120px}
+.join .joinCnt .inputBx .noti{margin-bottom:10px;color:#999;font-size:12px}
+.join .joinCnt .inputBx .txtBx{width:100%;margin-bottom:10px}
+.join .joinCnt .inputBx .txtBx::placeholder{color:#222}
+.join .joinCnt .inputBx .sltBx{width:100%;color:#222}
+.join .joinCnt .inputBx form>div:after{display:block;clear:both;content:""}
+.join .joinCnt .inputBx .phone .txtBx{float:left;width:calc(100% - 100px)}
+.join .joinCnt .inputBx form>div>button{float:right;width:90px;height:40px;margin-left:10px}
+.join .joinCnt .inputBx .nickname .txtBx{float:left;width:calc(100% - 100px)}
+.join .joinCnt .inputBx .imgBx{margin-bottom:10px;padding:0 5px;border:1px solid #dedede;border-radius:4px}
+.join .joinCnt .inputBx .imgBx:after{display:block;clear:both;content:""}
+.join .joinCnt .inputBx .imgBx button{float:left;width:auto;height:40px;margin-left:0;padding:0}
+.join .joinCnt .inputBx .imgBx .fileName{overflow:hidden;float:left;width:calc(100% - 112px);height:40px;margin-left:10px;line-height:40px;white-space:nowrap;text-overflow:ellipsis}
+.join .joinCnt .inputBx .birthBx{display:flex;justify-content:flex-start;align-items:center;margin-bottom:10px}
+.join .joinCnt .inputBx .birthBx .txt{margin-right:10px}
+.join .joinCnt .inputBx .birthBx .txtBx{margin-bottom:0}
+.join .joinCnt .inputBx .dateBx{display:flex;justify-content:flex-start;align-items:center;margin-bottom:10px}
+.join .joinCnt .inputBx .dateBx .txt{margin-right:10px}
+.join .joinCnt .inputBx .dateBx .txtBx{margin-bottom:0}
+.join .joinCnt .inputBx .levelBx{display:flex;justify-content:flex-start;align-items:center;margin-bottom:10px}
+.join .joinCnt .inputBx .levelBx .txt{margin-right:10px}
+.join .joinCnt .inputBx .levelBx .txtBx{margin-bottom:0}
+.join .joinCnt .btn-full{width:100%;margin-top:30px;font-size:18px;font-weight:700}
+
+/*요약정보*/
+.summary .summary-info{margin-bottom:30px;padding-bottom:30px;font-size:16px;font-weight:500;border-bottom:1px solid #dedede}
+.summary .summary-info .item{position:relative;padding-left:20px}
+.summary .summary-info .item:before{position:absolute;top:50%;left:6px;width:6px;height:6px;background:#444;border-radius:50%;transform:translate(-50%, -50%);content:""}
+.summary .summary-info .item+.item{margin-top:10px}
+.summary .adm-container .tit{position:relative;margin-bottom:10px;padding-left:20px;font-size:18px;font-weight:500}
+.summary .adm-container .tit:before{position:absolute;top:50%;left:6px;width:6px;height:6px;background:#444;border-radius:50%;transform:translate(-50%, -50%);content:""}
+.summary .adm-container .total{margin-bottom:20px;font-size:16px;font-weight:500}
+.summary .adm-container .itemWrap{display:flex;justify-content:center;align-items:center}
+.summary .adm-container .item{width:33%;margin:0 10px;text-align:center}
+.summary .adm-container .item .count{margin-bottom:10px}
+.summary .adm-container .item .count b{font-weight:500}
+.summary .adm-container .item .progressBar{width:100%;height:30px;margin-bottom:10px}
