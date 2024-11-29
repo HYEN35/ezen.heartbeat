@@ -2,7 +2,6 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
-	
 	<script>
 		<c:if test="${not empty message}">
 		    alert("${message}");
@@ -61,12 +60,7 @@
 		
 	</script>
 
-	<script>
-		$(function(){
-			mypageTab();
-			tabListShow();
-		});
-	
+	<script>	
 		//팝업 팬포스트
 		function popPostFanShow(post_id){
 			 // AJAX 요청으로 데이터를 가져옵니다.
@@ -89,12 +83,10 @@
 		function popPostFanHide(){
 			$('.pop-post-fan').hide();
 			$('.dimmed').hide();
-		}
-		
-	</script>
+		}		
+	</script>	
 	
-	
-	<div class="inner service mypage" data-name="mypage">
+	<div class="inner service my-post" data-name="mypage">
 		<%@ include file="../include/menu.jsp" %>
 		
 		<div class="container">
@@ -103,11 +95,12 @@
 				<div class="cntArea">
 					<div class="tabBtn">
 						<ul>
-							<li data-tab="tab-post" class="tab">작성글 확인</li>
+							<li data-tab="tab-myinfo" class="tab"><a href="/mypage">내 정보 변경</a></li>
+							<li data-tab="tab-membership" class="tab"><a href="/mymembership">멤버십 변경</a></li>
+							<li data-tab="tab-post" class="tab on"><a href="/mypost?num=1">내 작성글 확인</a></li>
 						</ul>
-					</div>				
+					</div>			
 					<div class="tabCnt">
-
 						<div > <!-- class="cntBx tab-post" -->
 							<div class="cnt">
 								<div class="searchWrap">
@@ -129,10 +122,8 @@
 								        <ul class="itemWrap">
 								            <li class="item">
 								                <input type="checkbox" class="check" value="${userPost.post_id}">
-								                <div class="num">게시물 번호 : <i>${userPost.post_id}</i></div>
-								                <a href="#none" class="tit" onclick="popPostFanShow(${userPost.post_id})">
-								                  	  게시물 내용 : <i>${userPost.content}</i>
-								                </a>
+								                <div class="num"><i>${userPost.post_id}</i></div>
+								                <a href="#none" class="tit" onclick="popPostFanShow(${userPost.post_id})"><i>${userPost.content}</i></a>
 								            </li>
 								        </ul>
 								    </c:forEach>

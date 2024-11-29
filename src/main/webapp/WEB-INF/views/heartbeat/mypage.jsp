@@ -3,7 +3,6 @@
 <%@ include file="../include/layout.jsp"%>
 
 <body>
-
 	<script>
 		<c:if test="${not empty message}">
 		alert("${message}");
@@ -112,22 +111,26 @@
 			$('.pop-delete-user').hide();
 			$('.dimmed').hide();
 		}
-
-
-
 	</script>
 
 
-	<div class="inner service mypage" data-name="mypage">
+	<div class="inner service my-page" data-name="mypage">
 		<%@ include file="../include/menu.jsp"%>
 
 		<div class="container">
 			<div class="cntWrap">
 				<h2 id="title" class="title"><%=pageTitle%></h2>
 				<div class="cntArea">
+					<div class="tabBtn">
+						<ul>
+							<li data-tab="tab-mypage" class="tab on"><a href="/mypage">내 정보 변경</a></li>
+							<li data-tab="tab-membership" class="tab"><a href="/mymembership">멤버십 변경</a></li>
+							<li data-tab="tab-post" class="tab"><a href="/mypost?num=1">내 작성글 확인</a></li>
+						</ul>
+					</div>
 					<div class="tabCnt">
 						<form action="/mypage/modify" method="post" name="mypageFrm">
-							<div class="cntBx tab-myinfo on">
+							<div class="cntBx tab-mypage on">
 								<div class="cnt">
 									<ul class="itemWrap">
 										<li class="item password">
@@ -187,15 +190,9 @@
 	<div class="dimmed" onclick="popAlertCheckHide()"></div>
 	<div class="dimmed" onclick="popDeleteUserHide();"></div>
 
-
-
 	<!-- [D] 팝업 중복확인 -->
-	<div class="popup pop-alert-check"><%@ include
-			file="../popup/pop-alert-check.jsp"%></div>
+	<div class="popup pop-alert-check"><%@ include file="../popup/pop-alert-check.jsp"%></div>
 	<!-- [D] 팝업 회원 탈퇴 -->
-	<div class="popup pop-delete-user"><%@ include
-			file="../popup/pop-delete-user.jsp"%></div>
-v>
-
+	<div class="popup pop-delete-user"><%@ include file="../popup/pop-delete-user.jsp"%></div>
 </body>
 </html>
