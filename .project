@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>heartbeat</name>
+	<name>HeartBeat</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -53,6 +53,7 @@
 		<filter>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			<id>1732780361746</id>
 =======
 			<id>1732522244331</id>
@@ -60,6 +61,9 @@
 =======
 			<id>0</id>
 >>>>>>> de3c9ff (Merge branch 'main' into kimhonghyun)
+=======
+			<id>1732522244331</id>
+>>>>>>> 2c1232c (ㅇㄴㅁㅇㅁㄴㅇ)
 			<name></name>
 			<type>30</type>
 			<matcher>

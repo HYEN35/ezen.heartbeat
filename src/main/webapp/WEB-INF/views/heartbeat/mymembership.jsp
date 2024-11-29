@@ -1,23 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/layout.jsp" %>
-
 <body>
 	
 	<script>
 		<c:if test="${not empty message}">
 		    alert("${message}");
 		</c:if>
+
+
 	</script>
 
 	<script>
-		
-	//멤버쉽 해지
-		function deleteMembership() {
-		if(confirm('멤버십 해지를 진행하시겠습니까?')) {
-			$('#membershipDel').val(0);
-			document.membershipFrm.submit();
+		//멤버쉽 해지
+			function deleteMembership() {
+			if(confirm('멤버십 해지를 진행하시겠습니까?')) {
+				$('#membershipDel').val(0);
+				document.membershipFrm.submit();
+			}
 		}
-	}
 	
 		// 맴버십 결제
 		function artistPayShow() {
@@ -38,13 +38,10 @@
 	    function pay2hide() {
 	        $('.streaming').hide();
 	        $('.dimmed').hide();
-	    }
-
-		
-	</script>
+	    }		
+	</script>	
 	
-	
-	<div class="inner service mypage" data-name="mypage">
+	<div class="inner service my-membership" data-name="mypage">
 		<%@ include file="../include/menu.jsp" %>
 		
 		<div class="container">
@@ -53,10 +50,11 @@
 				<div class="cntArea">
 					<div class="tabBtn">
 						<ul>
-							<li data-tab="tab-membership" class="tab on">멤버십 변경</li>
+							<li data-tab="tab-myinfo" class="tab"><a href="/mypage">내 정보 변경</a></li>
+							<li data-tab="tab-membership" class="tab on"><a href="/mymembership">멤버십 변경</a></li>
+							<li data-tab="tab-post" class="tab"><a href="/mypost?num=1">내 작성글 확인</a></li>
 						</ul>
-					</div>
-					
+					</div>					
 					<div class="tabCnt">
 						<div><!--class="cntBx tab-membership"-->
 							<div class="cnt">
@@ -92,15 +90,9 @@
 		</div>
 	</div>
 
-	
-
     <div class="dimmed" onclick="payhide();"></div>
-	
-
 
 	<div class="popup pop-pay artist"><%@ include file="../popup/pop-pay-artist.jsp" %></div>
     <div class="popup pop-pay streaming"><%@ include file="../popup/pop-pay-streaming.jsp" %></div>
-
-	
 </body>
 </html>
