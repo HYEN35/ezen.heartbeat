@@ -65,51 +65,44 @@
 								</li>
 								<li class="item">
 									<a href="#none">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>뉴진스</i></div>
+										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/aespa.jpg" alt="aespa"></div>
+										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/aespa-logo.jpg" alt="aespa"></div>
+										<div class="artistName"><i>에스파</i></div>
 									</a>
 								</li>
 								<li class="item">
 									<a href="#none">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>뉴진스</i></div>
+										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/ive.jpg" alt="ive"></div>
+										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/ive-logo.jpg" alt="ive"></div>
+										<div class="artistName"><i>아이브</i></div>
 									</a>
 								</li>
 								<li class="item">
 									<a href="#none">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>뉴진스</i></div>
+										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/bts.jpg" alt="bts"></div>
+										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/bts-logo.jpg" alt="bts"></div>
+										<div class="artistName"><i>BTS</i></div>
 									</a>
 								</li>
 								<li class="item">
 									<a href="#none">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>뉴진스</i></div>
+										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/nct127.jpg" alt="nct127"></div>
+										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/nct127-logo.jpg" alt="nct127"></div>
+										<div class="artistName"><i>NCT127</i></div>
 									</a>
 								</li>
 								<li class="item">
 									<a href="#none">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>뉴진스</i></div>
+										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/nctdream.jpg" alt="nctdream"></div>
+										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/nctderam-logo.jpg" alt="nctdream"></div>
+										<div class="artistName"><i>NCT-Dream</i></div>
 									</a>
 								</li>
 								<li class="item">
 									<a href="#none">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>뉴진스</i></div>
-									</a>
-								</li>
-								<li class="item">
-									<a href="#none">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/newjeans-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>뉴진스</i></div>
+										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/seventeen.jpg" alt="seventeen"></div>
+										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/seventeen-logo.jpg" alt="seventeen"></div>
+										<div class="artistName"><i>세븐틴</i></div>
 									</a>
 								</li>
 							</ul>
