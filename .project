@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>HeartBeat</name>
+	<name>ezen-heartbeat</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -54,6 +54,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			<id>1732780361746</id>
 =======
 			<id>1732522244331</id>
@@ -64,6 +65,9 @@
 =======
 			<id>1732522244331</id>
 >>>>>>> 2c1232c (ㅇㄴㅁㅇㅁㄴㅇ)
+=======
+			<id>0</id>
+>>>>>>> 67c77ee (영훈 홍현 합침)
 			<name></name>
 			<type>30</type>
 			<matcher>

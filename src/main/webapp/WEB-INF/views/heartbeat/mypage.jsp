@@ -10,6 +10,31 @@
 	</script>
 
 	<script>
+	
+		$(function(){
+			
+			// 프로필 사진 변경 선택시 이름 출력
+		    $('#profileImageInput').on('change', function () {
+		        console.log('파일 선택 이벤트 발생');
+		        
+		        var file = this.files[0]; // 선택된 파일 객체
+		        var fileName = file ? file.name : '선택된 파일 없음'; // 파일 이름 추출
+	
+		        // 앞 6글자만 나오게
+		        if (fileName.length > 7) {
+		            fileName = fileName.substring(0, 7) + '...'; 
+		        }
+	
+		        console.log('선택된 파일 이름:', fileName);
+		        
+		        $('#fileNameDisplay').text(fileName); // 화면에 파일명 표시
+		    });
+			
+			
+			
+			mypageTab();
+			tabListShow();
+		});
 
 		//닉네임 중복 확인 여부
 		let isNickAvailable = false;
@@ -129,7 +154,7 @@
 						</ul>
 					</div>
 					<div class="tabCnt">
-						<form action="/mypage/modify" method="post" name="mypageFrm">
+						<form action="/mypage/modify" method="post" name="mypageFrm" enctype="multipart/form-data" >
 							<div class="cntBx tab-mypage on">
 								<div class="cnt">
 									<ul class="itemWrap">
@@ -157,12 +182,9 @@
 										<li class="item image">
 											<p class="dt">프로필 사진 변경</p>
 											<div class="dd">
-												<input type="file" hidden>
-												<button type="button" class="btn-border"
-													onclick="$(this).siblings('input').click();">사진 변경</button>
-												<p class="file">
-													<i>filenme.jpg</i>
-												</p>
+												<input type="file" id="profileImageInput" name="profileimgf" hidden accept=".jpg, .jpeg, .png">
+												<button type="button" class="btn-border" onclick="$(this).siblings('input').click();">사진 변경</button>
+												<p id="fileNameDisplay">선택된 파일 없음</p>
 											</div>
 										</li>
 										<li class="item">
@@ -175,8 +197,7 @@
 									</ul>
 								</div>
 								<div class="btnWrap">
-									<button type="button" class="btn-full"
-										onclick="mypageValidityCheck()">저장</button>
+									<button type="button" class="btn-full" onclick="mypageValidityCheck()">저장</button>
 									<button type="button" class="btn-border">취소</button>
 								</div>
 							</div>

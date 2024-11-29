@@ -72,11 +72,10 @@ public class UserPersistenceImpl implements UserPersistence {
 
 	//회원정보수정
 	@Override
-	public void modify(String newPwd, UserVO userVO) {
+	public void modify(UserVO userVO) {
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 
 	    map.put("userVO", userVO);
-	    map.put("newPwd", newPwd);
 	    System.out.println("==================Map contents: " + map); 
 
 	    sql.update(namespace + ".modify", map); 

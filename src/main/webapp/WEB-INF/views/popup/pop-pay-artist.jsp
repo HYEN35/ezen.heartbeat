@@ -80,7 +80,7 @@
         // 결제 정보 서버로 전송 (AJAX 요청)
         $.ajax({
             type: 'POST',
-            url: '/membership/artistPay',  // 결제 정보 처리 서버 URL
+            url: '/purchase/artistPay',  // 결제 정보 처리 서버 URL
             contentType: 'application/json',
             data: JSON.stringify({
             	custom_data : rsp.custom_data,
@@ -157,7 +157,7 @@
             // 결제 결과를 서버로 전송 (AJAX 요청)
             $.ajax({
                 type: 'POST',
-                url: '/membership/artistPay',  // 결제 정보 처리 서버 URL
+                url: '/purchase/artistPay',  // 결제 정보 처리 서버 URL
                 contentType: 'application/json',
                 data: JSON.stringify({
                     custom_data: selectedArtist,

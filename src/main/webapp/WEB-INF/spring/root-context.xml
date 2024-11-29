@@ -36,6 +36,8 @@
 	</bean>
 	
 	
+	
+	
 	<context:component-scan base-package="kr.heartbeat.service" />
 	<context:component-scan base-package="kr.heartbeat.persistence" />
 	<context:component-scan base-package="kr.heartbeat.vo" />

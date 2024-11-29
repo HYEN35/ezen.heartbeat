@@ -154,13 +154,13 @@
 											<a href="javascript:void(0);" onclick="popPostFanShow(${PostVO.post_id})" >
 												<div>
 													<div class="fan-profile">
-														<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
-														<span class="nickname">${PostVO.nickname }</span>
+														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+														<span class="nickname">${PostVO.nickname}</span>
 														<div class="date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></div>
 													</div>
 													<div class="fan-comment">
 														<div class="fan-cnt">
-															<img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"><br><br>
+															<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br> 	
 															<div class="txt">${PostVO.content }</div>
 														</div>
 													</div>

@@ -12,14 +12,17 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- 정적 서비스 자원(static resources: js, css, imgs 등)은 webapp/resources directory에서 관리한다. -->
-	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/css/**" location="/resources/css/" /> 
-	<resources mapping="/js/**" location="/resources/js/" />
-	<resources mapping="/fonts/**" location="/resources/fonts/" />
-	<resources mapping="/img/**" location="/resources/img/" />
-	<resources mapping="/video/**" location="/resources/video/" />
-	<resources mapping="/upload/**" location="/resources/upload]/" />
+	 <!-- 정적 서비스 자원(static resources: js, css, imgs 등)은 webapp/resources directory에서 관리한다. -->
+    <resources mapping="/resources/**" location="/resources/" />
+    <resources mapping="/css/**" location="/resources/css/" /> 
+    <resources mapping="/js/**" location="/resources/js/" />
+    <resources mapping="/fonts/**" location="/resources/fonts/" />
+    <resources mapping="/img/**" location="/resources/img/" />
+    <resources mapping="/video/**" location="/resources/video/" />
+	
+	 <!-- 업로드된 파일을 실제 파일 시스템의 "resources/upload" 경로에서 제공하도록 설정 -->
+    <resources mapping="/upload/**" location="file:C:/Spring/workspace/ezen-heartbeat/src/main/webapp/resources/upload/" />
+	
 
 	
 	<!-- Controller에서 응답 JSP 파일을 선택할 때 사용하는 경로(/WEB-INF/views directory)와 파일 확장자명(.jsp)을 설정 -->
