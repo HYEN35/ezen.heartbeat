@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+
 <script>
 	function deletePost(post_id){
 		// 사용자에게 삭제 확인 메세지 띄우기
@@ -22,13 +24,13 @@
 		}
 	}
 	
-	// 게시물 수정 버튼
+	// 게시물 수정 버튼 클릭 시 텍스트와 이미지 수정 화면으로 전환
 	function popPostEditShow(button) {
-		var postDiv = button.closest('.postBx');
-		var fanPostDiv = postDiv.querySelector('.arti-cnt') ;
-		var fanButtonDiv = postDiv.querySelector('.arti-top');
-		
-		// fanPostDiv와 fanButtonDiv가 잘 찾혔는지 확인
+	    var postDiv = button.closest('.postBx');
+	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
+	    var fanButtonDiv = postDiv.querySelector('.arti-top');
+
+	    // fanPostDiv와 fanButtonDiv가 잘 찾혔는지 확인
 	    if (!fanPostDiv || !fanButtonDiv) {
 	        console.error("필수 요소를 찾을 수 없습니다.");
 	        return;
@@ -36,73 +38,119 @@
 
 	    var postText = fanPostDiv.querySelector('.txt');  // 기존 게시물 내용
 	    var postInput = fanPostDiv.querySelector('.post-txtBx');  // 수정용 입력 박스
-	    
-	    // postText와 postInput이 제대로 찾혔는지 확인
-	    console.log("postText:", postText);
-	    console.log("postInput:", postInput);
-		
-		// 텍스트 박스 숨김 처리 
-		postText.style.display = 'none';
-		postInput.style.display = 'block';
-		
-		var editButton = fanButtonDiv.querySelector('.btn-i-edit');
-		var saveButton = fanButtonDiv.querySelector('.btn-i-save');
-		
-		// 버튼 숨김 처리
-		editButton.style.display = "none";
-		saveButton.style.display = "inline-block";
-		
-		
-		postInput.value = postText.innerText.trim();
-		
+	    var postImg = fanPostDiv.querySelector('#currentPostImg');  // 기존 이미지
+
+	    // 텍스트 박스 숨김 처리
+	    postText.style.display = 'none';
+	    postInput.style.display = 'block';
+
+	    // 이미지 미리보기용 이미지와 파일 업로드 버튼 표시
+	    var previewPostImg = fanPostDiv.querySelector('#previewPostImg');
+	    var imgUploadInput = fanPostDiv.querySelector('#postImgFile');
+
+	    // 기존 이미지 src를 미리보기 이미지에 표시
+	    previewPostImg.src = postImg.src;
+	    previewPostImg.style.display = 'block';  // 이미지 미리보기 표시
+	    imgUploadInput.style.display = 'block'; // 파일 업로드 버튼 표시
+
+	    // 수정용 텍스트 채우기
+	    postInput.value = postText.innerText.trim();
+
+	    // 수정/저장 버튼 처리
+	    var editButton = fanButtonDiv.querySelector('.btn-i-edit');
+	    var saveButton = fanButtonDiv.querySelector('.btn-i-save');
+
+	    // 버튼 숨김 처리
+	    editButton.style.display = "none";
+	    saveButton.style.display = "inline-block";
 	}
+
+	// 이미지 미리보기 기능 (파일 선택 시)
+	function previewImage(input) {
+	    var file = input.files[0]; // 선택된 파일
+	    var previewPostImg = document.getElementById('previewPostImg'); // 미리보기 이미지
+
+	    if (file) {
+	        var reader = new FileReader();
+	        reader.onload = function(e) {
+	            previewPostImg.src = e.target.result; // 이미지 미리보기 업데이트
+	            previewPostImg.style.display = 'block'; // 이미지 표시
+	        }
+	        reader.readAsDataURL(file); // 파일을 Data URL 형식으로 읽음
+	    }
+	}
+
 	
-	// 게시물 수정 저장 버튼
-	function popPostSaveShow(button){
-		var postDiv = button.closest('.postBx');
-		var fanPostDiv = postDiv.querySelector('.arti-cnt') ;
-		var fanButtonDiv = postDiv.querySelector('.arti-top');
-		
-		// fanPostDiv와 fanButtonDiv가 잘 찾혔는지 확인
-	    if (!fanPostDiv || !fanButtonDiv) {
-	        console.error("필수 요소를 찾을 수 없습니다.");
-	        return;
-	    }
 
-	    var postText = fanPostDiv.querySelector('.txt');  // 기존 게시물 내용
-	    var postInput = fanPostDiv.querySelector('.post-txtBx');  // 수정용 입력 박스
-	    
-	    // postText와 postInput이 제대로 찾혔는지 확인
-	    console.log("postText:", postText);
-	    console.log("postInput:", postInput);
-		
-		var newPostText = postInput.value.trim();
-		
-		var post_id = postDiv.getAttribute('data-post-id');
-		
-		// 수정된 게시물을 서버로 전송하는 AJAX 요청
-		$.ajax({
-			type : "POST",
-			url : "/community/modifyPost",
-			data : {
-				post_id : post_id,
-				content : newPostText
-			},
-			success : function(data) {
-				if (data === "success") {
-					postText.innerText = newPostText // 게시물 텍스트 업데이트
-					postInput.style.display = 'none';
-					postText.style.display = 'block';
-					
-					var editButton = fanButtonDiv.querySelector('.btn-i-edit');
-					var saveButton = fanButtonDiv.querySelector('.btn-i-save');
-					// 수정 버튼 보이기, 저장 버튼 숨기기
-					editButton.style.display = "inline-block";
-					saveButton.style.display = "none";
-				}
-			}
-		})
-	}
+    // 게시물 수정 저장 버튼
+    function popPostSaveShow(button) {
+        var postDiv = button.closest('.postBx');
+        var fanPostDiv = postDiv.querySelector('.arti-cnt');
+        var fanButtonDiv = postDiv.querySelector('.arti-top');
+
+        var postText = fanPostDiv.querySelector('.txt');
+        var postInput = fanPostDiv.querySelector('.post-txtBx');
+        var newPostText = postInput.value.trim();
+
+        var post_id = postDiv.getAttribute('data-post-id');
+        var postImgFile = document.getElementById('postImgFile').files[0];
+        
+        var formData = new FormData();
+        formData.append('post_id', post_id);
+        formData.append('content', newPostText);
+        if (postImgFile) {
+            formData.append('post_img_name', postImgFile);
+        }
+
+        // 수정된 게시물을 서버로 전송하는 AJAX 요청
+        $.ajax({
+            type: "POST",
+            url: "/community/modifyPost",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                if (data === "success") {
+                	// 게시물 텍스트 업데이트
+                   if (data === "success") {
+				        // 게시물 텍스트 업데이트
+				        postText.innerText = newPostText;
+				        postInput.style.display = 'none';
+				        postText.style.display = 'block';
+				
+				        // 새로운 이미지 URL이 서버로부터 반환되었으면 이미지 업데이트
+				        if (data.imageUrl) {
+				            var postImage = fanButtonDiv.querySelector('.post-image');
+				            postImage.src = data.imageUrl;  // 이미지 src를 새로운 URL로 업데이트
+				
+				            // 프리뷰 이미지 업데이트
+				            var previewImage = fanPostDiv.querySelector('#previewPostImg');
+				            if (previewImage) {
+				                previewImage.src = data.imageUrl;
+				                previewImage.style.display = 'block';
+				            }
+				
+				            // 업로드한 이미지 프리뷰와 파일 입력 필드를 숨김 처리
+				            var postImgFileInput = document.getElementById('postImgFile');
+				            postImgFileInput.style.display = 'none';  // 여기서 'display: none'을 적용하여 파일 입력 필드를 숨깁니다.
+				        }
+				
+				        // 버튼 상태 변경
+				        var editButton = fanButtonDiv.querySelector('.btn-i-edit');
+				        var saveButton = fanButtonDiv.querySelector('.btn-i-save');
+				        editButton.style.display = "inline-block";
+				        saveButton.style.display = "none";
+				    }
+                }
+            }
+        })
+    }
+
+
+
+	
+
+
 	
 	//댓글 작성
 	function submitComment() {
@@ -333,10 +381,10 @@
 		<button type="button" class="btn-i-close" onclick="popPostFanHide();"></button>
 	</div>
 	<div class="cntArea">
-		<div class="postBx" data-post-id="${PostVO.post_id}">
+		<div class="postBx" data-post-id="${PostVO.post_id != null ? PostVO.post_id : 0}">
 			<div class="arti-comment">
 				<div class="arti-top">
-					<div class="arti-profile"><img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
+					<div class="arti-profile"><img src="/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
 					<span class="arti-mark"><span class="blind">artist</span></span>
 					<span class="arti-name"> ${PostVO.nickname }</span>
 					<span class="arti-date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></span>
@@ -346,12 +394,18 @@
 						<!--  게시물 수정 버튼 -->
 						<button type="button" class="btn-i-edit" onclick="popPostEditShow(this)"></button>
 						<!--  게시물 저장 버튼 -->
-						<button type="button" class="btn-i-save" onclick="popPostSaveShow(this)" style="display:none;"></button>
+						<button type="button" id="submitButton" class="btn-i-save" onclick="popPostSaveShow(this)" style="display:none;"></button>
 					</c:if>
 				</div>
 				<div class="arti-cnt">
-					<div class="txt">${PostVO.content} <img src="${pageContext.request.contextPath}/img/artist/newjeans-header.jpg" alt="newjeans" class="thumb"></div>
-					<textarea class="post-txtBx" name="post" style="display:none;" value="${PostVO.content }"></textarea>
+				    <div class="txt">${PostVO.content} 
+				        <img id="currentPostImg" src="/upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:100%;">
+				    </div>
+				    <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
+				    	<textarea class="post-txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
+				        <input type="file" id="postImgFile" class="post-img-upload" style="display:none;" accept="image/*" >
+				        <img id="previewPostImg" src="/upload/${PostVO.post_img}" alt="현재 게시물 이미지" style="width: 200px; margin-top: 10px; display: none;">
+				    </form>
 				</div>
 			</div>
 		</div>
@@ -360,12 +414,13 @@
 				<div class="count">
 					<div class="comm" ><i class="num">${totalComment }</i>개의 댓글</div>
 					<button type="button" class="btn-i-reset" onclick="resetPopup('${PostVO.post_id}')"><i class="fa-solid fa-rotate-right"></i></button>
+				
 				</div>
 			</div>
 			<div class="reply">
 					<div class="list" >
 				<c:forEach items="${commentList }" var="commentVO">
-						<div class="postBx" data-comment-id="${commentVO.comment_id}">
+						<div class="" data-comment-id="${commentVO.comment_id}">
 							<div class="fan-profile">
 								<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
 								<span class="nickname">${commentVO.nickname }</span>
