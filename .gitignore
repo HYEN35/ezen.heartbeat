@@ -26,3 +26,4 @@
 .smarttomcat/controller/conf/web.xml
 .smarttomcat/controller/conf/Catalina/localhost/ROOT.xml
 .idea/vcs.xml
+.idea/encodings.xml
