@@ -15,7 +15,7 @@ public class JDBCDriverTest {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			// JDBC Driver를 찾아서 메모리에 로드한다.
-			conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/heartbeat", "dba", "dbapwd");
+			conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/heartbeat", "root", "1111");
 			System.out.println("JDBC 연결 성공!");
 		} catch (Exception e) {
 			e.printStackTrace();
