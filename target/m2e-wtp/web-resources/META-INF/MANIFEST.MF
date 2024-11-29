@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
+Built-By: pc07-09
+=======
 Built-By: pc07-02
+>>>>>>> origin/kimhonghyun
 Build-Jdk: 1.8.0_341
 Created-By: Maven Integration for Eclipse
 
