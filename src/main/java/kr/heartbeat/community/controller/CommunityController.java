@@ -63,13 +63,13 @@ public class CommunityController {
 		String url = null;
 		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
 
-		if (artist_id.getArtist_id() == 2) {
+		if (artist_id.getArtist_id() == 20109) {
 			// 게시물 나누기
 			for (PostVO post : postList) {
-				if (post.getArtist_id() == 2) {
-					if ("minji".equals(post.getEmail()) || "haerin".equals(post.getEmail())) {
+				if (post.getArtist_id() == 20109) {
+					if ("minji".equals(post.getEmail()) || "hanni".equals(post.getEmail()) || "danielle".equals(post.getEmail()) || "haerin".equals(post.getEmail()) || "hyein".equals(post.getEmail()) ) {
 						newjinsPosts.add(post);
-					} 
+					}
 				}
 			}
 			session.setAttribute("newjinsPosts", newjinsPosts);  
@@ -87,8 +87,21 @@ public class CommunityController {
 
 		return url;
 	}
+	
+	// 있지 페이지 들어가면서 게시물 가져오기
+	@RequestMapping("/artist/itzy")
+	public String itzy(@RequestParam("num")int num) {
+		
+		return "/community/artist/itzy";
+	}
+	// 블랙핑크 페이지 들어가면서 게시물 가져오기
+	@RequestMapping("/artist/blackpink")
+	public String blackpink(@RequestParam("num")int num) {
+		
+		return "/community/artist/blackpink";
+	}
 
-	// 게시물 작성
+	// 뉴진스 게시물 작성
 	@PostMapping("/postWrite")
 	public String postWrite(PostVO postvo, Model model, HttpServletRequest request) throws Exception {
 		communityService.postWrite(postvo);
@@ -96,30 +109,8 @@ public class CommunityController {
 		return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
 	
-	// 게시물 수정
-	@PostMapping("/modifyPost")
-	@ResponseBody
-	public String modifyPost(PostVO postVO, HttpSession session) throws Exception {
-		communityService.modifyPost(postVO);
-		
-		List<PostVO> newjinsPosts = (List<PostVO>) session.getAttribute("newjinsPosts");	
-		
-		
-		// post_id=85인 PostVO 객체의 content 값 수정
-		for (PostVO post : newjinsPosts) {
-		    if (post.getPost_id() == postVO.getPost_id()) {
-		        post.setContent(postVO.getContent());
-		        break;  // 해당 post_id를 찾았으므로 반복문 종료
-		    }
-		}
-		// 수정된 리스트를 session에 저장
-		session.setAttribute("newjinsPosts", newjinsPosts);
 
-		return "success";
-			
-	}
-
-	// 게시물 삭제
+	// 뉴진스 게시물 삭제
 	@PostMapping("/deletePost")
 	public String deletePost(@RequestParam("post_id") int post_id, HttpServletRequest request) throws Exception {
 		communityService.deletePost(post_id);
@@ -131,6 +122,14 @@ public class CommunityController {
 		return "redirect:"+referer;
 	}
 
+	// 게시물 수정
+	@PostMapping("/modifyPost")
+	@ResponseBody
+	public String modifyPost(PostVO postVO) throws Exception {
+		communityService.modifyPost(postVO);
+		return "success";
+		
+	}
 	// 유저 게시물 상세보기
 	@RequestMapping("/getUserPost")
 	public String getUserPost(PostVO postVO, Model model) throws Exception {

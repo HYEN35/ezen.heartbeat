@@ -49,7 +49,7 @@ input:disabled,
 .en{font-family:"Ramabhadra", sans-serif;font-weight:400;font-style:normal}
 
 .pagination{display:flex;justify-content:center;align-items:center;margin-top:30px}
-.pagination [class*="btn-i-"]{position:relative;width:20px;height:20px;padding:0}
+.pagination [class*="btn-i-"]{position:relative;width:20px;height:20px;padding:0;line-height:unset}
 .pagination .btn-i-prev:before{position:absolute;top:50%;left:50%;font-family:FontAwesome;content:"\f053";transform:translate(-50%, -50%)}
 .pagination .btn-i-next:before{position:absolute;top:50%;left:50%;font-family:FontAwesome;content:"\f054";transform:translate(-50%, -50%)}
 .pagination .page{display:flex;justify-content:center;align-items:center;font-weight:500}

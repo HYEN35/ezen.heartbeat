@@ -134,7 +134,7 @@ public class UserController {
 						dbuserVO = userServiceImpl.login(dbuserVO);  // 로그인 재실행
 						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 						model.addAttribute("alertMsg", "맴버십 이용 기간이 종료되었습니다.");
-						return "heartbeat/purchase";  // 맴버십 페이지로 이동
+						return "heartbeat/membership";  // 맴버십 페이지로 이동
 					} else {
 						// 맴버십 기간이 유효한 경우
 						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장

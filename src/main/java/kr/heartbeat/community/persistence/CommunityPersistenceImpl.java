@@ -42,6 +42,9 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 	    map.put("minji", "minji");
 	    map.put("haerin", "haerin");
+	    map.put("hanni", "hanni");
+	    map.put("danielle", "danielle");
+	    map.put("hyein", "hyein");
 	    map.put("displayPost", displayPost);
 	    map.put("postNum", postNum);
 	    return sql.selectList(namespace+".getFanPostList", map);
@@ -52,8 +55,11 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("minji", "minji");
 		map.put("haerin", "haerin");
-		int a = sql.selectOne(namespace+".getFanPostCount",map);
-		return a;
+		map.put("hanni", "hanni");
+	    map.put("danielle", "danielle");
+	    map.put("hyein", "hyein");
+		int count = sql.selectOne(namespace+".getFanPostCount",map);
+		return count;
 	}
 	
 	@Override // 게시물 하나 가져오기

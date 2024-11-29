@@ -68,6 +68,14 @@
 		pageName = "뉴진스";
 		pageTitle = "뉴진스";
 	}
+	else if (pageRequest.endsWith("artist/itzy.jsp")) {
+		pageName = "ITZY";
+		pageTitle = "ITZY";
+	}
+	else if (pageRequest.endsWith("artist/blackpink.jsp")) {
+		pageName = "블랙핑크";
+		pageTitle = "블랙핑크";
+	}
 %>
 
 <!DOCTYPE html>

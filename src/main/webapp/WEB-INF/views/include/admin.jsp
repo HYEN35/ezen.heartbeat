@@ -27,8 +27,10 @@
 	   	<div class="menuCnt">
 	   		<ul>
 	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/summary" class="<%=summary %>"><i class="fa-solid fa-house"></i>Summary</a></li>
-	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/member" class="<%=member %>"><i class="fa-solid fa-users"></i>회원 리스트</a></li>
-	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/staff" class="<%=staff %>"><i class="fa-solid fa-users"></i>직원 리스트</a></li>
+	   			<li class="item">
+					<a href="${pageContext.request.contextPath}/admin/member" class="<%=member %> <%="member".equals(request.getAttribute("memberPage")) ? "on" : "" %>"><i class="fa-solid fa-users"></i>회원 리스트
+					</a>
+				</li>
 	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/post" class="<%=post %>"><i class="fa-solid fa-list-check"></i>게시글 확인</a></li>
 	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/comment" class="<%=comment %>"><i class="fa-solid fa-comments"></i>댓글 확인</a></li>
 	   		</ul>
