@@ -19,15 +19,22 @@ public class HomeController {
 //	@RequestMapping(value="/chart", method = RequestMethod.GET)
 //	public String chart() { return "heartbeat/chart"; } 
 	
-	//@RequestMapping(value="/playlist", method = RequestMethod.GET)
-	//public String playlist() { return "heartbeat/playlist"; } 
+	@RequestMapping(value="/playlist", method = RequestMethod.GET)
+	public String playlist() { return "heartbeat/playlist"; } 
 	
-	//@RequestMapping(value="/community", method = RequestMethod.GET)
-	//public String community() { return "community/community"; } 
+	@RequestMapping(value="/community", method = RequestMethod.GET)
+	public String community() { return "community/community"; } 
 	
-	@RequestMapping(value="/purchase", method = RequestMethod.GET)
-	public String membership() { return "heartbeat/purchase"; }
+	@RequestMapping(value="/membership", method = RequestMethod.GET)
+	public String membership() { return "heartbeat/membership"; } 
 	
-//	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
-//	 public String mypage() { return "heartbeat/mypage"; }
+	@RequestMapping(value="/membershipTest", method = RequestMethod.GET)
+	public String membershipTest() { return "heartbeat/membershipTest"; } 
+	
+	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
+	 public String mypage() { return "heartbeat/mypage"; }
+	 
+	 
+	 
+	 
 }

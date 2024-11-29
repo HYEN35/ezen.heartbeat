@@ -20,6 +20,8 @@
 		where nickname = #{nickname}
 	</select>
 	
+	
+	
 	<!-- 회원가입 -->
 	<insert id="join" parameterType="kr.heartbeat.vo.UserVO">
 	    insert into user_tbl (
@@ -34,7 +36,7 @@
 	        reg_date, 
 	        up_date
 	    ) values (
-	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, 0, now(), now())
+	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, #{profileimg}, now(), now())
 	</insert>
 	
 	<!-- 회원가입 시 유저 역할 추가 -->
@@ -57,38 +59,38 @@
 	</select>
 	
 	<!-- 아이디 찾기 -->
-	<select id="findId" parameterType="kr.heartbeat.vo.UserVO" resultType="kr.heartbeat.vo.UserVO">
+	<select id="findId" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
 		select * from user_tbl
 		where name = #{name} 
 		and DATE_FORMAT(birth, '%Y%m%d') = #{birth} <!-- db에 저장된 YYYY-MM-DD 형식을 입력받은 YYYYMMDD 형식으로 바꿔서 비교한다. -->
     	and phone = #{phone}
 	</select>
 	
-	<!-- 비밀번호 찾기 - 메일 전송 버전 -->
-	<select id="searchPwd" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
+	<!-- 비밀번호 찾기 -->
+	<select id="findPwd" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
 		select * from user_tbl
 		where email = #{email} 
     	and name = #{name}
 		and DATE_FORMAT(birth, '%Y%m%d') = #{birth} 
 	</select>
-
-	<!-- 새 비밀번호  -->
-	<update id="updatePwd" parameterType="hashMap" >
-		update user_tbl set
-			pwd = #{newPassword}
-		where email = #{email}
-	</update>
 	
 	<!-- 회원 정보 수정 -->
-	<update id="modify" parameterType="hashMap" >
+	<update id="modify" parameterType="hashMap">
 		update user_tbl set
-			pwd = #{newPwd}
-			, nickname = #{userVO.nickname}
-			,profileimg = 0
-			,up_date = now()
-		where email = #{userVO.email}
+        pwd = #{userVO.pwd},
+        nickname = #{userVO.nickname},
+        profileimg = #{userVO.profileimg},
+        up_date = now()
+    where email = #{userVO.email}
 	</update>
 	
+	<!-- 멤버쉽 수정(level) -->
+	<update id="membership" parameterType="kr.heartbeat.vo.UserVO">
+		update user_tbl set
+			level = #{level}
+			,up_date = now()
+		where email = #{email}
+	</update>
 	
 
 	<!-- 1.사용자 조회 -->
@@ -117,94 +119,6 @@
 	<delete id="delete" parameterType="kr.heartbeat.vo.UserVO">
 		delete from user_tbl
 		where email = #{email}
-	</delete>
-	
-	<!-- 내 게시물 개수 가져오기 -->
-	<select id="getMyPostCount" parameterType="hashmap" resultType="int">
-		select count(*) from post_tbl
-		    <where>
-		        <if test="searchType != null and searchType.equals('title')">
-		            title like concat('%',#{keyword},'%')
-		        </if>
-		        
-		        <if test="searchType != null and searchType.equals('content')">
-		            content like concat('%',#{keyword},'%')
-		        </if>
-		        
-		        <if test="searchType != null and searchType.equals('nickname')">
-		            nickname like concat('%',#{keyword},'%')
-		        </if>
-		
-		        and email = #{email}
-		    </where>
-	</select>
-	<!-- 내 게시물 가져오기 -->
-	<select id="getUserPost" parameterType="hashmap" resultType="kr.heartbeat.vo.PostVO">
-	    select * from post_tbl
-	    <where>
-	        <if test="searchType != null and searchType.equals('content')">
-	            content like concat('%', #{keyword}, '%')
-	        </if>
-	
-	        <if test="searchType != null and searchType.equals('nickname')">
-				nickname like concat('%',#{keyword},'%')
-			</if>
-	
-	        <!-- email 조건이 항상 적용되도록 넣기 -->
-	        and email = #{email}
-	    </where>
-	    order by post_id desc
-	    limit #{displayPost}, #{postNum}
-	</select>
-	<!-- 유저 개인 게시물 삭제하기 -->
-	<delete id="deleteMyPost" parameterType="int">
-		delete from post_tbl where post_id = #{post_id}
-	</delete>
-	
-	<!-- 내 문의 개수 가져오기 -->
-	<select id="getMyNoticeCount" parameterType="hashmap" resultType="int">
-		select count(*) from notice_tbl
-		    <where>
-		        <if test="searchType != null and searchType.equals('title')">
-		            title like concat('%',#{keyword},'%')
-		        </if>
-		        
-		        <if test="searchType != null and searchType.equals('content')">
-		            content like concat('%',#{keyword},'%')
-		        </if>
-		        
-		        <if test="searchType != null and searchType.equals('nickname')">
-		            nickname like concat('%',#{keyword},'%')
-		        </if>
-		
-		        and email = #{email}
-		    </where>
-	</select>
-	<!-- 내 문의 가져오기 -->
-	<select id="getUserNotice" parameterType="hashmap" resultType="kr.heartbeat.vo.NoticeVO">
-	    select * from notice_tbl
-	    <where>
-	    	<if test="searchType != null and searchType.equals('title')">
-	            title like concat('%',#{keyword},'%')
-	        </if>
-	        
-	        <if test="searchType != null and searchType.equals('content')">
-	            content like concat('%', #{keyword}, '%')
-	        </if>
-	
-	        <if test="searchType != null and searchType.equals('nickname')">
-				nickname like concat('%',#{keyword},'%')
-			</if>
-	
-	        <!-- email 조건이 항상 적용되도록 넣기 -->
-	        and email = #{email}
-	    </where>
-	    order by notice_id desc
-	    limit #{displayPost}, #{postNum}
-	</select>
-	<!-- 유저 개인 게시물 삭제하기 -->
-	<delete id="deleteMyNotice" parameterType="int">
-		delete from notice_tbl where notice_id = #{notice_id}
 	</delete>
 
 </mapper>

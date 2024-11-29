@@ -27,6 +27,8 @@ public class NoticeController {
 	// 공지 페이지 들어가면서 게시물 가져오기
 	@RequestMapping(value="/notice", method = RequestMethod.GET) 
 	public String notice(int num, String searchType, String keyword, Model model) throws Exception{
+		System.out.println(searchType);
+		System.out.println(keyword);
 		PageDTO page = new PageDTO();
 		page.setNum(num);
 		page.setCount(noticeService.getPostCount(searchType,keyword)); // 뉴진스 팬 게시물 개수 
@@ -46,7 +48,6 @@ public class NoticeController {
 		return "heartbeat/notice";	
 		
 	}
-	
 	
 	@GetMapping("/postNotice")
 	public String postNotice() {
@@ -70,7 +71,6 @@ public class NoticeController {
 		model.addAttribute("num", num);
 		model.addAttribute("commentVO", commentVO);
 		model.addAttribute("noticeVO", noticeVO);
-
 		return "/heartbeat/noticeShow";
 	}
 	
@@ -117,6 +117,7 @@ public class NoticeController {
 	@PostMapping("/commentUpdate") // 댓글 수정
 	@ResponseBody
 	public String commentUpdate(NoticeCommentVO noticeCommentVO) throws Exception{
+		System.out.println(noticeCommentVO);
 		noticeService.updateComment(noticeCommentVO);
 		return "댓글 수정 성공";
 	}
