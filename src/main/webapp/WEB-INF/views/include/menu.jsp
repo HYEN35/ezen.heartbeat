@@ -19,6 +19,17 @@
 					menuPageRequest.endsWith("mymembership.jsp") ||
 					menuPageRequest.endsWith("mypost.jsp") ? "on" : "";
 	
+	String membership =	menuPageRequest.endsWith("purchase.jsp") ? "on" : "";
+	String notice =	menuPageRequest.endsWith("notice.jsp") ||
+					menuPageRequest.endsWith("noticeModify.jsp") ||
+					menuPageRequest.endsWith("noticePost.jsp") || 
+					menuPageRequest.endsWith("noticeShow.jsp") ||
+					menuPageRequest.endsWith("myNoticeModify.jsp") ||
+					menuPageRequest.endsWith("myNoticeShow.jsp") ? "on" : "";
+	String mypage =	menuPageRequest.endsWith("mypage.jsp") ||
+					menuPageRequest.endsWith("mymembership.jsp") ||
+					menuPageRequest.endsWith("mypost.jsp") ? "on" : "";
+	
 %>
 
 <div id="menu" class="menu">
@@ -45,6 +56,7 @@
 					<a href="${pageContext.request.contextPath}/community/community" class="<%=community %> <%="artist".equals(request.getAttribute("artistPage")) ? "on" : "" %>"><i class="fa-solid fa-comment"></i>커뮤니티</a>
 				</li>
 				<li class="item">
+					<a href="${pageContext.request.contextPath}/purchase" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
 					<a href="${pageContext.request.contextPath}/purchase" class="<%=membership %>"><i class="fa-solid fa-credit-card"></i>멤버십</a>
 				</li>
 				<li class="item">
