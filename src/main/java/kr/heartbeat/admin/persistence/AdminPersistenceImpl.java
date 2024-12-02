@@ -71,17 +71,17 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	}
 
 	//staff 리스트
-	@Override
+	//@Override
 	public List<UserVO> getStaffList(HashMap<String, Object> map) throws Exception {
 		return sql.selectList(namespace + ".staff_list", map);
 	}
 
-	@Override
+	//@Override
 	public int getStaffCount(HashMap<String, Object> map) throws Exception {
 		return sql.selectOne(namespace + ".getStaffCount", map);
 	}
 
-	@Override
+	//@Override
 	public void staffdelete(String email) throws Exception {
 		sql.delete(namespace + ".Staffdelete", email);
 	}
