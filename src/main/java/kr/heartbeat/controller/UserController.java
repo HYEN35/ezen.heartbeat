@@ -41,6 +41,8 @@ public class UserController {
 	private MembershipService membershipService;
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	//이메일 중복확인
 	@PostMapping("/join/emailcheck")
@@ -86,6 +88,13 @@ public class UserController {
 		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
+
+		//비밀번호 암호화
+		String pwd =userVO.getPwd();
+		String encodePwd = bCryptPasswordEncoder.encode(pwd);
+		System.out.println("========= Presentation member pwd : "+ encodePwd);
+		userVO.setPwd(encodePwd);
+
 		String url = null;
 		int resultUser = userServiceImpl.insertUser(userVO);
 		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
@@ -116,8 +125,10 @@ public class UserController {
 		System.out.println(formattedDate);  // 예시: 2024-11-20
 
 		if (dbuserVO != null) {
+			boolean passMatch = bCryptPasswordEncoder.matches(userVO.getPwd(), dbuserVO.getPwd());
+
 			// 패스워드가 일치하는 경우
-			if (userVO.getPwd().equals(dbuserVO.getPwd())) {
+			if (passMatch) {
 				// 맴버십 종료 날짜 확인
 				SubscriptionVO subscriptionVO = membershipService.checkEndDate(email);
 				Date nowDate = desiredFormat.parse(formattedDate);
@@ -229,23 +240,62 @@ public class UserController {
 		}
 		
 		
-		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
-		public String modify(@RequestParam("newPwd") String newPwd, UserVO userVO, HttpSession session, RedirectAttributes rttr) {
-			UserVO uvo = (UserVO) session.getAttribute("UserVO");	//세션에서 user 데이터 불러와서 email 값을 전달해야 한다.
-		    userVO.setEmail(uvo.getEmail());
-		   
-		    System.out.println("========== 정보수정 Presentaion member newPwd : "+newPwd);
-		    System.out.println("========== 정보수정 Presentaion member user nickname : "+userVO.getNickname());
-		    
-	        userServiceImpl.modify(newPwd, userVO);
-	       
-	        uvo.setNickname(userVO.getNickname());  // 세션에 저장된 user 객체의 닉네임 업데이트
-	        session.setAttribute("UserVO", uvo);  
-			rttr.addFlashAttribute("message", "회원 정보가 변경되었습니다." );
+		public String modify( @RequestParam(value = "pwd", required = false) String originPwd,
+							 @RequestParam(value = "newPwd", required = false) String newPwd,
+		                     @RequestParam(value = "nickname", required = false) String nickname,
+		                     @RequestParam(value = "profileimgf", required = false) MultipartFile profileImage,
+		                     HttpSession session, RedirectAttributes rttr ) throws IOException {
 
-		    return "redirect:/mypage";
+			UserVO userVO = (UserVO) session.getAttribute("UserVO");
+		    
+			System.out.println("회원 수정 비빌번호 +++++++++ "+userVO.getPwd());
+			
+		    // 비밀번호 수정 처리
+		    if (newPwd != null && !newPwd.isEmpty()) {
+		    	boolean passMatch = bCryptPasswordEncoder.matches(originPwd, userVO.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
+		    	if(passMatch) {
+		    		String pwd = newPwd; // 사용자가 입력한 새 비밀번호 
+			    	String encodePwd = bCryptPasswordEncoder.encode(pwd); // encoding 새 비밀번호 
+			    	userVO.setPwd(encodePwd);
+		    	} else {
+		    		rttr.addFlashAttribute("message", "입력하신 비밀번호가 잘못되었습니다.");
+		    		return "redirect:/mypage";
+		    	}
+		    }
+
+		    // 닉네임 수정 처리
+		    if (nickname != null && !nickname.isEmpty()) {
+		    	userVO.setNickname(nickname); 
+		    }
+
+		    // 프로필 사진 수정 처리
+		    if (profileImage != null && !profileImage.isEmpty()) {
+		        String fileName = UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
+		        String filePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" + fileName;
+
+		        // 기존 프로필 사진 삭제
+		        if (userVO.getProfileimg() != null && !userVO.getProfileimg().isEmpty()) {
+		            String oldFilePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" +userVO.getProfileimg();
+		            File oldFile = new File(oldFilePath);
+		            if (oldFile.exists()) {
+		                oldFile.delete();
+		            }
+		        }
+
+		        // 새로운 프로필 사진 저장
+		        profileImage.transferTo(new File(filePath));
+		        userVO.setProfileimg(fileName); // 새로운 파일명을 UserVO에 설정
+		    }
+
+		    // 수정된 사용자 정보 DB에 저장
+		    userServiceImpl.modify(userVO); // userServiceImpl 수정 메소드 호출
+
+		    // 세션 갱신
+		    session.setAttribute("UserVO", userVO); // 세션에 수정된 사용자 정보 업데이트
+		    rttr.addFlashAttribute("message", "회원 정보가 성공적으로 수정되었습니다.");
+		    return "redirect:/mypage"; // 마이페이지로 리다이렉트
 		}
 		
 		//마이페이지 - 탈퇴
