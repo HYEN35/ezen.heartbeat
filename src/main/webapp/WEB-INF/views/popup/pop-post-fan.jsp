@@ -354,7 +354,7 @@
 				        <img id="currentPostImg" src="/upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:100%;">
 				    </div>
 					 <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
-				    	<textarea class="post-txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
+				    	<textarea class="post-txtBx txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
 				        <input type="file" id="postImgFile" class="post-img-upload" style="display:none;" accept="image/*" >
 				        <img id="previewPostImg" src="/upload/${PostVO.post_img}" alt="현재 게시물 이미지" style="width: 200px; margin-top: 10px; display: none;">
 				    </form>

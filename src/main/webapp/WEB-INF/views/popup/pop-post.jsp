@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
 
-
-
 <div class="wrap">
 	<div class="topArea">
 		<div class="title">
@@ -18,18 +16,6 @@
 			<input type="hidden" name="nickname" value="${UserVO.nickname}">
 			<textarea class="txtBx" name="content"></textarea>
 			<div class="btmBx">
-				<div class="imgBx">
-					<input type="file" id="file2" name="post_Img" accept=".jpg, .jpeg, .png" hidden>
-					<!-- <input type="file" id="file" name="postImg1" accept=".jpg, .jpeg, .png" > -->  <!-- id가 file이면 안됨 --> 
-					<button type="button" class="btn-under" onclick="$('#file2').click();">첨부파일 선택</button>
-					<div class="fileName">
-						<i class="name">${file.name}</i>
-					</div>
-				</div>
-				<!-- 파일 리스트 영역 -->
-        		<div id="fileListContainer" class="file-list-container"></div>
-	            <button type="submit" class="btn-full">등록</button>
-	        </div>
 				<div class="imgBx">
 					<input type="file" id="file2" name="post_Img" accept=".jpg, .jpeg, .png" hidden>
 					<!-- <input type="file" id="file" name="postImg1" accept=".jpg, .jpeg, .png" > -->  <!-- id가 file이면 안됨 --> 

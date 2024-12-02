@@ -35,7 +35,6 @@ input.check{width:16px;height:16px;margin:0;cursor:pointer}
 
 .sltBx,
 .txtBx{display:block;width:200px;height:40px;padding:0 5px;font-family:"Noto Sans KR", sans-serif;border:1px solid #dedede;border-radius:4px}
-.post-txtBx{display:inline-block;width:600px;height:300px;padding:0 5px;font-family:"Noto Sans KR", sans-serif;border:1px solid #dedede;border-radius:4px}
 ::placeholder{color:#888;font-family:"Noto Sans KR", sans-serif}
 textarea{display:block;width:200px;padding:5px;color:inherit;font-family:"Noto Sans KR", sans-serif;border:1px solid #dedede;border-radius:4px;resize:none}
 label[for]{cursor:pointer}
