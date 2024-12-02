@@ -20,11 +20,6 @@
 		        var file = this.files[0]; // 선택된 파일 객체
 		        var fileName = file ? file.name : '선택된 파일 없음'; // 파일 이름 추출
 	
-		        // 앞 6글자만 나오게
-		        if (fileName.length > 7) {
-		            fileName = fileName.substring(0, 7) + '...'; 
-		        }
-	
 		        console.log('선택된 파일 이름:', fileName);
 		        
 		        $('#fileNameDisplay').text(fileName); // 화면에 파일명 표시
