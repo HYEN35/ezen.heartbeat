@@ -160,7 +160,7 @@
 													</div>
 													<div class="fan-comment">
 														<div class="fan-cnt">
-															<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br> 	
+															<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br>
 															<div class="txt">${PostVO.content }</div>
 														</div>
 													</div>

@@ -288,7 +288,7 @@ br.mob{display:none}
 .my-membership .itemWrap .item .info .grade{font-weight:500}
 .my-membership .itemWrap .item .price{margin-right:20px;font-weight:500}
 .my-post .btnWrap{margin-bottom:20px;padding-bottom:20px}
-.my-post .itemWrap .item{display:flex;justify-content:flex-start;align-items:center;padding-bottom:10px;text-align:left;border-bottom:1px solid #e9e9e9}
+.my-post .itemWrap .item{display:flex;justify-content:flex-start;align-items:center;margin-bottom:10px;padding-bottom:10px;text-align:left;border-bottom:1px solid #e9e9e9}
 .my-post .itemWrap .item .check{margin-right:10px}
 .my-post .itemWrap .item .num{margin-right:10px}
 .my-post .itemWrap .item .tit{overflow:hidden;width:calc(100% - 50px);text-align:left;white-space:nowrap;text-overflow:ellipsis}
@@ -406,7 +406,7 @@ br.mob{display:none}
 .pop-post .cntArea .btmBx .imgBx{width:80%}
 .pop-post .cntArea .btmBx .imgBx .fileName{width:100%;margin-top:10px;color:#757575}
 .pop-post .cntArea .btmBx .imgBx .fileName>div{display:flex;justify-content:flex-start;align-items:center;height:24px}
-.pop-post .cntArea .btmBx .imgBx .fileName .fName{overflow:hidden;max-width:80%;white-space:nowrap;text-overflow:ellipsis}
+.pop-post .cntArea .btmBx .imgBx .fileName .name{overflow:hidden;display:block;max-width:80%;white-space:nowrap;text-overflow:ellipsis}
 .pop-post .cntArea .btmBx .imgBx .fileName .btn-i-del{width:20px;height:20px;margin-left:10px;padding:0}
 
 /*팝업 아티스트&팬 포스팅*/
