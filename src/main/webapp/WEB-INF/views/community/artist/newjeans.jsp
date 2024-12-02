@@ -13,16 +13,37 @@
 		$(function(){
 			slick();
 		});
+
 		function slick(){
-			$('.slideBx').slick({
+			const $slider = $('.slideBx');
+			
+			$slider.on('init', function (event, slick) {
+				adjustSlideWidth(slick);
+			});
+
+			$slider.slick({
+				slidesToShow: 3, // 기본 슬라이드 표시 개수
+				slidesToScroll: 1,
 				infinite: true,
-				slidesToShow: 3,
-				slidesToScroll: 3,
-				swipe: true,
+				swipe: false,
 				arrows: true,
 				dots: false,
+				draggable: true,
 				variableWidth: false,
 				adaptiveHeight: true
+			});
+
+			function adjustSlideWidth(slick) {
+				const totalSlides = slick.slideCount; // 총 슬라이드 개수
+
+				if (totalSlides <= 3) {
+					$('.slick-track').css('width', 'auto'); // 너비 자동
+				}
+			}
+
+			// 슬라이더 업데이트 시 재적용
+			$slider.on('setPosition', function (event, slick) {
+				adjustSlideWidth(slick);
 			});
 		};
 
@@ -36,10 +57,6 @@
 		        const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
 		        console.log(newContent); // newContent 확인
 		        $('.pop-post-artist .cntArea').html(newContent);
-		        
-
-		        
-
 		        // 팝업을 보여줍니다.
 		    }).fail(function() {
 		        console.error('Error loading post data.');
@@ -109,14 +126,15 @@
 							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
 											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
 												<div>
-													<div class="arti-profile"><img src="/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
+													<div class="arti-profile">
+													<img src="${pageContext.request.contextPath}/upload/${newjinsVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
 													<div class="arti-comment">
 														<div class="arti-top">
 															<span class="arti-mark"><span class="blind">artist</span></span>
-															<span class="arti-name">${newjinsVO.nickname }</span>
+															<span class="arti-name">${newjinsVO.nickname}</span>
 														</div>
 														<div class="arti-cnt">
-															<div class="txt">${newjinsVO.content }</div>
+															<div class="txt">${newjinsVO.content}</div>
 														</div>
 													</div>
 												</div>
@@ -147,7 +165,9 @@
 													</div>
 													<div class="fan-comment">
 														<div class="fan-cnt">
-															<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br> 	
+															<c:if test="${not empty PostVO.post_img}">
+																<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br> 	
+															</c:if>
 															<div class="txt">${PostVO.content }</div>
 														</div>
 													</div>

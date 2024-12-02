@@ -14,15 +14,35 @@
 			slick();
 		});
 		function slick(){
-			$('.slideBx').slick({
+			const $slider = $('.slideBx');
+			
+			$slider.on('init', function (event, slick) {
+				adjustSlideWidth(slick);
+			});
+
+			$slider.slick({
+				slidesToShow: 3, // 기본 슬라이드 표시 개수
+				slidesToScroll: 1,
 				infinite: true,
-				slidesToShow: 3,
-				slidesToScroll: 3,
-				swipe: true,
+				swipe: false,
 				arrows: true,
 				dots: false,
+				draggable: true,
 				variableWidth: false,
 				adaptiveHeight: true
+			});
+
+			function adjustSlideWidth(slick) {
+				const totalSlides = slick.slideCount; // 총 슬라이드 개수
+
+				if (totalSlides <= 3) {
+					$('.slick-track').css('width', 'auto'); // 너비 자동
+				}
+			}
+
+			// 슬라이더 업데이트 시 재적용
+			$slider.on('setPosition', function (event, slick) {
+				adjustSlideWidth(slick);
 			});
 		};
 
