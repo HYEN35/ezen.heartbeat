@@ -24,85 +24,97 @@
 	
 	// 게시물 수정 버튼
 	function popPostEditShow(button) {
-		var postDiv = button.closest('.postBx');
-		var fanPostDiv = postDiv.querySelector('.arti-cnt') ;
-		var fanButtonDiv = postDiv.querySelector('.arti-top');
-		
-		// fanPostDiv와 fanButtonDiv가 잘 찾혔는지 확인
-	    if (!fanPostDiv || !fanButtonDiv) {
-	        console.error("필수 요소를 찾을 수 없습니다.");
-	        return;
-	    }
+	    var postDiv = button.closest('.postBx');
+	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
+	    var fanButtonDiv = postDiv.querySelector('.arti-top');
 
-	    var postText = fanPostDiv.querySelector('.txt');  // 기존 게시물 내용
-	    var postInput = fanPostDiv.querySelector('.post-txtBx');  // 수정용 입력 박스
-	    
-	    // postText와 postInput이 제대로 찾혔는지 확인
-	    console.log("postText:", postText);
-	    console.log("postInput:", postInput);
-		
-		// 텍스트 박스 숨김 처리 
-		postText.style.display = 'none';
-		postInput.style.display = 'block';
-		
-		var editButton = fanButtonDiv.querySelector('.btn-i-edit');
-		var saveButton = fanButtonDiv.querySelector('.btn-i-save');
-		
-		// 버튼 숨김 처리
-		editButton.style.display = "none";
-		saveButton.style.display = "inline-block";
-		
-		
-		postInput.value = postText.innerText.trim();
-		
+	    var postText = fanPostDiv.querySelector('.txt');
+	    var postInput = fanPostDiv.querySelector('.post-txtBx');
+	    var postImgFileInput = fanPostDiv.querySelector('#postImgFile');
+	    var postImage = fanPostDiv.querySelector("img.thumb");
+
+	    postText.style.display = 'none'; // 기존 텍스트 숨김
+	    postInput.style.display = 'block'; // 텍스트 박스 표시
+	    postImgFileInput.style.display = 'block'; // 파일 입력 표시
+
+	    postInput.value = postText.innerText.trim(); // 기존 텍스트를 입력 박스로 복사
+
+	    // 파일 선택 시 미리보기 업데이트
+	    postImgFileInput.addEventListener('change', function () {
+	        if (postImgFileInput.files && postImgFileInput.files[0]) {
+	            var reader = new FileReader();
+	            reader.onload = function (e) {
+	                postImage.src = e.target.result; // 새로운 이미지로 업데이트
+	            };
+	            reader.readAsDataURL(postImgFileInput.files[0]);
+	        }
+	    });
+
+	    var editButton = fanButtonDiv.querySelector('.btn-i-edit');
+	    var saveButton = fanButtonDiv.querySelector('.btn-i-save');
+	    editButton.style.display = 'none';
+	    saveButton.style.display = 'inline-block';
 	}
-	
+
 	// 게시물 수정 저장 버튼
-	function popPostSaveShow(button){
-		var postDiv = button.closest('.postBx');
-		var fanPostDiv = postDiv.querySelector('.arti-cnt') ;
-		var fanButtonDiv = postDiv.querySelector('.arti-top');
-		
-		// fanPostDiv와 fanButtonDiv가 잘 찾혔는지 확인
-	    if (!fanPostDiv || !fanButtonDiv) {
-	        console.error("필수 요소를 찾을 수 없습니다.");
-	        return;
+	function popPostSaveShow(button) {
+	    var postDiv = button.closest('.postBx');
+	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
+	    var fanButtonDiv = postDiv.querySelector('.arti-top');
+
+	    var postText = fanPostDiv.querySelector('.txt');
+	    var postInput = fanPostDiv.querySelector('.post-txtBx');
+	    var postImgFileInput = fanPostDiv.querySelector('#postImgFile');
+
+	    var newPostText = postInput.value.trim();
+	    var post_id = postDiv.getAttribute('data-post-id');
+	    var postImgFile = postImgFileInput.files[0];
+
+	    var formData = new FormData();
+	    formData.append('post_id', post_id);
+	    formData.append('content', newPostText);
+	    if (postImgFile) {
+	        formData.append('post_img_name', postImgFile);
 	    }
 
-	    var postText = fanPostDiv.querySelector('.txt');  // 기존 게시물 내용
-	    var postInput = fanPostDiv.querySelector('.post-txtBx');  // 수정용 입력 박스
-	    
-	    // postText와 postInput이 제대로 찾혔는지 확인
-	    console.log("postText:", postText);
-	    console.log("postInput:", postInput);
-		
-		var newPostText = postInput.value.trim();
-		
-		var post_id = postDiv.getAttribute('data-post-id');
-		
-		// 수정된 게시물을 서버로 전송하는 AJAX 요청
-		$.ajax({
-			type : "POST",
-			url : "/community/modifyPost",
-			data : {
-				post_id : post_id,
-				content : newPostText
-			},
-			success : function(data) {
-				if (data === "success") {
-					postText.innerText = newPostText // 게시물 텍스트 업데이트
-					postInput.style.display = 'none';
-					postText.style.display = 'block';
-					
-					var editButton = fanButtonDiv.querySelector('.btn-i-edit');
-					var saveButton = fanButtonDiv.querySelector('.btn-i-save');
-					// 수정 버튼 보이기, 저장 버튼 숨기기
-					editButton.style.display = "inline-block";
-					saveButton.style.display = "none";
-				}
-			}
-		})
+	    $.ajax({
+	        type: "POST",
+	        url: "/community/modifyPost",
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        success: function (data) {
+	            // 텍스트 업데이트
+	            postText.innerText = newPostText;
+	            postText.style.display = 'block';
+	            postInput.style.display = 'none';
+
+	            // 이미지 업데이트
+	            if (data.post_img) {
+	                var postImage = fanPostDiv.querySelector("img.thumb");
+	                if (postImage) {
+	                    postImage.src = "/upload/" + data.post_img;
+	                }
+	            }
+
+	            // 파일 입력 숨기기
+	            postImgFileInput.style.display = 'none';
+
+	            // 버튼 상태 복구
+	            var editButton = fanButtonDiv.querySelector('.btn-i-edit');
+	            var saveButton = fanButtonDiv.querySelector('.btn-i-save');
+	            editButton.style.display = 'inline-block';
+	            saveButton.style.display = 'none';
+
+	            postImgFileInput.value = '';
+	        },
+	        error: function () {
+	            alert("게시물 수정 중 오류가 발생했습니다.");
+	        }
+	    });
 	}
+
+
 	
 	//댓글 작성
 	function submitComment() {
@@ -187,7 +199,7 @@
 	    var saveButton = fanProfileDiv.querySelector('.btn-i-save');
 	    
 
-	    editButton.style.display = 'none';  // 수정 버튼 숨기기
+	    editButton.style.display = 'none';  
 	    saveButton.style.display = 'inline-block';  // 저장 버튼 보이기
 
 
@@ -296,7 +308,64 @@
 	    }
 	}
 	
-	
+	//게시물 이미지 효과 추가 
+	function showPopup(img) {
+    let darkBackground = document.getElementById("dark-background");
+
+    // 어두운 배경이 없다면 새로 생성
+    if (!darkBackground) {
+        darkBackground = document.createElement("div");
+        darkBackground.id = "dark-background";
+        darkBackground.className = "dark-background";
+        darkBackground.style.position = "fixed";
+        darkBackground.style.top = "0";
+        darkBackground.style.left = "0";
+        darkBackground.style.width = "100%";
+        darkBackground.style.height = "100%";
+        darkBackground.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+        darkBackground.style.zIndex = "9999";  
+        darkBackground.style.display = "block";
+        darkBackground.onclick = closePopup;  
+        document.body.appendChild(darkBackground);
+    } else {
+        darkBackground.style.display = "block"; 
+    }
+
+    // 이미지 팝업 생성
+    let popupImg = document.getElementById("popup-img");
+    if (!popupImg) {
+        popupImg = document.createElement("img");
+        popupImg.id = "popup-img";
+        popupImg.src = img.src;
+        popupImg.style.width = "700px";
+        popupImg.style.height = "700px"; 
+        popupImg.style.position = "fixed"; 
+        popupImg.style.top = "50%";
+        popupImg.style.left = "50%";
+        popupImg.style.transform = "translate(-50%, -50%)"; 
+        popupImg.style.zIndex = "10000"; 
+        popupImg.style.display = "block"; 
+        document.body.appendChild(popupImg);
+    } else {
+        popupImg.src = img.src;
+        popupImg.style.display = "block";
+    }
+}
+
+function closePopup() {
+    // 어두운 배경과 팝업 이미지를 숨깁니다.
+    const darkBackground = document.getElementById("dark-background");
+    if (darkBackground) {
+        darkBackground.style.display = "none";
+    }
+
+    const popupImg = document.getElementById("popup-img");
+    if (popupImg) {
+        popupImg.style.display = "none";
+    }
+}
+
+
 	
 	function popPostFanHide() {
 	    // 팝업 숨기기
@@ -328,6 +397,36 @@
 
 </script>
 
+<style>
+/* 어두운 배경 */
+#dark-background {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999; 
+    display: none; 
+}
+
+/* 팝업 이미지 스타일 */
+#popup-img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000; 
+    width: 700px; 
+    height: 700px; 
+    display: none; 
+    border-radius: 15px; 
+    object-fit: cover; 
+}
+
+
+</style>
+
 <div class="wrap">
 	<div class="topArea">
 		<button type="button" class="btn-i-close" onclick="popPostFanHide();"></button>
@@ -350,13 +449,16 @@
 					</c:if>
 				</div>
 				<div class="arti-cnt">
-					<div class="txt">${PostVO.content} 
-				        <img id="currentPostImg" src="/upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:100%;">
-				    </div>
+					<div class="txt">${PostVO.content} </div>
+					<div id="overlay" class="overlay" onclick="closeModal()"></div>
+					<c:if test="${not empty PostVO.post_img}">	
+						<div id="dark-background" class="dark-background" onclick="closePopup()"></div>
+				    	<img id="fan-img" src="/upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:50%;"  onclick="showPopup(this)">
+				    </c:if>
 					 <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
-				    	<textarea class="post-txtBx txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
-				        <input type="file" id="postImgFile" class="post-img-upload" style="display:none;" accept="image/*" >
-				        <img id="previewPostImg" src="/upload/${PostVO.post_img}" alt="현재 게시물 이미지" style="width: 200px; margin-top: 10px; display: none;">
+				    	 <input type="file" id="postImgFile" class="post-img-upload" style="display:none; padding:10px 0;" accept="image/*" >
+				    	<textarea class="post-txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
+				       
 				    </form>
 				</div>
 			</div>
@@ -374,6 +476,24 @@
 						<div class="postBx" data-comment-id="${commentVO.comment_id}">
 							<div class="fan-profile">
 								<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+								<c:if test="${
+								commentVO.nickname eq '로제' 
+								or commentVO.nickname eq '리사'
+								or commentVO.nickname eq '지수'
+								or commentVO.nickname eq '제니'
+								or commentVO.nickname eq '유나'
+								or commentVO.nickname eq '예지'
+								or commentVO.nickname eq '류진'
+								or commentVO.nickname eq '리아'
+								or commentVO.nickname eq '채령'
+								or commentVO.nickname eq '혜인'
+								or commentVO.nickname eq '하니'
+								or commentVO.nickname eq '다니엘'
+								or commentVO.nickname eq '해린'
+								or commentVO.nickname eq '민지'
+								}">
+								    <span class="arti-mark"><span class="blind">artist</span></span>
+								</c:if>	
 								<span class="nickname">${commentVO.nickname }</span>
 								<div class="date"><fmt:formatDate value="${commentVO.comment_date}" pattern="yy-MM-dd HH:mm"/></div>
 								<c:if test="${commentVO.nickname eq UserVO.nickname}">

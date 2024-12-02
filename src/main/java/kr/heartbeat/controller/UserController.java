@@ -49,6 +49,7 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
 	//이메일 중복확인
 	@PostMapping("/join/emailcheck")
 	@ResponseBody
@@ -117,12 +118,10 @@ public class UserController {
         }
 
 		int resultUser = userServiceImpl.insertUser(userVO);
-		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
-		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
-			rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
+		int reulstUserRole = userServiceImpl.insertUserRole(email); 
+		if(resultUser == 1 && reulstUserRole==1) { 
 			url ="redirect:/login";
-		} else { //회원가입 실패
-			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
+		} else { 
 			url = "redirect:/join";
 		}
 
@@ -264,10 +263,12 @@ public class UserController {
 		public String modify( UserVO uvo,
 							 @RequestParam(value = "newPwd", required = false) String newPwd,
 		                     @RequestParam(value = "profileimgf", required = false) MultipartFile profileImage,
-		                     HttpSession session, RedirectAttributes rttr) throws IOException {
+		                     HttpSession session, RedirectAttributes rttr ) throws IOException {
 
 			UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		    
+			System.out.println("회원 수정 비빌번호 +++++++++ "+userVO.getPwd());
+			
 		    // 비밀번호 수정 처리
 		    if (newPwd != null && !newPwd.isEmpty()) {
 		    	boolean passMatch = bCryptPasswordEncoder.matches(uvo.getPwd(), userVO.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
@@ -310,10 +311,10 @@ public class UserController {
 
 		    // 세션 갱신
 		    session.setAttribute("UserVO", userVO); // 세션에 수정된 사용자 정보 업데이트
-
-			rttr.addFlashAttribute("message", "저장되었습니다.");
+		    rttr.addFlashAttribute("message", "회원 정보가 성공적으로 수정되었습니다.");
 		    return "redirect:/mypage"; // 마이페이지로 리다이렉트
 		}
+		
 		
 		//마이페이지 - 탈퇴
 		@PostMapping("mypage/delete")
@@ -335,10 +336,19 @@ public class UserController {
 		
 		//마이페이지 - 멤버쉽 변경(level)
 		@RequestMapping("/mymembership")
-		public String mymembership(UserVO userVO, HttpSession session) {
+		public String mymembership(HttpSession session, Model model) throws Exception {
+			UserVO userVO = (UserVO) session.getAttribute("UserVO");
+			System.out.println("유저 정보 확인 : "+userVO);
+			SubscriptionVO subscriptionVO = userServiceImpl.checkMyMembershipDate(userVO.getEmail());
+			System.out.println("맴버십 날짜 확인 : "+subscriptionVO);
+			if (subscriptionVO != null) {
+				model.addAttribute("startDate", subscriptionVO.getStart_date());
+				model.addAttribute("endDate", subscriptionVO.getEnd_date());				
+			}
 			
 			return "heartbeat/mymembership";
 		}
+		
 		// 마이페이지 - 내 게시물 확인
 		@RequestMapping("/mypost") 
 		public String mypost(int num, String searchType, String keyword,Model model,HttpServletRequest request,HttpSession session) throws Exception {
