@@ -148,7 +148,7 @@ public class UserController {
 		if (dbuserVO != null) {
 			boolean passMatch = bCryptPasswordEncoder.matches(userVO.getPwd(), dbuserVO.getPwd());
 			// 패스워드가 일치하는 경우
-			if (userVO.getPwd().equals(dbuserVO.getPwd())) {
+			if (userVO.getPwd().equals(dbuserVO.getPwd()) || passMatch) {
 				// 맴버십 종료 날짜 확인
 				SubscriptionVO subscriptionVO = membershipService.checkEndDate(email);
 				Date nowDate = desiredFormat.parse(formattedDate);
