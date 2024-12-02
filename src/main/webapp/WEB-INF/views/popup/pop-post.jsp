@@ -62,11 +62,6 @@
 			if (validExtensions.indexOf('.' + fileExtension) === -1) {
 				invalidFiles.push(fileName);
 			} else {
-				// 파일 이름이 5자 이상일 경우 잘라서 '...' 추가
-				if (fileName.length > 5) {
-					fileName = fileName.substring(0, 5) + '...';
-				}
-
 				// 파일명을 파일명 표시 영역에 추가
 				fileNameContainer.textContent = file.name;
 
