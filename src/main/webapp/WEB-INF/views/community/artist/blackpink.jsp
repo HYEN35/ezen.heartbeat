@@ -14,15 +14,35 @@
 			slick();
 		});
 		function slick(){
-			$('.slideBx').slick({
+			const $slider = $('.slideBx');
+			
+			$slider.on('init', function (event, slick) {
+				adjustSlideWidth(slick);
+			});
+
+			$slider.slick({
+				slidesToShow: 3, // 기본 슬라이드 표시 개수
+				slidesToScroll: 1,
 				infinite: true,
-				slidesToShow: 3,
-				slidesToScroll: 3,
-				swipe: true,
+				swipe: false,
 				arrows: true,
 				dots: false,
+				draggable: true,
 				variableWidth: false,
 				adaptiveHeight: true
+			});
+
+			function adjustSlideWidth(slick) {
+				const totalSlides = slick.slideCount; // 총 슬라이드 개수
+
+				if (totalSlides <= 3) {
+					$('.slick-track').css('width', 'auto'); // 너비 자동
+				}
+			}
+
+			// 슬라이더 업데이트 시 재적용
+			$slider.on('setPosition', function (event, slick) {
+				adjustSlideWidth(slick);
 			});
 		};
 
@@ -124,23 +144,6 @@
 										</form>
 									</div>
 								</c:forEach>
-								<div class="postBx">
-									<a href="#none" onclick="popPostArtistShow();">
-										<div>
-											<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_hanni.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="하니"></div>
-											<div class="arti-comment">
-												<div class="arti-top">
-													<span class="arti-mark"><span class="blind">artist</span></span>
-													<span class="arti-name">하니</span>
-												</div>
-												<div class="arti-cnt">
-													<div class="txt">모든 게 typical, so I've been praying so hard for a miracle 부르고 있어 나의 이름을 더는 안 봐 drama it's good karma Done scrolling thousand times 다 알고 있어 뻔한 수작일 뿐이야 완전 쉬운 공식이야, it's like biting an apple</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-
 							</div>
 						</div>
 					</div>

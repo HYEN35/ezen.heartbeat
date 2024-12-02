@@ -8,21 +8,142 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/vendor/slick-theme.css">
 <script src="${pageContext.request.contextPath}/js/vendor/slick.min.js"></script>
 
-<body>	
+<body>		
+	<div class="inner service artist-newjeans" data-name="community">
+		<%@ include file="../../include/menu.jsp" %>
+		<div class="container">
+			<div class="cntWrap">
+				<h2 class="title"><%=pageTitle %></h2>
+				<div class="cntArea">
+					<div class="section-banner">
+						<img src="${pageContext.request.contextPath}/img/artist/newjeans-header.jpg" alt="newjeans" class="thumb">
+					</div>
+					<div class="section-artist-post">
+						<div class="artistWrap">
+							<div class="slideBx">
+								<c:forEach items="${newjinsPosts}" var="newjinsVO">
+									<div class="postBx">
+										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
+							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
+											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
+												<div>
+													<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
+													<div class="arti-comment">
+														<div class="arti-top">
+															<span class="arti-mark"><span class="blind">artist</span></span>
+															<span class="arti-name">${newjinsVO.nickname }</span>
+														</div>
+														<div class="arti-cnt">
+															<div class="txt">${newjinsVO.content }</div>
+														</div>
+													</div>
+												</div>
+											</a>
+										</form>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+					<div class="section-fan-post">
+						<div class="fanWrap">
+							<div class="posting" onclick="popPostShow(${num});">
+								<p>당신의 아티스트에게 포스트를 남겨보세요.</p>
+								<i class="i-img"><i class="fa-regular fa-image"></i></i>
+							</div>
+							<div class="postWrap">
+								<c:forEach items="${newjinsfanPosts}" var="PostVO">
+									<div class="postBx">
+										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
+							                <input type="hidden" name="post_id" value="${PostVO.post_id}"/>
+											<a href="javascript:void(0);" onclick="popPostFanShow(${PostVO.post_id})" >
+												<div>
+													<div class="fan-profile">
+														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+														<span class="nickname">${PostVO.nickname}</span>
+														<div class="date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></div>
+													</div>
+													<div class="fan-comment">
+														<div class="fan-cnt">
+															<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br>
+															<div class="txt">${PostVO.content }</div>
+														</div>
+													</div>
+												</div>
+											</a>				
+										</form>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+						<div class="pagination">
+							<c:if test="${page.prev }">
+							<a href="/community/artist/newjeans?email=${UserVO.email }&num=${page.startPageNum-1 }" class="btn-i-prev"></a>
+							</c:if>
+							<div class="page">
+								<c:forEach begin="${page.startPageNum }" end="${page.endPageNum }" var="num">
+									<c:if test="${select != num}">
+									<a href="/community/artist/newjeans?email=${UserVO.email }&num=${num }" class="num">${num }</a>
+									</c:if>
+									<c:if test="${select == num}">
+									<a href="/community/artist/newjeans?email=${UserVO.email }&num=${num }"class="num on">${num }</a>
+									</c:if>
+								</c:forEach>							
+							</div>
+							<c:if test="${page.next }">
+							<a href="/community/artist/newjeans?email=${UserVO.email }&num=${page.endPageNum+1 }" class="btn-i-next"></a>
+							</c:if>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="dimmed" onclick="popPostArtistHide();popPostHide();popPostFanHide();"></div>
+
+	<!-- [D] 팝업 아티스트 포스트 -->
+	<div class="popup pop-post-artist"><%@ include file="../../popup/pop-post-artist.jsp" %></div>
+	<!-- [D] 팝업 팬 포스트 -->
+	<div class="popup pop-post-fan"><%@ include file="../../popup/pop-post-fan.jsp" %></div>
+	<!-- [D] 팝업 포스트작성 -->
+	<div class="popup pop-post"><%@ include file="../../popup/pop-post.jsp" %></div>
+
 	<script>
 		$(function(){
 			slick();
 		});
+
 		function slick(){
-			$('.slideBx').slick({
+			const $slider = $('.slideBx');
+			
+			$slider.on('init', function (event, slick) {
+				adjustSlideWidth(slick);
+			});
+
+			$slider.slick({
+				slidesToShow: 3, // 기본 슬라이드 표시 개수
+				slidesToScroll: 1,
 				infinite: true,
-				slidesToShow: 3,
-				slidesToScroll: 3,
-				swipe: true,
+				swipe: false,
 				arrows: true,
 				dots: false,
+				draggable: true,
 				variableWidth: false,
 				adaptiveHeight: true
+			});
+
+			function adjustSlideWidth(slick) {
+				const totalSlides = slick.slideCount; // 총 슬라이드 개수
+
+				if (totalSlides <= 3) {
+					$('.slick-track').css('width', 'auto'); // 너비 자동
+				}
+			}
+
+			// 슬라이더 업데이트 시 재적용
+			$slider.on('setPosition', function (event, slick) {
+				adjustSlideWidth(slick);
 			});
 		};
 
@@ -86,124 +207,5 @@
 			$('.dimmed').hide();
 		}
 	</script>
-	
-	<div class="inner service artist-newjeans" data-name="community">
-		<%@ include file="../../include/menu.jsp" %>
-		<div class="container">
-			<div class="cntWrap">
-				<h2 class="title"><%=pageTitle %></h2>
-				<div class="cntArea">
-					<div class="section-banner">
-						<img src="${pageContext.request.contextPath}/img/artist/newjeans-header.jpg" alt="newjeans" class="thumb">
-					</div>
-					<div class="section-artist-post">
-						<div class="artistWrap">
-							<div class="slideBx">
-								<c:forEach items="${newjinsPosts}" var="newjinsVO">
-									<div class="postBx">
-										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
-							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
-											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
-												<div>
-													<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
-													<div class="arti-comment">
-														<div class="arti-top">
-															<span class="arti-mark"><span class="blind">artist</span></span>
-															<span class="arti-name">${newjinsVO.nickname }</span>
-														</div>
-														<div class="arti-cnt">
-															<div class="txt">${newjinsVO.content }</div>
-														</div>
-													</div>
-												</div>
-											</a>
-										</form>
-									</div>
-								</c:forEach>
-								<div class="postBx">
-									<a href="#none" onclick="popPostArtistShow();">
-										<div>
-											<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_hanni.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="하니"></div>
-											<div class="arti-comment">
-												<div class="arti-top">
-													<span class="arti-mark"><span class="blind">artist</span></span>
-													<span class="arti-name">하니</span>
-												</div>
-												<div class="arti-cnt">
-													<div class="txt">모든 게 typical, so I've been praying so hard for a miracle 부르고 있어 나의 이름을 더는 안 봐 drama it's good karma Done scrolling thousand times 다 알고 있어 뻔한 수작일 뿐이야 완전 쉬운 공식이야, it's like biting an apple</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-
-							</div>
-						</div>
-					</div>
-					<div class="section-fan-post">
-						<div class="fanWrap">
-							<div class="posting" onclick="popPostShow(${num});">
-								<p>당신의 아티스트에게 포스트를 남겨보세요.</p>
-								<i class="i-img"><i class="fa-regular fa-image"></i></i>
-							</div>
-							<div class="postWrap">
-								<c:forEach items="${newjinsfanPosts}" var="PostVO">
-									<div class="postBx">
-										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
-							                <input type="hidden" name="post_id" value="${PostVO.post_id}"/>
-											<a href="javascript:void(0);" onclick="popPostFanShow(${PostVO.post_id})" >
-												<div>
-													<div class="fan-profile">
-														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
-														<span class="nickname">${PostVO.nickname}</span>
-														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
-														<span class="nickname">${PostVO.nickname}</span>
-														<div class="date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></div>
-													</div>
-													<div class="fan-comment">
-														<div class="fan-cnt">
-															<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br>
-															<div class="txt">${PostVO.content }</div>
-														</div>
-													</div>
-												</div>
-											</a>				
-										</form>
-									</div>
-								</c:forEach>
-							</div>
-						</div>
-						<div class="pagination">
-							<c:if test="${page.prev }">
-							<a href="/community/artist/newjeans?email=${UserVO.email }&num=${page.startPageNum-1 }" class="btn-i-prev"></a>
-							</c:if>
-							<div class="page">
-								<c:forEach begin="${page.startPageNum }" end="${page.endPageNum }" var="num">
-									<c:if test="${select != num}">
-									<a href="/community/artist/newjeans?email=${UserVO.email }&num=${num }" class="num">${num }</a>
-									</c:if>
-									<c:if test="${select == num}">
-									<a href="/community/artist/newjeans?email=${UserVO.email }&num=${num }"class="num on">${num }</a>
-									</c:if>
-								</c:forEach>							
-							</div>
-							<c:if test="${page.next }">
-							<a href="/community/artist/newjeans?email=${UserVO.email }&num=${page.endPageNum+1 }" class="btn-i-next"></a>
-							</c:if>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="dimmed" onclick="popPostArtistHide();popPostHide();popPostFanHide();"></div>
-
-	<!-- [D] 팝업 아티스트 포스트 -->
-	<div class="popup pop-post-artist"><%@ include file="../../popup/pop-post-artist.jsp" %></div>
-	<!-- [D] 팝업 팬 포스트 -->
-	<div class="popup pop-post-fan"><%@ include file="../../popup/pop-post-fan.jsp" %></div>
-	<!-- [D] 팝업 포스트작성 -->
-	<div class="popup pop-post"><%@ include file="../../popup/pop-post.jsp" %></div>
 </body>
 </html>
