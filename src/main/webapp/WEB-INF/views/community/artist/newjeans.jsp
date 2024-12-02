@@ -156,6 +156,8 @@
 													<div class="fan-profile">
 														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
 														<span class="nickname">${PostVO.nickname}</span>
+														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+														<span class="nickname">${PostVO.nickname}</span>
 														<div class="date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></div>
 													</div>
 													<div class="fan-comment">

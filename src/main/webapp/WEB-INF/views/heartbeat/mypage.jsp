@@ -27,8 +27,7 @@
 		});
 
 		//닉네임 중복 확인 여부
-		let isNickAvailable = false;
-		let nickDuplicateChecked = false;
+		let isNickAvailable = false; // 중복된 값이 아닌지 맞는지 여부 
 
 		//닉네임 중복확인
 		function nicknameCheck(nickname) {
@@ -44,7 +43,6 @@
 					nickname : nickname
 				},
 				success : function(data) {
-					nickDuplicateChecked = true;
 					if (data === 'success') {
 						popAlertCheckShow("사용 불가능합니다.");
 						$('.msg').text(nickname + '은/는 사용 불가능합니다. ');
@@ -60,53 +58,77 @@
 		}
 
 		function resetNickAvailability() {
-			nickDuplicateChecked = false;
+			 if (isNickAvailable) { // 닉네임 중복 여부 초기화
+			        document.mypageFrm.nickname.value = "";
+			        isNickAvailable = false; // 초기화 후 상태 변경
+			    }
 		}
 
 		//유효성 체크
 		function mypageValidityCheck() {
-			if (document.mypageFrm.pwd.value == '') {
-				alert('비밀번호를 입력하세요.');
-				document.mypageFrm.pwd.focus();
-				return false;
-			}
-			if (document.mypageFrm.newPwd.value == '') {
-				alert('비밀번호를 입력하세요.');
-				document.mypageFrm.pwd.focus();
-				return false;
-			}
-			if (document.mypageFrm.newPwdCheck.value == '') {
-				alert('비밀번호를 입력하세요.');
-				document.mypageFrm.pwd.focus();
-				return false;
-			}
+		    const pwd = document.mypageFrm.pwd.value;
+		    const newPwd = document.mypageFrm.newPwd.value;
+		    const newPwdCheck = document.mypageFrm.newPwdCheck.value;
+		    const nickname = document.mypageFrm.nickname.value;
 
-			// 비밀번호 유효성 체크
-			const pwd = document.mypageFrm.newPwd.value;
-			const pwdVPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
-			if (!pwdVPattern.test(pwd)) {
-				alert("비밀번호는 대문자 영어, 특수문자, 숫자를 포함하여 8~16자로 해주세요.");
-				document.mypageFrm.pwd.focus();
-				return false;
-			}
+    		// 모든 비밀번호 입력란이 비어 있는 경우
+		    if (pwd === "" && newPwd === "" && newPwdCheck === "") {
+		        if (nickname === "") {
+		            document.mypageFrm.submit(); // 닉네임과 비밀번호가 모두 비었을 때 제출
+		        } else {
+		            if (!isNickAvailable) {
+		                alert("중복된 닉네임입니다. 닉네임을 변경해주세요.");
+		                return false;
+		            } else {
+		                document.mypageFrm.submit(); // 닉네임만 입력된 경우 제출
+		            }
+		        }
+		        return;
+		    }
 
-			if (document.mypageFrm.newPwd.value != document.mypageFrm.newPwdCheck.value) {
-				alert("입력한 새 비밀번호가 서로 일치하지 않습니다. 다시 확인해주세요.");
-				document.mypageFrm.pwd.focus();
-				return false;
-			}
+		    // 비밀번호 입력란 중 하나라도 입력된 경우
+		    if (pwd === "") {
+		        alert('현재 비밀번호를 입력하세요.');
+		        document.mypageFrm.pwd.focus();
+		        return false;
+		    }
+		    if (newPwd === "") {
+		        alert('새 비밀번호를 입력하세요.');
+		        document.mypageFrm.newPwd.focus();
+		        return false;
+		    }
+		    if (newPwdCheck === "") {
+		        alert('새 비밀번호 확인을 입력하세요.');
+		        document.mypageFrm.newPwdCheck.focus();
+		        return false;
+		    }
+		
+		    // 비밀번호 유효성 체크
+		    const pwdVPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
+		    if (!pwdVPattern.test(newPwd)) {
+		        alert("비밀번호는 대문자 영어, 특수문자, 숫자를 포함하여 8~16자로 해주세요.");
+		        document.mypageFrm.newPwd.focus();
+		        return false;
+		    }
+		
+		    // 새 비밀번호와 확인 비밀번호가 일치하는지 확인
+		    if (newPwd !== newPwdCheck) {
+		        alert("입력한 새 비밀번호가 서로 일치하지 않습니다. 다시 확인해주세요.");
+		        document.mypageFrm.newPwdCheck.focus();
+		        return false;
+		    }
+		
+		    // 닉네임 유효성 체크
+		    if (nickname !== "") {
+		        if (!isNickAvailable) {
+		            alert("중복된 닉네임입니다. 닉네임을 변경해주세요.");
+		            return false;
+		        }
+		    }
+		
+    	document.mypageFrm.submit(); 
+	}
 
-			if (!nickDuplicateChecked) {
-				alert("닉네임 중복 확인이 필요합니다.");
-				return false;
-			}
-			if (!isNickAvailable) {
-				alert("중복된 닉네임입니다. 닉네임을 변경해주세요.");
-				return false;
-			}
-
-			document.mypageFrm.submit();
-		}
 		// 닉네임 팝업
 		function popAlertCheckShow() {
 			$('.pop-alert-check').show();
@@ -162,7 +184,7 @@
 											<p class="dt">닉네임 변경</p>
 											<div class="dd">
 												<input type="text" name="nickname"
-													oninput="resetNickAvailability()" class="txtBx"
+													onfocus="resetNickAvailability()" class="txtBx"
 													placeholder="닉네임 입력">
 												<button type="button"
 													onclick="nicknameCheck(this.form.nickname.value)"
@@ -186,6 +208,7 @@
 									</ul>
 								</div>
 								<div class="btnWrap">
+									<button type="button" class="btn-full" onclick="mypageValidityCheck()">저장</button>
 									<button type="button" class="btn-full" onclick="mypageValidityCheck()">저장</button>
 									<button type="button" class="btn-border">취소</button>
 								</div>
