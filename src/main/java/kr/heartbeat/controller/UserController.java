@@ -1,15 +1,19 @@
 package kr.heartbeat.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.membership.service.MembershipService;
@@ -43,6 +48,7 @@ public class UserController {
 	private NoticeService noticeService;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
 	//이메일 중복확인
 	@PostMapping("/join/emailcheck")
@@ -84,26 +90,39 @@ public class UserController {
 
 	//회원가입
 	@PostMapping("/join")
-	public String insertUser(UserVO userVO, RedirectAttributes rttr) {
+	public String insertUser(UserVO userVO)throws IOException {
 		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
-
+		
 		//비밀번호 암호화
 		String pwd =userVO.getPwd();
 		String encodePwd = bCryptPasswordEncoder.encode(pwd);
 		System.out.println("========= Presentation member pwd : "+ encodePwd);
 		userVO.setPwd(encodePwd);
-
+		
 		String url = null;
+		//프로필 사진 업로드 부분
+		String realPath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\"; 
+        String file1, file2 = "";
+        
+        MultipartFile uploadfilef = userVO.getProfileimgf(); 
+        System.out.println("================"+uploadfilef);
+        if (uploadfilef != null && !uploadfilef.isEmpty()) {
+            String fileName = UUID.randomUUID().toString() + "_" + uploadfilef.getOriginalFilename();
+            file1 = realPath + fileName; 
+            uploadfilef.transferTo(new File(file1)); 
+            file2 = fileName;
+            userVO.setProfileimg(file2);
+        }
+
+
 		int resultUser = userServiceImpl.insertUser(userVO);
-		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
-		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
-			rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
-			url ="redirect:/login";
-		} else { //회원가입 실패
-			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
-			url = "redirect:/join";
+		int reulstUserRole = userServiceImpl.insertUserRole(email); 
+		if(resultUser == 1 && reulstUserRole==1) { 
+			url ="/heartbeat/login";
+		} else { 
+			url = "/heartbeat/join";
 		}
 		return url;
 	}
@@ -126,7 +145,6 @@ public class UserController {
 
 		if (dbuserVO != null) {
 			boolean passMatch = bCryptPasswordEncoder.matches(userVO.getPwd(), dbuserVO.getPwd());
-
 			// 패스워드가 일치하는 경우
 			if (userVO.getPwd().equals(dbuserVO.getPwd()) || passMatch) {
 				// 맴버십 종료 날짜 확인
@@ -145,7 +163,7 @@ public class UserController {
 						dbuserVO = userServiceImpl.login(dbuserVO);  // 로그인 재실행
 						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 						model.addAttribute("alertMsg", "맴버십 이용 기간이 종료되었습니다.");
-						return "heartbeat/purchase";  // 맴버십 페이지로 이동
+						return "heartbeat/membership";  // 맴버십 페이지로 이동
 					} else {
 						// 맴버십 기간이 유효한 경우
 						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
@@ -243,9 +261,8 @@ public class UserController {
 		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
-		public String modify( @RequestParam(value = "pwd", required = false) String originPwd,
+		public String modify( UserVO uvo,
 							 @RequestParam(value = "newPwd", required = false) String newPwd,
-		                     @RequestParam(value = "nickname", required = false) String nickname,
 		                     @RequestParam(value = "profileimgf", required = false) MultipartFile profileImage,
 		                     HttpSession session, RedirectAttributes rttr ) throws IOException {
 
@@ -255,7 +272,7 @@ public class UserController {
 			
 		    // 비밀번호 수정 처리
 		    if (newPwd != null && !newPwd.isEmpty()) {
-		    	boolean passMatch = bCryptPasswordEncoder.matches(originPwd, userVO.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
+		    	boolean passMatch = bCryptPasswordEncoder.matches(uvo.getPwd(), userVO.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
 		    	if(passMatch) {
 		    		String pwd = newPwd; // 사용자가 입력한 새 비밀번호 
 			    	String encodePwd = bCryptPasswordEncoder.encode(pwd); // encoding 새 비밀번호 
@@ -267,8 +284,8 @@ public class UserController {
 		    }
 
 		    // 닉네임 수정 처리
-		    if (nickname != null && !nickname.isEmpty()) {
-		    	userVO.setNickname(nickname); 
+		    if (uvo.getNickname() != null && !uvo.getNickname().isEmpty()) {
+		    	userVO.setNickname(uvo.getNickname()); 
 		    }
 
 		    // 프로필 사진 수정 처리
@@ -298,6 +315,7 @@ public class UserController {
 		    rttr.addFlashAttribute("message", "회원 정보가 성공적으로 수정되었습니다.");
 		    return "redirect:/mypage"; // 마이페이지로 리다이렉트
 		}
+		
 		
 		//마이페이지 - 탈퇴
 		@PostMapping("mypage/delete")
@@ -444,6 +462,9 @@ public class UserController {
 			for (String noticeId : noticeIdArray) {
 				userServiceImpl.deleteMyNotice(Integer.parseInt(noticeId));  // 삭제 서비스 호출
 			}
+			
+
+			
 			return "redirect:/mynotice?num=1";
 		}
 

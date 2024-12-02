@@ -16,7 +16,7 @@ import kr.heartbeat.service.UserServiceImpl;
 import kr.heartbeat.vo.UserVO;
 
 @RestController
-@RequestMapping("/membership/*")
+@RequestMapping("/purchase/*")
 public class MembershipController {
 
 	@Autowired
@@ -72,7 +72,7 @@ public class MembershipController {
         //ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         //String responseBody = responseEntity.getBody();
         session.setAttribute("UserVO", newdbuserVO);
-        return "redirect/membership";
+        return "redirect/purchase";
     	}
 	
 		@PostMapping("/streamingPay")
@@ -95,7 +95,7 @@ public class MembershipController {
 			UserVO dbuserVO = userServiceImpl.login(uvo);
 			
 			session.setAttribute("UserVO", dbuserVO);
-			return "redirect:/membership";
+			return "redirect:/purchase";
 		}
 	}
 

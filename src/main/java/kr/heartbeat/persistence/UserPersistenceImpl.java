@@ -56,7 +56,6 @@ public class UserPersistenceImpl implements UserPersistence {
 		
 		return sql.selectOne(namespace+".findId", userVO);
 	}
-
 	//비밀번호 찾기 - 메일 전송 버전
 	@Override
 	public UserVO searchPwd(UserVO userVO) {		
@@ -70,14 +69,13 @@ public class UserPersistenceImpl implements UserPersistence {
 		map.put("newPassword", newPassword);
 		return sql.update(namespace+".updatePwd", map);
 	}	
-		
+
 	//회원정보수정
 	@Override
-	public void modify(String newPwd, UserVO userVO) {
+	public void modify(UserVO userVO) {
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 
 	    map.put("userVO", userVO);
-	    map.put("newPwd", newPwd);
 	    System.out.println("==================Map contents: " + map); 
 
 	    sql.update(namespace + ".modify", map); 
@@ -106,8 +104,7 @@ public class UserPersistenceImpl implements UserPersistence {
 		System.out.println("===========다오role : " +userrolevo.getEmail());
 		return sql.selectOne(namespace+".role", userrolevo);
 	}
-
-
+	
 
 	// 내 게시물 개수 가져오기
 	public int getMyPostCount(String searchType, String keyword, String email)throws Exception {

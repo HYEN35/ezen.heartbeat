@@ -36,6 +36,8 @@
 	</bean>
 	
 	
+	
+	
 	<context:component-scan base-package="kr.heartbeat.service" />
 	<context:component-scan base-package="kr.heartbeat.persistence" />
 	<context:component-scan base-package="kr.heartbeat.vo" />
@@ -50,6 +52,7 @@
 	<context:component-scan base-package="kr.heartbeat.music.persistence" />
 	<context:component-scan base-package="kr.heartbeat.notice.persistence" />
 	<context:component-scan base-package="kr.heartbeat.notice.service" />
+	
 	
 </beans>
 

@@ -2,13 +2,7 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
-	 <script>
-		  	//alert
-			<c:if test="${not empty message}">
-			    alert("${message}");
-			</c:if>
-		</script>
-
+ 
 	<script>
 		// 입력값 사용 가능 여부
 		let isIdAvailable = false;
@@ -199,13 +193,13 @@
 			$('.dimmed').hide();
 		}
 	</script>
-	
+
 	<div class="inner service join">
 		<div class="container">
 			<div class="wrap">
 				<h1 class="logo">HeartBeat</h1>
 				<div class="joinCnt">
-					<form action="/join" method="post" name="joinFrm">
+					<form action="/join" method="post" name="joinFrm" enctype="multipart/form-data">
 						<div class="inputBx">
 							<p class="noti">*필수 입력 사항</p>
 							<div class="doubleCheck">
@@ -217,10 +211,7 @@
 							<p class="error" id="error-pwdCheck">*입력하신 비밀번호가 틀립니다. 비밀번호를 확인하세요.</p>
 							<input type="password"  name="pwdCheck" placeholder="* 비밀번호 확인" class="txtBx">
 							<input type="text"  name="name" placeholder="* 이름" class="txtBx">
-							<div class="birthBx">
-								<span class="txt">생년월일</span>
-								<input type="date" name="birth" class="txtBx" value="2000-05-15">
-							</div>
+							<input type="date" name="birth"class="txtBx">
 							<div class="doubleCheck">
 								<input type="tel" maxlength="11" name="phone" placeholder="* 휴대폰번호"  oninput="resetPhoneAvailability()"  class="txtBx">
 								<button type="button" class="btn-border" onclick="phoneCheck(this.form.phone.value)">중복확인</button>
@@ -233,7 +224,7 @@
 						<div class="inputBx">
 							<p class="noti">*선택 입력 사항</p>
 							<div class="imgBx">
-								<input type="file" id="file" accept=".jpg, .jpeg, .png" hidden>
+								<input type="file" id="file" name="profileimgf" accept=".jpg, .jpeg, .png" hidden>
 								<button type="button" class="btn-under" onclick="$('#file').click();">프로필 사진 선택</button>
 								<div class="fileName"><i>파일명이길어질때는말줄임표가나옵니다나옵니다나옵니다.png</i></div>
 							</div>
