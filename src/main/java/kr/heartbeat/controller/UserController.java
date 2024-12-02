@@ -311,6 +311,7 @@ public class UserController {
 		    // 세션 갱신
 		    session.setAttribute("UserVO", userVO); // 세션에 수정된 사용자 정보 업데이트
 
+			rttr.addFlashAttribute("message", "저장되었습니다.");
 		    return "redirect:/mypage"; // 마이페이지로 리다이렉트
 		}
 		
