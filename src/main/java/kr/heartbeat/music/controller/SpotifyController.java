@@ -23,9 +23,9 @@ public class SpotifyController {
     	// 일일 차트 -  https://open.spotify.com/playlist/37i9dQZEVXbNxXF4SkHj9F
     	// 주간 차트 - https://open.spotify.com/playlist/37i9dQZEVXbJZGli0rRP3r
     	// 바이럴 차트 - https://open.spotify.com/playlist/37i9dQZEVXbM1H8L6Tttw9
-        String playlistIdDay = "37i9dQZEVXbNxXF4SkHj9F"; 
-        String playlistIdWeek = "37i9dQZEVXbJZGli0rRP3r"; 
-        String playlistIdViral = "37i9dQZEVXbMDoHDwVN2tF"; 
+        String playlistIdDay = "3h7SuxH8p6y5sxYsBCW2ZG"; 
+        String playlistIdWeek = "27hCs08flxLLVKszVzpLsz"; 
+        String playlistIdViral = "0WpzHMJ2Ox4rOS9mwYPzqF"; 
         List<TrackInfo> trackInfoList = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdDay);
         List<TrackInfo> trackInfoListWeek = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdWeek);
         List<TrackInfo> trackInfoListViral = spotifyAPI.getTrackTitlesAndArtistsFromPlaylist(playlistIdViral);

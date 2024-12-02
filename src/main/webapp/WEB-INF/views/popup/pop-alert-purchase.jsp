@@ -14,7 +14,7 @@
 	<div class="cntArea">
 		<div class="messageBx">
 			<p>멤버십 level ${level }  구매 후 이용 가능합니다.</p>
-			<a href="${pageContext.request.contextPath}/membership" class="btn-under">멤버십 구매하기</a>
+			<a href="${pageContext.request.contextPath}/purchase" class="btn-under">멤버십 구매하기</a>
 		</div>
 	</div>
 </div>

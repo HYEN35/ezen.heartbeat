@@ -80,7 +80,7 @@
         // 결제 정보 서버로 전송 (AJAX 요청)
         $.ajax({
             type: 'POST',
-            url: '/membership/artistPay',  // 결제 정보 처리 서버 URL
+            url: '/purchase/artistPay',  // 결제 정보 처리 서버 URL
             contentType: 'application/json',
             data: JSON.stringify({
             	custom_data : rsp.custom_data,
@@ -157,7 +157,7 @@
             // 결제 결과를 서버로 전송 (AJAX 요청)
             $.ajax({
                 type: 'POST',
-                url: '/membership/artistPay',  // 결제 정보 처리 서버 URL
+                url: '/purchase/artistPay',  // 결제 정보 처리 서버 URL
                 contentType: 'application/json',
                 data: JSON.stringify({
                     custom_data: selectedArtist,
@@ -185,11 +185,11 @@
 			<i>구독 아티스트 선택</i>
 			<select class="sltBx" id="artistSelect">
 				<option value="aespa">AESPA</option>
-				<option value="BLACKPINK">BLACKPINK</option>
+				<option value="블랙핑크 (BLACKPINK)">BLACKPINK</option>
 				<option value="bts">BTS</option>
 				<option value="ive">IVE</option>
-				<option value="ITZY">ITZY</option>
-				<option value="NewJeans">NewJeans</option>
+				<option value="있지 (ITZY)">ITZY</option>
+				<option value="뉴진스 (NewJeans)">NewJeans</option>
 				<option value="nct127">NCT-127</option>
 				<option value="nctdream">NCT-DREAM</option>
 				<option value="seventeen">SEVENTEEN</option>

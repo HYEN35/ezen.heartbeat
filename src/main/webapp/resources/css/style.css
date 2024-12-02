@@ -137,7 +137,7 @@ br.mob{display:none}
 .listBx .item .arti{width:calc(100% - 135px)}
 .listBx .item .arti>i{display:block}
 .listBx .item .arti>i+i{margin-top:4px} 
-.listBx .item .arti .tit{font-weight:500}
+.listBx .item .arti .tit{overflow:hidden;width:100%;font-weight:500;text-overflow:ellipsis;white-space:nowrap}
 .listBx .playBtn{position:relative;width:40px;margin-right:10px;color:#333;font-size:30px}
 .listBx .playBtn:hover{color:#000}
 .listBx .playBtn:before{font-family:FontAwesome;content:"\f144"}
@@ -203,7 +203,7 @@ br.mob{display:none}
 /*아티스트 상세페이지*/
 [class*="artist-"] .section-banner .thumb{display:block;width:100%;height:300px;object-fit:cover}
 [class*="artist-"] .section-artist-post{width:100%}
-[class*="artist-"] .section-artist-post .postBx{position:relative;width:calc(100% / 3);height:150px;margin:40px 20px 20px;box-shadow:0 4px 10px #1f2d383b;transition:transform .3s ease-in-out}
+[class*="artist-"] .section-artist-post .postBx{position:relative;min-width:300px;max-width:314px;height:150px;margin:40px 20px 20px;box-shadow:0 4px 10px #1f2d383b;transition:transform .3s ease-in-out}
 [class*="artist-"] .section-artist-post .postBx:hover{transform:translateY(-10px)}
 [class*="artist-"] .section-artist-post .txt{overflow:hidden;display:-webkit-box;width:100%;text-overflow:ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:3}
 [class*="artist-"] .section-artist-post .slideBx{display:flex;justify-content:center;align-items:center;padding:0 20px}
@@ -214,7 +214,7 @@ br.mob{display:none}
 [class*="artist-"] .section-artist-post .slick-prev:before{content:"\f053"}
 [class*="artist-"] .section-artist-post .slick-next{right:0}
 [class*="artist-"] .section-artist-post .slick-next:before{content:"\f054"}
-[class*="artist-"] .section-fan-post{width:500px;margin:0 auto}
+[class*="artist-"] .section-fan-post{width:700px;margin:0 auto}
 [class*="artist-"] .section-fan-post .posting{display:flex;justify-content:space-between;align-items:center;width:100%;height:60px;margin:0 auto 50px;padding:10px 30px;background:#fff;border-radius:30px;cursor:pointer}
 [class*="artist-"] .section-fan-post .posting>p{color:#737373;font-size:16px;font-weight:500}
 [class*="artist-"] .section-fan-post .posting .i-img{font-size:20px}
@@ -271,9 +271,9 @@ br.mob{display:none}
 
 .my-page .cnt .nickname .dd .txtBx{float:left;margin-right:10px}
 .my-page .cnt .nickname .dd button{float:left}
+.my-page .cnt .image .dd:after{display:block;clear:both;content:""}
 .my-page .cnt .image .dd button{float:left;margin-right:10px}
-.my-page .cnt .image .dd .file{float:left;display:block;overflow:hidden;width:200px;height:40px;padding:0 5px;border:1px solid #dedede;border-radius:4px;text-overflow:ellipsis;white-space:nowrap}
-.my-page .cnt .image .dd .file>i{display:block;width:100%;height:100%;line-height:40px}
+.my-page .cnt .image .dd .fileName{overflow:hidden;display:block;float:left;width:80%;height:100%;line-height:40px;text-overflow:ellipsis;white-space:nowrap}
 .my-page .btnWrap{margin-top:20px;padding-top:20px;border-top:1px solid #dedede}
 .my-membership .current{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:500}
 .my-membership .current>i{font-weight:700}
@@ -288,7 +288,7 @@ br.mob{display:none}
 .my-membership .itemWrap .item .info .grade{font-weight:500}
 .my-membership .itemWrap .item .price{margin-right:20px;font-weight:500}
 .my-post .btnWrap{margin-bottom:20px;padding-bottom:20px}
-.my-post .itemWrap .item{display:flex;justify-content:flex-start;align-items:center;padding-bottom:10px;text-align:left;border-bottom:1px solid #e9e9e9}
+.my-post .itemWrap .item{display:flex;justify-content:flex-start;align-items:center;margin-bottom:10px;padding-bottom:10px;text-align:left;border-bottom:1px solid #e9e9e9}
 .my-post .itemWrap .item .check{margin-right:10px}
 .my-post .itemWrap .item .num{margin-right:10px}
 .my-post .itemWrap .item .tit{overflow:hidden;width:calc(100% - 50px);text-align:left;white-space:nowrap;text-overflow:ellipsis}
@@ -406,7 +406,7 @@ br.mob{display:none}
 .pop-post .cntArea .btmBx .imgBx{width:80%}
 .pop-post .cntArea .btmBx .imgBx .fileName{width:100%;margin-top:10px;color:#757575}
 .pop-post .cntArea .btmBx .imgBx .fileName>div{display:flex;justify-content:flex-start;align-items:center;height:24px}
-.pop-post .cntArea .btmBx .imgBx .fileName .fName{overflow:hidden;max-width:80%;white-space:nowrap;text-overflow:ellipsis}
+.pop-post .cntArea .btmBx .imgBx .fileName .name{overflow:hidden;display:block;max-width:80%;white-space:nowrap;text-overflow:ellipsis}
 .pop-post .cntArea .btmBx .imgBx .fileName .btn-i-del{width:20px;height:20px;margin-left:10px;padding:0}
 
 /*팝업 아티스트&팬 포스팅*/

@@ -37,15 +37,15 @@ public class CommunityController {
 	private UserServiceImpl userServiceImpl;
 
 	@GetMapping("/community")
-	public String community(UserVO userVO,Model model) {
+	public String community(Model model,HttpSession session) {
+		UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		UserVO dbuserVO = userServiceImpl.login(userVO);
-		int level =2; 
+		int level =2;
 		System.out.println(dbuserVO);
-		
+
 		model.addAttribute("uvo", dbuserVO);
 		model.addAttribute("level", level);
 		return "/community/community";
-		
 	}
 
 	// 뉴진스 페이지 들어가면서 게시물 가져오는거
@@ -124,14 +124,6 @@ public class CommunityController {
 		return "redirect:"+referer;
 	}
 
-	// 게시물 수정
-	@PostMapping("/modifyPost")
-	@ResponseBody
-	public String modifyPost(PostVO postVO) throws Exception {
-		communityService.modifyPost(postVO);
-		return "success";
-		
-	}
 	// 유저 게시물 상세보기
 	@RequestMapping("/getUserPost")
 	public String getUserPost(PostVO postVO, Model model) throws Exception {

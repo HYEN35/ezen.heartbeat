@@ -205,7 +205,7 @@
 			<div class="wrap">
 				<h1 class="logo">HeartBeat</h1>
 				<div class="joinCnt">
-					<form action="/join" method="post" name="joinFrm">
+					<form action="/join" method="post" name="joinFrm" enctype="multipart/form-data">
 						<div class="inputBx">
 							<p class="noti">*필수 입력 사항</p>
 							<div class="doubleCheck">
@@ -233,7 +233,7 @@
 						<div class="inputBx">
 							<p class="noti">*선택 입력 사항</p>
 							<div class="imgBx">
-								<input type="file" id="file" accept=".jpg, .jpeg, .png" hidden>
+								<input type="file" id="file" name="profileimgf" accept=".jpg, .jpeg, .png" hidden>
 								<button type="button" class="btn-under" onclick="$('#file').click();">프로필 사진 선택</button>
 								<div class="fileName"><i>파일명이길어질때는말줄임표가나옵니다나옵니다나옵니다.png</i></div>
 							</div>

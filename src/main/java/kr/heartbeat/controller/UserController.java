@@ -1,15 +1,19 @@
 package kr.heartbeat.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.membership.service.MembershipService;
@@ -41,6 +46,8 @@ public class UserController {
 	private MembershipService membershipService;
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	//이메일 중복확인
 	@PostMapping("/join/emailcheck")
@@ -82,11 +89,33 @@ public class UserController {
 
 	//회원가입
 	@PostMapping("/join")
-	public String insertUser(UserVO userVO, RedirectAttributes rttr) {
+	public String insertUser(UserVO userVO, RedirectAttributes rttr) throws IOException {
 		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
+		
+		//비밀번호 암호화
+		String pwd =userVO.getPwd();
+		String encodePwd = bCryptPasswordEncoder.encode(pwd);
+		System.out.println("========= Presentation member pwd : "+ encodePwd);
+		userVO.setPwd(encodePwd);
+		
 		String url = null;
+
+		//프로필 사진 업로드 부분
+		String realPath = "C:\\upload\\";
+        String file1, file2 = "";
+        
+        MultipartFile uploadfilef = userVO.getProfileimgf(); 
+        System.out.println("================"+uploadfilef);
+        if (uploadfilef != null && !uploadfilef.isEmpty()) {
+            String fileName = UUID.randomUUID().toString() + "_" + uploadfilef.getOriginalFilename();
+            file1 = realPath + fileName; 
+            uploadfilef.transferTo(new File(file1)); 
+            file2 = fileName;
+            userVO.setProfileimg(file2);
+        }
+
 		int resultUser = userServiceImpl.insertUser(userVO);
 		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
 		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
@@ -96,13 +125,14 @@ public class UserController {
 			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
 			url = "redirect:/join";
 		}
+
 		return url;
 	}
 
 
 	//로그인
 	@PostMapping("/login")
-	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr,Model model) throws Exception {
+	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr, Model model) throws Exception {
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		UserroleVO rolelevel = userServiceImpl.role(userrolevo);
 		String email = userVO.getEmail();
@@ -116,8 +146,9 @@ public class UserController {
 		System.out.println(formattedDate);  // 예시: 2024-11-20
 
 		if (dbuserVO != null) {
+			boolean passMatch = bCryptPasswordEncoder.matches(userVO.getPwd(), dbuserVO.getPwd());
 			// 패스워드가 일치하는 경우
-			if (userVO.getPwd().equals(dbuserVO.getPwd())) {
+			if (userVO.getPwd().equals(dbuserVO.getPwd()) || passMatch) {
 				// 맴버십 종료 날짜 확인
 				SubscriptionVO subscriptionVO = membershipService.checkEndDate(email);
 				Date nowDate = desiredFormat.parse(formattedDate);
@@ -177,8 +208,7 @@ public class UserController {
 			rttr.addFlashAttribute("email", false);
 			url = "redirect:/login";  // 로그인 페이지로 이동
 		}
-
-
+		
 		return url;
 	}
 
@@ -229,18 +259,15 @@ public class UserController {
 		}
 		
 		
-		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
 		public String modify( UserVO uvo,
 							 @RequestParam(value = "newPwd", required = false) String newPwd,
 		                     @RequestParam(value = "profileimgf", required = false) MultipartFile profileImage,
-		                     HttpSession session, RedirectAttributes rttr ) throws IOException {
+		                     HttpSession session, RedirectAttributes rttr) throws IOException {
 
 			UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		    
-			System.out.println("회원 수정 비빌번호 +++++++++ "+userVO.getPwd());
-			
 		    // 비밀번호 수정 처리
 		    if (newPwd != null && !newPwd.isEmpty()) {
 		    	boolean passMatch = bCryptPasswordEncoder.matches(uvo.getPwd(), userVO.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
@@ -258,14 +285,15 @@ public class UserController {
 		    if (uvo.getNickname() != null && !uvo.getNickname().isEmpty()) {
 		    	userVO.setNickname(uvo.getNickname()); 
 		    }
+
 		    // 프로필 사진 수정 처리
 		    if (profileImage != null && !profileImage.isEmpty()) {
 		        String fileName = UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
-		        String filePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" + fileName;
+		        String filePath = "C:\\upload\\" + fileName;
 
 		        // 기존 프로필 사진 삭제
 		        if (userVO.getProfileimg() != null && !userVO.getProfileimg().isEmpty()) {
-		            String oldFilePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" +userVO.getProfileimg();
+		            String oldFilePath = "C:\\upload\\" +userVO.getProfileimg();
 		            File oldFile = new File(oldFilePath);
 		            if (oldFile.exists()) {
 		                oldFile.delete();
@@ -282,7 +310,7 @@ public class UserController {
 
 		    // 세션 갱신
 		    session.setAttribute("UserVO", userVO); // 세션에 수정된 사용자 정보 업데이트
-		    rttr.addFlashAttribute("message", "회원 정보가 성공적으로 수정되었습니다.");
+
 		    return "redirect:/mypage"; // 마이페이지로 리다이렉트
 		}
 		
@@ -431,9 +459,6 @@ public class UserController {
 			for (String noticeId : noticeIdArray) {
 				userServiceImpl.deleteMyNotice(Integer.parseInt(noticeId));  // 삭제 서비스 호출
 			}
-			
-
-			
 			return "redirect:/mynotice?num=1";
 		}
 

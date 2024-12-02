@@ -5,21 +5,21 @@
 
 <%
 	String menuPageRequest = request.getRequestURI();
-	
+
 	String chart = menuPageRequest.endsWith("chart.jsp") ? "on" : "";
 	String playlist = menuPageRequest.endsWith("playlist.jsp") ? "on" : "";
 	String community = menuPageRequest.endsWith("community.jsp") ? "on" : "";
 	String membership =	menuPageRequest.endsWith("purchase.jsp") ? "on" : "";
 	String notice =	menuPageRequest.endsWith("notice.jsp") ||
 					menuPageRequest.endsWith("noticeModify.jsp") ||
-					menuPageRequest.endsWith("noticePost.jsp") || 
+					menuPageRequest.endsWith("noticePost.jsp") ||
 					menuPageRequest.endsWith("noticeShow.jsp") ||
 					menuPageRequest.endsWith("myNoticeModify.jsp") ||
 					menuPageRequest.endsWith("myNoticeShow.jsp") ? "on" : "";
 	String mypage =	menuPageRequest.endsWith("mypage.jsp") ||
 					menuPageRequest.endsWith("mymembership.jsp") ||
 					menuPageRequest.endsWith("mypost.jsp") ? "on" : "";
-	
+
 %>
 
 <div id="menu" class="menu">
@@ -27,7 +27,7 @@
 		<h1 class="logo"><a href="${pageContext.request.contextPath}/chart">HeartBeat</a></h1>
 		<div class="userCnt">
 			<div class="user" onclick="dropMenuShow();">
-				<div class="image"><img src="${pageContext.request.contextPath}/img/profile/user.png" onerror=this.src="${pageContext.request.contextPath}/img/user.png" alt="닉네임"></div>
+				<div class="image"><img src="/upload/${sessionScope.UserVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" alt="닉네임" style="width:40px;border-radius:20px;"></div>
 				<div class="name"><p>${UserVO.nickname }</p></div>
 			</div>
 			<div class="dropMenu">
