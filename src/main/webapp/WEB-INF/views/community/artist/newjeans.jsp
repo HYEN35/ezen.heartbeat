@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../../include/layout.jsp" %>
+
 <% 
 	request.setAttribute("artistPage", "artist");
 %>
@@ -8,106 +9,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/vendor/slick-theme.css">
 <script src="${pageContext.request.contextPath}/js/vendor/slick.min.js"></script>
 
-<body>	
-	<script>
-		$(function(){
-			slick();
-		});
-
-		function slick(){
-			const $slider = $('.slideBx');
-			
-			$slider.on('init', function (event, slick) {
-				adjustSlideWidth(slick);
-			});
-
-			$slider.slick({
-				slidesToShow: 3, // 기본 슬라이드 표시 개수
-				slidesToScroll: 1,
-				infinite: true,
-				swipe: false,
-				arrows: true,
-				dots: false,
-				draggable: true,
-				variableWidth: false,
-				adaptiveHeight: true
-			});
-
-			function adjustSlideWidth(slick) {
-				const totalSlides = slick.slideCount; // 총 슬라이드 개수
-
-				if (totalSlides <= 3) {
-					$('.slick-track').css('width', 'auto'); // 너비 자동
-				}
-			}
-
-			// 슬라이더 업데이트 시 재적용
-			$slider.on('setPosition', function (event, slick) {
-				adjustSlideWidth(slick);
-			});
-		};
-
-		//팝업 아티스트포스트
-		function popPostArtistShow(post_id,email){
-			 // AJAX 요청으로 데이터를 가져옵니다.
-			 
-		    $.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
-		    	console.log(data); // 반환된 데이터 확인
-		    	// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
-		        const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
-		        console.log(newContent); // newContent 확인
-		        $('.pop-post-artist .cntArea').html(newContent);
-		        // 팝업을 보여줍니다.
-		    }).fail(function() {
-		        console.error('Error loading post data.');
-		    });
-			
-			$('.pop-post-artist').show();
-			$('.dimmed').show();
-
-		}
-		function popPostArtistHide(){
-			$('.pop-post-artist').hide();
-			$('.dimmed').hide();
-		}
-
-		//팝업 팬포스트작성
-		function popPostShow(){
-			$('.pop-post').show();
-			$('.dimmed').show();
-			//uploadFileName();
-			multipleUploadFile();
-		}
-		function popPostHide(){
-			$('.pop-post').hide();
-			$('.dimmed').hide();
-		}
-
-		//팝업 팬포스트
-		function popPostFanShow(post_id){
-			 // AJAX 요청으로 데이터를 가져옵니다.
-		    $.post("/community/getUserPost", { post_id: post_id }, function(data) {
-		    	// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
-		        const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
-		        $('.pop-post-fan .cntArea').html(newContent);
-		        
-		        
-		        // 팝업을 보여줍니다.
-		    }).fail(function() {
-		        console.error('Error loading post data.');
-		    });
-		        $('.pop-post-fan').show();
-		        $('.dimmed').show();
-			
-			//uploadFileName();
-			multipleUploadFile();
-		}
-		function popPostFanHide(){
-			$('.pop-post-fan').hide();
-			$('.dimmed').hide();
-		}
-	</script>
-	
+<body>		
 	<div class="inner service artist-newjeans" data-name="community">
 		<%@ include file="../../include/menu.jsp" %>
 		<div class="container">

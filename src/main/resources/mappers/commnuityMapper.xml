@@ -13,24 +13,11 @@
   		value (#{email}, #{artist_id}, #{nickname}, #{content}, #{post_img}, now())
   	</insert>
   	
-  <select id="getPostList" resultType="kr.heartbeat.vo.PostVO" parameterType="kr.heartbeat.vo.PostVO"> 
-	SELECT 
-		A.post_id, 
-		A.email,
-		A.artist_id, 
-		A.content, 
-		A.post_img 
-		AS post_img_name, 
-		A.post_date, 
-		A.post_img, 
-		B.nickname, 
-		B.profileimg 
-	FROM post_tbl 
-		A INNER JOIN user_tbl B ON A.email = B.email 
-		ORDER BY A.post_id DESC
-  </select>
+  	<select id="getPostList" resultType="kr.heartbeat.vo.PostVO" parameterType="kr.heartbeat.vo.PostVO">
+  		select * from post_tbl  ORDER BY post_id DESC
+  	</select>
   	<!-- 뉴진스 팬 게시물만 가져오기 -->
-  	<select id="getNewjeansFanPostList" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
+  	<select id="getFanPostList" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
   		select A.post_id,
         A.email,
         A.artist_id,
@@ -49,39 +36,11 @@
   	</select>
   	
   	<!-- 뉴진스 팬 게시물 몇개인지 가져오기 -->
-  	<select id="getNewjeansFanPostCount" parameterType="hashMap" resultType="int">
+  	<select id="getFanPostCount" parameterType="hashMap" resultType="int">
 	    SELECT COUNT(*)
 	    FROM post_tbl
 	    WHERE artist_id = 20109
 	    and email not in (#{minji},#{haerin},#{hanni},#{danielle},#{hyein})  
-	    AND email IS NOT NULL
-	</select>
-	
-	<!-- 있지 팬 게시물만 가져오기 -->
-  	<select id="getItzyFanPostList" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
-  		select A.post_id,
-        A.email,
-        A.artist_id,
-        B.nickname,
-        A.content,
-        A.post_img AS post_img_name,
-        A.post_date,
-        A.post_img,
-        B.profileimg  
-    FROM post_tbl A
-	    INNER JOIN user_tbl B ON A.email = B.email 
-	    WHERE A.artist_id = 20117
-	    AND A.email not in (#{chaeryeong},#{lia},#{ryujin},#{yeji},#{yuna}) 
-	    ORDER BY A.post_id DESC
-    	LIMIT #{displayPost}, #{postNum}
-  	</select>
-  	
-  	<!-- 있지 팬 게시물 몇개인지 가져오기 -->
-  	<select id="getItzyFanPostCount" parameterType="hashMap" resultType="int">
-	    SELECT COUNT(*)
-	    FROM post_tbl
-	    WHERE artist_id = 20117
-	    and email not in (#{chaeryeong},#{lia},#{ryujin},#{yeji},#{yuna})  
 	    AND email IS NOT NULL
 	</select>
  	

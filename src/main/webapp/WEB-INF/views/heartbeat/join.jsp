@@ -2,7 +2,13 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
- 
+	 <script>
+		  	//alert
+			<c:if test="${not empty message}">
+			    alert("${message}");
+			</c:if>
+		</script>
+
 	<script>
 		// 입력값 사용 가능 여부
 		let isIdAvailable = false;
@@ -193,7 +199,7 @@
 			$('.dimmed').hide();
 		}
 	</script>
-
+	
 	<div class="inner service join">
 		<div class="container">
 			<div class="wrap">
@@ -211,7 +217,10 @@
 							<p class="error" id="error-pwdCheck">*입력하신 비밀번호가 틀립니다. 비밀번호를 확인하세요.</p>
 							<input type="password"  name="pwdCheck" placeholder="* 비밀번호 확인" class="txtBx">
 							<input type="text"  name="name" placeholder="* 이름" class="txtBx">
-							<input type="date" name="birth"class="txtBx">
+							<div class="birthBx">
+								<span class="txt">생년월일</span>
+								<input type="date" name="birth" class="txtBx" value="2000-05-15">
+							</div>
 							<div class="doubleCheck">
 								<input type="tel" maxlength="11" name="phone" placeholder="* 휴대폰번호"  oninput="resetPhoneAvailability()"  class="txtBx">
 								<button type="button" class="btn-border" onclick="phoneCheck(this.form.phone.value)">중복확인</button>
