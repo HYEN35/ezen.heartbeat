@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -45,6 +46,9 @@ public class UserController {
 	private MembershipService membershipService;
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
 	//이메일 중복확인
 	@PostMapping("/join/emailcheck")
@@ -90,6 +94,13 @@ public class UserController {
 		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
+		
+		//비밀번호 암호화
+		String pwd =userVO.getPwd();
+		String encodePwd = bCryptPasswordEncoder.encode(pwd);
+		System.out.println("========= Presentation member pwd : "+ encodePwd);
+		userVO.setPwd(encodePwd);
+		
 		String url = null;
 		//프로필 사진 업로드 부분
 		String realPath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\"; 
@@ -133,8 +144,9 @@ public class UserController {
 		System.out.println(formattedDate);  // 예시: 2024-11-20
 
 		if (dbuserVO != null) {
+			boolean passMatch = bCryptPasswordEncoder.matches(userVO.getPwd(), dbuserVO.getPwd());
 			// 패스워드가 일치하는 경우
-			if (userVO.getPwd().equals(dbuserVO.getPwd())) {
+			if (userVO.getPwd().equals(dbuserVO.getPwd()) || passMatch) {
 				// 맴버십 종료 날짜 확인
 				SubscriptionVO subscriptionVO = membershipService.checkEndDate(email);
 				Date nowDate = desiredFormat.parse(formattedDate);
@@ -151,7 +163,7 @@ public class UserController {
 						dbuserVO = userServiceImpl.login(dbuserVO);  // 로그인 재실행
 						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
 						model.addAttribute("alertMsg", "맴버십 이용 기간이 종료되었습니다.");
-						return "heartbeat/purchase";  // 맴버십 페이지로 이동
+						return "heartbeat/membership";  // 맴버십 페이지로 이동
 					} else {
 						// 맴버십 기간이 유효한 경우
 						session.setAttribute("UserVO", dbuserVO);  // session에 dbuserVO 저장
@@ -249,31 +261,41 @@ public class UserController {
 		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
-		public String modify(@RequestParam(value = "newPwd", required = false) String newPwd,
-		                     @RequestParam(value = "nickname", required = false) String nickname,
+		public String modify( UserVO uvo,
+							 @RequestParam(value = "newPwd", required = false) String newPwd,
 		                     @RequestParam(value = "profileimgf", required = false) MultipartFile profileImage,
-		                     HttpSession session) throws IOException {
+		                     HttpSession session, RedirectAttributes rttr ) throws IOException {
 
 			UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		    
+			System.out.println("회원 수정 비빌번호 +++++++++ "+userVO.getPwd());
+			
 		    // 비밀번호 수정 처리
 		    if (newPwd != null && !newPwd.isEmpty()) {
-		    	userVO.setPwd(newPwd); 
+		    	boolean passMatch = bCryptPasswordEncoder.matches(uvo.getPwd(), userVO.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
+		    	if(passMatch) {
+		    		String pwd = newPwd; // 사용자가 입력한 새 비밀번호 
+			    	String encodePwd = bCryptPasswordEncoder.encode(pwd); // encoding 새 비밀번호 
+			    	userVO.setPwd(encodePwd);
+		    	} else {
+		    		rttr.addFlashAttribute("message", "입력하신 비밀번호가 잘못되었습니다.");
+		    		return "redirect:/mypage";
+		    	}
 		    }
 
 		    // 닉네임 수정 처리
-		    if (nickname != null && !nickname.isEmpty()) {
-		    	userVO.setNickname(nickname); 
+		    if (uvo.getNickname() != null && !uvo.getNickname().isEmpty()) {
+		    	userVO.setNickname(uvo.getNickname()); 
 		    }
 
 		    // 프로필 사진 수정 처리
 		    if (profileImage != null && !profileImage.isEmpty()) {
 		        String fileName = UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
-		        String filePath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" + fileName;
+		        String filePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" + fileName;
 
 		        // 기존 프로필 사진 삭제
 		        if (userVO.getProfileimg() != null && !userVO.getProfileimg().isEmpty()) {
-		            String oldFilePath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" +userVO.getProfileimg();
+		            String oldFilePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" +userVO.getProfileimg();
 		            File oldFile = new File(oldFilePath);
 		            if (oldFile.exists()) {
 		                oldFile.delete();
@@ -290,7 +312,7 @@ public class UserController {
 
 		    // 세션 갱신
 		    session.setAttribute("UserVO", userVO); // 세션에 수정된 사용자 정보 업데이트
-
+		    rttr.addFlashAttribute("message", "회원 정보가 성공적으로 수정되었습니다.");
 		    return "redirect:/mypage"; // 마이페이지로 리다이렉트
 		}
 		

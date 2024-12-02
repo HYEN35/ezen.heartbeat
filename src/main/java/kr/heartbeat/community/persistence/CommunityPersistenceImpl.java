@@ -45,6 +45,9 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 	    map.put("hanni", "hanni");
 	    map.put("danielle", "danielle");
 	    map.put("hyein", "hyein");
+	    map.put("hanni", "hanni");
+	    map.put("danielle", "danielle");
+	    map.put("hyein", "hyein");
 	    map.put("displayPost", displayPost);
 	    map.put("postNum", postNum);
 	    return sql.selectList(namespace+".getNewjeansFanPostList", map);
