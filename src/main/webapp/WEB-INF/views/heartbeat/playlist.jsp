@@ -9,25 +9,22 @@
 
 <body>
 	<script>
-	$(function(){
-		popAlertPurchaseShow();
-	})
-	
-	//팝업 얼럿 멤버십구매
-	function popAlertPurchaseShow(){
-		if (${uvo.level}  == 0) {
-			$('.pop-alert-purchase').show();
-			$('.dimmed').show();				
+		$(function(){
+			popAlertPurchaseShow();
+		})
+		
+		//팝업 얼럿 멤버십구매
+		function popAlertPurchaseShow(){
+			if (${uvo.level}  == 0) {
+				$('.pop-alert-purchase').show();
+				$('.dimmed').show();				
+			}
 		}
-	}
-	function popAlertPurchaseHide(){
-		$('.pop-alert-purchase').hide();
-		$('.dimmed').hide();
-	}
-
-</script>
-
-
+		function popAlertPurchaseHide(){
+			$('.pop-alert-purchase').hide();
+			$('.dimmed').hide();
+		}
+	</script>
 
 	<div class="inner service playlist" data-name="playlist">
 		<%@ include file="../include/menu.jsp" %>
@@ -79,7 +76,8 @@
 		</div>
 	</div>
 
-	<div class="dimmed" onclick="popAlertCheckHide()"></div>
+	<div class="dimmed" onclick="popAlertPurchaseHide();"></div>
+
 	<!-- [D] 팝업 멤버십구매메세지 -->
 	<div class="popup pop-alert-purchase"><%@ include file="../popup/pop-alert-purchase.jsp" %></div>
 	

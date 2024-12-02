@@ -20,18 +20,10 @@
 		        var file = this.files[0]; // 선택된 파일 객체
 		        var fileName = file ? file.name : '선택된 파일 없음'; // 파일 이름 추출
 	
-		        // 앞 6글자만 나오게
-		        if (fileName.length > 7) {
-		            fileName = fileName.substring(0, 7) + '...'; 
-		        }
-	
 		        console.log('선택된 파일 이름:', fileName);
 		        
 		        $('#fileNameDisplay').text(fileName); // 화면에 파일명 표시
 		    });
-			
-			mypageTab();
-			tabListShow();
 		});
 
 		//닉네임 중복 확인 여부
@@ -204,14 +196,13 @@
 											<div class="dd">
 												<input type="file" id="profileImageInput" name="profileimgf" hidden accept=".jpg, .jpeg, .png">
 												<button type="button" class="btn-border" onclick="$(this).siblings('input').click();">사진 변경</button>
-												<p id="fileNameDisplay">선택된 파일 없음</p>
+												<p id="fileNameDisplay" class="fileName">선택된 파일 없음</p>
 											</div>
 										</li>
 										<li class="item">
 											<p class="dt">회원 탈퇴</p>
 											<div class="dd">
-												<button type="button" class="btn-under-01"
-													onclick="popDeleteUserShow()">탈퇴하기</button>
+												<button type="button" class="btn-under-01" onclick="popDeleteUserShow()">탈퇴하기</button>
 											</div>
 										</li>
 									</ul>

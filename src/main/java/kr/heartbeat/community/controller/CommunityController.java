@@ -44,15 +44,15 @@ public class CommunityController {
 	private UserServiceImpl userServiceImpl;
 
 	@GetMapping("/community")
-	public String community(UserVO userVO,Model model) {
+	public String community(Model model,HttpSession session) {
+		UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		UserVO dbuserVO = userServiceImpl.login(userVO);
-		int level =2; 
+		int level =2;
 		System.out.println(dbuserVO);
-		
+
 		model.addAttribute("uvo", dbuserVO);
 		model.addAttribute("level", level);
 		return "/community/community";
-		
 	}
 
 	// 뉴진스 페이지 들어가면서 게시물 가져오는거

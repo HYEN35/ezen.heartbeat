@@ -32,10 +32,22 @@
 		pageName = "마이페이지 - HeartBeat";
 		pageTitle = "마이페이지";
 	}
+	else if (pageRequest.endsWith("mymembership.jsp")) {
+		pageName = "마이페이지 - HeartBeat";
+		pageTitle = "마이페이지";
+	}
+	else if (pageRequest.endsWith("mypost.jsp")) {
+        pageName = "마이페이지 - HeartBeat";
+        pageTitle = "마이페이지";
+    }
 	else if (pageRequest.endsWith("notice.jsp")) {
 		pageName = "공지 및 문의 - HeartBeat";
 		pageTitle = "공지 및 문의";
 	}
+	else if (pageRequest.endsWith("mynotice.jsp")) {
+        pageName = "공지 및 문의 - HeartBeat";
+        pageTitle = "공지 및 문의";
+    }
 	else if (pageRequest.endsWith("noticeShow.jsp")) {
 		pageName = "공지 및 문의 - HeartBeat";
 		pageTitle = "공지 및 문의";
@@ -52,10 +64,13 @@
 		pageName = "뉴진스";
 		pageTitle = "뉴진스";
 	}
-	
-	else if (pageRequest.endsWith("admin/login.jsp")) {
-		pageName = "관리자 로그인";
-		pageTitle = "관리자 로그인";
+	else if (pageRequest.endsWith("artist/itzy.jsp")) {
+		pageName = "ITZY";
+		pageTitle = "ITZY";
+	}
+	else if (pageRequest.endsWith("artist/blackpink.jsp")) {
+		pageName = "블랙핑크";
+		pageTitle = "블랙핑크";
 	}
 %>
 
