@@ -240,6 +240,7 @@ public class UserController {
 		}
 		
 		
+		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
 		public String modify( @RequestParam(value = "pwd", required = false) String originPwd,
