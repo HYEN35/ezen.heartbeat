@@ -20,19 +20,12 @@
 		        return false;
 		    }
 		
-		    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		    if (!emailPattern.test(email)) {
-		        alert('이메일 형식이 유효하지 않습니다. @와 .com을 포함해야 합니다.');
-		        document.adminjoin.email.focus();
-		        return false;
-		    }
-		
 		    $.ajax({
 		        url: '/admin/adminjoin/checkEmail',
 		        type: 'POST',
 		        data: { email: email },
 		        success: function(data) {
-		            isDuplicateChecked = true; // 중복 확인 버튼 클릭 여부 설정
+		            isDuplicateChecked= true; // 중복 확인 버튼 클릭 여부 설정
 		
 		            if (data === 'success') { // 사용 가능한 경우
 		                $('.msg').text(email + '은/는 사용 가능합니다.');
@@ -40,6 +33,7 @@
 		            } else { // 사용 불가능한 경우
 		                $('.msg').text(email + '은/는 사용 불가능합니다.');
 		                isIdAvailable = false; // 사용 불가능 상태 업데이트
+		                alert(isIdAvailable);
 		            }
 		
 		            popAlertCheckShow(); // 팝업 표시
@@ -71,13 +65,12 @@
 		            phoneDuplicateChecked = true; // 중복 확인 버튼 클릭 여부 설정
 
 		            if (data === 'success') { // 사용 가능한 경우
+		            	  isPhoneAvailable = true;
 		                $('.msg').text(phone + '은/는 사용 가능합니다.');
-		                isPhoneAvailable = true;
 		            } else { // 사용 불가능한 경우
+		            	isPhoneAvailable = false;
 		                $('.msg').text(phone + '은/는 사용 불가능합니다.');
-		                isPhoneAvailable = false;
 		            }
-
 		            popAlertCheckShow(); // 팝업 표시
 		        },
 		        error: function() {
@@ -130,7 +123,7 @@
 		
 		
 		//유효성 체크
-		function validityCheck() {
+		function validityAdminCheck() {
 		    // 이메일 유효성 검사
 		    if (document.adminjoin.email.value == '') {
 		        alert('이메일을 입력하세요.');
@@ -184,20 +177,20 @@
 		        alert("중복된 닉네임입니다. 닉네임을 변경해주세요.");
 		        return false;
 		    }
-		
+		    
+		    //level 선택 시 날짜 입력 필수 설정
+		    const level = document.adminjoin.level.value;
+		    const startDate = document.adminjoin.start_date.value;
+		    const endDate = document.adminjoin.end_date.value;
+		    
+		    if ((level === '1' || level === '2') && (!startDate || !endDate)) {
+	            alert('시작 날짜와 종료 날짜를 모두 입력하세요.');
+	            return false; // 제출 차단
+	        }
+		    
 		    // 모든 유효성 검사를 통과한 경우 폼 제출
 		    document.adminjoin.submit();
 		}
-		<%--
-			// 비밀번호 유효성 체크
-		    const pwd = document.adminjoin.pwd.value;
-		    const pwdVPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/; 
-		    if (!pwdVPattern.test(pwd)) {
-		    	document.getElementById('error-pwd').style.display='block';
-		        document.adminjoin.pwd.focus();
-		        return false;
-		    }
-			--%>
 		
 		function popAlertCheckShow(){
 			$('.pop-alert-check').show();
@@ -287,9 +280,9 @@
 							<div class="levelBx">
 								<span class="txt">등급</span>
 								<select class="sltBx" name="level">
-									<option value="0"  selected>해당 없음</option>
-									<option value="1" >level1</option>
-									<option value="2">level2</option>
+								    <option value="0"  selected>해당 없음</option>
+								    <option value="1" >level1</option>
+								    <option value="2">level2</option>
 								</select>
 							</div>
 							<div class="dateBx">
@@ -304,7 +297,7 @@
 							    <option value="2">일반 유저</option>
 							</select>					
 						</div>
-						<button type="submit" onclick="return validityCheck()" class="btn-full">계정생성</button>
+						<button type="button"  onclick="validityAdminCheck()"class="btn-full">계정생성</button>
 					</form>
 				</div>
 			</div>
