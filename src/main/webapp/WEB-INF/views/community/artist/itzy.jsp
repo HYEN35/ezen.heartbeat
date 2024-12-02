@@ -123,20 +123,20 @@
 					<div class="section-artist-post">
 						<div class="artistWrap">
 							<div class="slideBx">
-								<c:forEach items="${itzyPosts}" var="itzyVO">
+								<c:forEach items="${newjinsPosts}" var="newjinsVO">
 									<div class="postBx">
-										<form id="postFrm_${itzyVO.post_id}" action="/community/getPost" method="post">
-							                <input type="hidden" name="post_id" value="${itzyVO.post_id}"/>
-											<a href="javascript:void(0);" onclick="popPostArtistShow('${itzyVO.post_id}','${UserVO.email }');">
+										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
+							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
+											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
 												<div>
-													<div class="arti-profile"><img src="/upload/${itzyVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
+													<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
 													<div class="arti-comment">
 														<div class="arti-top">
 															<span class="arti-mark"><span class="blind">artist</span></span>
-															<span class="arti-name">${itzyVO.nickname }</span>
+															<span class="arti-name">${newjinsVO.nickname }</span>
 														</div>
 														<div class="arti-cnt">
-															<div class="txt">${itzyVO.content }</div>
+															<div class="txt">${newjinsVO.content }</div>
 														</div>
 													</div>
 												</div>
@@ -154,22 +154,20 @@
 								<i class="i-img"><i class="fa-regular fa-image"></i></i>
 							</div>
 							<div class="postWrap">
-								<c:forEach items="${itzyFanPosts}" var="PostVO">
+								<c:forEach items="${newjinsfanPosts}" var="PostVO">
 									<div class="postBx">
 										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
 							                <input type="hidden" name="post_id" value="${PostVO.post_id}"/>
 											<a href="javascript:void(0);" onclick="popPostFanShow(${PostVO.post_id})" >
 												<div>
 													<div class="fan-profile">
-														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
-														<span class="nickname">${PostVO.nickname}</span>
+														<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+														<span class="nickname">${PostVO.nickname }</span>
 														<div class="date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></div>
 													</div>
 													<div class="fan-comment">
 														<div class="fan-cnt">
-															<c:if test="${not empty PostVO.post_img}">
-																<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br> 	
-															</c:if>
+															<img src="${pageContext.request.contextPath}/img/artist/newjeans.jpg" alt="newjeans"><br><br>
 															<div class="txt">${PostVO.content }</div>
 														</div>
 													</div>
@@ -211,6 +209,6 @@
 	<!-- [D] 팝업 팬 포스트 -->
 	<div class="popup pop-post-fan"><%@ include file="../../popup/pop-post-fan.jsp" %></div>
 	<!-- [D] 팝업 포스트작성 -->
-	<div class="popup pop-post-itzy"><%@ include file="../../popup/pop-post-itzy.jsp" %></div>
+	<div class="popup pop-post"><%@ include file="../../popup/pop-post.jsp" %></div>
 </body>
 </html>

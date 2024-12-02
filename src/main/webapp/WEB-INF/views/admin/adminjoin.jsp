@@ -8,10 +8,10 @@
 		let isPhoneAvailable = false;
 		let isNickAvailable = false;
 		// 중복 버튼 확인 여부
-		let isDuplicateChecked = false;
-		let phoneDuplicateChecked = false;
+		let isDuplicateChecked = false; 
+		let phoneDuplicateChecked = false; 
 		let nickDuplicateChecked = false;
-
+		
 		// 이메일 중복 확인
 		function idCheck(email) {
 		    if (email === '') {
@@ -19,21 +19,21 @@
 		        document.adminjoin.email.focus();
 		        return false;
 		    }
-
+		
 		    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		    if (!emailPattern.test(email)) {
 		        alert('이메일 형식이 유효하지 않습니다. @와 .com을 포함해야 합니다.');
 		        document.adminjoin.email.focus();
 		        return false;
 		    }
-
+		
 		    $.ajax({
 		        url: '/admin/adminjoin/checkEmail',
 		        type: 'POST',
 		        data: { email: email },
 		        success: function(data) {
 		            isDuplicateChecked = true; // 중복 확인 버튼 클릭 여부 설정
-
+		
 		            if (data === 'success') { // 사용 가능한 경우
 		                $('.msg').text(email + '은/는 사용 가능합니다.');
 		                isIdAvailable = true; // 사용 가능 상태 업데이트
@@ -41,7 +41,7 @@
 		                $('.msg').text(email + '은/는 사용 불가능합니다.');
 		                isIdAvailable = false; // 사용 불가능 상태 업데이트
 		            }
-
+		
 		            popAlertCheckShow(); // 팝업 표시
 		        },
 		        error: function() {
@@ -49,7 +49,7 @@
 		        }
 		    });
 		}
-
+		
 		// 전화번호 중복 확인
 		function phoneCheck(phone) {
 		    if (phone === '') {
@@ -116,7 +116,7 @@
 		        }
 		    });
 		}
-
+		
 		// 중복 확인 초기화 함수
 	    function resetIdAvailability() {
 	    	isDuplicateChecked = false;
@@ -127,8 +127,8 @@
 	    function resetNickAvailability() {
 	    	nickDuplicateChecked = false;
 	    }
-
-
+		
+		
 		//유효성 체크
 		function validityCheck() {
 		    // 이메일 유효성 검사
@@ -137,28 +137,28 @@
 		        document.adminjoin.email.focus();
 		        return false;
 		    }
-
+		
 		    // 비밀번호 유효성 검사
 		    if (document.adminjoin.pwd.value == '') {
 		        alert('비밀번호를 입력하세요.');
 		        document.adminjoin.pwd.focus();
 		        return false;
 		    }
-
+		
 		    // 비밀번호 확인 검사
 		    if (document.adminjoin.pwd.value != document.adminjoin.pwdCheck.value) {
 		        alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
 		        document.adminjoin.pwdCheck.focus();
 		        return false;
 		    }
-
+		
 		    // 이름 유효성 검사
 		    if (document.adminjoin.name.value == '') {
 		        alert('이름을 입력하세요.');
 		        document.adminjoin.name.focus();
 		        return false;
 		    }
-
+		
 		    // 중복 확인 여부 검사
 		    if (!isDuplicateChecked) {
 		        alert("아이디 중복 확인이 필요합니다.");
@@ -184,21 +184,21 @@
 		        alert("중복된 닉네임입니다. 닉네임을 변경해주세요.");
 		        return false;
 		    }
-
+		
 		    // 모든 유효성 검사를 통과한 경우 폼 제출
 		    document.adminjoin.submit();
 		}
 		<%--
 			// 비밀번호 유효성 체크
 		    const pwd = document.adminjoin.pwd.value;
-		    const pwdVPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
+		    const pwdVPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/; 
 		    if (!pwdVPattern.test(pwd)) {
 		    	document.getElementById('error-pwd').style.display='block';
 		        document.adminjoin.pwd.focus();
 		        return false;
 		    }
 			--%>
-
+		
 		function popAlertCheckShow(){
 			$('.pop-alert-check').show();
 			$('.dimmed').show();
@@ -208,7 +208,7 @@
 			$('.dimmed').hide();
 		}
 	</script>
-
+	
 	<div class="inner admin join">
 		<div class="container">
 			<div class="wrap">
@@ -302,7 +302,7 @@
 							    <option value="0">직원</option>
 							    <option value="1">아티스트</option>
 							    <option value="2">일반 유저</option>
-							</select>
+							</select>					
 						</div>
 						<button type="submit" onclick="return validityCheck()" class="btn-full">계정생성</button>
 					</form>

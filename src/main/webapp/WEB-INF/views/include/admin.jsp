@@ -9,7 +9,7 @@
     String member = menuPageRequest.endsWith("member.jsp") ? "on" : "";
     String staff = menuPageRequest.endsWith("staff.jsp") ? "on" : "";
     String post = menuPageRequest.endsWith("post.jsp") ? "on" : "";
-    String comment = menuPageRequest.endsWith("comment.jsp") ? "on" : "";
+    String comment =	menuPageRequest.endsWith("comment.jsp") ? "on" : "";
 %>
 
 <div id="menu" class="menu">

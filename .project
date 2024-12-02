@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 <<<<<<< HEAD
-	<name>ezen-heartbeat</name>
-=======
-<<<<<<< HEAD
 	<name>HeartBeat</name>
 =======
 	<name>ezen-heartbeat</name>
 >>>>>>> origin/HyeinTest
->>>>>>> origin/main
 	<comment></comment>
 	<projects>
 	</projects>
@@ -60,9 +56,6 @@
 	<filteredResources>
 		<filter>
 <<<<<<< HEAD
-			<id>0</id>
-=======
-<<<<<<< HEAD
 			<id>1732522244331</id>
 =======
 <<<<<<< HEAD
@@ -91,7 +84,6 @@
 			<id>0</id>
 >>>>>>> 3a32523 (마이페이지 수정)
 >>>>>>> origin/HyeinTest
->>>>>>> origin/main
 			<name></name>
 			<type>30</type>
 			<matcher>

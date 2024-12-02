@@ -14,7 +14,7 @@
 			/WEB-INF/spring/mail-context.xml
 		</param-value>
 	</context-param>
-
+	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -33,12 +33,12 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
+		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+	
 	<!-- 서블릿 POST 방식 한글처리필터 -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
@@ -52,10 +52,15 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-
+	
 	<filter-mapping>
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<context:component-scan base-package="kr.heartbeat.music" />
+	<context:component-scan base-package="kr.heartbeat.music.config" />
+	<bean id="spotifyAPI" class="kr.heartbeat.music.config.SpotifyAPI" />
+	<bean class="kr.heartbeat.music.config.AppConfig" />
 
 </web-app>

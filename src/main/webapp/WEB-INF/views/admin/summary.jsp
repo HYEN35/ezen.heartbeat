@@ -73,7 +73,7 @@
 			document.getElementById('level1-result-txt').textContent = level1Percentage;
 			document.getElementById('level2-result-txt').textContent = level2Percentage;
 		};
-
+		
 		console.log("총 회원 수:", total);
 		console.log("레벨 0 회원 수:", level0Cnt);
 		console.log("레벨 1 회원 수:", level1Cnt);

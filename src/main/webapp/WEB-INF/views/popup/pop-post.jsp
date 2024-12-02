@@ -7,26 +7,17 @@
 	<div class="topArea">
 		<div class="title">
 			<p>포스트 쓰기</p>
-			<p class="artiName">Newjeans</p>
+			<p class="artiName"><%=pageTitle %></p>
 		</div>
 		<button type="button" class="btn-i-close" onclick="popPostHide();"></button>
 	</div>
 	<div class="cntArea">
-		<form action="/community/newjeansPostWrite" method="post" enctype="multipart/form-data" name="popPost">
+		<form action="/community/postWrite" method="post" enctype="multipart/form-data" name="popPost">
 			<input type="hidden" name="email" value="${UserVO.email }">
 			<input type="hidden" name="artist_id" value="${UserVO.artist_id}">
 			<input type="hidden" name="nickname" value="${UserVO.nickname}">
 			<textarea class="txtBx" name="content"></textarea>
 			<div class="btmBx">
-            <div class="imgBx">
-                <input type="file" id="file2" name="post_Img" accept=".jpg, .jpeg, .png" hidden>
-                <!-- <input type="file" id="file" name="postImg1" accept=".jpg, .jpeg, .png" > -->  <!-- id가 file이면 안됨 --> 
-                <button type="button" class="btn-under" onclick="$('#file2').click();">첨부파일 선택</button>
-            </div>
-            <!-- 파일 리스트 영역 -->
-        		<div id="fileListContainer" class="file-list-container"></div>
-	            <button type="submit" class="btn-full">등록</button>
-	        </div>
 				<div class="imgBx">
 					<input type="file" id="file2" name="post_Img" accept=".jpg, .jpeg, .png" hidden>
 					<!-- <input type="file" id="file" name="postImg1" accept=".jpg, .jpeg, .png" > -->  <!-- id가 file이면 안됨 --> 

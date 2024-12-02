@@ -107,6 +107,7 @@
 								    <div class="searchBx">
 								        <select class="sltBx" id="searchType" name="searchType">
 								            <option value="content">내용</option>
+								            <option value="nickname">작성자</option>
 								        </select>
 								        <input type="text" name="keyword" id="keyword" class="txtBx" placeholder="검색어 입력">
 								        <button type="button" id="search-btn1" class="btn-border">검색</button>

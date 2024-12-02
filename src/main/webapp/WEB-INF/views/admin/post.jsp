@@ -80,7 +80,7 @@
 						            <div class="infoWrap">
 						                <span class="info">게시물 번호 : <i id="num">${pvo.post_id}</i></span>
 						                <span class="info">작성자 : <i>${pvo.nickname}</i></span>
-						                <span class="info">작성일 :
+						                <span class="info">작성일 : 
 						                    <i>
 						                        <fmt:formatDate value="${pvo.post_date}" pattern="yyyy-MM-dd HH:mm:ss" />
 						                    </i>
@@ -100,7 +100,7 @@
 								<c:if test="${page.prev}">
 								<li><a href="/admin/post?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
 								</c:if>
-
+								
 								<%-- 페이지 번호 버튼 --%>
 								<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
 								<li>
@@ -112,7 +112,7 @@
 									</c:if>
 								</li>
 								</c:forEach>
-
+								
 								<c:if test="${page.next}">
 								<li><a href="/admin/post?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
 								</c:if>
@@ -122,7 +122,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>	
 
 	<div class="dimmed" onclick="popPostFanHide();"></div>
 

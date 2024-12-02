@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import kr.heartbeat.vo.NoticeVO;
 import kr.heartbeat.vo.PostVO;
-import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
@@ -104,11 +103,6 @@ public class UserPersistenceImpl implements UserPersistence {
 	public UserroleVO role(UserroleVO userrolevo) {
 		System.out.println("===========다오role : " +userrolevo.getEmail());
 		return sql.selectOne(namespace+".role", userrolevo);
-	}
-	
-	//맴버십 날짜 가져오기
-	public SubscriptionVO checkMyMembershipDate(String email) throws Exception {
-		return sql.selectOne(namespace+".checkMyMembershipDate", email);
 	}
 	
 

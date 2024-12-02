@@ -41,7 +41,7 @@
 							<c:forEach items="${urList}" var="uvo">
 								<li class="item">
 									<div class="infoWrap">
-
+										
 										<span class="info">이름 : <i id="name">${uvo.name}</i></span>
 										<span class="info">이메일 : <i id="email">${uvo.email}</i></span>
 										<span class="info">닉네임 : <i id="nickname">${uvo.nickname}</i></span>
@@ -54,7 +54,7 @@
 										<a href="/admin/edit?email=${uvo.email}" class="btn-border">수정</a>
 										<button type="button" class="btn-border-01" onclick="deleteItem('${uvo.email}')">삭제</button>
 									</div>
-								</li>
+								</li>	
 							</c:forEach>
 							</ul>
 							<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
@@ -63,7 +63,7 @@
 									<c:if test="${page.prev}">
 									<li><a href="/admin/member?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
 									</c:if>
-
+									
 									<%-- 페이지 번호 버튼 --%>
 									<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
 									<li>
@@ -75,7 +75,7 @@
 										</c:if>
 									</li>
 									</c:forEach>
-
+									
 									<c:if test="${page.next}">
 									<li><a href="/admin/member?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
 									</c:if>

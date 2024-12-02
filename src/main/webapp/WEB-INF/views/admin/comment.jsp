@@ -32,7 +32,7 @@
 									<span class="info">게시물 번호 : <i>${cvo.post_id}</i></span>
 									<span class="info">댓글 번호 : <i id="num">${cvo.comment_id}</i></span>
 									<span class="info">작성자 : <i>${cvo.nickname}</i></span>
-									<span class="info">작성일 :
+									<span class="info">작성일 : 
 										<i>
 											<fmt:formatDate value="${cvo.comment_date}" pattern="yyyy-MM-dd HH:mm:ss" />
 										</i>
@@ -43,7 +43,7 @@
 									<button type="button" class="btn-border-01" onclick="deleteItem(${cvo.comment_id})">삭제</button>
 								</div>
 							</li>
-						</c:forEach>
+						</c:forEach>	
 						</ul>
 						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
 						<div class="pagination">
@@ -51,7 +51,7 @@
 								<c:if test="${page.prev}">
 								<li><a href="/admin/comment?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
 								</c:if>
-
+								
 								<%-- 페이지 번호 버튼 --%>
 								<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
 								<li>
@@ -63,7 +63,7 @@
 									</c:if>
 								</li>
 								</c:forEach>
-
+								
 								<c:if test="${page.next}">
 								<li><a href="/admin/comment?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
 								</c:if>
