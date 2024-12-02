@@ -236,13 +236,20 @@
 								<input type="text" name="nickname" placeholder="* 닉네임" oninput="resetNickAvailability()"  class="txtBx">
 								<button type="button" class="btn-border"  onclick="nicknameCheck(this.form.nickname.value)">중복확인</button>
 							</div>
-							<select class="sltBx" name="level">
-							    <option value="0"  selected>해당 없음</option>
-							    <option value="1" >level1</option>
-							    <option value="2">level2</option>
-							</select>
-							<input type="date" class="txtBx" name="start_date" value="${insert.start_date}">
-							<input type="date" class="txtBx" name="end_date" value="${insert.end_date}">
+							<div class="levelBx">
+								<span class="txt">등급</span>
+								<select class="sltBx" name="level">
+									<option value="0"  selected>해당 없음</option>
+									<option value="1" >level1</option>
+									<option value="2">level2</option>
+								</select>
+							</div>
+							<div class="dateBx">
+								<span class="txt">구독기간</span>
+								<input type="date" class="txtBx" name="start_date" value="${insert.start_date}">
+								<span class="fixed"> ~ </span>
+								<input type="date" class="txtBx" name="end_date" value="${insert.end_date}">
+							</div>
 							<select class="sltBx" name="role_id">
 							    <option value="0" <c:if test="${insert.role_id == 0}">selected</c:if>>직원</option>
 							    <option value="1" <c:if test="${insert.role_id == 1}">selected</c:if>>아티스트</option>

@@ -90,7 +90,7 @@ public class UserController {
 
 	//회원가입
 	@PostMapping("/join")
-	public String insertUser(UserVO userVO)throws IOException {
+	public String insertUser(UserVO userVO, RedirectAttributes rttr) throws IOException {
 		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
@@ -102,8 +102,9 @@ public class UserController {
 		userVO.setPwd(encodePwd);
 		
 		String url = null;
+
 		//프로필 사진 업로드 부분
-		String realPath = "C:\\upload\\"; 
+		String realPath = "C:\\upload\\";
         String file1, file2 = "";
         
         MultipartFile uploadfilef = userVO.getProfileimgf(); 
@@ -116,7 +117,6 @@ public class UserController {
             userVO.setProfileimg(file2);
         }
 
-
 		int resultUser = userServiceImpl.insertUser(userVO);
 		int reulstUserRole = userServiceImpl.insertUserRole(email); 
 		if(resultUser == 1 && reulstUserRole==1) { 
@@ -124,13 +124,14 @@ public class UserController {
 		} else { 
 			url = "redirect:/join";
 		}
+
 		return url;
 	}
 
 
 	//로그인
 	@PostMapping("/login")
-	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr,Model model) throws Exception {
+	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr, Model model) throws Exception {
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		UserroleVO rolelevel = userServiceImpl.role(userrolevo);
 		String email = userVO.getEmail();
@@ -206,8 +207,7 @@ public class UserController {
 			rttr.addFlashAttribute("email", false);
 			url = "redirect:/login";  // 로그인 페이지로 이동
 		}
-
-
+		
 		return url;
 	}
 
@@ -256,7 +256,6 @@ public class UserController {
 			
 			return "heartbeat/mypage"; 
 		}
-		
 		
 		
 		// 마이페이지 - 정보 변경
@@ -471,9 +470,6 @@ public class UserController {
 			for (String noticeId : noticeIdArray) {
 				userServiceImpl.deleteMyNotice(Integer.parseInt(noticeId));  // 삭제 서비스 호출
 			}
-			
-
-			
 			return "redirect:/mynotice?num=1";
 		}
 
