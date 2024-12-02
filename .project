@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 <<<<<<< HEAD
-<<<<<<< HEAD
-	<name>HeartBeat</name>
-=======
-	<name>ezen-heartbeat</name>
->>>>>>> origin/HyeinTest
-=======
 	<name>ezen-heartbeat</name>
 =======
 <<<<<<< HEAD
@@ -15,7 +9,6 @@
 	<name>ezen-heartbeat</name>
 >>>>>>> origin/HyeinTest
 >>>>>>> origin/main
->>>>>>> 3dbcb41 (Merge remote-tracking branch 'origin/main' into kimhonghyun)
 	<comment></comment>
 	<projects>
 	</projects>
@@ -67,22 +60,6 @@
 	<filteredResources>
 		<filter>
 <<<<<<< HEAD
-<<<<<<< HEAD
-			<id>1732522244331</id>
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-			<id>1732780361746</id>
-=======
-			<id>1732522244331</id>
->>>>>>> 1ad14a3 (커뮤니티 수정)
-=======
-			<id>0</id>
-=======
 			<id>0</id>
 =======
 <<<<<<< HEAD
@@ -100,7 +77,6 @@
 >>>>>>> 1ad14a3 (커뮤니티 수정)
 =======
 			<id>0</id>
->>>>>>> 3dbcb41 (Merge remote-tracking branch 'origin/main' into kimhonghyun)
 >>>>>>> de3c9ff (Merge branch 'main' into kimhonghyun)
 =======
 			<id>1732522244331</id>
@@ -115,10 +91,7 @@
 			<id>0</id>
 >>>>>>> 3a32523 (마이페이지 수정)
 >>>>>>> origin/HyeinTest
-<<<<<<< HEAD
-=======
 >>>>>>> origin/main
->>>>>>> 3dbcb41 (Merge remote-tracking branch 'origin/main' into kimhonghyun)
 			<name></name>
 			<type>30</type>
 			<matcher>

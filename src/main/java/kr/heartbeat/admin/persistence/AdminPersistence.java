@@ -34,13 +34,6 @@ public interface AdminPersistence {
 	
 	public void memberdelete(String email) throws Exception;
 	
-	//Staff
-	public List<UserVO> getStaffList(HashMap<String, Object> map) throws Exception;
-	
-	public int getStaffCount(HashMap<String, Object> map) throws Exception;
-	
-	public void staffdelete(String email) throws Exception;
-	
 	//post
 	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception;
 	

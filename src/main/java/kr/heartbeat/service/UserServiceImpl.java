@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.heartbeat.persistence.UserPersistenceImpl;
 import kr.heartbeat.vo.NoticeVO;
 import kr.heartbeat.vo.PostVO;
+import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
 
@@ -158,6 +159,11 @@ public class UserServiceImpl implements UserService {
 	public UserroleVO role(UserroleVO userrolevo) {
 		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
+	}
+	
+	//맴버십 날짜 가져오기
+	public SubscriptionVO checkMyMembershipDate(String email) throws Exception {
+		return userPersistenceImpl.checkMyMembershipDate(email);
 	}
 	
 	// 내 게시물 개수 가져오기

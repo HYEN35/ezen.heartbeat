@@ -24,7 +24,7 @@
 		pageName = "커뮤니티 - HeartBeat";
 		pageTitle = "커뮤니티";
 	}
-	else if (pageRequest.endsWith("purchase.jsp")) {
+	else if (pageRequest.endsWith("membership.jsp")) {
 		pageName = "멤버십 - HeartBeat";
 		pageTitle = "멤버십";
 	}
@@ -64,13 +64,10 @@
 		pageName = "뉴진스";
 		pageTitle = "뉴진스";
 	}
-	else if (pageRequest.endsWith("artist/itzy.jsp")) {
-		pageName = "ITZY";
-		pageTitle = "ITZY";
-	}
-	else if (pageRequest.endsWith("artist/blackpink.jsp")) {
-		pageName = "블랙핑크";
-		pageTitle = "블랙핑크";
+	
+	else if (pageRequest.endsWith("admin/login.jsp")) {
+		pageName = "관리자 로그인";
+		pageTitle = "관리자 로그인";
 	}
 %>
 
