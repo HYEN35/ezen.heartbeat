@@ -7,7 +7,7 @@
 	<div class="topArea">
 		<div class="title">
 			<p>포스트 쓰기</p>
-			<p class="artiName">Newjeans</p>
+			<p class="artiName">ITZY</p>
 		</div>
 		<button type="button" class="btn-i-close" onclick="popPostHide();"></button>
 	</div>

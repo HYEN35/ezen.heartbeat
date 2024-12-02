@@ -109,7 +109,7 @@
 							                <input type="hidden" name="post_id" value="${itzyVO.post_id}"/>
 											<a href="javascript:void(0);" onclick="popPostArtistShow('${itzyVO.post_id}','${UserVO.email }');">
 												<div>
-													<div class="arti-profile"><img src="/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
+													<div class="arti-profile"><img src="/upload/${itzyVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
 													<div class="arti-comment">
 														<div class="arti-top">
 															<span class="arti-mark"><span class="blind">artist</span></span>

@@ -72,6 +72,7 @@ public class CommunityController {
 		page.setCount(communityService.getNewjeansFanPostCount()); // 뉴진스 팬 게시물 개수 
 		List<PostVO> newjinsfanPosts = communityService.getNewjeansFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
 		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
+		System.out.println(postList);
 		UserVO artist_id = communityService.getLevel(uservo); 
 		
 		
@@ -81,15 +82,11 @@ public class CommunityController {
 		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
 
 		if (artist_id.getArtist_id() == 20109) {
-		if (artist_id.getArtist_id() == 20109) {
 			// 게시물 나누기
 			for (PostVO post : postList) {
 				if (post.getArtist_id() == 20109) {
 					if ("minji".equals(post.getEmail()) || "hanni".equals(post.getEmail()) || "danielle".equals(post.getEmail()) || "haerin".equals(post.getEmail()) || "hyein".equals(post.getEmail()) ) {
-				if (post.getArtist_id() == 20109) {
-					if ("minji".equals(post.getEmail()) || "hanni".equals(post.getEmail()) || "danielle".equals(post.getEmail()) || "haerin".equals(post.getEmail()) || "hyein".equals(post.getEmail()) ) {
 						newjinsPosts.add(post);
-					}
 					}
 				}
 			}

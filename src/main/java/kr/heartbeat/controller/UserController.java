@@ -291,11 +291,11 @@ public class UserController {
 		    // 프로필 사진 수정 처리
 		    if (profileImage != null && !profileImage.isEmpty()) {
 		        String fileName = UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
-		        String filePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" + fileName;
+		        String filePath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" + fileName;
 
 		        // 기존 프로필 사진 삭제
 		        if (userVO.getProfileimg() != null && !userVO.getProfileimg().isEmpty()) {
-		            String oldFilePath = "C:\\Spring\\Web\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" +userVO.getProfileimg();
+		            String oldFilePath = "C:\\Spring\\workspace\\ezen-heartbeat\\src\\main\\webapp\\resources\\upload\\" +userVO.getProfileimg();
 		            File oldFile = new File(oldFilePath);
 		            if (oldFile.exists()) {
 		                oldFile.delete();
