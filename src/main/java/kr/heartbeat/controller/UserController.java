@@ -86,11 +86,12 @@ public class UserController {
 
 	//회원가입
 	@PostMapping("/join")
-	public String insertUser(UserVO userVO)throws IOException {
+	public String insertUser(UserVO userVO, RedirectAttributes rttr) throws IOException {
 		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
 		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
 		String url = null;
+
 		//프로필 사진 업로드 부분
 		String realPath = "C:\\upload\\";
         String file1, file2 = "";
@@ -107,19 +108,22 @@ public class UserController {
 
 
 		int resultUser = userServiceImpl.insertUser(userVO);
-		int reulstUserRole = userServiceImpl.insertUserRole(email); 
-		if(resultUser == 1 && reulstUserRole==1) { 
-			url ="/heartbeat/login";
-		} else { 
-			url = "/heartbeat/join";
+		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
+		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
+			rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
+			url ="redirect:/login";
+		} else { //회원가입 실패
+			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
+			url = "redirect:/join";
 		}
+
 		return url;
 	}
 
 
 	//로그인
 	@PostMapping("/login")
-	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr,Model model) throws Exception {
+	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr, Model model) throws Exception {
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		UserroleVO rolelevel = userServiceImpl.role(userrolevo);
 		String email = userVO.getEmail();
@@ -194,8 +198,7 @@ public class UserController {
 			rttr.addFlashAttribute("email", false);
 			url = "redirect:/login";  // 로그인 페이지로 이동
 		}
-
-
+		
 		return url;
 	}
 
@@ -252,7 +255,7 @@ public class UserController {
 		public String modify(@RequestParam(value = "newPwd", required = false) String newPwd,
 		                     @RequestParam(value = "nickname", required = false) String nickname,
 		                     @RequestParam(value = "profileimgf", required = false) MultipartFile profileImage,
-		                     HttpSession session) throws IOException {
+		                     HttpSession session, RedirectAttributes rttr) throws IOException {
 
 			UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		    
