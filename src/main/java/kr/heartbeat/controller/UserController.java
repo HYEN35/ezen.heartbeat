@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -115,13 +116,14 @@ public class UserController {
             userVO.setProfileimg(file2);
         }
 
-
 		int resultUser = userServiceImpl.insertUser(userVO);
-		int reulstUserRole = userServiceImpl.insertUserRole(email); 
-		if(resultUser == 1 && reulstUserRole==1) { 
-			url ="/heartbeat/login";
-		} else { 
-			url = "/heartbeat/join";
+		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
+		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
+			rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
+			url ="redirect:/login";
+		} else { //회원가입 실패
+			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
+			url = "redirect:/join";
 		}
 
 		return url;

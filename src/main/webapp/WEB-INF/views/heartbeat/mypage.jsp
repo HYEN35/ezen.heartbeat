@@ -209,7 +209,6 @@
 								</div>
 								<div class="btnWrap">
 									<button type="button" class="btn-full" onclick="mypageValidityCheck()">저장</button>
-									<button type="button" class="btn-full" onclick="mypageValidityCheck()">저장</button>
 									<button type="button" class="btn-border">취소</button>
 								</div>
 							</div>

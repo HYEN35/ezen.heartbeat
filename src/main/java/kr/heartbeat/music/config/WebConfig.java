@@ -1,19 +1,19 @@
 package kr.heartbeat.music.config;
 
-import java.util.List;
-
-import javax.xml.validation.Validator;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.MessageCodesResolver;
+import org.springframework.validation.Validator;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
+
+import javax.servlet.Filter;
+import java.util.List;
 
 
 @Configuration
@@ -59,10 +59,10 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 
 	@Override
-	   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	      registry.addResourceHandler("/upload/**")
-	        .addResourceLocations("file:/C:/upload/");
-	   }
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/upload/**")
+				.addResourceLocations("file:/C:/upload/");
+	}
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
