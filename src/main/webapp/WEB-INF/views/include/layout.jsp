@@ -32,10 +32,22 @@
 		pageName = "마이페이지 - HeartBeat";
 		pageTitle = "마이페이지";
 	}
+	else if (pageRequest.endsWith("mymembership.jsp")) {
+		pageName = "마이페이지 - HeartBeat";
+		pageTitle = "마이페이지";
+	}
+	else if (pageRequest.endsWith("mypost.jsp")) {
+        pageName = "마이페이지 - HeartBeat";
+        pageTitle = "마이페이지";
+    }
 	else if (pageRequest.endsWith("notice.jsp")) {
 		pageName = "공지 및 문의 - HeartBeat";
 		pageTitle = "공지 및 문의";
 	}
+	else if (pageRequest.endsWith("mynotice.jsp")) {
+        pageName = "공지 및 문의 - HeartBeat";
+        pageTitle = "공지 및 문의";
+    }
 	else if (pageRequest.endsWith("noticeShow.jsp")) {
 		pageName = "공지 및 문의 - HeartBeat";
 		pageTitle = "공지 및 문의";
