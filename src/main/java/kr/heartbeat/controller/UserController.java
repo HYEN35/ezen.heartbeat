@@ -109,9 +109,9 @@ public class UserController {
 		int resultUser = userServiceImpl.insertUser(userVO);
 		int reulstUserRole = userServiceImpl.insertUserRole(email); 
 		if(resultUser == 1 && reulstUserRole==1) { 
-			url ="/heartbeat/login";
+			url ="redirect:/login";
 		} else { 
-			url = "/heartbeat/join";
+			url = "redirect:/join";
 		}
 		return url;
 	}
@@ -315,10 +315,19 @@ public class UserController {
 		
 		//마이페이지 - 멤버쉽 변경(level)
 		@RequestMapping("/mymembership")
-		public String mymembership(UserVO userVO, HttpSession session) {
+		public String mymembership(HttpSession session, Model model) throws Exception {
+			UserVO userVO = (UserVO) session.getAttribute("UserVO");
+			System.out.println("유저 정보 확인 : "+userVO);
+			SubscriptionVO subscriptionVO = userServiceImpl.checkMyMembershipDate(userVO.getEmail());
+			System.out.println("맴버십 날짜 확인 : "+subscriptionVO);
+			if (subscriptionVO != null) {
+				model.addAttribute("startDate", subscriptionVO.getStart_date());
+				model.addAttribute("endDate", subscriptionVO.getEnd_date());				
+			}
 			
 			return "heartbeat/mymembership";
 		}
+		
 		// 마이페이지 - 내 게시물 확인
 		@RequestMapping("/mypost") 
 		public String mypost(int num, String searchType, String keyword,Model model,HttpServletRequest request,HttpSession session) throws Exception {

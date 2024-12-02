@@ -123,7 +123,7 @@ public class CommunityController {
 		PageDTO page = new PageDTO();
 		page.setNum(num);
 		page.setCount(communityService.getItzyFanPostCount()); // 있지 팬 게시물 개수 
-		List<PostVO> newjinsfanPosts = communityService.getItzyFanPostList(page.getDisplayPost(), page.getPostNum()); // 있지 팬 게시물
+		List<PostVO> itzyFanPosts = communityService.getItzyFanPostList(page.getDisplayPost(), page.getPostNum()); // 있지 팬 게시물
 		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
 		UserVO artist_id = communityService.getLevel(uservo); 
 		
@@ -131,21 +131,21 @@ public class CommunityController {
 		//artistVO art_name = communityService.getLevel(uservo);
 
 		String url = null;
-		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
+		List<PostVO> itzyPosts = new ArrayList<>(); // 있지 게시물
 
 		if (artist_id.getArtist_id() == 20117) {
 			// 게시물 나누기
 			for (PostVO post : postList) {
 				if (post.getArtist_id() == 20117) {
 					if ("chaeryeong".equals(post.getEmail()) || "lia".equals(post.getEmail()) || "ryujin".equals(post.getEmail()) || "yeji".equals(post.getEmail()) || "yuna".equals(post.getEmail()) ) {
-						newjinsPosts.add(post);
+						itzyPosts.add(post);
 					}
 				}
 			}
 			
 			
-			model.addAttribute("newjinsPosts", newjinsPosts);
-			model.addAttribute("newjinsfanPosts", newjinsfanPosts);
+			model.addAttribute("itzyPosts", itzyPosts);
+			model.addAttribute("itzyFanPosts", itzyFanPosts);
 			model.addAttribute("page", page);
 			model.addAttribute("select", num);
 			url = "/community/artist/itzy";;

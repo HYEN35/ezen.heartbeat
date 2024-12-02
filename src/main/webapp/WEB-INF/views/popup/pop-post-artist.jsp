@@ -63,25 +63,25 @@
 		
 		// 수정된 게시물을 서버로 전송하는 AJAX 요청
 		$.ajax({
-			type : "POST",
-			url : "/community/modifyPost",
-			data : {
-				post_id : post_id,
-				content : newPostText
-			},
-			success : function(data) {
-				if (data === "success") {
-					postText.innerText = newPostText // 게시물 텍스트 업데이트
-					postInput.style.display = 'none';
-					postText.style.display = 'block';
-					
-					var editButton = fanButtonDiv.querySelector('.btn-i-edit');
-					var saveButton = fanButtonDiv.querySelector('.btn-i-save');
-					// 수정 버튼 보이기, 저장 버튼 숨기기
-					editButton.style.display = "inline-block";
-					saveButton.style.display = "none";
-				}
-			}
+		    type: "POST",
+		    url: "/community/modifyPost",
+		    data: {
+		        post_id: post_id,
+		        content: newPostText
+		    },
+		    success: function(data) {
+		        if (data === "success") {
+		            postText.innerText = newPostText;  // 게시물 텍스트 업데이트
+		            postInput.style.display = 'none';
+		            postText.style.display = 'block';
+		            
+		            var editButton = fanButtonDiv.querySelector('.btn-i-edit');
+		            var saveButton = fanButtonDiv.querySelector('.btn-i-save');
+		            // 수정 버튼 보이기, 저장 버튼 숨기기
+		            editButton.style.display = "inline-block";
+		            saveButton.style.display = "none";
+		        }
+		    }
 		})
 }
 
@@ -422,7 +422,7 @@
 		<div class="postBx" data-post-id="${PostVO.post_id }">
 			<div class="arti-comment">
 				<div class="arti-top">
-					<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
+					<div class="arti-profile"><img src="/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
 					<span class="arti-mark"><span class="blind">artist</span></span>
 					<span class="arti-name">${PostVO.nickname }</span>
 					<span class="arti-date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></span>
@@ -460,8 +460,25 @@
 						<div class="postBx" data-comment-id="${commentVO.comment_id}">
 							<div class="fan-profile">
 								<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+								<c:if test="${
+								commentVO.nickname eq '로제' 
+								or commentVO.nickname eq '리사'
+								or commentVO.nickname eq '지수'
+								or commentVO.nickname eq '제니'
+								or commentVO.nickname eq '유나'
+								or commentVO.nickname eq '예지'
+								or commentVO.nickname eq '류진'
+								or commentVO.nickname eq '리아'
+								or commentVO.nickname eq '채령'
+								or commentVO.nickname eq '혜인'
+								or commentVO.nickname eq '하니'
+								or commentVO.nickname eq '다니엘'
+								or commentVO.nickname eq '해린'
+								or commentVO.nickname eq '민지'
+								}">
+								    <span class="arti-mark"><span class="blind">artist</span></span>
+								</c:if>							
 								<span class="nickname">${commentVO.nickname }</span>
-								
 								<div class="date"><fmt:formatDate value="${commentVO.comment_date}" pattern="yy-MM-dd HH:mm"/></div>
 								<c:if test="${commentVO.nickname eq UserVO.nickname}">
 									<!-- 댓글 삭제 버튼 -->

@@ -15,7 +15,7 @@
 		});
 		function slick(){
 			$('.slideBx').slick({
-				infinite: true,
+				infinite: false,
 				slidesToShow: 3,
 				slidesToScroll: 3,
 				swipe: true,
@@ -109,7 +109,7 @@
 							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
 											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
 												<div>
-													<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
+													<div class="arti-profile"><img src="/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
 													<div class="arti-comment">
 														<div class="arti-top">
 															<span class="arti-mark"><span class="blind">artist</span></span>

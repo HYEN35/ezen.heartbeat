@@ -103,20 +103,20 @@
 					<div class="section-artist-post">
 						<div class="artistWrap">
 							<div class="slideBx">
-								<c:forEach items="${newjinsPosts}" var="newjinsVO">
+								<c:forEach items="${itzyPosts}" var="itzyVO">
 									<div class="postBx">
-										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
-							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
-											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
+										<form id="postFrm_${itzyVO.post_id}" action="/community/getPost" method="post">
+							                <input type="hidden" name="post_id" value="${itzyVO.post_id}"/>
+											<a href="javascript:void(0);" onclick="popPostArtistShow('${itzyVO.post_id}','${UserVO.email }');">
 												<div>
-													<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
+													<div class="arti-profile"><img src="/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
 													<div class="arti-comment">
 														<div class="arti-top">
 															<span class="arti-mark"><span class="blind">artist</span></span>
-															<span class="arti-name">${newjinsVO.nickname }</span>
+															<span class="arti-name">${itzyVO.nickname }</span>
 														</div>
 														<div class="arti-cnt">
-															<div class="txt">${newjinsVO.content }</div>
+															<div class="txt">${itzyVO.content }</div>
 														</div>
 													</div>
 												</div>
@@ -134,7 +134,7 @@
 								<i class="i-img"><i class="fa-regular fa-image"></i></i>
 							</div>
 							<div class="postWrap">
-								<c:forEach items="${newjinsfanPosts}" var="PostVO">
+								<c:forEach items="${itzyFanPosts}" var="PostVO">
 									<div class="postBx">
 										<form id="postFrm_${PostVO.post_id}" action="/community/getPost" method="post">
 							                <input type="hidden" name="post_id" value="${PostVO.post_id}"/>
