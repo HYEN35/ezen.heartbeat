@@ -57,21 +57,19 @@
 							</c:forEach>
 							</ul>
 							<!-- 페이징 처리 -->
-							<div class="pagination">
-								<ul class="page">
-									<c:if test="${page.prev}">
-									<li><a href="/admin/staff?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
-									</c:if>
-			
-									<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
-									<li><a href="/admin/staff?num=${num}" class="${select == num ? 'num on' : ''}">${num}</a></li>
-									</c:forEach>
-			
-									<c:if test="${page.next}">
-									<li><a href="/admin/staff?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
-									</c:if>
-								</ul>
-							</div>
+							<ul class="pagenation">
+								<c:if test="${page.prev}">
+								<li><a href="/admin/staff?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
+								</c:if>
+
+								<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+								<li><a href="/admin/staff?num=${num}" class="${select == num ? 'num on' : ''}">${num}</a></li>
+								</c:forEach>
+
+								<c:if test="${page.next}">
+								<li><a href="/admin/staff?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
+								</c:if>
+							</ul>
 						</div>
 					</div>
 				</div>

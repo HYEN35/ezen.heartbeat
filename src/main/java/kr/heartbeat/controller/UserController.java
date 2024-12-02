@@ -118,10 +118,12 @@ public class UserController {
         }
 
 		int resultUser = userServiceImpl.insertUser(userVO);
-		int reulstUserRole = userServiceImpl.insertUserRole(email); 
-		if(resultUser == 1 && reulstUserRole==1) { 
+		int reulstUserRole = userServiceImpl.insertUserRole(email); //회원가입 시 유저 역할 추가
+		if(resultUser == 1 && reulstUserRole==1) { //회원가입 성공
+			rttr.addFlashAttribute("message", "회원가입에 성공하셨습니다.");
 			url ="redirect:/login";
-		} else { 
+		} else { //회원가입 실패
+			rttr.addFlashAttribute("message", "회원가입에 실패하셨습니다.");
 			url = "redirect:/join";
 		}
 
