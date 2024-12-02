@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -48,7 +47,6 @@ public class UserController {
 	private NoticeService noticeService;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
 	//이메일 중복확인
 	@PostMapping("/join/emailcheck")
@@ -257,7 +255,6 @@ public class UserController {
 			
 			return "heartbeat/mypage"; 
 		}
-		
 		
 		
 		// 마이페이지 - 정보 변경
