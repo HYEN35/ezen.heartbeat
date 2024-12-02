@@ -25,8 +25,8 @@ public class HomeController {
 //	@RequestMapping(value="/community", method = RequestMethod.GET)
 //	public String community() { return "community/community"; } 
 	
-	@RequestMapping(value="/membership", method = RequestMethod.GET)
-	public String membership() { return "heartbeat/membership"; } 
+	@RequestMapping(value="/purchase", method = RequestMethod.GET)
+	public String membership() { return "heartbeat/purchase"; } 
 	
 //	 @RequestMapping(value="/mypage", method = RequestMethod.GET) 
 //	 public String mypage() { return "heartbeat/mypage"; }
