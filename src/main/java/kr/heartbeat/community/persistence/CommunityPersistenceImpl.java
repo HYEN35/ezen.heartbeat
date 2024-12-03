@@ -107,9 +107,9 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		sql.delete(namespace+".deletePost", post_id);
 	}
 	
-	@Override // 구독 등급 가져오기
-	public UserVO getLevel(UserVO uservo) throws Exception {
-		return sql.selectOne(namespace+".getLevel",uservo);
+	@Override // 구독 중인 아티스트 이름 가져오기
+	public String getArtistName(int artist_id) throws Exception {
+		return sql.selectOne(namespace+".getArtistName",artist_id);
 	}
 	
 	@Override // 댓글 작성

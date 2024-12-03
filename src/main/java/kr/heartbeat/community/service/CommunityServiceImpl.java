@@ -66,9 +66,9 @@ public class CommunityServiceImpl implements CommunityService {
 		communityPersistence.deletePost(post_id);
 	}
 	
-	@Override 
-	public UserVO getLevel(UserVO uservo) throws Exception {
-		return communityPersistence.getLevel(uservo);
+	@Override // 구독중인 아티스트 이름 가져오기
+	public String getArtistName(int artist_id) throws Exception {
+		return communityPersistence.getArtistName(artist_id);
 	}
 	
 	@Override // 댓글 작성
