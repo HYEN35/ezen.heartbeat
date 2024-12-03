@@ -4,93 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="26cab388-1679-4e0b-8135-74e03147f00a" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/persistence/AdminPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/persistence/AdminPersistence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/persistence/AdminPersistenceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/persistence/AdminPersistenceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/service/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/service/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/heartbeat/admin/service/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/heartbeat/community/controller/CommunityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/heartbeat/community/controller/CommunityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/adminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/adminMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/comment.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/comment.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/edit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/edit.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/member.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/member.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/post.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/post.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/summary.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/summary.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/admin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/admin.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/menu.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/menu.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/persistence/AdminPersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/persistence/AdminPersistence.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/persistence/AdminPersistenceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/persistence/AdminPersistenceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/service/AdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/service/AdminService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/service/AdminServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/service/AdminServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/controller/CommunityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/controller/CommunityController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/persistence/CommunityPersistenceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/persistence/CommunityPersistenceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/service/CommunityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/service/CommunityServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/controller/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/controller/HomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/controller/PortOneAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/controller/PortOneAPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/membership/controller/MembershipController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/membership/controller/MembershipController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/membership/persistence/MembershipPersistenceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/membership/persistence/MembershipPersistenceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/membership/service/MembershipServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/membership/service/MembershipServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/config/AppConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/config/AppConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/config/SpotifyAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/config/SpotifyAPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/config/WebConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/config/WebConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/controller/MusicController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/controller/MusicController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/persistence/MusicPersistenceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/persistence/MusicPersistenceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/service/MusicServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/service/MusicServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/notice/controller/NoticeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/notice/controller/NoticeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/notice/persistence/NoticePersistenceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/notice/persistence/NoticePersistenceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/notice/service/NoticeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/notice/service/NoticeServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/persistence/UserPersistenceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/persistence/UserPersistenceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/service/UserServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/service/UserServiceImpl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/service/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/service/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/CommentVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/CommentVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/HashtagVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/HashtagVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/MusicRoleVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/MusicRoleVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/MusicVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/MusicVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/NoticeCommentVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/NoticeCommentVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/NoticeVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/NoticeVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/PageDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/PageDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/PlaylistDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/PlaylistDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/PostVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/PostVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/RoleVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/RoleVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/SubscriptionVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/SubscriptionVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/TrackInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/TrackInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/UserVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/UserVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/UserroleVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/UserroleVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/likeVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/vo/likeVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappers/adminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappers/adminMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/org/member/persistence/DataSourceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/org/member/persistence/DataSourceTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/org/member/persistence/JDBCDriverTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/org/member/persistence/JDBCDriverTest.class" afterDir="false" />
-    </list>
+    <list default="true" id="723910c1-3ffa-41b2-b462-4e8dc4e66b95" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="Git.Settings">
-    <excluded-from-favorite>
-      <branch-storage>
-        <map>
-          <entry type="LOCAL">
-            <value>
-              <list>
-                <branch-info repo="$PROJECT_DIR$" source="main" />
-              </list>
-            </value>
-          </entry>
-        </map>
-      </branch-storage>
-    </excluded-from-favorite>
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="HyeinTest" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -99,38 +17,62 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Smart Tomcat.heartbeaet.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2phNNC3TgooSy1Rgj2SdzSLMkIU" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Smart Tomcat.heartbeat.executor": "Run",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/Project/heartbeat.kr/project.final",
+    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
-    <configuration name="heartbeaet" type="com.poratu.idea.plugins.tomcat">
+    <configuration name="heartbeat" type="com.poratu.idea.plugins.tomcat">
       <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
       <predefined_log_file enabled="true" id="Tomcat Access Log" />
       <predefined_log_file id="Tomcat Catalina Log" />
       <predefined_log_file id="Tomcat Manager Log" />
       <predefined_log_file id="Tomcat Host Manager Log" />
-      <option name="catalinaBase" value="" />
+      <option name="catalinaBase" value="C:\Users\kim\.SmartTomcat\project.final\controller" />
       <option name="contextPath" value="/" />
       <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
+      <option name="envOptions">
+        <map />
+      </option>
       <option name="extraClassPath" value="" />
       <option name="tomcatInfo">
         <TomcatInfo>
-          <option name="name" value="Apache Tomcat/9.0.93" />
-          <option name="path" value="C:/Program Files/Java/apache-tomcat-9.0.93" />
-          <option name="version" value="9.0.93.0" />
+          <option name="name" value="Apache Tomcat/9.0.95" />
+          <option name="path" value="C:/Program Files/Apache Software Foundation/Tomcat 9.0" />
+          <option name="version" value="9.0.95.0" />
         </TomcatInfo>
       </option>
-      <option name="vmOptions" value="" />
+      <option name="vmOptions" value="-Duser.language=en -Dfile.encoding=UTF-8" />
       <module name="controller" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="723910c1-3ffa-41b2-b462-4e8dc4e66b95" name="변경" comment="" />
+      <created>1733214304846</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733214304846</updated>
+    </task>
     <servers />
   </component>
 </project>

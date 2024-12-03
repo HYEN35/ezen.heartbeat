@@ -443,7 +443,7 @@ br.mob{display:none}
 [class*="pop-post-"] .replyBx .input .txtBx{width:calc(100% - 50px);margin-right:10px;padding:0 10px;background:#ededed;border-radius:20px;border:none}
 [class*="pop-post-"] .replyBx .input .btn-i-send{width:40px;height:40px;padding:0;background:#ededed;color:#333;border-radius:50%}
 [class*="pop-post-"] .arti-cnt .txt{margin-bottom:10px}
-[class*="pop-post-"] .arti-cnt .thumb{max-width:70%;max-height:70%;cursor:pointer}
+[class*="pop-post-"] .arti-cnt .thumb{max-width:50%;max-height:50%;cursor:pointer}
 
 .post-img-upload{width:100%}
 .post-img-upload::file-selector-button{width:100px;height:30px;background:#fff;color:#ff1493;border:1px solid #ff1493;border-radius:10px;cursor:pointer}
