@@ -46,7 +46,6 @@
 					<div class="section-artist">
 						<p class="tit">당신의 아티스트를 만나보세요!</p>
 						<div class="artistList">
-							<button type="button" class="btn-under-01" onclick="popAddArtistShow();">아티스트 추가 요청</button>
 							<ul>
 								<li class="item">
 									<a href="${pageContext.request.contextPath}/community/artist/newjeans?num=1">

@@ -167,7 +167,6 @@
 			
 			$('.pop-post-artist').show();
 			$('.dimmed').show();
-
 		}
 
 		//팝업 팬포스트작성
