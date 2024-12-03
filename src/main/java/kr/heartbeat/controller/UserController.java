@@ -104,7 +104,7 @@ public class UserController {
 		String url = null;
 
 		//프로필 사진 업로드 부분
-		String realPath = "C:\\upload\\";
+		String realPath = "C:\\heartbeat-upload\\";
         String file1, file2 = "";
         
         MultipartFile uploadfilef = userVO.getProfileimgf(); 
@@ -292,11 +292,11 @@ public class UserController {
 		    // 프로필 사진 수정 처리
 		    if (profileImage != null && !profileImage.isEmpty()) {
 		        String fileName = UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
-		        String filePath = "C:\\upload\\" + fileName;
+		        String filePath = "C:\\heartbeat-upload\\" + fileName;
 
 		        // 기존 프로필 사진 삭제
 		        if (userVO.getProfileimg() != null && !userVO.getProfileimg().isEmpty()) {
-		            String oldFilePath = "C:\\upload\\" +userVO.getProfileimg();
+		            String oldFilePath = "C:\\heartbeat-upload\\" +userVO.getProfileimg();
 		            File oldFile = new File(oldFilePath);
 		            if (oldFile.exists()) {
 		                oldFile.delete();

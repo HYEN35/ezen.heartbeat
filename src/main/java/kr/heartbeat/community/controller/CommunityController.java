@@ -118,7 +118,7 @@ public class CommunityController {
 	@PostMapping("/newjeansPostWrite")
 	public String newjeansPostWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
 		//프로필 이미지 저장 경로 지정
-				String realPath="C:\\upload\\";
+				String realPath="C:\\heartbeat-upload\\";
 				String file1,file2="";
 				
 				if(postImg !=null && !postImg.isEmpty()) {
@@ -195,7 +195,7 @@ public class CommunityController {
 	@PostMapping("/itzyPostWrite")
 	public String itzyPostWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
 		//프로필 이미지 저장 경로 지정
-		String realPath="C:\\upload\\";
+		String realPath="C:\\heartbeat-upload\\";
 		String file1,file2="";
 		
 		if(postImg !=null && !postImg.isEmpty()) {
@@ -250,7 +250,7 @@ public class CommunityController {
 	}
 
 	private String saveImage(MultipartFile file) throws IOException {
-	    String uploadDir = "C:\\upload\\";
+	    String uploadDir = "C:\\heartbeat-upload\\";
 	    String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 	    Path path = Paths.get(uploadDir + fileName);
 	    Files.copy(file.getInputStream(), path);
