@@ -18,102 +18,128 @@ import kr.heartbeat.vo.UserroleVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-	
+
 	@Autowired
 	private AdminPersistenceImpl persistence;
 
 	//summary
 	@Override
 	public int count_a(String reg_date) throws Exception {
-	    return persistence.count_a(reg_date);
+		return persistence.count_a(reg_date);
 	}
-	
+
 	@Override
 	public int count_b() throws Exception {
-	    return persistence.count_b();
+		return persistence.count_b();
 	}
-	
+
 	@Override
 	public Map<String, Object> count_c() throws Exception {
-	    return persistence.count_c();
+		return persistence.count_c();
 	}
-	
+
 	//summary 그래프
 	// 회원 총 인원
 	@Override
 	public int levelTotalCnt() throws Exception {
-	    return persistence.levelTotalCnt();
+		return persistence.levelTotalCnt();
 	}
-	
+
 	//레벨 별 회원수
 	@Override
 	public int levelCnt(int level) throws Exception {
-	    return persistence.levelCnt(level);
+		return persistence.levelCnt(level);
 	}
-	
+
 	//member
 	@Override
 	public List<UserVO> getUserList(int displayPost, int postNum, String searchType, String keyword, String roleId) throws Exception {
-	    HashMap<String, Object> map = new HashMap<>();
-	    map.put("displayPost", displayPost);
-	    map.put("postNum", postNum);
-	    map.put("searchType", searchType);
-	    map.put("keyword", keyword);
-	    map.put("roleId", roleId); // role_id 추가
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("displayPost", displayPost);
+		map.put("postNum", postNum);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		map.put("roleId", roleId); // role_id 추가
 
-	    return persistence.getUserList(map);
+		return persistence.getUserList(map);
 	}
-	
+
 	@Override
 	public int getUserCount(String searchType, String keyword, String roleId) throws Exception {
-	    HashMap<String, Object> map = new HashMap<>();
-	    map.put("searchType", searchType);
-	    map.put("keyword", keyword);
-	    map.put("roleId", roleId); // role_id 추가
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		map.put("roleId", roleId); // role_id 추가
 
-	    return persistence.getUserCount(map);
+		return persistence.getUserCount(map);
 	}
 
-	
-	
 	@Override
 	public void memberdelete(String email) throws Exception {
 		persistence.memberdelete(email);
 	}
-	
+
+	//Staff
+	@Override
+	public int getStaffCount(String searchType, String keyword) throws Exception {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+
+		return persistence.getStaffCount(map);
+	}
+
+	@Override
+	public List<UserVO> getStaffList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("displayPost", displayPost);
+		map.put("postNum", postNum);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+
+		return persistence.getStaffList(map);
+	}
+
+
+
+	@Override
+	public void staffdelete(String email) throws Exception {
+		persistence.staffdelete(email);
+	}
+
 	//post
 	@Override
-	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception {	
+	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
 		return persistence.getPostList(displayPost, postNum, searchType, keyword);
 	}
-	
+
 	@Override
 	public int getPostCount(String searchType, String keyword) throws Exception {
 		return persistence.getPostCount(searchType, keyword);
 	}
 
-	
+
 	@Override
 	public void podelete(int post_id) throws Exception {
 		persistence.podelete(post_id);
 	}
-	
+
 	//comment
 	@Override
-	public List<CommentVO> getCommentList(int displayPost, int postNum, String searchType, String keyword) throws Exception {	
+	public List<CommentVO> getCommentList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
 		return persistence.getCommentList(displayPost, postNum, searchType, keyword);
 	}
-	
+
 	@Override
 	public int getCommentCount(String searchType, String keyword) throws Exception {
 		return persistence.getCommentCount(searchType, keyword);
 	}
-	
+
 	@Override
 	public void codelete(int comment_id) throws Exception {
 		persistence.codelete(comment_id);
 	}
-	
+
 	//edit
 	@Override
 	public UserVO getUserOne(String email) throws Exception {
@@ -124,43 +150,43 @@ public class AdminServiceImpl implements AdminService {
 	public void update(UserVO uvo) throws Exception {
 		persistence.update(uvo);
 	}
-	
+
 	//계정생성
 	@Override
 	@Transactional // 트랜잭션 처리
 	public int insertUser(UserVO userVO, int role_id, SubscriptionVO subscriptionVO) {
-	    // 1. user_tbl에 데이터 삽입
-	    int result = persistence.insertUser(userVO);
+		// 1. user_tbl에 데이터 삽입
+		int result = persistence.insertUser(userVO);
 
-	    if (result > 0) {
-	        // 2. user_role_tbl에 데이터 삽입
-	        UserroleVO userRole = new UserroleVO();
-	        userRole.setEmail(userVO.getEmail());
-	        userRole.setRole_id(role_id);
-	        persistence.insertUserRole(userRole);
+		if (result > 0) {
+			// 2. user_role_tbl에 데이터 삽입
+			UserroleVO userRole = new UserroleVO();
+			userRole.setEmail(userVO.getEmail());
+			userRole.setRole_id(role_id);
+			persistence.insertUserRole(userRole);
 
-	        // 3. subscription_tbl에 데이터 삽입 (구독 정보가 있을 경우)
-	        if (subscriptionVO != null) {
-	            persistence.insertSubscription(subscriptionVO);
-	        }
-	    }
+			// 3. subscription_tbl에 데이터 삽입 (구독 정보가 있을 경우)
+			if (subscriptionVO != null) {
+				persistence.insertSubscription(subscriptionVO);
+			}
+		}
 
-	    return result;
+		return result;
 	}
-    @Override
-    public int insertUserRole(UserroleVO userroleVO) {
-        return persistence.insertUserRole(userroleVO);
-    }
-    @Override
-    public int insertSubscription(SubscriptionVO subscriptionVO) {
-        return persistence.insertSubscription(subscriptionVO);
-    }
-	
 	@Override
-    public List<RoleVO> getRole() {
-        return persistence.getRole();
-    }
-	
+	public int insertUserRole(UserroleVO userroleVO) {
+		return persistence.insertUserRole(userroleVO);
+	}
+	@Override
+	public int insertSubscription(SubscriptionVO subscriptionVO) {
+		return persistence.insertSubscription(subscriptionVO);
+	}
+
+	@Override
+	public List<RoleVO> getRole() {
+		return persistence.getRole();
+	}
+
 	//중복체크
 	@Override
 	public UserVO idCheck(String email) {

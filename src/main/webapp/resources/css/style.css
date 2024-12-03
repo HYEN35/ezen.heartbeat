@@ -221,7 +221,7 @@ br.mob{display:none}
 [class*="artist-"] .section-fan-post .postBx{width:100%;margin-top:20px}
 [class*="artist-"] .section-fan-post .postBx:first-child{margin-top:0}
 [class*="artist-"] .section-fan-post .date{margin-left:auto;color:#737373;font-size:12px}
-[class*="artist-"] .section-fan-post .postBx .fan-cnt img{width:100%;height:100%;object-fit:contain}
+[class*="artist-"] .section-fan-post .postBx .fan-cnt img{max-width:100%;max-height:100%;object-fit:contain}
 
 /*포스트박스 common*/
 .postBx{padding:20px;background:#fff;border-radius:10px}
@@ -268,7 +268,6 @@ br.mob{display:none}
 [class*="my-"] .tabCnt .searchWrap .searchBx .sltBx{width:100px;margin-right:10px}
 [class*="my-"] .tabCnt .searchWrap .searchBx .txtBx{margin-right:10px}
 [class*="my-"] .tabCnt .searchWrap .btnBx{display:flex;justify-content:flex-start;align-items:center}
-
 .my-page .cnt .nickname .dd .txtBx{float:left;margin-right:10px}
 .my-page .cnt .nickname .dd button{float:left}
 .my-page .cnt .image .dd:after{display:block;clear:both;content:""}
@@ -413,6 +412,7 @@ br.mob{display:none}
 [class*="pop-post-"]{width:1100px;max-height:unset}
 [class*="pop-post-"] .topArea{justify-content:flex-end;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #ebebeb}
 [class*="pop-post-"] .cntArea{display:flex;justify-content:space-between}
+[class*="pop-post-"] .cntArea .post-txtBx{width:100%;height:300px;padding:20px}
 [class*="pop-post-"] .postBx{width:calc(65% - 20px);margin-right:20px;padding:0}
 [class*="pop-post-"] .postBx .btn-i-edit,
 [class*="pop-post-"] .postBx .btn-i-trash{margin-left:10px}
@@ -441,6 +441,11 @@ br.mob{display:none}
 [class*="pop-post-"] .replyBx .input{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:20px;border-top:1px solid #ebebeb}
 [class*="pop-post-"] .replyBx .input .txtBx{width:calc(100% - 50px);margin-right:10px;padding:0 10px;background:#ededed;border-radius:20px;border:none}
 [class*="pop-post-"] .replyBx .input .btn-i-send{width:40px;height:40px;padding:0;background:#ededed;color:#333;border-radius:50%}
+[class*="pop-post-"] .arti-cnt .txt{margin-bottom:10px}
+[class*="pop-post-"] .arti-cnt .thumb{max-width:100%;max-height:100%;cursor:pointer}
+
+.post-img-upload{width:100%}
+.post-img-upload::file-selector-button{width:100px;height:30px;background:#fff;color:#ff1493;border:1px solid #ff1493;border-radius:10px;cursor:pointer}
 
 /*팝업 회원 탈퇴*/
 .pop-delete-user{width:400px}

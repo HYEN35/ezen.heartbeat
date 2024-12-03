@@ -29,6 +29,7 @@
 						<c:forEach items="${coList}" var="cvo">
 							<li class="item">
 								<div class="infoWrap">
+									<span class="info">게시물 번호 : <i>${cvo.post_id}</i></span>
 									<span class="info">댓글 번호 : <i id="num">${cvo.comment_id}</i></span>
 									<span class="info">작성자 : <i>${cvo.nickname}</i></span>
 									<span class="info">작성일 : 
@@ -37,7 +38,6 @@
 										</i>
 									</span>
 									<span class="info content">내용 : <i class="elps">${cvo.comment}</i></span>
-									<span class="info content">게시물 번호 : <i class="elps">${cvo.post_id}</i></span>
 								</div>
 								<div class="btnWrap">
 									<button type="button" class="btn-border-01" onclick="deleteItem(${cvo.comment_id})">삭제</button>
@@ -46,27 +46,28 @@
 						</c:forEach>	
 						</ul>
 						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
-						<ul class="pagenation">
-							<c:if test="${page.prev}">
-							<li><a href="/admin/comment?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
-							</c:if>
-							
-							<%-- 페이지 번호 버튼 --%>
-							<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
-							<li>
-								<c:if test="${select != num}">
-								<a href="/admin/comment?num=${num}">${num}</a>
+						<div class="pagination">
+							<ul class="page">
+								<c:if test="${page.prev}">
+								<li><a href="/admin/comment?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
 								</c:if>
-								<c:if test="${select == num}">
-								<a href="/admin/comment?num=${num}" class="num on">${num}</a>
+								
+								<%-- 페이지 번호 버튼 --%>
+								<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+								<li>
+									<c:if test="${select != num}">
+									<a href="/admin/comment?num=${num}" class="num">${num}</a>
+									</c:if>
+									<c:if test="${select == num}">
+									<a href="/admin/comment?num=${num}" class="num on">${num}</a>
+									</c:if>
+								</li>
+								</c:forEach>
+								
+								<c:if test="${page.next}">
+								<li><a href="/admin/comment?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
 								</c:if>
-							</li>
-							</c:forEach>
-							
-							<c:if test="${page.next}">
-							<li><a href="/admin/comment?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
-							</c:if>
-						</ul>
+							</ul>
 						</div>
 					</div>
 				</div>

@@ -309,70 +309,59 @@
 	
 	//게시물 이미지 효과 추가 
 	function showPopup(img) {
-    let darkBackground = document.getElementById("dark-background");
+        let darkBackground = document.getElementById("dark-background");
 
-    // 어두운 배경이 없다면 새로 생성
-    if (!darkBackground) {
-        darkBackground = document.createElement("div");
-        darkBackground.id = "dark-background";
-        darkBackground.className = "dark-background";
-        darkBackground.style.position = "fixed";
-        darkBackground.style.top = "0";
-        darkBackground.style.left = "0";
-        darkBackground.style.width = "100%";
-        darkBackground.style.height = "100%";
-        darkBackground.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-        darkBackground.style.zIndex = "9999";  
-        darkBackground.style.display = "block";
-        darkBackground.onclick = closePopup;  
-        document.body.appendChild(darkBackground);
-    } else {
-        darkBackground.style.display = "block"; 
+        // 어두운 배경이 없다면 새로 생성
+        if (!darkBackground) {
+            darkBackground = document.createElement("div");
+            darkBackground.id = "dark-background";
+            darkBackground.className = "dark-background";
+            darkBackground.style.position = "fixed";
+            darkBackground.style.top = "0";
+            darkBackground.style.left = "0";
+            darkBackground.style.width = "100%";
+            darkBackground.style.height = "100%";
+            darkBackground.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+            darkBackground.style.zIndex = "9999";
+            darkBackground.style.display = "block";
+            darkBackground.onclick = closePopup;
+            document.body.appendChild(darkBackground);
+        } else {
+            darkBackground.style.display = "block";
+        }
+
+        // 이미지 팝업 생성
+        let popupImg = document.getElementById("popup-img");
+        if (!popupImg) {
+            popupImg = document.createElement("img");
+            popupImg.id = "popup-img";
+            popupImg.src = img.src;
+            popupImg.style.maxWidth = "100%";
+            popupImg.style.maxHeight = "100%";
+            popupImg.style.position = "fixed";
+            popupImg.style.top = "50%";
+            popupImg.style.left = "50%";
+            popupImg.style.transform = "translate(-50%, -50%)";
+            popupImg.style.zIndex = "10000";
+            popupImg.style.display = "block";
+            document.body.appendChild(popupImg);
+        } else {
+            popupImg.src = img.src;
+            popupImg.style.display = "block";
+        }
     }
 
-    // 이미지 팝업 생성
-    let popupImg = document.getElementById("popup-img");
-    if (!popupImg) {
-        popupImg = document.createElement("img");
-        popupImg.id = "popup-img";
-        popupImg.src = img.src;
-        popupImg.style.width = "700px";
-        popupImg.style.height = "700px"; 
-        popupImg.style.position = "fixed"; 
-        popupImg.style.top = "50%";
-        popupImg.style.left = "50%";
-        popupImg.style.transform = "translate(-50%, -50%)"; 
-        popupImg.style.zIndex = "10000"; 
-        popupImg.style.display = "block"; 
-        document.body.appendChild(popupImg);
-    } else {
-        popupImg.src = img.src;
-        popupImg.style.display = "block";
-    }
-}
-
-function closePopup() {
-    // 어두운 배경과 팝업 이미지를 숨깁니다.
-    const darkBackground = document.getElementById("dark-background");
-    if (darkBackground) {
-        darkBackground.style.display = "none";
-    }
-
-    const popupImg = document.getElementById("popup-img");
-    if (popupImg) {
-        popupImg.style.display = "none";
-    }
-}
-
-
+	function closePopup() {
+	    // 어두운 배경과 팝업 이미지를 숨깁니다.
+	    const darkBackground = document.getElementById("dark-background");
+	    if (darkBackground) {
+	        darkBackground.style.display = "none";
+	    }
 	
-	function popPostFanHide() {
-	    // 팝업 숨기기
-	    $('.pop-post-fan').hide();
-	    $('.dimmed').hide();
-
-	    // 페이지 새로 고침
-	    location.reload(); // 페이지 새로 고침
+	    const popupImg = document.getElementById("popup-img");
+	    if (popupImg) {
+	        popupImg.style.display = "none";
+	    }
 	}
 	
 	// 새로고침 버튼 
@@ -392,39 +381,17 @@ function closePopup() {
 	        }
 	    });
 	}
-	 
+
+	function popPostFanHide() {
+        // 팝업 숨기기
+        $('.pop-post-fan').hide().addClass('test');
+        $('.dimmed').hide();
+
+        // 페이지 새로 고침
+        location.reload(); // 페이지 새로 고침
+    }
 
 </script>
-
-<style>
-/* 어두운 배경 */
-#dark-background {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 9999; 
-    display: none; 
-}
-
-/* 팝업 이미지 스타일 */
-#popup-img {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000; 
-    width: 700px; 
-    height: 700px; 
-    display: none; 
-    border-radius: 15px; 
-    object-fit: cover; 
-}
-
-
-</style>
 
 <div class="wrap">
 	<div class="topArea">
@@ -435,6 +402,7 @@ function closePopup() {
 			<div class="arti-comment">
 				<div class="arti-top">
 					<div class="arti-profile"><img src="/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
+					<span class="arti-mark"><span class="blind">artist</span></span>
 					<span class="arti-name"> ${PostVO.nickname }</span>
 					<span class="arti-date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></span>
 					<c:if test="${PostVO.nickname eq UserVO.nickname}">
@@ -449,15 +417,13 @@ function closePopup() {
 				<div class="arti-cnt">
 					<div class="txt">${PostVO.content} </div>
 					<div id="overlay" class="overlay" onclick="closeModal()"></div>
-					<c:if test="${not empty PostVO.post_img}">	
-						<div id="dark-background" class="dark-background" onclick="closePopup()"></div>
-				    	<img id="fan-img" src="/upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:50%;"  onclick="showPopup(this)">
-				    </c:if>
 					 <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
-				    	 <input type="file" id="postImgFile" class="post-img-upload" style="display:none; padding:10px 0;" accept="image/*" >
 				    	<textarea class="post-txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
-				       
+				    	<input type="file" id="postImgFile" class="post-img-upload" style="display:none; padding:10px 0;" accept="image/*">
 				    </form>
+					<c:if test="${not empty PostVO.post_img}">
+				    	<img id="fan-img" src="/upload/${PostVO.post_img}" alt="newjeans" class="thumb" onclick="showPopup(this)">
+				    </c:if>
 				</div>
 			</div>
 		</div>
@@ -469,27 +435,27 @@ function closePopup() {
 				</div>
 			</div>
 			<div class="reply">
-					<div class="list" >
+				<div class="list" >
 				<c:forEach items="${commentList }" var="commentVO">
 						<div class="postBx" data-comment-id="${commentVO.comment_id}">
 							<div class="fan-profile">
 								<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
 								<c:if test="${
-								commentVO.nickname eq '로제' 
-								or commentVO.nickname eq '리사'
-								or commentVO.nickname eq '지수'
-								or commentVO.nickname eq '제니'
-								or commentVO.nickname eq '유나'
-								or commentVO.nickname eq '예지'
-								or commentVO.nickname eq '류진'
-								or commentVO.nickname eq '리아'
-								or commentVO.nickname eq '채령'
-								or commentVO.nickname eq '혜인'
-								or commentVO.nickname eq '하니'
-								or commentVO.nickname eq '다니엘'
-								or commentVO.nickname eq '해린'
-								or commentVO.nickname eq '민지'
-								}">
+									commentVO.nickname eq '로제' 
+										or commentVO.nickname eq '리사'
+										or commentVO.nickname eq '지수'
+										or commentVO.nickname eq '제니'
+										or commentVO.nickname eq '유나'
+										or commentVO.nickname eq '예지'
+										or commentVO.nickname eq '류진'
+										or commentVO.nickname eq '리아'
+										or commentVO.nickname eq '채령'
+										or commentVO.nickname eq '혜인'
+										or commentVO.nickname eq '하니'
+										or commentVO.nickname eq '다니엘'
+										or commentVO.nickname eq '해린'
+										or commentVO.nickname eq '민지'
+									}">
 								    <span class="arti-mark"><span class="blind">artist</span></span>
 								</c:if>	
 								<span class="nickname">${commentVO.nickname }</span>
@@ -510,29 +476,18 @@ function closePopup() {
 				                    <input type="text" class="txtBx" name="comment" style="display:none;" value="${commentVO.comment }">
 				                </div>
 				            </div>
-							
 						</div>
-				</c:forEach>				
-			</div>
-				<!--<form action="/community/commentWrite" method="post">
-					<input type="hidden" name="post_id" value="${PostVO.post_id}" />
-					<input type="hidden" name="email" value="${UserVO.email }"/>
-					<input type="hidden" name="nickname" value="${UserVO.nickname}"/>
-					<div class="input">
-						<input type="text" class="txtBx" name="comment" placeholder="댓글을 입력하세요." autocomplete="off" >
-						<button type="submit" class="btn-i-send" ><i class="fa-regular fa-paper-plane"></i></button>
-					</div>				
-				</form>-->
-			
-				<div class="submitCommentTest">
-				    <input type="hidden" name="post_id" value="${PostVO.post_id}" />
-				    <input type="hidden" name="email" value="${UserVO.email}" />
-				    <input type="hidden" name="nickname" value="${UserVO.nickname}" />
-				    <div class="input">
-				        <input type="text" class="txtBx" name="comment" placeholder="댓글을 입력하세요." autocomplete="off">
-				        <button type="button" class="btn-i-send" onclick="submitComment()"><i class="fa-regular fa-paper-plane"></i></button>
-				    </div>
-				</div>
+				</c:forEach>	
+				</div>			
+			</div>			
+			<div class="submitCommentTest">
+			    <input type="hidden" name="post_id" value="${PostVO.post_id}" />
+			    <input type="hidden" name="email" value="${UserVO.email}" />
+			    <input type="hidden" name="nickname" value="${UserVO.nickname}" />
+			    <div class="input">
+			        <input type="text" class="txtBx" name="comment" placeholder="댓글을 입력하세요." autocomplete="off">
+			        <button type="button" class="btn-i-send" onclick="submitComment()"><i class="fa-regular fa-paper-plane"></i></button>
+			    </div>
 			</div>
 		</div>
 	</div>
