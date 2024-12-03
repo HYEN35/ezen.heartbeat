@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="51a53077-b4d3-46c0-859c-e9ec40c200ae" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/popup/pop-post-itzy.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/popup/pop-post-itzy.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/comment.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/comment.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/post.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/post.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/adminLayout.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/adminLayout.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/admin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/persistence/AdminPersistenceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/persistence/AdminPersistenceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/service/AdminServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/admin/service/AdminServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/controller/CommunityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/community/controller/CommunityController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/controller/SpotifyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/heartbeat/music/controller/SpotifyController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mappers/adminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappers/adminMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,18 +25,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "HYEN35"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;HYEN35&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/HYEN35/ezen.heartbeat.git",
-    "accountId": "0a7292ef-c5af-463f-8f64-ed83398596eb"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/HYEN35/ezen.heartbeat.git&quot;,
+    &quot;accountId&quot;: &quot;0a7292ef-c5af-463f-8f64-ed83398596eb&quot;
   }
-}]]></component>
+}</component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -35,10 +44,10 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2pgrEoDOX3TaiZqGYJHDrtZbQBS" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -46,15 +55,15 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Smart Tomcat.heartbeat.executor": "Run",
-    "git-widget-placeholder": "HyeinTest",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Smart Tomcat.heartbeat.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;HyeinTest&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="heartbeat" type="com.poratu.idea.plugins.tomcat">
       <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
@@ -65,9 +74,6 @@
       <option name="catalinaBase" value="C:\Users\pc07-03\.SmartTomcat\ezen.heartbeat\controller" />
       <option name="contextPath" value="/" />
       <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
-      <option name="envOptions">
-        <map />
-      </option>
       <option name="extraClassPath" value="" />
       <option name="tomcatInfo">
         <TomcatInfo>
