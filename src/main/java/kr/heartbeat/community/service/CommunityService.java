@@ -22,8 +22,8 @@ public interface CommunityService {
 	public int getItzyFanPostCount() throws Exception;	
 	// 게시물 하나 가져오기
 	public PostVO getPost(PostVO postVO) throws Exception;
-	// 아티스트 레벨 가져오기
-	public UserVO getLevel(UserVO uservo) throws Exception;
+	// 구독중인 아티스트 이름 가져오기
+	public String getArtistName(int artist_id) throws Exception;
 	// 게시물 수정
 	public void modifyPost(PostVO postVO) throws Exception;
 	// 게시물 삭제

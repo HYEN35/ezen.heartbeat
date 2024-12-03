@@ -2,6 +2,12 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
+	<c:if test="${not empty artist_name}">
+	    <script type="text/javascript">
+	        alert("구독중인 아티스트는 ${artist_name}입니다. ${artist_name} 페이지를 이용해주세요");
+	    </script>
+	</c:if>
+
 	<script>
 		$(function(){
 			popAlertPurchaseShow();

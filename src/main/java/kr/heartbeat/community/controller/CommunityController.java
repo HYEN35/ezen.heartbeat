@@ -63,45 +63,45 @@ public class CommunityController {
 	}
 
 	// 뉴진스 페이지 들어가면서 게시물 가져오는거
-		@RequestMapping("/artist/newjeans")
-		public String newjeans(@RequestParam("num")int num, Model model,HttpSession session) throws Exception {
-			UserVO uservo = (UserVO) session.getAttribute("UserVO");
-			PageDTO page = new PageDTO();
-			page.setNum(num);
-			page.setCount(communityService.getNewjeansFanPostCount()); // 뉴진스 팬 게시물 개수 
-			List<PostVO> newjinsfanPosts = communityService.getNewjeansFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
-			List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
-			UserVO artist_id = communityService.getLevel(uservo); 
-			
-			
-			//artistVO art_name = communityService.getLevel(uservo);
+	@RequestMapping("/artist/newjeans")
+	public String newjeans(@RequestParam("num")int num, Model model,HttpSession session) throws Exception {
+		UserVO uservo = (UserVO) session.getAttribute("UserVO");
+		PageDTO page = new PageDTO();
+		page.setNum(num);
+		page.setCount(communityService.getNewjeansFanPostCount()); // 뉴진스 팬 게시물 개수 
+		List<PostVO> newjinsfanPosts = communityService.getNewjeansFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
+		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
+		String artist_name = communityService.getArtistName(uservo.getArtist_id()); // 구독중인 아티스트 이름 가져오기
+		
+		
+		//artistVO art_name = communityService.getLevel(uservo);
 
-			String url = null;
-			List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
+		String url = null;
+		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
 
-			if (artist_id.getArtist_id() == 20109) {
-				// 게시물 나누기
-				for (PostVO post : postList) {
-					if (post.getArtist_id() == 20109) {
-						if ("minji".equals(post.getEmail()) || "hanni".equals(post.getEmail()) || "danielle".equals(post.getEmail()) || "haerin".equals(post.getEmail()) || "hyein".equals(post.getEmail()) ) {
-							newjinsPosts.add(post);
-						}
+		if (uservo.getArtist_id() == 20109) {
+			// 게시물 나누기
+			for (PostVO post : postList) {
+				if (post.getArtist_id() == 20109) {
+					if ("minji".equals(post.getEmail()) || "hanni".equals(post.getEmail()) || "danielle".equals(post.getEmail()) || "haerin".equals(post.getEmail()) || "hyein".equals(post.getEmail()) ) {
+						newjinsPosts.add(post);
 					}
 				}
-				
-				
-				model.addAttribute("newjinsPosts", newjinsPosts);
-				model.addAttribute("newjinsfanPosts", newjinsfanPosts);
-				model.addAttribute("page", page);
-				model.addAttribute("select", num);
-				url = "/community/artist/newjeans";
-			} else {
-
-				url = "/community/community";
 			}
-
-			return url;
+			
+			
+			model.addAttribute("newjinsPosts", newjinsPosts);
+			model.addAttribute("newjinsfanPosts", newjinsfanPosts);
+			model.addAttribute("page", page);
+			model.addAttribute("select", num);
+			url = "/community/artist/newjeans";
+		} else {
+			model.addAttribute("artist_name", artist_name);
+			url = "/community/community";
 		}
+
+		return url;
+	}
 	
 	// 뉴진스 게시물 작성
 	@PostMapping("/newjeansPostWrite")
@@ -131,7 +131,7 @@ public class CommunityController {
 		page.setCount(communityService.getItzyFanPostCount()); // 있지 팬 게시물 개수 
 		List<PostVO> itzyFanPosts = communityService.getItzyFanPostList(page.getDisplayPost(), page.getPostNum()); // 있지 팬 게시물
 		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
-		UserVO artist_id = communityService.getLevel(uservo); 
+		String artist_name = communityService.getArtistName(uservo.getArtist_id()); // 구독중인 아티스트 이름 가져오기
 		
 		
 		//artistVO art_name = communityService.getLevel(uservo);
@@ -139,7 +139,7 @@ public class CommunityController {
 		String url = null;
 		List<PostVO> itzyPosts = new ArrayList<>(); // 있지 게시물
 
-		if (artist_id.getArtist_id() == 20117) {
+		if (uservo.getArtist_id() == 20117) {
 			// 게시물 나누기
 			for (PostVO post : postList) {
 				if (post.getArtist_id() == 20117) {
@@ -156,7 +156,7 @@ public class CommunityController {
 			model.addAttribute("select", num);
 			url = "/community/artist/itzy";;
 		} else {
-
+			model.addAttribute("artist_name", artist_name);
 			url = "/community/community";
 		}
 
@@ -280,13 +280,13 @@ public class CommunityController {
 
 
 	// 댓글 작성
-	@PostMapping("/commentWrites")
-	@ResponseBody
-	public String commentWrite(CommentVO commentVO, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
-		communityService.commentWrite(commentVO);
-	    
-		return "success";
-	}
+//	@PostMapping("/commentWrites")
+//	@ResponseBody
+//	public String commentWrite(CommentVO commentVO, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
+//		communityService.commentWrite(commentVO);
+//	    
+//		return "success";
+//	}
 
 	// 댓글 작성
 	@PostMapping("/commentWrite")

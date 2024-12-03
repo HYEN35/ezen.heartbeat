@@ -541,10 +541,27 @@ function closePopup() {
 					<div class="comm" ><i class="num">${totalComment }</i>개의 댓글</div>
 					<button type="button" class="btn-i-reset" onclick="resetArtistPopup('${UserVO.email}','${PostVO.post_id }')"><i class="fa-solid fa-rotate-right"></i></button>
 				</div>
-				<div class="count">
-					<div class="like"><i class="num">${totalLike }</i>개의 좋아요</div>
-					<button type="button" class="btn-i-like  ${checkLike eq 1 ? 'on' : ''}" onclick="likeToggle('${UserVO.email}','${PostVO.post_id }',this);"><i class="fa-solid fa-heart"></i></button>					
-				</div>
+					<c:if test="${
+								PostVO.nickname eq '로제' 
+								or PostVO.nickname eq '리사'
+								or PostVO.nickname eq '지수'
+								or PostVO.nickname eq '제니'
+								or PostVO.nickname eq '유나'
+								or PostVO.nickname eq '예지'
+								or PostVO.nickname eq '류진'
+								or PostVO.nickname eq '리아'
+								or PostVO.nickname eq '채령'
+								or PostVO.nickname eq '혜인'
+								or PostVO.nickname eq '하니'
+								or PostVO.nickname eq '다니엘'
+								or PostVO.nickname eq '해린'
+								or PostVO.nickname eq '민지'
+								}">
+					<div class="count">
+						<div class="like"><i class="num">${totalLike }</i>개의 좋아요</div>
+						<button type="button" class="btn-i-like  ${checkLike eq 1 ? 'on' : ''}" onclick="likeToggle('${UserVO.email}','${PostVO.post_id }',this);"><i class="fa-solid fa-heart"></i></button>					
+					</div>
+					</c:if>
 			</div>
 			<div class="reply">
 				<div class="list">
