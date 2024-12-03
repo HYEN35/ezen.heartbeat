@@ -2,11 +2,12 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
-	<script>
-		<c:if test="${not empty message}">
-			alert("${message}");
-		</c:if>
-	</script>
+	 <script>
+		  	//alert
+			<c:if test="${not empty message}">
+			    alert("${message}");
+			</c:if>
+		</script>
 
 	<script>
 		// 입력값 사용 가능 여부

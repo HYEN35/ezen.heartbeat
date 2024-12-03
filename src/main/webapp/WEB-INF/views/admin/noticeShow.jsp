@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/layout.jsp"%>
+<%@ include file="../include/adminLayout.jsp" %>
 <% 
 	request.setAttribute("noticePage", "notice");
 %>
@@ -106,14 +106,14 @@
 </script>
 
 <body>
-	<div class="inner service notice-show" data-name="notice">
-		<%@ include file="../include/menu.jsp"%>
+	<div class="inner admin notice-show" data-name="notice">
+		<%@ include file="../include/admin.jsp" %>
 		<div class="container">
 			<div class="cntWrap">
 				<h2 id="title" class="title"><%=pageTitle%></h2>
 				<div class="cntArea">
 					<div class="postArea">
-						<form action="/admin/myNoticeModifyShow" method="post">
+						<form action="/admin/noticeModifyShow" method="post">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="num" value="${num }">
 							<div class="writer">${noticeVO.nickname }</div>
@@ -121,11 +121,9 @@
 							<div class="date"><fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
 							<div class="cnts">${noticeVO.content } </div>
 							<div class="btnWrap">
-								<c:if test="${UserVO.email eq noticeVO.email }">
-									<button type="submit" class="btn-full">수정하기</button>
-									<a href="/admin/myNoticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
-								</c:if>
-								<a href="/admin/mynotice?num=${num }" class="btn-border">목록</a>
+								<button type="submit" class="btn-full">수정하기</button>
+								<a href="/admin/noticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
+								<a href="/admin/notice?num=${num }" class="btn-border">목록</a>
 							</div>
 						</form>
 					</div>
@@ -147,7 +145,7 @@
 						</c:forEach>
 					</div>
 					<div class="commAdd">
-						<form action="/admin/myCommentWrite" method="post" onsubmit="return validateCommentForm()">
+						<form action="/admin/notice/commentWrite" method="post" onsubmit="return validateCommentForm()">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="email" value="${UserVO.email }">
 							<input type="hidden" name="nickname" value="${UserVO.nickname }">

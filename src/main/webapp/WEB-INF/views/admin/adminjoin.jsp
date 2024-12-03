@@ -294,7 +294,7 @@
 							</div>
 							<div class="dateBx">
 								<span class="txt">구독기간</span>
-								<input type="date" class="txtBx" name="start_date" value="${insert.start_date}">
+								<input type="date" class="txtBx" name="start_date" value="${insert.start_date}"> ~ 
 								<input type="date" class="txtBx" name="end_date" value="${insert.end_date}">
 							</div>
 							<select class="sltBx" name="role_id">

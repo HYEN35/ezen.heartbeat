@@ -37,11 +37,13 @@ public class CommunityController {
 	private UserServiceImpl userServiceImpl;
 
 	@GetMapping("/community")
-	public String community(HttpSession session,Model model) {
-		UserVO uvo = (UserVO) session.getAttribute("UserVO");
-		int level =2;
+	public String community(UserVO userVO,Model model) {
+		UserVO dbuserVO = userServiceImpl.login(userVO);
+		int level =2; 
+		System.out.println(dbuserVO);
+		
+		model.addAttribute("uvo", dbuserVO);
 		model.addAttribute("level", level);
-		model.addAttribute("uvo", uvo);
 		return "/community/community";
 		
 	}
@@ -72,10 +74,9 @@ public class CommunityController {
 					}
 				}
 			}
-			session.setAttribute("newjinsPosts", newjinsPosts);  
-			System.out.println("==============="+ newjinsPosts);
 			
-			//model.addAttribute("newjinsPosts", newjinsPosts);
+			
+			model.addAttribute("newjinsPosts", newjinsPosts);
 			model.addAttribute("newjinsfanPosts", newjinsfanPosts);
 			model.addAttribute("page", page);
 			model.addAttribute("select", num);
@@ -105,7 +106,8 @@ public class CommunityController {
 	@PostMapping("/postWrite")
 	public String postWrite(PostVO postvo, Model model, HttpServletRequest request) throws Exception {
 		communityService.postWrite(postvo);
-
+		int num = 1;
+		
 		return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
 	
@@ -168,7 +170,7 @@ public class CommunityController {
 	@ResponseBody  // 이 어노테이션을 추가하여 JSON 응답을 반환하도록 함
 	public Map<String, Object> resetPost(PostVO postVO, Model model) throws Exception {
 	
-		int checkLike = communityService.checkLike(postVO); // 좋아요 여부 확인
+		Integer checkLike = communityService.checkLike(postVO); // 좋아요 여부 확인
 		
 	    // JSON으로 데이터를 반환
 	    Map<String, Object> response = new HashMap<>();

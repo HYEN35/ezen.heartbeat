@@ -227,7 +227,8 @@ public class UserController {
 			
 			return "heartbeat/mypage"; 
 		}
-
+		
+		
 		
 		// 마이페이지 - 정보 변경
 		@PostMapping("/mypage/modify")
@@ -380,6 +381,7 @@ public class UserController {
 			model.addAttribute("noticeVO", noticeVO);
 			return "redirect:/getMyPostOne?notice_id="+noticeCommentVO.getNotice_id()+"&num=1";
 		}
+		
 		
 		// 내 공지 삭제 
 		@PostMapping("/mypage/deleteNotice")

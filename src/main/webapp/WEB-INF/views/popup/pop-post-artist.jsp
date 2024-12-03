@@ -37,7 +37,7 @@
 		postInput.value = postText.innerText.trim();
 		
 	}
-	var content = "";
+	
 	// 게시물 수정 저장 버튼
 	function popPostSaveShow(button){
 		var postDiv = button.closest('.postBx');
@@ -70,10 +70,7 @@
 				content : newPostText
 			},
 			success : function(data) {
-				alert(data.result);
-				if (data.result === "success") {
-					content = data.content;
-					
+				if (data === "success") {
 					postText.innerText = newPostText // 게시물 텍스트 업데이트
 					postInput.style.display = 'none';
 					postText.style.display = 'block';
@@ -330,13 +327,11 @@
 	    }
 	}
 	
-	
-	//==========================================
-	function popPostArtistHide(post_id) {
+	function popPostArtistHide() {
 	    // 팝업 숨기기
 	    $('.pop-post-artist').hide();
 	    $('.dimmed').hide();
-	    
+
 	    // 페이지 새로 고침
 	    location.reload(); // 페이지 새로 고침
 	}
@@ -421,7 +416,7 @@
 
 <div class="wrap">
 	<div class="topArea">
-		<button type="button" class="btn-i-close" onclick="popPostArtistHide('${PostVO.post_id}')"></button>
+		<button type="button" class="btn-i-close" onclick="popPostArtistHide();"></button>
 	</div>
 	<div class="cntArea">
 		<div class="postBx" data-post-id="${PostVO.post_id }">
@@ -443,7 +438,7 @@
 				</div>
 				<div class="arti-cnt">
 					<div class="txt">${PostVO.content}</div>
-					<textarea class="post-txtBx" name="post" style="display:none;" value="${PostVO.content }"></textarea>
+					<textarea class="post-txtBx" name="post" style="display:none;" value="${PostVO.content}"></textarea>
 				</div>
 			</div>
 		</div>
@@ -454,10 +449,27 @@
 					<div class="comm" ><i class="num">${totalComment }</i>개의 댓글</div>
 					<button type="button" class="btn-i-reset" onclick="resetArtistPopup('${UserVO.email}','${PostVO.post_id }')"><i class="fa-solid fa-rotate-right"></i></button>
 				</div>
+				<c:if test="${
+								PostVO.nickname eq '로제' 
+								or PostVO.nickname eq '리사'
+								or PostVO.nickname eq '지수'
+								or PostVO.nickname eq '제니'
+								or PostVO.nickname eq '유나'
+								or PostVO.nickname eq '예지'
+								or PostVO.nickname eq '류진'
+								or PostVO.nickname eq '리아'
+								or PostVO.nickname eq '채령'
+								or PostVO.nickname eq '혜인'
+								or PostVO.nickname eq '하니'
+								or PostVO.nickname eq '다니엘'
+								or PostVO.nickname eq '해린'
+								or PostVO.nickname eq '민지'
+								}">
 				<div class="count">
 					<div class="like"><i class="num">${totalLike }</i>개의 좋아요</div>
 					<button type="button" class="btn-i-like  ${checkLike eq 1 ? 'on' : ''}" onclick="likeToggle('${UserVO.email}','${PostVO.post_id }',this);"><i class="fa-solid fa-heart"></i></button>					
 				</div>
+				</c:if>
 			</div>
 			<div class="reply">
 				<div class="list">

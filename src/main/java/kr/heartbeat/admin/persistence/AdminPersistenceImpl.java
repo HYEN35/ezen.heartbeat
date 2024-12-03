@@ -88,24 +88,12 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	
 	//post 리스트
 	@Override
-	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("displayPost", displayPost);
-		map.put("postNum", postNum);
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
-		
+	public List<PostVO> getPostList(HashMap<String, Object> map) throws Exception {
 		return sql.selectList(namespace+ ".post_list", map);
 	}
 	
 	@Override
-	public int getPostCount(String searchType, String keyword) throws Exception {
-		HashMap map = new HashMap();
-		
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
-		
+	public int getPostCount(HashMap<String, Object> map) throws Exception {
 		return sql.selectOne(namespace + ".getPostCount", map);
 	}
 	
@@ -116,24 +104,12 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	
 	//comment 리스트
 	@Override
-	public List<CommentVO> getCommentList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("displayPost", displayPost);
-		map.put("postNum", postNum);
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
-		
+	public List<CommentVO> getCommentList(HashMap<String, Object> map) throws Exception {
 		return sql.selectList(namespace+ ".comment_list", map);
 	}
 	
 	@Override
-	public int getCommentCount(String searchType, String keyword) throws Exception {
-		HashMap map = new HashMap();
-		
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
-		
+	public int getCommentCount(HashMap<String, Object> map) throws Exception {
 		return sql.selectOne(namespace + ".getCommentCount", map);
 	}
 	
