@@ -7,13 +7,13 @@
   
 		<!-- ============================== summary ============================== -->
 	  	<select id="count_a" resultType="int">
-		    select count(email)
-		    from user_tbl
-		    where DATE(reg_date) = CURDATE();
+			select count(email)
+			from user_tbl
+			where DATE(reg_date) = CURDATE();
 		</select>
 		
 		<select id="count_b" resultType="int">
-		    select count(s.email)
+			select count(s.email)
 			from subscription_tbl s
 			join user_role_tbl u on s.email = u.email
 			where u.role_id IN (2);
