@@ -96,8 +96,6 @@
             payhide(); // 결제 완료 후 팝업 닫기
             window.location.reload();  // 페이지 새로고침
         };
-    
-
         
         function nicePay() {
             // 결제 전 확인 창

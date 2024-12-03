@@ -30,6 +30,18 @@
         pageName = "댓글 확인 - HeartBeat 관리자";
         pageTitle = "댓글 확인";
     }
+	else if (pageRequest.endsWith("/admin/notice.jsp") || pageRequest.endsWith("/admin/mynotice.jsp") || pageRequest.endsWith("/admin/myNoticeShow.jsp") || pageRequest.endsWith("/admin/noticeShow.jsp")){
+        pageName = "공지 및 문의 - HeartBeat 관리자";
+        pageTitle = "공지 및 문의";
+    }
+	else if (pageRequest.endsWith("/admin/noticePost.jsp")){
+        pageName = "공지 및 문의 - HeartBeat 관리자";
+        pageTitle = "공지 및 문의 작성";
+    }
+	else if (pageRequest.endsWith("/admin/noticeModify.jsp") || pageRequest.endsWith("/admin/myNoticeModify.jsp")){
+        pageName = "공지 및 문의 - HeartBeat 관리자";
+        pageTitle = "공지 및 문의 수정";
+    }
 %>
 
 <!DOCTYPE html>

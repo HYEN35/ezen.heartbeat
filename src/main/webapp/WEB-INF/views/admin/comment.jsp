@@ -20,6 +20,9 @@
 									<option value="content">내 용</option>
 								</select>
 								<input type="search" name="keyword" id="keyword" class="txtBx" placeholder="검색어 입력">
+								<!-- Role ID 필터 -->
+								<label><input type="checkbox" name="role_id" value="1">아티스트</label>
+								<label><input type="checkbox" name="role_id" value="2">일반 유저</label>
 								<button id="search-btn" type="button" class="btn-border">검색</button>
 							</div>
 						</div>
@@ -40,6 +43,7 @@
 									<span class="info content">내용 : <i class="elps">${cvo.comment}</i></span>
 								</div>
 								<div class="btnWrap">
+									<a href="javascript:void(0);" class="btn-border" onclick="popPostArtistShow('${cvo.post_id}', '${cvo.email}')">보기</a>
 									<button type="button" class="btn-border-01" onclick="deleteItem(${cvo.comment_id})">삭제</button>
 								</div>
 							</li>
@@ -73,28 +77,69 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-	<div class="dimmed"></div>
+	<div class="dimmed" onclick="dimmedHide();"></div>
+
+	<!-- [D] 팝업 아티스트 포스트 -->
+	<div class="popup pop-post-artist"><%@ include file="../popup/pop-post-artist.jsp" %></div>
 
 	<script>
-    // 댓글 삭제
-	function deleteItem(commentId) {
-	    if (confirm('댓글 번호 ' + commentId + '을 삭제하시겠습니까?')) {
-	        // 삭제 요청을 서버로 보냄
-	        window.location.href = '/admin/comment/delete?comment_id=' + commentId;
-	    }
-	}
-    
-	//검색
-	$(function(){
+		//팝업 아티스트포스트
+		function popPostArtistShow(post_id,email){
+			// AJAX 요청으로 데이터를 가져옵니다.
+			
+			$.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
+				console.log(data); // 반환된 데이터 확인
+				// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
+				const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
+				console.log(newContent); // newContent 확인
+				$('.pop-post-artist .cntArea').html(newContent);
+				
 		
-		$('#search-btn').click(function(){
-			var searchType = $('#searchType').val();
-			var keyword = $('#keyword').val();				
-			location.href="/admin/comment?num=1&searchType="+searchType+"&keyword="+keyword;
+				
+		
+				// 팝업을 보여줍니다.
+			}).fail(function() {
+				console.error('Error loading post data.');
+			});
+			
+			$('.pop-post-artist').show();
+			$('.dimmed').show();
+		
+		}
+		
+		// 댓글 삭제
+		function deleteItem(commentId) {
+			if (confirm('댓글 번호 ' + commentId + '을 삭제하시겠습니까?')) {
+				// 삭제 요청을 서버로 보냄
+				window.location.href = '/admin/comment/delete?comment_id=' + commentId;
+			}
+		}
+
+		//검색, 필터(체크박스-아티스트,유저)
+		$(function() {
+			$('#search-btn').click(function() {
+				var searchType = $('#searchType').val();
+				var keyword = $('#keyword').val();
+				
+				// 체크된 role_id 값 가져오기
+				var roleIds = [];
+				$('input[name="role_id"]:checked').each(function() {
+					roleIds.push($(this).val());
+				});
+
+				// role_id 파라미터 추가
+				var roleIdParam = roleIds.length > 0 ? "&role_id=" + roleIds.join(",") : "";
+
+				location.href = "/admin/comment?num=1&searchType=" + searchType + "&keyword=" + keyword + roleIdParam;
+			});
 		});
-		
-	});
+
+		function dimmedHide(){
+			$('.popup').hide();
+			$('.dimmed').hide();
+		};
 	</script>
 </body>
 </html>

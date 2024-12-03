@@ -31,6 +31,9 @@
 				<div class="name"><p>${UserVO.nickname }</p></div>
 			</div>
 			<div class="dropMenu">
+			<c:if test="${UserVO.email eq 'admin' }">
+                <a href="/admin/summary" class="btn-under-02">관리자페이지</a>
+            </c:if>
 			<a href="/logout" class="btn-under-02">로그아웃</a>
 			</div>
 		</div>

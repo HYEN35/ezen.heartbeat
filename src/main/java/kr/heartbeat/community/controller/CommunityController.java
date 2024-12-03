@@ -65,12 +65,30 @@ public class CommunityController {
 		List<PostVO> newjinsfanPosts = communityService.getNewjeansFanPostList(page.getDisplayPost(), page.getPostNum()); // 뉴진스 팬 게시물
 		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
 		String artist_name = communityService.getArtistName(uservo.getArtist_id()); // 구독중인 아티스트 이름 가져오기
-		
-		
+
+
 		//artistVO art_name = communityService.getLevel(uservo);
 
 		String url = null;
 		List<PostVO> newjinsPosts = new ArrayList<>(); // 민지 게시물
+		if (uservo.getEmail().equals("admin")) {
+			// 게시물 나누기
+			for (PostVO post : postList) {
+				if (post.getArtist_id() == 20109) {
+					if ("minji".equals(post.getEmail()) || "hanni".equals(post.getEmail()) || "danielle".equals(post.getEmail()) || "haerin".equals(post.getEmail()) || "hyein".equals(post.getEmail()) ) {
+						newjinsPosts.add(post);
+					}
+				}
+			}
+
+
+			model.addAttribute("newjinsPosts", newjinsPosts);
+			model.addAttribute("newjinsfanPosts", newjinsfanPosts);
+			model.addAttribute("page", page);
+			model.addAttribute("select", num);
+			return "/community/artist/newjeans";
+		}
+
 
 		if (uservo.getArtist_id() == 20109) {
 			// 게시물 나누기
@@ -81,8 +99,8 @@ public class CommunityController {
 					}
 				}
 			}
-			
-			
+
+
 			model.addAttribute("newjinsPosts", newjinsPosts);
 			model.addAttribute("newjinsfanPosts", newjinsfanPosts);
 			model.addAttribute("page", page);
@@ -100,7 +118,7 @@ public class CommunityController {
 	@PostMapping("/newjeansPostWrite")
 	public String newjeansPostWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
 		//프로필 이미지 저장 경로 지정
-				String realPath="C:\\upload\\";
+				String realPath="C:\\heartbeat-upload\\";
 				String file1,file2="";
 				
 				if(postImg !=null && !postImg.isEmpty()) {
@@ -114,23 +132,39 @@ public class CommunityController {
 				
 				return "redirect:/community/artist/newjeans?email="+postvo.getEmail()+"&num=1";
 	}
-	
+
 	// 있지 페이지 들어가면서 게시물 가져오기
 	@RequestMapping("/artist/itzy")
 	public String itzy(@RequestParam("num")int num,Model model,HttpSession session) throws Exception {
 		UserVO uservo = (UserVO) session.getAttribute("UserVO");
 		PageDTO page = new PageDTO();
 		page.setNum(num);
-		page.setCount(communityService.getItzyFanPostCount()); // 있지 팬 게시물 개수 
+		page.setCount(communityService.getItzyFanPostCount()); // 있지 팬 게시물 개수
 		List<PostVO> itzyFanPosts = communityService.getItzyFanPostList(page.getDisplayPost(), page.getPostNum()); // 있지 팬 게시물
-		List<PostVO> postList = communityService.getPostList(); // 전체 게시물 
+		List<PostVO> postList = communityService.getPostList(); // 전체 게시물
 		String artist_name = communityService.getArtistName(uservo.getArtist_id()); // 구독중인 아티스트 이름 가져오기
-		
-		
-		//artistVO art_name = communityService.getLevel(uservo);
+
 
 		String url = null;
 		List<PostVO> itzyPosts = new ArrayList<>(); // 있지 게시물
+
+		if ("admin".equals(uservo.getEmail())) {
+			// 게시물 나누기
+			for (PostVO post : postList) {
+				if (post.getArtist_id() == 20117) {
+					if ("chaeryeong".equals(post.getEmail()) || "lia".equals(post.getEmail()) || "ryujin".equals(post.getEmail()) || "yeji".equals(post.getEmail()) || "yuna".equals(post.getEmail()) ) {
+						itzyPosts.add(post);
+					}
+				}
+			}
+
+
+			model.addAttribute("itzyPosts", itzyPosts);
+			model.addAttribute("itzyFanPosts", itzyFanPosts);
+			model.addAttribute("page", page);
+			model.addAttribute("select", num);
+			return "/community/artist/itzy";
+		}
 
 		if (uservo.getArtist_id() == 20117) {
 			// 게시물 나누기
@@ -141,27 +175,27 @@ public class CommunityController {
 					}
 				}
 			}
-			
-			
+
+
 			model.addAttribute("itzyPosts", itzyPosts);
 			model.addAttribute("itzyFanPosts", itzyFanPosts);
 			model.addAttribute("page", page);
 			model.addAttribute("select", num);
-			url = "/community/artist/itzy";;
+			url = "/community/artist/itzy";
 		} else {
 			model.addAttribute("artist_name", artist_name);
 			url = "/community/community";
 		}
 
 		return url;
-		
+
 	}
 	
 	// 있지 게시물 작성
 	@PostMapping("/itzyPostWrite")
 	public String itzyPostWrite(PostVO postvo, Model model, HttpServletRequest request,@RequestParam("post_Img") MultipartFile postImg) throws Exception {
 		//프로필 이미지 저장 경로 지정
-		String realPath="C:\\upload\\";
+		String realPath="C:\\heartbeat-upload\\";
 		String file1,file2="";
 		
 		if(postImg !=null && !postImg.isEmpty()) {
@@ -216,7 +250,7 @@ public class CommunityController {
 	}
 
 	private String saveImage(MultipartFile file) throws IOException {
-	    String uploadDir = "C:\\upload\\";
+	    String uploadDir = "C:\\heartbeat-upload\\";
 	    String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 	    Path path = Paths.get(uploadDir + fileName);
 	    Files.copy(file.getInputStream(), path);

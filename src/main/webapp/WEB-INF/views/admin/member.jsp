@@ -2,6 +2,11 @@
 <%@ include file="../include/adminLayout.jsp" %>
 
 <body>
+    <c:if test="${not empty success}">
+		<script type="text/javascript">
+			alert("회원정보가 수정되었습니다.");
+		</script>
+	</c:if>
 	<div class="inner admin member-user" data-name="member">
 		<%@ include file="../include/admin.jsp" %>
 		<div class="container">
@@ -31,7 +36,6 @@
 									<button id="search-btn" type="button" class="btn-border">검색</button>
 								</div>
 								<div class="btnBx">
-									<!-- [D] 신규등록 미정 -->
 									<a href="/admin/adminjoin" class="btn-full">신규등록</a>
 								</div>
 							</div>
@@ -99,16 +103,24 @@
 	    }
 	}
    
-	//검색
-	$(function(){
-		
-		$('#search-btn').click(function(){
-			var searchType = $('#searchType').val();
-			var keyword = $('#keyword').val();				
-			location.href="/admin/member?num=1&searchType="+searchType+"&keyword="+keyword;
-		});
-		
-	});
+	//검색, 필터(체크박스-아티스트,유저)
+    $(function() {
+        $('#search-btn').click(function() {
+            var searchType = $('#searchType').val();
+            var keyword = $('#keyword').val();
+
+            // 체크된 role_id 값 가져오기
+            var roleIds = [];
+            $('input[name="role_id"]:checked').each(function() {
+                roleIds.push($(this).val());
+            });
+
+            // role_id 파라미터 추가
+            var roleIdParam = roleIds.length > 0 ? "&role_id=" + roleIds.join(",") : "";
+
+            location.href = "/admin/member?num=1&searchType=" + searchType + "&keyword=" + keyword + roleIdParam;
+        });
+    });
 </script>
 </body>
 </html>

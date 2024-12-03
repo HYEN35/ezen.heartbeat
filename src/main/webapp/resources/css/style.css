@@ -65,7 +65,8 @@ br.mob{display:none}
 .menu .userCnt .name{position:relative;padding-right:14px}
 .menu .userCnt .name:before{position:absolute;top:50%;right:0;font-family:FontAwesome;transform:translateY(-50%);content:"\f0d7"}
 .menu .userCnt .dropMenu{display:none;position:absolute;top:64px;left:40px;width:160px;padding:10px;background:#333;border-radius:10px}
-.menu .userCnt .dropMenu>a{line-height:unset}
+.menu .userCnt .dropMenu>a{margin-left:10px;line-height:unset}
+.menu .userCnt .dropMenu>a+a{margin-top:10px}
 .menu .menuCnt>ul{overflow:auto;height:calc(100vh - 252px)}
 .menu .menuCnt .item{height:30px;margin-bottom:20px;font-size:16px}
 .menu .menuCnt .item>a{text-align:left}
@@ -221,7 +222,7 @@ br.mob{display:none}
 [class*="artist-"] .section-fan-post .postBx{width:100%;margin-top:20px}
 [class*="artist-"] .section-fan-post .postBx:first-child{margin-top:0}
 [class*="artist-"] .section-fan-post .date{margin-left:auto;color:#737373;font-size:12px}
-[class*="artist-"] .section-fan-post .postBx .fan-cnt img{max-width:100%;max-height:100%;object-fit:contain}
+[class*="artist-"] .section-fan-post .postBx .fan-cnt img{max-width:80%;max-height:80%;object-fit:contain}
 
 /*포스트박스 common*/
 .postBx{padding:20px;background:#fff;border-radius:10px}
@@ -420,7 +421,7 @@ br.mob{display:none}
 [class*="pop-post-"] .postBx .btn-i-edit:hover,
 [class*="pop-post-"] .postBx .btn-i-trash:hover{color:#000}
 [class*="pop-post-"] .postBx .arti-profile{position:static;margin-right:10px;transform:translateY(0)}
-[class*="pop-post-"] .postBx .arti-cnt{overflow:auto;max-height:400px;padding:0 10px}
+[class*="pop-post-"] .postBx .arti-cnt{overflow:auto;max-height:500px;padding:0 10px}
 [class*="pop-post-"] .postBx .arti-date,
 [class*="pop-post-"] .replyBx .date{margin-left:auto;color:#737373;font-size:12px}
 [class*="pop-post-"] .postBx .fan-comment .txtBx{width:100%}
@@ -442,7 +443,7 @@ br.mob{display:none}
 [class*="pop-post-"] .replyBx .input .txtBx{width:calc(100% - 50px);margin-right:10px;padding:0 10px;background:#ededed;border-radius:20px;border:none}
 [class*="pop-post-"] .replyBx .input .btn-i-send{width:40px;height:40px;padding:0;background:#ededed;color:#333;border-radius:50%}
 [class*="pop-post-"] .arti-cnt .txt{margin-bottom:10px}
-[class*="pop-post-"] .arti-cnt .thumb{max-width:100%;max-height:100%;cursor:pointer}
+[class*="pop-post-"] .arti-cnt .thumb{max-width:50%;max-height:50%;cursor:pointer}
 
 .post-img-upload{width:100%}
 .post-img-upload::file-selector-button{width:100px;height:30px;background:#fff;color:#ff1493;border:1px solid #ff1493;border-radius:10px;cursor:pointer}
