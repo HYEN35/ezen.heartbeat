@@ -112,8 +112,8 @@
   	</select>
   	
   		
-  	<select id="getLevel" resultType="kr.heartbeat.vo.UserVO" parameterType="kr.heartbeat.vo.PostVO">
-  		select * from user_tbl where email = #{email}
+  	<select id="getArtistName" resultType="String" parameterType="int">
+  		select art_name from artist_tbl where artist_id = #{artist_id}
   	</select>
   	
   	<insert id="commentWrite" parameterType="kr.heartbeat.vo.CommentVO">
