@@ -72,7 +72,7 @@ public class MembershipController {
         //ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         //String responseBody = responseEntity.getBody();
         session.setAttribute("UserVO", newdbuserVO);
-        return "redirect/purchase";
+        return "redirect:/purchase";
     	}
 	
 		@PostMapping("/streamingPay")

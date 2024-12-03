@@ -1,6 +1,5 @@
 package kr.heartbeat.admin.service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,7 @@ import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
-import kr.heartbeat.vo.RoleVO;
-import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
-import kr.heartbeat.vo.UserroleVO;
 import kr.heartbeat.vo.UserroleVO;
 
 @Service
@@ -177,6 +173,24 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public UserVO nicknameCheck(String nickname) {
 		return persistence.nicknameCheck(nickname);
+	}
+
+	@Override
+	public int getStaffCount(String searchType, String keyword) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<UserVO> getStaffList(int displayPost, int postNum, String searchType, String keyword) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void staffdelete(String email) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 

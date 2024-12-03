@@ -211,6 +211,6 @@
 	<!-- [D] 팝업 팬 포스트 -->
 	<div class="popup pop-post-fan"><%@ include file="../../popup/pop-post-fan.jsp" %></div>
 	<!-- [D] 팝업 포스트작성 -->
-	<div class="popup pop-post-itzy"><%@ include file="../../popup/pop-post-itzy.jsp" %></div>
+	<div class="popup pop-post itzy"><%@ include file="../../popup/pop-post-itzy.jsp" %></div>
 </body>
 </html>

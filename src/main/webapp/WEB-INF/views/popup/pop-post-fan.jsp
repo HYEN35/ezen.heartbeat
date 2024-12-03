@@ -368,7 +368,7 @@ function closePopup() {
 	
 	function popPostFanHide() {
 	    // 팝업 숨기기
-	    $('.pop-post-artist').hide();
+	    $('.pop-post-fan').hide();
 	    $('.dimmed').hide();
 
 	    // 페이지 새로 고침
@@ -435,7 +435,6 @@ function closePopup() {
 			<div class="arti-comment">
 				<div class="arti-top">
 					<div class="arti-profile"><img src="/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
-					<span class="arti-mark"><span class="blind">artist</span></span>
 					<span class="arti-name"> ${PostVO.nickname }</span>
 					<span class="arti-date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></span>
 					<c:if test="${PostVO.nickname eq UserVO.nickname}">

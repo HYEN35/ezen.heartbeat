@@ -76,7 +76,7 @@
         // 결제 정보 서버로 전송 (AJAX 요청)
         $.ajax({
             type: 'POST',
-            url: '/membership/streamingPay',  // 결제 정보 처리 서버 URL
+            url: '/purchase/streamingPay',  // 결제 정보 처리 서버 URL
             contentType: 'application/json',
             data: JSON.stringify({
             	custom_data : 0,
@@ -98,41 +98,6 @@
         };
     
 
-        function naverPay() {
-        	// select 박스에서 선택된 값 가져오기
-            if (confirm("구매 하시겠습니까?")) { 
-                getAccessToken().then(function(accessToken) {
-                    if (accessToken) {
-                        IMP.init("imp72743015");  // 아이엠포트 가맹점 식별 코드
-
-                        IMP.request_pay({
-                            pg: 'kakaopay.TC0ONETIME',  // 카카오페이 결제 방식
-                            pay_method: 'card',         // 결제 방식 (카드 결제)
-                            merchant_uid: makeMerchantUid(),  // 고유 결제 ID
-                            name: '스트리밍 구독권(1개월)',  // 상품명
-                            amount: 3900,               // 결제 금액
-                            buyer_email: email,         // 구매자 이메일
-                            buyer_name: name,           // 구매자 이름
-                            buyer_tel : phone,			// 구매자 번호 
-                            access_token: accessToken   // 엑세스 토큰 추가
-                        }, function(rsp) {
-                            console.log(rsp.status);  // 결제 응답 객체 출력
-                            console.log(rsp.approvalRedirectParams);  // 결제 응답 객체 출력
-                            console.log(rsp.pgToken);  // 결제 응답 객체 출력
-                            if (rsp.success) {
-                                console.log("결제 성공:", rsp);
-                                // 결제 성공 시 처리 함수 호출
-                                streamingPaymentSuccess(rsp); 
-                            } else {
-                                alert(rsp.error_msg);  // 결제 실패 시 에러 메시지 출력
-                            }
-                        });
-                    } 
-                })
-            } else {
-                return false;  // 구매 취소
-            }
-        }
         
         function nicePay() {
             // 결제 전 확인 창
@@ -175,7 +140,7 @@
             // 결제 결과를 서버로 전송 (AJAX 요청)
             $.ajax({
                 type: 'POST',
-                url: '/membership/streamingPay',  // 결제 정보 처리 서버 URL
+                url: '/purchase/streamingPay',  // 결제 정보 처리 서버 URL
                 contentType: 'application/json',
                 data: JSON.stringify({
                 	custom_data : 0,
@@ -209,11 +174,3 @@
 		</div>
 	</div>
 </div>
-
-<!--  <div class="wrap">
-    <div>결제 페이지</div>
-    <div>${UserVO.email }</div>
-    <input type="button" id="naverPayBtn" value="네이버페이 결제 버튼">
-    <input type="button" onclick="kakaoPay()" value="카카오페이 결제 버튼">
-    <input type="button" value="토스 결제 버튼">
-</div>-->
