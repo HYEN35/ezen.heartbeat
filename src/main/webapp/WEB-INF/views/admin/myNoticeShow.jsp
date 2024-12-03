@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/layout.jsp"%>
+<%@ include file="../include/adminLayout.jsp" %>
 <% 
 	request.setAttribute("noticePage", "notice");
 %>
@@ -106,14 +106,14 @@
 </script>
 
 <body>
-	<div class="inner service notice-show" data-name="notice">
-		<%@ include file="../include/menu.jsp"%>
+	<div class="inner admin notice-show" data-name="notice">
+		<%@ include file="../include/admin.jsp" %>
 		<div class="container">
 			<div class="cntWrap">
 				<h2 id="title" class="title"><%=pageTitle%></h2>
 				<div class="cntArea">
 					<div class="postArea">
-						<form action="/admin/myNoticeModifyShow" method="post">
+						<form action="myNoticeModifyShow" method="post">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="num" value="${num }">
 							<div class="writer">${noticeVO.nickname }</div>

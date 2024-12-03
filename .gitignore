@@ -3,9 +3,7 @@
 .classpath
 .factorypath
 .vscode/settings.json
-=======
 .idea/.gitignore
->>>>>>> origin/kimhonghyun
 .idea/compiler.xml
 .idea/dbnavigator.xml
 .idea/jarRepositories.xml

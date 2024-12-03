@@ -67,6 +67,9 @@ br.mob{display:none}
 .menu .userCnt .dropMenu{display:none;position:absolute;top:64px;left:40px;width:160px;padding:10px;background:#333;border-radius:10px}
 .menu .userCnt .dropMenu>a{line-height:unset}
 .menu .menuCnt>ul{overflow:auto;height:calc(100vh - 252px)}
+.menu .userCnt .dropMenu{display:none;position:absolute;top:64px;left:40px;width:160px;padding:10px;background:#333;border-radius:10px}
+.menu .userCnt .dropMenu>a{line-height:unset}
+.menu .menuCnt>ul{overflow:auto;height:calc(100vh - 252px)}
 .menu .menuCnt .item{height:30px;margin-bottom:20px;font-size:16px}
 .menu .menuCnt .item>a{text-align:left}
 .menu .menuCnt .item>a.on{color:#ff1493}

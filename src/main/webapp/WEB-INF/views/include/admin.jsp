@@ -10,6 +10,12 @@
     String staff = menuPageRequest.endsWith("staff.jsp") ? "on" : "";
     String post = menuPageRequest.endsWith("post.jsp") ? "on" : "";
     String comment =	menuPageRequest.endsWith("comment.jsp") ? "on" : "";
+    String notice =	menuPageRequest.endsWith("notice.jsp") ||
+			menuPageRequest.endsWith("noticeModify.jsp") ||
+			menuPageRequest.endsWith("noticePost.jsp") ||
+			menuPageRequest.endsWith("noticeShow.jsp") ||
+			menuPageRequest.endsWith("myNoticeModify.jsp") ||
+			menuPageRequest.endsWith("myNoticeShow.jsp") ? "on" : "";
 %>
 
 <div id="menu" class="menu">
@@ -33,6 +39,7 @@
 				</li>
 	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/post" class="<%=post %>"><i class="fa-solid fa-list-check"></i>게시글 확인</a></li>
 	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/comment" class="<%=comment %>"><i class="fa-solid fa-comments"></i>댓글 확인</a></li>
+	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/notice?num=1" class="<%=notice %>"><i class="fa-solid fa-bell"></i>공지 및 문의</a></li>
 	   		</ul>
 	   	</div>
 	</div>

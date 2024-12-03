@@ -31,7 +31,6 @@
 									<button id="search-btn" type="button" class="btn-border">검색</button>
 								</div>
 								<div class="btnBx">
-									<!-- [D] 신규등록 미정 -->
 									<a href="/admin/adminjoin" class="btn-full">신규등록</a>
 								</div>
 							</div>

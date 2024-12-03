@@ -21,6 +21,7 @@ public class SpotifyController {
     @GetMapping("/chart")
     public String getPlaylistTrackInfo(Model model) {
     	// 일일 차트 -  https://open.spotify.com/playlist/37i9dQZEVXbNxXF4SkHj9F
+    	// 일일 차트 -  https://open.spotify.com/playlist/37i9dQZEVXbNxXF4SkHj9F
     	// 주간 차트 - https://open.spotify.com/playlist/37i9dQZEVXbJZGli0rRP3r
     	// 바이럴 차트 - https://open.spotify.com/playlist/37i9dQZEVXbM1H8L6Tttw9
         String playlistIdDay = "3h7SuxH8p6y5sxYsBCW2ZG"; 
