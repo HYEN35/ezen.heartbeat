@@ -113,7 +113,7 @@
 				<h2 id="title" class="title"><%=pageTitle%></h2>
 				<div class="cntArea">
 					<div class="postArea">
-						<form action="/myNoticeModifyShow" method="post">
+						<form action="/admin/myNoticeModifyShow" method="post">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="num" value="${num }">
 							<div class="writer">${noticeVO.nickname }</div>
@@ -123,9 +123,9 @@
 							<div class="btnWrap">
 								<c:if test="${UserVO.email eq noticeVO.email }">
 									<button type="submit" class="btn-full">수정하기</button>
-									<a href="/myNoticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
+									<a href="/admin/myNoticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
 								</c:if>
-								<a href="/mynotice?num=${num }" class="btn-border">목록</a>
+								<a href="/admin/mynotice?num=${num }" class="btn-border">목록</a>
 							</div>
 						</form>
 					</div>
@@ -147,7 +147,7 @@
 						</c:forEach>
 					</div>
 					<div class="commAdd">
-						<form action="/myCommentWrite" method="post" onsubmit="return validateCommentForm()">
+						<form action="/admin/myCommentWrite" method="post" onsubmit="return validateCommentForm()">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="email" value="${UserVO.email }">
 							<input type="hidden" name="nickname" value="${UserVO.nickname }">

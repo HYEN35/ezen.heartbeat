@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/vendor/slick-theme.css">
 <script src="${pageContext.request.contextPath}/js/vendor/slick.min.js"></script>
 
-<body>		
+<body>	
 	<div class="inner service artist-newjeans" data-name="community">
 		<%@ include file="../../include/menu.jsp" %>
 		<div class="container">
@@ -27,14 +27,15 @@
 							                <input type="hidden" name="post_id" value="${newjinsVO.post_id}"/>
 											<a href="javascript:void(0);" onclick="popPostArtistShow('${newjinsVO.post_id}','${UserVO.email }');">
 												<div>
-													<div class="arti-profile"><img src="${pageContext.request.contextPath}/img/artist/nj_mj.jpeg" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
+													<div class="arti-profile">
+													<img src="${pageContext.request.contextPath}/upload/${newjinsVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
 													<div class="arti-comment">
 														<div class="arti-top">
 															<span class="arti-mark"><span class="blind">artist</span></span>
-															<span class="arti-name">${newjinsVO.nickname }</span>
+															<span class="arti-name">${newjinsVO.nickname}</span>
 														</div>
 														<div class="arti-cnt">
-															<div class="txt">${newjinsVO.content }</div>
+															<div class="txt">${newjinsVO.content}</div>
 														</div>
 													</div>
 												</div>
@@ -65,7 +66,9 @@
 													</div>
 													<div class="fan-comment">
 														<div class="fan-cnt">
-															<img src="/upload/${PostVO.post_img}" alt="게시판 이미지" style="width:100%;"><br><br>
+															<c:if test="${not empty PostVO.post_img}">
+																<img src="/upload/${PostVO.post_img}" alt="게시판 이미지"><br><br> 	
+															</c:if>
 															<div class="txt">${PostVO.content }</div>
 														</div>
 													</div>
@@ -164,11 +167,6 @@
 			
 			$('.pop-post-artist').show();
 			$('.dimmed').show();
-
-		}
-		function popPostArtistHide(){
-			$('.pop-post-artist').hide();
-			$('.dimmed').hide();
 		}
 
 		//팝업 팬포스트작성
@@ -196,15 +194,11 @@
 		    }).fail(function() {
 		        console.error('Error loading post data.');
 		    });
-		        $('.pop-post-fan').show();
-		        $('.dimmed').show();
+            $('.pop-post-fan').show();
+            $('.dimmed').show();
 			
 			//uploadFileName();
 			multipleUploadFile();
-		}
-		function popPostFanHide(){
-			$('.pop-post-fan').hide();
-			$('.dimmed').hide();
 		}
 	</script>
 </body>

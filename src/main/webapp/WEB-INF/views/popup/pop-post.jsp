@@ -7,12 +7,12 @@
 	<div class="topArea">
 		<div class="title">
 			<p>포스트 쓰기</p>
-			<p class="artiName"><%=pageTitle %></p>
+			<p class="artiName">Newjeans</p>
 		</div>
 		<button type="button" class="btn-i-close" onclick="popPostHide();"></button>
 	</div>
 	<div class="cntArea">
-		<form action="/community/postWrite" method="post" enctype="multipart/form-data" name="popPost">
+		<form action="/community/newjeansPostWrite" method="post" enctype="multipart/form-data" name="popPost">
 			<input type="hidden" name="email" value="${UserVO.email }">
 			<input type="hidden" name="artist_id" value="${UserVO.artist_id}">
 			<input type="hidden" name="nickname" value="${UserVO.nickname}">

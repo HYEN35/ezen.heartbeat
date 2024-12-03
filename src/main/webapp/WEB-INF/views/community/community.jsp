@@ -2,6 +2,12 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
+	<c:if test="${not empty artist_name}">
+	    <script type="text/javascript">
+	        alert("구독중인 아티스트는 ${artist_name}입니다. ${artist_name} 페이지를 이용해주세요");
+	    </script>
+	</c:if>
+
 	<script>
 		$(function(){
 			popAlertPurchaseShow();
@@ -40,7 +46,6 @@
 					<div class="section-artist">
 						<p class="tit">당신의 아티스트를 만나보세요!</p>
 						<div class="artistList">
-							<button type="button" class="btn-under-01" onclick="popAddArtistShow();">아티스트 추가 요청</button>
 							<ul>
 								<li class="item">
 									<a href="${pageContext.request.contextPath}/community/artist/newjeans?num=1">
@@ -54,17 +59,9 @@
 										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/itzy.jpg" alt="newjeans"></div>
 										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/Itzy_logo.png" alt="newjeans"></div>
 										<div class="artistName"><i>있지</i></div>
-									<a href="${pageContext.request.contextPath}/community/artist/itzy?num=1">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/itzy.jpg" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/Itzy_logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>있지</i></div>
 									</a>
 								</li>
 								<li class="item">
-									<a href="${pageContext.request.contextPath}/community/artist/blackpink?num=1">
-										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/blackpink.png" alt="newjeans"></div>
-										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/blackpink-logo.png" alt="newjeans"></div>
-										<div class="artistName"><i>블랙핑크</i></div>
 									<a href="${pageContext.request.contextPath}/community/artist/blackpink?num=1">
 										<div class="artist"><img src="${pageContext.request.contextPath}/img/artist/blackpink.png" alt="newjeans"></div>
 										<div class="artistLogo"><img src="${pageContext.request.contextPath}/img/artist/blackpink-logo.png" alt="newjeans"></div>

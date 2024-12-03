@@ -33,6 +33,7 @@
 .admin .searchWrap .searchBx{display:flex;justify-content:space-between;align-items:center}
 .admin .searchWrap .searchBx .sltBx{width:100px;margin-right:10px}
 .admin .searchWrap .searchBx .txtBx{margin-right:10px}
+.admin .searchWrap .searchBx label{margin-right:10px}
 .admin .searchWrap .btnBx{display:flex;justify-content:space-between;align-items:center}
 .admin .midCnt .item .infoWrap .content .elps{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;cursor:default}
 
@@ -51,8 +52,8 @@
 
 /*회원수정*/
 .editMember .midCnt{width:400px;margin:0 auto}
-.editMember .infoWrap .txtBx{width:100%}
-.editMember .infoWrap .txtBx+.txtBx{margin-top:15px}
+.editMember .infoWrap>p{margin-bottom:5px}
+.editMember .infoWrap .txtBx{width:100%;margin-bottom:10px}
 .editMember .btnWrap{display:flex;justify-content:end;align-items:center;margin-top:20px}
 
 /*회원가입*/
@@ -123,3 +124,41 @@
 [class*="member-"] .tabCnt .searchWrap .searchBx .txtBx{margin-right:10px}
 [class*="member-"] .tabCnt .searchWrap .searchBx label{margin-right:10px}
 [class*="member-"] .tabCnt .searchWrap .btnBx{display:flex;justify-content:flex-start;align-items:center}
+
+/*공지문의사항*/
+[class*="notice-"] .tabBtn{margin-bottom:20px;padding:20px;background:#fff;border-radius:20px}
+[class*="notice-"] .tabBtn>ul{display:flex;justify-content:start;align-items:center}
+[class*="notice-"] .tabBtn .tab{margin-right:20px;font-size:16px;font-weight:500;cursor:pointer}
+[class*="notice-"] .tabBtn .tab.on{color:#ff1493}
+[class*="notice-"] .tabCnt{padding:20px;background:#fff;border-radius:20px}
+[class*="notice-"] .tabCnt .cntBx{display:none}
+[class*="notice-"] .tabCnt .cntBx.on{display:block}
+
+/*공지사항*/
+.notice-list .container .cntArea{padding:0;background:transparent}
+
+/*내문의글확인*/
+.my-notice .container .cntArea{padding:0;background:transparent}
+
+/*공지사항 작성글 보기*/
+.notice-show .cntArea{padding:20px;background:#fff;border-radius:20px}
+.notice-show .cntArea .postArea .btnWrap{display:flex;justify-content:flex-end;align-items:center;margin-top:20px}
+.notice-show .cntArea .postArea .tit{margin-bottom:5px;font-size:18px;font-weight:700}
+.notice-show .cntArea .postArea .writer,
+.notice-show .cntArea .postArea .date{color:#444;font-size:14px;font-weight:500}
+.notice-show .cntArea .postArea .cnts{margin-top:20px;padding:20px;background:#f1f1f1;border-radius:20px}
+.notice-show .cntArea .commentArea{margin-top:40px;padding-top:40px;border-top:1px solid #ddd}
+.notice-show .cntArea .commentArea .item{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f1f1f1}
+.notice-show .cntArea .commentArea .writer{width:100%;font-size:14px}
+.notice-show .cntArea .commentArea .date{width:100%;color:#444;font-size:12px}
+.notice-show .cntArea .commentArea .cnts{width:100%;margin:10px 0;font-weight:500}
+.notice-show .cntArea .commentArea .cnts .txtBx{width:100%}
+.notice-show .cntArea .commentArea .saveButton,
+.notice-show .cntArea .commentArea .editButton{margin-left:auto}
+.notice-show .cntArea .commAdd{display:flex;justify-content:flex-end;align-items:center}
+.notice-show .cntArea .commAdd>form{width:100%}
+.notice-show .cntArea .commAdd .txtBx{width:100%}
+.notice-show .cntArea .commAdd .btn-normal{margin-left:auto;margin-top:10px}
+
+.notice-edit .cntArea .tit,
+.notice-post .cntArea .tit{font-size:16px}

@@ -38,29 +38,58 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 	}
 	
 	@Override // 뉴진스 팬 게시물  가져오기
-	public List<PostVO> getFanPostList(int displayPost, int postNum) throws Exception {
+	public List<PostVO> getNewjeansFanPostList(int displayPost, int postNum) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 	    map.put("minji", "minji");
 	    map.put("haerin", "haerin");
 	    map.put("hanni", "hanni");
 	    map.put("danielle", "danielle");
 	    map.put("hyein", "hyein");
+	    map.put("hanni", "hanni");
+	    map.put("danielle", "danielle");
+	    map.put("hyein", "hyein");
 	    map.put("displayPost", displayPost);
 	    map.put("postNum", postNum);
-	    return sql.selectList(namespace+".getFanPostList", map);
+	    return sql.selectList(namespace+".getNewjeansFanPostList", map);
 	}
 	
-	@Override //팬 게시물 개수 가져오기 
-	public int getFanPostCount() throws Exception {
+	@Override //뉴진스 팬 게시물 개수 가져오기 
+	public int getNewjeansFanPostCount() throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("minji", "minji");
 		map.put("haerin", "haerin");
 		map.put("hanni", "hanni");
 	    map.put("danielle", "danielle");
 	    map.put("hyein", "hyein");
-		int count = sql.selectOne(namespace+".getFanPostCount",map);
+		int count = sql.selectOne(namespace+".getNewjeansFanPostCount",map);
 		return count;
 	}
+	
+	@Override // 있지 팬 게시물  가져오기
+	public List<PostVO> getItzyFanPostList(int displayPost, int postNum) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+	    map.put("chaeryeong", "chaeryeong");
+	    map.put("lia", "lia");
+	    map.put("ryujin", "ryujin");
+	    map.put("yeji", "yeji");
+	    map.put("yuna", "yuna");
+	    map.put("displayPost", displayPost);
+	    map.put("postNum", postNum);
+	    return sql.selectList(namespace+".getItzyFanPostList", map);
+	}
+	
+	@Override //있지 팬 게시물 개수 가져오기 
+	public int getItzyFanPostCount() throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("chaeryeong", "chaeryeong");
+	    map.put("lia", "lia");
+	    map.put("ryujin", "ryujin");
+	    map.put("yeji", "yeji");
+	    map.put("yuna", "yuna");
+		int count = sql.selectOne(namespace+".getItzyFanPostCount",map);
+		return count;
+	}
+	
 	
 	@Override // 게시물 하나 가져오기
 	public PostVO getPost(PostVO postVO) throws Exception {
@@ -78,9 +107,9 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		sql.delete(namespace+".deletePost", post_id);
 	}
 	
-	@Override // 구독 등급 가져오기
-	public UserVO getLevel(UserVO uservo) throws Exception {
-		return sql.selectOne(namespace+".getLevel",uservo);
+	@Override // 구독 중인 아티스트 이름 가져오기
+	public String getArtistName(int artist_id) throws Exception {
+		return sql.selectOne(namespace+".getArtistName",artist_id);
 	}
 	
 	@Override // 댓글 작성

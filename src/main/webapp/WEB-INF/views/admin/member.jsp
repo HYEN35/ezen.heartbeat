@@ -2,6 +2,11 @@
 <%@ include file="../include/adminLayout.jsp" %>
 
 <body>
+    <c:if test="${not empty success}">
+		<script type="text/javascript">
+			alert("회원정보가 수정되었습니다.");
+		</script>
+	</c:if>
 	<div class="inner admin member-user" data-name="member">
 		<%@ include file="../include/admin.jsp" %>
 		<div class="container">
@@ -31,7 +36,6 @@
 									<button id="search-btn" type="button" class="btn-border">검색</button>
 								</div>
 								<div class="btnBx">
-									<!-- [D] 신규등록 미정 -->
 									<a href="/admin/adminjoin" class="btn-full">신규등록</a>
 								</div>
 							</div>

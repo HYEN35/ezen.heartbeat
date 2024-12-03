@@ -59,7 +59,9 @@
 						<div><!--class="cntBx tab-membership"-->
 							<div class="cnt">
 								<div class="current">
-									<div>현재 사용하고 계신 이용권은 <i id="nowLevel">Level  ${UserVO.level }</i>입니다. <p>(이용기간 : <i>2024-08-29 ~ 2024-09-29</i>)</p></div>
+									<div>현재 사용하고 계신 이용권은 <i id="nowLevel">Level  ${UserVO.level }</i>입니다. <p><c:if test="${not empty startDate and not empty endDate}">
+																													(이용기간 : <i>${startDate} ~ ${endDate}</i>)
+																													</c:if></p></div>
 									<button id="membershipDel" type="button" class="btn-under-01" name="level" onclick="deleteMembership()">멤버십 해지</button>
 								</div>
 									<ul class="itemWrap">

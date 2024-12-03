@@ -31,14 +31,24 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityPersistence.getPostList();
 	}
 	
-	@Override // 팬 게시물 목록 가져오기
-	public List<PostVO> getFanPostList(int displayPost, int postNum) throws Exception {
-		return communityPersistence.getFanPostList(displayPost, postNum);
+	@Override // 뉴진스 팬 게시물 목록 가져오기
+	public List<PostVO> getNewjeansFanPostList(int displayPost, int postNum) throws Exception {
+		return communityPersistence.getNewjeansFanPostList(displayPost, postNum);
 	}
 	
-	@Override
-	public int getFanPostCount() throws Exception {
-		return communityPersistence.getFanPostCount();
+	@Override // 뉴진스 팬 게시물 개수
+	public int getNewjeansFanPostCount() throws Exception {
+		return communityPersistence.getNewjeansFanPostCount();
+	}
+	
+	@Override // 있지 팬 게시물 목록 가져오기
+	public List<PostVO> getItzyFanPostList(int displayPost, int postNum) throws Exception {
+		return communityPersistence.getItzyFanPostList(displayPost, postNum);
+	}
+	
+	@Override // 있지 팬 게시물 개수
+	public int getItzyFanPostCount() throws Exception {
+		return communityPersistence.getItzyFanPostCount();
 	}
 	
 	@Override // 게시물 하나 가져오기
@@ -56,9 +66,9 @@ public class CommunityServiceImpl implements CommunityService {
 		communityPersistence.deletePost(post_id);
 	}
 	
-	@Override 
-	public UserVO getLevel(UserVO uservo) throws Exception {
-		return communityPersistence.getLevel(uservo);
+	@Override // 구독중인 아티스트 이름 가져오기
+	public String getArtistName(int artist_id) throws Exception {
+		return communityPersistence.getArtistName(artist_id);
 	}
 	
 	@Override // 댓글 작성

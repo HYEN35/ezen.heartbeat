@@ -13,13 +13,17 @@ public interface CommunityService {
 	// 게시물 목록
 	public List<PostVO> getPostList() throws Exception;
 	// 뉴진스 팬 게시물 목록
-	public List<PostVO> getFanPostList(int displayPost, int postNum) throws Exception;
-	// 팬 게시물 개수
-	public int getFanPostCount() throws Exception;	
+	public List<PostVO> getNewjeansFanPostList(int displayPost, int postNum) throws Exception;
+	// 뉴진스 팬 게시물 개수
+	public int getNewjeansFanPostCount() throws Exception;	
+	// 있지 팬 게시물 목록
+	public List<PostVO> getItzyFanPostList(int displayPost, int postNum) throws Exception;
+	// 있지 팬 게시물 개수
+	public int getItzyFanPostCount() throws Exception;	
 	// 게시물 하나 가져오기
 	public PostVO getPost(PostVO postVO) throws Exception;
-	// 아티스트 레벨 가져오기
-	public UserVO getLevel(UserVO uservo) throws Exception;
+	// 구독중인 아티스트 이름 가져오기
+	public String getArtistName(int artist_id) throws Exception;
 	// 게시물 수정
 	public void modifyPost(PostVO postVO) throws Exception;
 	// 게시물 삭제

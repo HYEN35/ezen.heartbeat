@@ -1,358 +1,392 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="kr.heartbeat.mappers.admin">
+  
+		<!-- ============================== summary ============================== -->
+	  	<select id="count_a" resultType="int">
+			select count(email)
+			from user_tbl
+			where DATE(reg_date) = CURDATE();
+		</select>
+		
+		<select id="count_b" resultType="int">
+			select count(s.email)
+			from subscription_tbl s
+			join user_role_tbl u on s.email = u.email
+			where u.role_id IN (2);
+		</select>
+	
+		<select id="count_c" resultType="map">
+			SELECT a.art_name, COUNT(u.email) AS email_count
+			FROM user_tbl u
+			JOIN user_role_tbl r ON u.email = r.email
+			JOIN artist_tbl a ON u.artist_id = a.artist_id
+			WHERE r.role_id = 2
+			AND u.artist_id != 0
+			GROUP BY a.artist_id, a.art_name
+			ORDER BY email_count DESC
+			LIMIT 1;
+		</select>
+		
+	    <!-- 전체 유저 수 조회 -->
+	    <select id="levelTotalCnt" resultType="int">
+	        select count(email) 
+	        from user_role_tbl where role_id = 2;
+	    </select>
+	    
+	    <!-- 특정 레벨의 유저 수 조회 -->
+	    <select id="levelCnt"  parameterType="int" resultType="int">
+	        select count(*) as count
+		    from user_tbl u
+		    inner join user_role_tbl r on u.email = r.email
+		    where r.role_id = 2 and u.level = #{level};
+	    </select>
 
-<mapper namespace="kr.heartbeat.mappers.admin">
-
-	<!-- summary -->
-	<select id="count_a" resultType="int">
-		SELECT COUNT(email)
-		FROM user_tbl
-		WHERE DATE(reg_date) = CURDATE();
-	</select>
-
-	<select id="count_b" resultType="int">
-		SELECT COUNT(s.email)
-		FROM subscription_tbl s
-		JOIN user_role_tbl u ON s.email = u.email
-		WHERE u.role_id IN (2);
-	</select>
-
-	<select id="count_c" resultType="map">
-		SELECT a.art_name AS artist_name, COUNT(u.email) AS email_count
-		FROM user_tbl u
-		JOIN user_role_tbl r ON u.email = r.email
-		JOIN artist_tbl a ON u.artist_id = a.artist_id
-		WHERE r.role_id = 2
-		AND u.artist_id IS NOT NULL
-		AND a.art_name != '0' -- artist_name이 0이 아닌 경우만 포함
-		GROUP BY u.artist_id
-		ORDER BY email_count DESC
-		LIMIT 1;
-	</select>
-
-	<!-- 전체 유저 수 조회 -->
-	<select id="levelTotalCnt" resultType="int">
-		SELECT COUNT(email) FROM user_role_tbl WHERE role_id = 2;
-	</select>
-
-	<!-- 특정 레벨의 유저 수 조회 -->
-	<select id="levelCnt"  parameterType="int" resultType="int">
-		SELECT COUNT(*) AS count
-		FROM user_tbl u
-		INNER JOIN user_role_tbl r ON u.email = r.email
-		WHERE r.role_id = 2 AND u.level = #{level};
-	</select>
-
-	<!-- member -->
-	<select id="user_list" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
-		SELECT *
-		FROM user_tbl u
-		INNER JOIN user_role_tbl r ON u.email = r.email
-		<where>
-			<!-- 검색 조건 -->
-			<if test='searchType.equals("name")'>
-				u.name LIKE CONCAT('%', #{keyword}, '%')
+		<!-- ============================== member ============================== -->
+		<select id="user_list" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
+		    select * 
+		    from user_tbl u
+		    inner join user_role_tbl r on u.email = r.email
+		    <where>
+		        <!-- 검색 조건 -->
+		        <if test='searchType.equals("name")'>
+		            u.name like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test='searchType.equals("email")'>
+		            u.email like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test='searchType.equals("nickname")'>
+		            u.nickname like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test='searchType.equals("phone")'>
+		            u.phone like concat('%', #{keyword}, '%')
+		        </if>
+		
+		        <!-- Role ID 조건 -->
+		        <if test='roleId != null and roleId != ""'>
+		            AND r.role_id in (${roleId})
+		        </if>
+		        
+		        <!-- 기본적으로 직원(role_id = 0) 제외 -->
+		        <if test='roleId == null or roleId == ""'>
+		            AND r.role_id != 0
+		        </if>
+		    </where>
+		    order by u.reg_date desc
+		    limit #{displayPost}, #{postNum}
+		</select>
+			
+		<select id="getUserCount" parameterType="hashMap" resultType="int">
+			select count(*) 
+			from user_tbl u
+			inner join user_role_tbl r on u.email = r.email
+			<where>
+			    <if test='searchType.equals("name")'>
+			        u.name like concat('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("email")'>
+			        u.email like concat('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("nickname")'>
+			        u.nickname like concat('%', #{keyword}, '%')
+			    </if>
+			    
+			    <if test='searchType.equals("phone")'>
+			        u.phone like concat('%', #{keyword}, '%')
+			    </if>
+			
+			    <!-- Role ID 조건 -->
+			    <if test='roleId != null'>
+			        and r.role_id in (${roleId})
+			    </if>
+			</where>
+		</select>
+		
+		<delete id="memberdelete" parameterType="String">
+		    delete from user_tbl
+		    where email = #{email}
+		</delete>
+		
+		<!-- ============================== Staff ============================== -->
+		<select id="staff_list" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
+		    select * 
+		    from user_tbl u
+		    inner join user_role_tbl r on u.email = r.email
+		    where r.role_id = 0
+		    <if test='searchType.equals("name")'>
+		        AND u.name like concat('%', #{keyword}, '%')
+		    </if>
+		    <if test='searchType.equals("email")'>
+		        AND u.email like concat('%', #{keyword}, '%')
+		    </if>
+		    <if test='searchType.equals("nickname")'>
+		        AND u.nickname like concat('%', #{keyword}, '%')
+		    </if>
+		    <if test='searchType.equals("phone")'>
+		        AND u.phone like concat('%', #{keyword}, '%')
+		    </if>
+		    order by u.email DESC
+		    limit #{displayPost}, #{postNum}
+		</select>
+		
+		<select id="getStaffCount" parameterType="hashMap" resultType="int">
+		    select count(*) 
+		    from user_tbl u
+		    inner join user_role_tbl r on u.email = r.email
+		    where r.role_id = 0
+		    <if test='searchType.equals("name")'>
+		        AND u.name like concat('%', #{keyword}, '%')
+		    </if>
+		    <if test='searchType.equals("email")'>
+		        AND u.email like concat('%', #{keyword}, '%')
+		    </if>
+		    <if test='searchType.equals("nickname")'>
+		        AND u.nickname like concat('%', #{keyword}, '%')
+		    </if>
+		    <if test='searchType.equals("phone")'>
+		        AND u.phone like concat('%', #{keyword}, '%')
+		    </if>
+		</select>
+		
+		<delete id="Staffdelete" parameterType="String">
+		    delete from user_tbl
+		    where email = #{email}
+		</delete>
+		
+		<!-- ============================== post ============================== -->
+		<select id="post_list" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
+		    select *
+		    from post_tbl p
+		    inner join user_role_tbl r on p.email = r.email
+		    <where>
+		        <!-- 검색 조건 -->
+		        <if test="searchType != null and searchType.equals('post_id')">
+		            post_id like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test="searchType != null and searchType.equals('nickname')">
+		            nickname like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test="searchType != null and searchType.equals('post_date')">
+		            post_date like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test="searchType != null and searchType.equals('content')">
+		            content like concat('%', #{keyword}, '%')
+		        </if>
+		
+		        <!-- Role ID 조건 -->
+		        <if test='roleId != null and roleId != ""'>
+		            and r.role_id in (${roleId})
+		        </if>
+		        <!-- 기본적으로 직원(role_id = 0) 제외 -->
+		        <if test='roleId == null or roleId == ""'>
+		            and r.role_id != 0
+		        </if>
+		    </where>
+		    order by post_id DESC
+		    limit #{displayPost}, #{postNum}
+		</select>
+		
+		<select id="getPostCount" parameterType="hashMap" resultType="int">
+		    select count(*)
+		    from post_tbl p
+		    inner join user_role_tbl r on p.email = r.email
+		    <where>
+		        <!-- 검색 조건 -->
+		        <if test="searchType != null and searchType.equals('post_id')">
+		            post_id like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test="searchType != null and searchType.equals('nickname')">
+		            nickname like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test="searchType != null and searchType.equals('post_date')">
+		            post_date like concat('%', #{keyword}, '%')
+		        </if>
+		        <if test="searchType != null and searchType.equals('content')">
+		            content like concat'%', #{keyword}, '%')
+		        </if>
+		
+		        <!-- Role ID 조건 -->
+			    <if test='roleId != null'>
+			        and r.role_id in (${roleId})
+			    </if>
+		    </where>
+		</select>
+		
+		<delete id="podelete" parameterType="int">
+			delete from post_tbl
+			where post_id = #{post_id}
+		</delete>
+		
+		<!-- ============================== comment ============================== -->
+		<select id="comment_list" parameterType="hashMap" resultType="kr.heartbeat.vo.CommentVO">
+		    select * 
+		    from comment_tbl c
+		    inner join user_role_tbl r on c.email = r.email
+		    <where>
+		        <if test='searchType.equals("comment_id")'>
+		            comment_id like concat('%', #{keyword}, '%')
+		        </if>
+		        
+		        <if test='searchType.equals("nickname")'>
+		            nickname like concat('%', #{keyword}, '%')
+		        </if>
+		        
+		        <if test='searchType.equals("comment_date")'>
+		            comment_date like concat('%', #{keyword}, '%')
+		        </if>
+		        
+		        <if test='searchType.equals("content")'>
+		            content like concat('%', #{keyword}, '%')
+		        </if>
+		        
+		        <!-- Role ID 조건 -->
+		        <if test='roleId != null and roleId != ""'>
+		            AND r.role_id IN (${roleId})
+		        </if>
+		        
+		        <!-- 기본적으로 직원(role_id = 0) 제외 -->
+		        <if test='roleId == null or roleId == ""'>
+		            AND r.role_id != 0
+		        </if>
+		    </where>    
+		    order by comment_id DESC
+		    limit #{displayPost}, #{postNum}
+		</select>
+		
+		<select id="getCommentCount" parameterType="hashMap" resultType="int">
+		select count(*) 
+		from comment_tbl c
+		inner join user_role_tbl r on c.email = r.email
+			<if test='searchType.equals("comment_id")'>
+				where comment_id like concat('%', #{keyword}, '%')
 			</if>
-			<if test='searchType.equals("email")'>
-				u.email LIKE CONCAT('%', #{keyword}, '%')
-			</if>
+			
 			<if test='searchType.equals("nickname")'>
-				u.nickname LIKE CONCAT('%', #{keyword}, '%')
+				where nickname like concat('%', #{keyword}, '%')
 			</if>
-			<if test='searchType.equals("phone")'>
-				u.phone LIKE CONCAT('%', #{keyword}, '%')
-			</if>
-
-			<!-- Role ID 조건 -->
-			<if test='roleId != null and roleId != ""'>
-				AND r.role_id IN (${roleId})
-			</if>
-
-			<!-- 기본적으로 직원(role_id = 0) 제외 -->
-			<if test='roleId == null or roleId == ""'>
-				AND r.role_id != 0
-			</if>
-		</where>
-		ORDER BY u.email DESC
-		LIMIT #{displayPost}, #{postNum}
-	</select>
-
-	<select id="getUserCount" parameterType="hashMap" resultType="int">
-		SELECT COUNT(*) FROM user_tbl u
-		INNER JOIN user_role_tbl r ON u.email = r.email
-		<where>
-			<if test='searchType.equals("name")'>
-				u.name LIKE CONCAT('%', #{keyword}, '%')
-			</if>
-
-			<if test='searchType.equals("email")'>
-				u.email LIKE CONCAT('%', #{keyword}, '%')
-			</if>
-
-			<if test='searchType.equals("nickname")'>
-				u.nickname LIKE CONCAT('%', #{keyword}, '%')
-			</if>
-
-			<if test='searchType.equals("phone")'>
-				u.phone LIKE CONCAT('%', #{keyword}, '%')
-			</if>
-
-			<!-- Role ID 조건 -->
-			<if test='roleId != null'>
-				AND r.role_id IN (${roleId})
-			</if>
-		</where>
-	</select>
-
-	<delete id="memberdelete" parameterType="String">
-		delete from user_tbl
-		where email = #{email}
-	</delete>
-
-	<!-- Staff -->
-	<select id="staff_list" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
-		SELECT *
-		FROM user_tbl u
-		INNER JOIN user_role_tbl r ON u.email = r.email
-		WHERE r.role_id = 0
-		<if test='searchType.equals("name")'>
-			AND u.name LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		<if test='searchType.equals("email")'>
-			AND u.email LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		<if test='searchType.equals("nickname")'>
-			AND u.nickname LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		<if test='searchType.equals("phone")'>
-			AND u.phone LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		ORDER BY u.email DESC
-		LIMIT #{displayPost}, #{postNum}
-	</select>
-
-	<select id="getStaffCount" parameterType="hashMap" resultType="int">
-		SELECT COUNT(*)
-		FROM user_tbl u
-		INNER JOIN user_role_tbl r ON u.email = r.email
-		WHERE r.role_id = 0
-		<if test='searchType.equals("name")'>
-			AND u.name LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		<if test='searchType.equals("email")'>
-			AND u.email LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		<if test='searchType.equals("nickname")'>
-			AND u.nickname LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		<if test='searchType.equals("phone")'>
-			AND u.phone LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-	</select>
-
-	<delete id="Staffdelete" parameterType="String">
-		delete from user_tbl
-		where email = #{email}
-	</delete>
-
-	<!-- post -->
-	<select id="post_list" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
-		select * from post_tbl
-
-		<if test='searchType.equals("post_id")'>
-			where post_id like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("nickname")'>
-			where nickname like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("post_date")'>
-			where post_date like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("content")'>
-			where content like concat('%', #{keyword}, '%')
-		</if>
-
-		order by post_id desc
-		limit #{displayPost}, #{postNum}
-	</select>
-
-	<select id="getPostCount" parameterType="hashMap" resultType="int">
-		select count(*) from post_tbl
-
-		<if test='searchType.equals("post_id")'>
-			where post_id like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("nickname")'>
-			where nickname like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("post_date")'>
-			where post_date like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("content")'>
-			where content like concat('%', #{keyword}, '%')
-		</if>
-
-	</select>
-
-	<delete id="podelete" parameterType="int">
-		delete from post_tbl
-		where post_id = #{post_id}
-	</delete>
-
-	<!-- comment -->
-	<select id="comment_list" parameterType="hashMap" resultType="kr.heartbeat.vo.CommentVO">
-		select * from comment_tbl
-
-		<if test='searchType.equals("comment_id")'>
-			where comment_id like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("nickname")'>
-			where nickname like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("comment_date")'>
+			
+			<if test='searchType.equals("comment_date")'>
 			where comment_date like concat('%', #{keyword}, '%')
-		</if>
+			</if>
+			
+			<if test='searchType.equals("content")'>
+				where content like concat('%', #{keyword}, '%')
+			</if>
+			<!-- Role ID 조건 -->
+		    <if test='roleId != null'>
+		        and r.role_id in (${roleId})
+		    </if>
+		</select>
+		
+		<delete id="codelete" parameterType="int">
+			delete from comment_tbl 
+			where comment_id = #{comment_id}
+		</delete>
+		
+		<!-- ============================== edit ============================== -->
+		<select id="edit" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
+			select * 
+			from user_tbl
+			where email = #{email}
+		</select>
+	
+		<update id="update" parameterType="kr.heartbeat.vo.UserVO">
+			update user_tbl set
+				name = #{name}
+				, email = #{email}
+				, nickname = #{nickname}
+				, birth = #{birth}
+				, phone = #{phone}
+				, level = #{level}
+				, up_date = now()
+			where email = #{email}
+		</update>
+		
+		<!-- 중복 확인  -->
+		<select id="emailcheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
+			select * 
+			from user_tbl
+			where email = #{email}
+		</select>
+		
+		<select id="phonecheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
+			select * 
+			from user_tbl
+			where phone = #{phone}
+		</select>
+	
+		<select id="nicknamecheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
+			select * 
+			from user_tbl
+			where nickname = #{nickname}
+		</select>
+	
+		<!-- ============================== 계정생성 ============================== -->
+		<select id="getRole" resultType="kr.heartbeat.vo.RoleVO">
+		    select role_id, role_name 
+		    from role_tbl;
+		</select>
+	
+		<!-- 1. 유저 기본 정보 삽입 -->
+	    <insert id="insertUser" parameterType="kr.heartbeat.vo.UserVO">
+		    insert into user_tbl (
+		        email
+		        , artist_id
+		        , pwd
+		        , name
+		        , nickname
+		        , birth
+		        , phone
+		        , profileimg
+		        , level
+		        , reg_date
+		        , up_date
+		    ) values (
+		        #{email}
+		        , #{artist_id}
+		        , #{pwd}
+		        , #{name}
+		        , #{nickname}
+		        , #{birth}
+		        , #{phone}
+		        , null
+		        , #{level}
+		        , now()
+		        , now()
+		    )
+		</insert>
 
-		<if test='searchType.equals("content")'>
-			where content like concat('%', #{keyword}, '%')
-		</if>
+	    <!-- 2. 유저 역할 삽입 -->
+	    <insert id="insertUserRole" parameterType="kr.heartbeat.vo.UserroleVO">
+		    insert into user_role_tbl (
+		        email
+		        , role_id
+		    ) values (
+		        #{email}
+		        , #{role_id}
+		    )
+		</insert>
 
-		order by comment_id desc
-		limit #{displayPost}, #{postNum}
-
-	</select>
-
-	<select id="getCommentCount" parameterType="hashMap" resultType="int">
-		select count(*) from comment_tbl
-
-		<if test='searchType.equals("comment_id")'>
-			where comment_id like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("nickname")'>
-			where nickname like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("comment_date")'>
-			where comment_date like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("content")'>
-			where content like concat('%', #{keyword}, '%')
-		</if>
-
-	</select>
-
-	<delete id="codelete" parameterType="int">
-		delete from comment_tbl
-		where comment_id = #{comment_id}
-	</delete>
-
-	<!-- edit  -->
-	<select id="edit" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
-		select * from user_tbl
-		where email = #{email}
-	</select>
-
-	<update id="update" parameterType="kr.heartbeat.vo.UserVO">
-		update user_tbl set
-		name = #{name}
-		, email = #{email}
-		, nickname = #{nickname}
-		, birth = #{birth}
-		, phone = #{phone}
-		, level = #{level}
-		, up_date = now()
-		where email = #{email}
-	</update>
-
-	<!-- 중복 확인  -->
-	<select id="emailcheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
-		select * from user_tbl
-		where email = #{email}
-	</select>
-
-	<select id="phonecheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
-		select * from user_tbl
-		where phone = #{phone}
-	</select>
-
-	<select id="nicknamecheck" parameterType="String" resultType="kr.heartbeat.vo.UserVO">
-		select * from user_tbl
-		where nickname = #{nickname}
-	</select>
-
-	<!-- 계정생성 -->
-	<select id="getRole" resultType="kr.heartbeat.vo.RoleVO">
-		SELECT role_id, role_name
-		FROM role_tbl;
-	</select>
-
-	<!-- 1. 유저 기본 정보 삽입 -->
-	<insert id="insertUser" parameterType="kr.heartbeat.vo.UserVO">
-		INSERT INTO user_tbl (
-		email,
-		artist_id,
-		pwd,
-		name,
-		nickname,
-		birth,
-		phone,
-		profileimg,
-		level,
-		reg_date,
-		up_date
-		) VALUES (
-		#{email},
-		#{artist_id},
-		#{pwd},
-		#{name},
-		#{nickname},
-		#{birth},
-		#{phone},
-		null,
-		#{level},
-		NOW(),
-		NOW()
-		)
-	</insert>
-
-	<!-- 2. 유저 역할 삽입 -->
-	<insert id="insertUserRole" parameterType="kr.heartbeat.vo.UserroleVO">
-		INSERT INTO user_role_tbl (
-		email,
-		role_id
-		) VALUES (
-		#{email},
-		#{role_id}
-		)
-	</insert>
-
-	<!-- 3. 구독 정보 삽입 -->
-	<insert id="insertSubscription" parameterType="kr.heartbeat.vo.SubscriptionVO">
-		INSERT INTO subscription_tbl (
-		email,
-		level,
-		artist_id,
-		start_date,
-		end_date
-		) VALUES (
-		#{email},
-		#{level},
-		#{artist_id},
-		#{start_date},
-		#{end_date}
-		)
-	</insert>
-
-</mapper>
+	    <!-- 3. 구독 정보 삽입 -->
+	    <insert id="insertSubscription" parameterType="kr.heartbeat.vo.SubscriptionVO">
+		    insert into subscription_tbl (
+		        email
+		        , level
+		        , artist_id
+		        , start_date
+		        , end_date
+		    ) values (
+		        #{email}
+		        , #{level}
+		        , #{artist_id}
+		        , #{start_date}
+		        , #{end_date}
+		    )
+		</insert>
+	
+	</mapper>
