@@ -42,16 +42,16 @@ public interface AdminPersistence {
 	public void staffdelete(String email) throws Exception;
 	
 	//post
-	public List<PostVO> getPostList(int displayPost, int postNum, String searchType, String keyword) throws Exception;
+	public List<PostVO> getPostList(HashMap<String, Object> map) throws Exception;
 	
-	public int getPostCount(String searchType, String keyword) throws Exception;
+	public int getPostCount(HashMap<String, Object> map) throws Exception;
 	
 	public void podelete(int post_id) throws Exception;
 	
 	//comment
-	public List<CommentVO> getCommentList(int displayPost, int postNum, String searchType, String keyword) throws Exception;
+	public List<CommentVO> getCommentList(HashMap<String, Object> map) throws Exception;
 	
-	public int getCommentCount(String searchType, String keyword) throws Exception;
+	public int getCommentCount(HashMap<String, Object> map) throws Exception;
 	
 	public void codelete(int comment_id) throws Exception;
 
@@ -74,5 +74,4 @@ public interface AdminPersistence {
 	public UserVO idCheck(String email);
 	public UserVO phoneCheck(String phone);
 	public UserVO nicknameCheck(String nickname);
-
 }

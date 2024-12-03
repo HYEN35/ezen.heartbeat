@@ -17,7 +17,7 @@
 				            <span class="info">총 구독자 수 : <i id="totalsub">${count_b}</i></span>
 				        </div>
 				        <div class="item">
-				            <span class="info">가장 많은 구독자를 보유한 아티스트 : <i id="topartist">${count_c.artist_name} 구독자 : ${count_c.email_count}</i></span>
+				            <span class="info">가장 많은 구독자를 보유한 아티스트 : <i id="topartist">${count_c.art_name} 구독자 : ${count_c.email_count}</i></span>
 				        </div>
 				    </div>
 				    <div class="adm-container">

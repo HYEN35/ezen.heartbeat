@@ -20,6 +20,9 @@
 									<option value="content">내 용</option>
 								</select>
 								<input type="search" name="keyword" id="keyword" class="txtBx" placeholder="검색어 입력">
+								<!-- Role ID 필터 -->
+								<label><input type="checkbox" name="role_id" value="1">아티스트</label>
+								<label><input type="checkbox" name="role_id" value="2">일반 유저</label>
 								<button id="search-btn" type="button" class="btn-border">검색</button>
 							</div>
 						</div>
@@ -40,6 +43,7 @@
 									<span class="info content">내용 : <i class="elps">${cvo.comment}</i></span>
 								</div>
 								<div class="btnWrap">
+									<a href="javascript:void(0);" class="btn-border" onclick="popPostArtistShow('${cvo.post_id}', '${cvo.email}')">보기</a>
 									<button type="button" class="btn-border-01" onclick="deleteItem(${cvo.comment_id})">삭제</button>
 								</div>
 							</li>
@@ -73,6 +77,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
 	<div class="dimmed" onclick="dimmedHide();"></div>
 

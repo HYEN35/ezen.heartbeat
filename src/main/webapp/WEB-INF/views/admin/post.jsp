@@ -3,55 +3,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<script>
-	//팝업 아티스트포스트
-	function popPostArtistShow(post_id,email){
-		 // AJAX 요청으로 데이터를 가져옵니다.
-		 
-	    $.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
-	    	console.log(data); // 반환된 데이터 확인
-	    	// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
-	        const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
-	        console.log(newContent); // newContent 확인
-	        $('.pop-post-artist .cntArea').html(newContent);
-	        
-	
-	        
-	
-	        // 팝업을 보여줍니다.
-	    }).fail(function() {
-	        console.error('Error loading post data.');
-	    });
-		
-		$('.pop-post-artist').show();
-		$('.dimmed').show();
-	
-	}
-	//팝업 팬포스트
-	function popPostFanShow(post_id){
-		 // AJAX 요청으로 데이터를 가져옵니다.
-	    $.post("/community/getUserPost", { post_id: post_id }, function(data) {
-	    	// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
-	        const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
-	        $('.pop-post-fan .cntArea').html(newContent);
-	        //txtBx, btn-i-send 관리자 페이지에서는 입력할 필요 없으므로 히든처리(예정) 
-	        
-	        // 팝업을 보여줍니다.
-	    }).fail(function() {
-	        console.error('Error loading post data.');
-	    });
-	        $('.pop-post-fan').show();
-	        $('.dimmed').show();
-		
-		//uploadFileName();
-		multipleUploadFile();
-	}
-	function popPostFanHide(){
-		$('.pop-post-fan').hide();
-	    $('.dimmed').hide();
-	}
-</script>
-
 <body>
 	<div class="inner admin post" data-name="post">
 		<%@ include file="../include/admin.jsp" %>
@@ -69,6 +20,9 @@
 									<option value="content">내 용</option>
 								</select>
 								<input type="search" name="keyword" id="keyword" class="txtBx" placeholder="검색어 입력">
+								<!-- Role ID 필터 -->
+								<label><input type="checkbox" name="role_id" value="1">아티스트</label>
+								<label><input type="checkbox" name="role_id" value="2">일반 유저</label>
 								<button id="search-btn" type="button" class="btn-border">검색</button>
 							</div>
 						</div>
@@ -87,9 +41,9 @@
 						                </span>
 						                <span class="info content">내용 : <i class="elps">${pvo.content}</i></span>
 						            </div>
-						            <div class="btnWrap">
-						         	   <a href="javascript:void(0);" class="btn-border" onclick="popPostFanShow(${pvo.post_id})" >보기</a>
-						                <button type="button" class="btn-border-01" onclick="deleteItem(${pvo.post_id})">삭제</button>
+									<div class="btnWrap">
+										<a href="javascript:void(0);" class="btn-border" onclick="popPostArtistShow('${pvo.post_id}', '${pvo.email}')">보기</a>
+										<button type="button" class="btn-border-01" onclick="deleteItem(${pvo.post_id})">삭제</button>
 						            </div>
 						        </li>
 						    </c:forEach>
