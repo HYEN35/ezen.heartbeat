@@ -124,32 +124,64 @@
 		</div>
 	</div>	
 
-	<div class="dimmed" onclick="popPostFanHide();"></div>
+	<div class="dimmed" onclick="dimmedHide();"></div>
 
-	<!-- [D] 팝업 팬 포스트 -->
-	<div class="popup pop-post-fan"><%@ include file="../popup/pop-post-fan.jsp" %></div>
 	<!-- [D] 팝업 아티스트 포스트 -->
 	<div class="popup pop-post-artist"><%@ include file="../popup/pop-post-artist.jsp" %></div>
 
 	<script>
-	// 게시글 삭제
-	function deleteItem(postId) {
-	    if (confirm('게시글 번호 ' + postId + '을 삭제하시겠습니까?')) {
-	        // 삭제 요청을 서버로 보냄
-	        window.location.href = '/admin/post/delete?post_id=' + postId;
-	    }
-	}
-	
-	//검색
-	$(function(){
+		//팝업 아티스트포스트
+		function popPostArtistShow(post_id,email){
+			// AJAX 요청으로 데이터를 가져옵니다.
+			
+			$.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
+				console.log(data); // 반환된 데이터 확인
+				// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
+				const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
+				console.log(newContent); // newContent 확인
+				$('.pop-post-artist .cntArea').html(newContent);	
 		
-		$('#search-btn').click(function(){
-			var searchType = $('#searchType').val();
-			var keyword = $('#keyword').val();				
-			location.href="/admin/post?num=1&searchType="+searchType+"&keyword="+keyword;
+				// 팝업을 보여줍니다.
+			}).fail(function() {
+				console.error('Error loading post data.');
+			});
+			
+			$('.pop-post-artist').show();
+			$('.dimmed').show();
+		
+		}
+		
+		// 게시글 삭제
+		function deleteItem(postId) {
+			if (confirm('게시글 번호 ' + postId + '을 삭제하시겠습니까?')) {
+				// 삭제 요청을 서버로 보냄
+				window.location.href = '/admin/post/delete?post_id=' + postId;
+			}
+		}
+		
+		//검색, 필터(체크박스-아티스트,유저)
+		$(function() {
+			$('#search-btn').click(function() {
+				var searchType = $('#searchType').val();
+				var keyword = $('#keyword').val();
+				
+				// 체크된 role_id 값 가져오기
+				var roleIds = [];
+				$('input[name="role_id"]:checked').each(function() {
+					roleIds.push($(this).val());
+				});
+
+				// role_id 파라미터 추가
+				var roleIdParam = roleIds.length > 0 ? "&role_id=" + roleIds.join(",") : "";
+
+				location.href = "/admin/post?num=1&searchType=" + searchType + "&keyword=" + keyword + roleIdParam;
+			});
 		});
 		
-	});
+		function dimmedHide(){
+			$('.popup').hide();
+			$('.dimmed').hide();
+		};
 	</script>
 </body>
 </html>
