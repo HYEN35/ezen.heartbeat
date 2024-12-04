@@ -274,7 +274,7 @@ public class UserController {
 		    // 비밀번호 수정 처리
 		    if (newPwd != null && !newPwd.isEmpty()) {
 		    	boolean passMatch = bCryptPasswordEncoder.matches(uvo.getPwd(), userVO.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
-		    	if(passMatch) {
+		    	if(uvo.getPwd().equals(userVO.getPwd()) || passMatch) {
 		    		String pwd = newPwd; // 사용자가 입력한 새 비밀번호 
 			    	String encodePwd = bCryptPasswordEncoder.encode(pwd); // encoding 새 비밀번호 
 			    	userVO.setPwd(encodePwd);
@@ -320,19 +320,23 @@ public class UserController {
 		
 		//마이페이지 - 탈퇴
 		@PostMapping("mypage/delete")
-		public String delete(UserVO userVO, HttpSession session) {
+		public String delete(UserVO userVO, HttpSession session, RedirectAttributes rttr) {
 			String email = userVO.getEmail(); //폼에서 입력받은 이메일
 			String pwd = userVO.getPwd(); //폼에서 입력받은 비밀번호
 			String url = null;
 			UserVO uvo = (UserVO) session.getAttribute("UserVO");
-			
-			if(email.equals(uvo.getEmail()) && pwd.equals(uvo.getPwd())) {
-				userServiceImpl.delete(uvo);
-				url="redirect:/login";
-			} else {
-				url="redirect:/mypage";
+
+			boolean passMatch = bCryptPasswordEncoder.matches( userVO.getPwd(),uvo.getPwd()); //session에 저장된 비빌번호와 사용자가 입력한 원래 비밀번호
+			if(pwd.equals(uvo.getPwd()) || passMatch) {
+				if(email.equals(uvo.getEmail())) {
+					userServiceImpl.delete(uvo);
+					url="redirect:/login";
+				} else {
+					rttr.addFlashAttribute("message", "입력하신 정보가 잘못되었습니다. 다시 입력해주세요.");
+					url="redirect:/mypage";
+				}
 			}
-								
+				
 			return url;
 		}
 		
