@@ -46,6 +46,33 @@
 							</div>
 						</div>
 					</div>
+					<div class="adm-container">
+					    <div class="adm-split-row">
+							<div class="adm-split-col">
+								<h4 class="tit">회원 등급 분석</h4>
+								<p class="total">목표 금액 :<fmt:formatNumber value="${targetAmount}" pattern="##,###.##"/>원</p>
+								
+								<input type="hidden" id="targetAmount" value="${targetAmount}">
+								<div class="itemWrap">
+									<div class="item lev-00">
+										<div class="count">level 1 <b><fmt:formatNumber value="${level1Price}" pattern="##,###.##"/>원</b></div>
+										<progress id="level0Cnt" max="${targetAmount}" value="${level1Price}" class="progressBar"></progress>
+										<strong id="level1-amount-result-txt"></strong> <strong>%</strong>
+									</div>
+									<div class="item lev-01">
+										<div class="count">level 2 <b><fmt:formatNumber value="${level2Price}" pattern="##,###.##"/>원</b></div>
+										<progress id="level1Cnt" max="${targetAmount}" value="${level2Price}" class="progressBar"></progress>
+										<strong id="level2-amount-result-txt"></strong> <strong>%</strong>
+									</div>
+									<div class="item lev-02">
+										<div class="count">total <b><fmt:formatNumber value="${totalPrice}" pattern="##,###.##"/>원</b></div>
+										<progress id="level2Cnt" max="${targetAmount}" value="${totalPrice}" class="progressBar"></progress>
+										<strong id="total-amount-result-txt"></strong> <strong>%</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 			    </div>
 			</div>
 		</div>
@@ -72,6 +99,26 @@
 			document.getElementById('level0-result-txt').textContent = level0Percentage;
 			document.getElementById('level1-result-txt').textContent = level1Percentage;
 			document.getElementById('level2-result-txt').textContent = level2Percentage;
+
+			
+			var targetAmount = parseInt("${targetAmount}"); // 목표 금액 :100만원
+			var level1Price =  parseInt("${level1Price}");
+			var level2Price =  parseInt("${level2Price}");
+			var totalPrice =  parseInt("${totalPrice}"); //level1 + level2 합계
+			
+			function calculateAmountPercentage(count) {
+				return (count/targetAmount * 100).toFixed(2);
+			}
+			
+			var level1PricePercent = calculateAmountPercentage(level1Price);
+			var level2PricePercent = calculateAmountPercentage(level2Price);
+			var totalPricePercent = calculateAmountPercentage(totalPrice);
+			
+			document.getElementById('level1-amount-result-txt').textContent = level1PricePercent;
+			document.getElementById('level2-amount-result-txt').textContent = level2PricePercent;
+			document.getElementById('total-amount-result-txt').textContent = totalPricePercent;
+
+
 		};
 		
 		console.log("총 회원 수:", total);

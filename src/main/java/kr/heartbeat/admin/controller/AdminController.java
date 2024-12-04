@@ -74,12 +74,22 @@ public class AdminController {
 	    int level0Cnt = service.levelCnt(0);
 	    int level1Cnt = service.levelCnt(1);
 	    int level2Cnt = service.levelCnt(2);
+
+		int level1Price = level1Cnt * 3900;
+	    int level2Price = level2Cnt * 6900;
+	    int totalPrice = level1Price+ level2Price;
+	    int targetAmount = 1000000;
 	    
 	    	// 뷰로 데이터를 전달
 	    model.addAttribute("total", total);
 	    model.addAttribute("level0Cnt", level0Cnt);
 	    model.addAttribute("level1Cnt", level1Cnt);
 	    model.addAttribute("level2Cnt", level2Cnt);
+
+		model.addAttribute("level1Price", level1Price);
+	    model.addAttribute("level2Price", level2Price);
+	    model.addAttribute("totalPrice", totalPrice);
+	    model.addAttribute("targetAmount", targetAmount);
 	    
 	    System.out.println("총 회원 수: " + total);
 	    System.out.println("레벨 0 회원 수: " + level0Cnt);
