@@ -32,11 +32,12 @@
 	        nickname, 
 	        birth, 
 	        phone, 
-	        profileimg, 
+	        profileimg,
+			level, 
 	        reg_date, 
 	        up_date
 	    ) values (
-	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, #{profileimg}, now(), now())
+	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, #{profileimg}, 0, now(), now())
 	</insert>
 	
 	<!-- 회원가입 시 유저 역할 추가 -->

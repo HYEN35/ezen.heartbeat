@@ -20,13 +20,6 @@
 		        return false;
 		    }
 		
-		    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		    if (!emailPattern.test(email)) {
-		        alert('이메일 형식이 유효하지 않습니다. @와 .com을 포함해야 합니다.');
-		        document.adminjoin.email.focus();
-		        return false;
-		    }
-		
 		    $.ajax({
 		        url: '/admin/adminjoin/checkEmail',
 		        type: 'POST',
@@ -184,20 +177,21 @@
 		        alert("중복된 닉네임입니다. 닉네임을 변경해주세요.");
 		        return false;
 		    }
+
+			//level 선택 시 날짜 입력 필수 설정
+			const level = document.adminjoin.level.value;
+		    const startDate = document.adminjoin.start_date.value;
+		    const endDate = document.adminjoin.end_date.value;
+		    
+		    if ((level === '1' || level === '2') && (!startDate || !endDate)) {
+	            alert('시작 날짜와 종료 날짜를 모두 입력하세요.');
+	            return false; // 제출 차단
+	        }
 		
 		    // 모든 유효성 검사를 통과한 경우 폼 제출
 		    document.adminjoin.submit();
 		}
-		<%--
-			// 비밀번호 유효성 체크
-		    const pwd = document.adminjoin.pwd.value;
-		    const pwdVPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/; 
-		    if (!pwdVPattern.test(pwd)) {
-		    	document.getElementById('error-pwd').style.display='block';
-		        document.adminjoin.pwd.focus();
-		        return false;
-		    }
-			--%>
+		
 		
 		function popAlertCheckShow(){
 			$('.pop-alert-check').show();

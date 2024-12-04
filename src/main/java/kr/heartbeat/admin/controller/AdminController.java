@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -46,6 +47,9 @@ public class AdminController {
 	
 	@Inject
 	private UserServiceImpl userServiceImpl;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	//summary
 	@GetMapping("/summary")
@@ -242,73 +246,41 @@ public class AdminController {
 	
 	//계정생성
 	@PostMapping("/adminjoin")
-	public String adminInsertUser(@RequestParam("email") String email,
-	                              @RequestParam("pwd") String pwd,
-	                              @RequestParam("pwdCheck") String pwdCheck,
-	                              @RequestParam("name") String name,
-	                              @RequestParam("phone") String phone,
-	                              @RequestParam("nickname") String nickname,
-	                              @RequestParam("birth") String birth,
-	                              @RequestParam("level") int level,
-	                              @RequestParam("role_id") int role_id,
-	                              @RequestParam(value = "artist_id", required = false) Integer artist_id,
-	                              @RequestParam(value = "start_date", required = false) String start_date,
-	                              @RequestParam(value = "end_date", required = false) String end_date,
-	                              RedirectAttributes redirectAttributes) {
-	System.out.println("========== Controller member(admin) email: " + email);
-	    
-	// 비밀번호 확인 검증
-	if (!pwd.equals(pwdCheck)) {
-        redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
-        return "redirect:/admin/adminjoin";
-    }
+	public String adminInsertUser(UserVO userVO,
+								  @RequestParam("role_id") int role_id,
+								  @RequestParam(value = "start_date", required = false) String start_date,
+								  @RequestParam(value = "end_date", required = false) String end_date,
+								  RedirectAttributes redirectAttributes) {
+		System.out.println("========== Controller member(admin) email: " + userVO.getEmail());
+		
+		//비밀번호 암호화
+		  String pwd =userVO.getPwd();
+		  String encodePwd = bCryptPasswordEncoder.encode(pwd);
+		  System.out.println("========= Presentation member pwd : "+ encodePwd);
+		  userVO.setPwd(encodePwd);
+		
+		
+		// SubscriptionVO 생성 (구독 정보가 있을 경우에만)
+		SubscriptionVO subscriptionVO = null;
+		if (userVO.getLevel() > 0 && start_date != null && end_date != null) {
+			subscriptionVO = new SubscriptionVO();
+			subscriptionVO.setEmail(userVO.getEmail());
+			subscriptionVO.setLevel(userVO.getLevel());
+			subscriptionVO.setArtist_id(userVO.getArtist_id()); // 기본값 0
+			subscriptionVO.setStart_date(start_date);
+			subscriptionVO.setEnd_date(end_date);
+		}
 
-    // 서버 측 유효성 검증
-    if (service.idCheck(email) != null) {
-        redirectAttributes.addFlashAttribute("errorMessage", "중복된 이메일입니다.");
-        return "redirect:/admin/adminjoin";
-    }
-    if (service.phoneCheck(phone) != null) {
-        redirectAttributes.addFlashAttribute("errorMessage", "중복된 전화번호입니다.");
-        return "redirect:/admin/adminjoin";
-    }
-    if (service.nicknameCheck(nickname) != null) {
-        redirectAttributes.addFlashAttribute("errorMessage", "중복된 닉네임입니다.");
-        return "redirect:/admin/adminjoin";
-    }
+		// 서비스 호출
+		int result = service.insertUser(userVO, role_id, subscriptionVO);
 
-	// UserVO 생성 및 데이터 설정
-    UserVO userVO = new UserVO();
-    userVO.setEmail(email);
-    userVO.setArtist_id(artist_id);
-    userVO.setPwd(pwd);
-    userVO.setName(name);
-    userVO.setPhone(phone);
-    userVO.setBirth(birth);
-    userVO.setLevel(level);
-    userVO.setNickname(nickname);
-    
-	// SubscriptionVO 생성 (구독 정보가 있을 경우에만)
-    SubscriptionVO subscriptionVO = null;
-    if (level > 0 && start_date != null && end_date != null) {
-        subscriptionVO = new SubscriptionVO();
-        subscriptionVO.setEmail(email);
-        subscriptionVO.setLevel(level);
-        subscriptionVO.setArtist_id(artist_id); // 기본값 0
-        subscriptionVO.setStart_date(start_date);
-        subscriptionVO.setEnd_date(end_date);
-    }
-
-    // 서비스 호출
-    int result = service.insertUser(userVO, role_id, subscriptionVO);
-
-	// 결과에 따른 리다이렉트 처리
-    if (result > 0) {
-        return "redirect:/admin/member"; // 회원가입 성공 시 이동
-    } else {
-        redirectAttributes.addFlashAttribute("errorMessage", "계정 생성에 실패했습니다.");
-        return "redirect:/admin/adminjoin"; // 회원가입 실패 시 이동
-	    }
+	 // 결과에 따른 리다이렉트 처리
+		if (result > 0) {
+			return "redirect:/admin/member"; // 회원가입 성공 시 이동
+		} else {
+			redirectAttributes.addFlashAttribute("errorMessage", "계정 생성에 실패했습니다.");
+			return "redirect:/admin/adminjoin"; // 회원가입 실패 시 이동
+		}
 	}
 
 	// 이메일 중복 확인
