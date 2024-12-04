@@ -47,10 +47,12 @@
 					</div>
 					<div class="section-fan-post">
 						<div class="fanWrap">
-							<div class="posting" onclick="popPostShow(${num});">
-								<p>당신의 아티스트에게 포스트를 남겨보세요.</p>
-								<i class="i-img"><i class="fa-regular fa-image"></i></i>
-							</div>
+							<c:if test="${UserVO != null && UserVO.email != 'admin'}">
+                                <div class="posting" onclick="popPostShow(${num});">
+                                    <p>당신의 아티스트에게 포스트를 남겨보세요.</p>
+                                    <i class="i-img"><i class="fa-regular fa-image"></i></i>
+                                </div>
+                            </c:if>
 							<div class="postWrap">
 								<c:forEach items="${itzyFanPosts}" var="PostVO">
 									<div class="postBx">
