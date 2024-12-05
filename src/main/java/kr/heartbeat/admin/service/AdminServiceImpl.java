@@ -28,6 +28,12 @@ public class AdminServiceImpl implements AdminService {
 	public int count_a(String reg_date) throws Exception {
 	    return persistence.count_a(reg_date);
 	}
+
+	//탈퇴유저
+	@Override
+	public int todayDeleteUser(String reg_date) throws Exception {
+		return persistence.todayDeleteUser(reg_date);
+	}
 	
 	@Override
 	public int count_b() throws Exception {

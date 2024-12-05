@@ -30,6 +30,12 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	public int count_a(String reg_date) throws Exception {
 	    return sql.selectOne(namespace + ".count_a", reg_date);
 	}
+
+	//탈퇴 유저
+	@Override
+	public int todayDeleteUser(String reg_date) throws Exception {
+		return sql.selectOne(namespace +".todayDeleteUser", reg_date);
+	}
 	
 	@Override
 	public int count_b() throws Exception {

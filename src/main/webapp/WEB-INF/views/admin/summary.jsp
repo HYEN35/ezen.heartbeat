@@ -13,6 +13,9 @@
 				        <div class="item">
 				            <span class="info">오늘 가입한 유저 : <i id="todayuser">${count_a}</i></span>
 				        </div>
+						<div class="item">
+				            <span class="info">오늘 탈퇴한 유저 : <i id="todayuser">${todayDeleteUser}</i></span>
+				        </div>
 				        <div class="item">
 				            <span class="info">총 구독자 수 : <i id="totalsub">${count_b}</i></span>
 				        </div>

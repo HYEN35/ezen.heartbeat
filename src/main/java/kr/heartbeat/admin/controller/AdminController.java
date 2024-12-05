@@ -61,6 +61,10 @@ public class AdminController {
 	    int todayUserCount = service.count_a(today);
 	    model.addAttribute("count_a", todayUserCount);
 
+		// 오늘 탈퇴한 유저 수
+		int todayDeleteUser = service.todayDeleteUser(today);
+		model.addAttribute("todayDeleteUser", todayDeleteUser);
+
 	    // 총 구독자 수
 	    int totalSubscribers = service.count_b();
 	    model.addAttribute("count_b", totalSubscribers);

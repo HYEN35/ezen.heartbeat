@@ -15,6 +15,9 @@ public interface AdminService {
 	
 	//summary
 	public int count_a(String reg_date) throws Exception;
+
+	//탈퇴 유저
+	public int todayDeleteUser(String reg_date) throws Exception; 
 	
 	public int count_b() throws Exception;
 	

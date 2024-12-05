@@ -12,6 +12,13 @@
 		where DATE(reg_date) = CURDATE();
 	</select>
 
+	<!--탈퇴 유저-->
+	<select id="todayDeleteUser" resultType="int" parameterType="String" >
+		select count(del_email)
+		from delete_user_tbl
+		where DATE(del_reg_date) = CURDATE();
+	</select>
+
 	<select id="count_b" resultType="int">
 		select count(s.email)
 		from subscription_tbl s
