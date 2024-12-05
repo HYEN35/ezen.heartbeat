@@ -17,7 +17,6 @@
 	            url: '/getAccessToken',  // 서버에서 엑세스 토큰을 반환하는 엔드포인트
 	            type: 'GET',
 	            success: function(response) {
-	                console.log('Response:', response); // 응답 내용을 로그로 출력해 응답 형식 확인
 	                if (response && response) {
 	                    resolve(response);  // 엑세스 토큰 반환
 	                } else {
@@ -56,11 +55,7 @@
                         buyer_tel : phone,			// 구매자 번호 
                         access_token: accessToken   // 엑세스 토큰 추가
                     }, function(rsp) {
-                        console.log(rsp.status);  // 결제 응답 객체 출력
-                        console.log(rsp.approvalRedirectParams);  // 결제 응답 객체 출력
-                        console.log(rsp.pgToken);  // 결제 응답 객체 출력
                         if (rsp.success) {
-                            console.log("결제 성공:", rsp);
                             // 결제 성공 시 처리 함수 호출
                             artistPaymentSuccess(rsp); 
                         } else {
@@ -136,7 +131,6 @@
                                 payhide();  // 결제 팝업 숨기기
                             } else {
                                 artistNicePaySuccess(rsp, selectedArtist);  // 결제 성공 처리 함수 호출
-                                console.log("결제 성공:", rsp);
                             }
                         });
                     }
@@ -153,7 +147,6 @@
         }
         
         function artistNicePaySuccess(rsp, selectedArtist) {
-            console.log("결제 성공 후 처리:", selectedArtist);
             // 결제 결과를 서버로 전송 (AJAX 요청)
             $.ajax({
                 type: 'POST',

@@ -17,11 +17,11 @@ public class MembershipPersistenceImpl implements MembershipPersistence {
 	
 	private static String namespace = "kr.heartbeat.mappers.membership";
 	
-	@Override
+	@Override //아티스트 아이디 확인
 	public int checkArtistId(String custom_data) throws Exception {
 		return sql.selectOne(namespace+".checkArtistId", custom_data);
 	}
-	@Override
+	@Override // 유저 레벨 업데이트
 	public void updateLevel(String email, int artist_id, int level) throws Exception{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("email", email);
@@ -30,13 +30,12 @@ public class MembershipPersistenceImpl implements MembershipPersistence {
 		sql.update(namespace+".updateLevel", map);
 	}
 	
-	@Override
+	@Override // 구독 테이블 작성
 	public void insertSubscription(String email, int artist_id, int level) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("email", email);
 		map.put("artist_id", artist_id);
 		map.put("level", level);
-		System.out.println("======인서트 확인" + map);
 		sql.update(namespace+".insertSubscription", map);
 	}
 	// 레벨 삭제 

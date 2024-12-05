@@ -15,6 +15,7 @@ import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
+import kr.heartbeat.vo.likeVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -36,6 +37,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Map<String, Object> count_c() throws Exception {
 	    return persistence.count_c();
+	}
+	
+	//좋아요 많은 게시물 5개 가져오기
+	public List<likeVO> getMostLikePost() throws Exception {
+		return persistence.getMostLikePost();
 	}
 	
 	//summary 그래프

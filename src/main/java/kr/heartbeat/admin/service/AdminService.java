@@ -9,6 +9,7 @@ import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
+import kr.heartbeat.vo.likeVO;
 
 public interface AdminService {
 	
@@ -18,6 +19,8 @@ public interface AdminService {
 	public int count_b() throws Exception;
 	
 	public Map<String, Object> count_c() throws Exception;
+	//좋아요 많은 게시물 5개 가져오기
+	public List<likeVO> getMostLikePost() throws Exception;
 	
 	//summary 그래프
 	// 회원 총 인원

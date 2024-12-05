@@ -2,6 +2,7 @@ package kr.heartbeat.community.persistence;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -90,6 +91,29 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 		return count;
 	}
 	
+	@Override // 블랙핑크 팬 게시물  가져오기
+	public List<PostVO> getBlackpinkFanPostList(int displayPost, int postNum) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+	    map.put("jennie", "jennie");
+	    map.put("jisoo", "jisoo");
+	    map.put("lisa", "lisa");
+	    map.put("rose", "rose");
+	    map.put("displayPost", displayPost);
+	    map.put("postNum", postNum);
+	    return sql.selectList(namespace+".getBlackpinkFanPostList", map);
+	}
+	
+	@Override //블랙핑크 팬 게시물 개수 가져오기 
+	public int getBlackpinkFanPostCount() throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("jennie", "jennie");
+	    map.put("jisoo", "jisoo");
+	    map.put("lisa", "lisa");
+	    map.put("rose", "rose");
+		int count = sql.selectOne(namespace+".getBlackpinkFanPostCount",map);
+		return count;
+	}
+	
 	
 	@Override // 게시물 하나 가져오기
 	public PostVO getPost(PostVO postVO) throws Exception {
@@ -105,6 +129,11 @@ public class CommunityPersistenceImpl implements CommunityPersistence {
 	@Override // 게시물 삭제
 	public void deletePost(int post_id) throws Exception {
 		sql.delete(namespace+".deletePost", post_id);
+	}
+	
+	@Override // 게시물에서 이미지만 삭제
+	public int deletePostImg(Map<String, Object> request) throws Exception{
+		return sql.delete(namespace+".deletePostImg",request);
 	}
 	
 	@Override // 구독 중인 아티스트 이름 가져오기

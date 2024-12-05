@@ -55,7 +55,6 @@
 	        alert("댓글 내용을 입력해주세요.");  // 경고창 띄우기
 	        return;  // 함수 종료, 댓글 수정 작업 진행 안함
 	    }
-	    console.log(newCommentValue);
 
 	    // AJAX 요청을 보내기
 	    $.ajax({
@@ -67,7 +66,6 @@
 	        },
 	        success: function(response) {
 	            // 서버 응답이 성공적이면 처리
-	            console.log('댓글 수정 성공:', response);
 
 	            // 수정 후 화면 업데이트 (예: 댓글 내용 갱신)
 	            var commentText = parentDiv.querySelector('.comment'); // 댓글 내용
@@ -116,6 +114,8 @@
 						<form action="/myNoticeModifyShow" method="post">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="num" value="${num }">
+							<input type="hidden" name="searchType" value="${searchType }">
+							<input type="hidden" name="keyword" value="${keyword }">
 							<div class="writer">${noticeVO.nickname }</div>
 							<div class="tit">${noticeVO.title }</div>
 							<div class="date"><fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
@@ -125,7 +125,7 @@
 									<button type="submit" class="btn-full">수정하기</button>
 									<a href="/myNoticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
 								</c:if>
-								<a href="/mynotice?num=${num }" class="btn-border">목록</a>
+								<a href="/mynotice?num=${num }&searchType=${searchType}&keyword=${keyword}" class="btn-border">목록</a>
 							</div>
 						</form>
 					</div>

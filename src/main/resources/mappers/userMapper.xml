@@ -113,7 +113,7 @@
 	        del_reg_date,
 	        del_date
 	    ) values (
-	        #{email}, #{artist_id}, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, 0, #{level},#{reg_date}, now())
+	        #{email}, #{artist_id}, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, #{profileimg}, #{level},#{reg_date}, now())
 	</insert>
 	<!-- 3. 회원 삭제 -->
 	<delete id="delete" parameterType="kr.heartbeat.vo.UserVO">

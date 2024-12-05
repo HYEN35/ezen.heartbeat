@@ -1,6 +1,7 @@
 package kr.heartbeat.community.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,16 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityPersistence.getItzyFanPostCount();
 	}
 	
+	@Override // 블랙핑크 팬 게시물 목록 가져오기
+	public List<PostVO> getBlackpinkFanPostList(int displayPost, int postNum) throws Exception {
+		return communityPersistence.getBlackpinkFanPostList(displayPost, postNum);
+	}
+	
+	@Override // 블랙핑크 팬 게시물 개수
+	public int getBlackpinkFanPostCount() throws Exception {
+		return communityPersistence.getBlackpinkFanPostCount();
+	}
+	
 	@Override // 게시물 하나 가져오기
 	public PostVO getPost(PostVO postVO) throws Exception {
 		return communityPersistence.getPost(postVO);
@@ -64,6 +75,11 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override // 게시물 삭제
 	public void deletePost(int post_id) throws Exception {
 		communityPersistence.deletePost(post_id);
+	}
+	
+	@Override // 게시물에서 이미지만 삭제
+	public int deletePostImg(Map<String, Object> request) throws Exception{
+		return communityPersistence.deletePostImg(request);
 	}
 	
 	@Override // 구독중인 아티스트 이름 가져오기

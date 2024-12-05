@@ -14,7 +14,6 @@
 	            phone: phone
 	        },
 	        success: function(data) {  
-	        	console.log("아이디 찾기 : ",data);
 	            if (data.result === "success") {
 	                resultShow(); 
 	                $("#userName").text(name); 

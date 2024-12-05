@@ -25,7 +25,6 @@
 
     // 부모 페이지에서 pgToken을 받는 함수
     function receivePgToken(pgToken) {
-        console.log("Received PG Token:", pgToken);
         
         // 서버로 결제 정보 전송
         $.ajax({

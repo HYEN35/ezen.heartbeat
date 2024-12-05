@@ -1,6 +1,7 @@
 package kr.heartbeat.community.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
@@ -21,12 +22,18 @@ public interface CommunityPersistence {
 	public List<PostVO> getItzyFanPostList(int displayPost, int postNum) throws Exception;
 	// 있지 팬 게시물 개수
 	public int getItzyFanPostCount() throws Exception;	
+	// 블랙핑크 팬 게시물 목록
+	public List<PostVO> getBlackpinkFanPostList(int displayPost, int postNum) throws Exception;
+	// 블랙핑크 팬 게시물 개수
+	public int getBlackpinkFanPostCount() throws Exception;	
 	// 게시물 하나 가져오기
 	public PostVO getPost(PostVO postVO) throws Exception;
 	// 게시물 수정
 	public void modifyPost(PostVO postVO) throws Exception;
 	// 게시물 삭제
 	public void deletePost(int post_id) throws Exception;
+	//포스트 이미지 삭제
+	public int deletePostImg(Map<String, Object> request) throws Exception;
 	// 구독중인 아티스트 이름 가져오기
 	public String getArtistName(int artist_id) throws Exception;
 	// 댓글 작성
@@ -47,5 +54,6 @@ public interface CommunityPersistence {
 	public int totalLike(PostVO postVO) throws Exception;
 	// 좋아요 여부
 	public int checkLike(PostVO postVO) throws Exception;
+	
 
 }

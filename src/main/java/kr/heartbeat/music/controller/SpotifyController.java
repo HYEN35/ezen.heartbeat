@@ -74,7 +74,6 @@ public class SpotifyController {
             // YouTube URL 가져오기
             String youTubeUrl = spotifyAPI.getYouTubeUrl(trackTitle, artist);
             
-            System.out.println("=========youTubeUrl : "+ youTubeUrl);
            
             // URL 반환
             return youTubeUrl != null ? youTubeUrl : "No URL found";

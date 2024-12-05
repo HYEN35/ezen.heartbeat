@@ -15,6 +15,8 @@
 					<form action="myNoticeModify" method="post">
 						<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 						<input type="hidden" name="num" value="${num }">
+						<input type="hidden" name="searchType" value="${searchType }">
+						<input type="hidden" name="keyword" value="${keyword }">
 						<div class="writer">${noticeVO.nickname }</div>
 						<div class="date"><fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
 						<div class="title">
@@ -27,7 +29,7 @@
 						</div>
 						<div class="btnWrap">
 							<button type="submit" class="btn-full">수정</button>
-							<a href="/admin/getMyPostOne?notice_id=${noticeVO.notice_id }&num=${num}" class="btn-border">취소</a>
+							<a href="/admin/getMyPostOne?notice_id=${noticeVO.notice_id }&num=${num}&searchType=${searchType}&keyword=${keyword}" class="btn-border">취소</a>
 						</div>
 					</form>
 				</div>

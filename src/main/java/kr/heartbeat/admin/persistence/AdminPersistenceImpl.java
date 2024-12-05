@@ -15,6 +15,7 @@ import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
+import kr.heartbeat.vo.likeVO;
 
 @Repository
 public class AdminPersistenceImpl implements AdminPersistence {
@@ -39,6 +40,10 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	public Map<String, Object> count_c() throws Exception {
 	    return sql.selectOne(namespace + ".count_c");
 	}
+	//좋아요 많은 게시물 5개 가져오기
+	public List<likeVO> getMostLikePost() throws Exception {
+		return sql.selectList(namespace+".getMostLikePost");
+	}
 	
 	//summary 그래프
 	// 회원 총 인원
@@ -47,9 +52,7 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	}
 
 	public int levelCnt(int level) throws Exception {
-	    System.out.println("레벨 0 회원 수: " + level);
 	    int result = sql.selectOne(namespace + ".levelCnt", level);
-	    System.out.println(result);
 		
 	    return sql.selectOne(namespace + ".levelCnt", level);
 	}
@@ -115,7 +118,6 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	
 	@Override
 	public void codelete(int comment_id) throws Exception {
-	    System.out.println("Deleting comment with ID: " + comment_id);
 	    sql.delete(namespace + ".codelete", comment_id);
 	}
 	
@@ -127,7 +129,6 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	
 	@Override
 	public void update(UserVO uvo) throws Exception {
-	    System.out.println("update called with: " + uvo); // 로그 추가
 	    sql.update(namespace + ".update", uvo);
 	}
 	

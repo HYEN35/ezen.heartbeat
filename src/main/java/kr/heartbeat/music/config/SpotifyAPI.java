@@ -44,7 +44,6 @@ public class SpotifyAPI {
     }
     
     public void connect() {
-        System.out.println("Spotify API connected");
     }
     
     // ClientCredentials 흐름을 사용하여 액세스 토큰을 얻는 메소드
@@ -60,7 +59,6 @@ public class SpotifyAPI {
                 // 클라이언트 자격 증명을 사용하여 액세스 토큰 얻기
                 ClientCredentials credentials = spotifyApi.clientCredentials().build().execute();
                 accessToken = credentials.getAccessToken();
-                System.out.println("Access Token: " + accessToken);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,10 +81,8 @@ public class SpotifyAPI {
             // playlistId: 플레이리스트의 ID (예: "37i9dQZEVXbNxXF4SkHj9F")
             
             if (playlist != null) {
-                System.out.println("Playlist Name: " + playlist.getName());
                 return playlist;
             } else {
-                System.out.println("No playlist found.");
                 return null;
             }
         } catch (Exception e) {
@@ -167,7 +163,6 @@ public class SpotifyAPI {
     	        
 	    	        // 완성된 URL을 문자열로 출력
 	    	        String fullUrl = builder.toUriString();
-	    	        System.out.println("Generated URL: " + fullUrl);
 	    	        
     	            // HTTP 연결을 열기
     	            URL url = new URL(fullUrl);
@@ -183,8 +178,6 @@ public class SpotifyAPI {
     	            }
     	            reader.close();
 
-    	            // 응답 결과 출력 (디버깅용)
-    	            System.out.println("API Response: " + response.toString());
 
     	            // JSON 응답 파싱
     	            JSONObject jsonResponse = new JSONObject(response.toString());
@@ -205,14 +198,10 @@ public class SpotifyAPI {
     	                String title = item.getJSONObject("snippet").getString("title");
     	                String description = item.getJSONObject("snippet").getString("description");
 
-    	                System.out.println("Title: " + title);
-    	                System.out.println("Description: " + description);
-    	                System.out.println("Video ID: " + videoId);
 
     	                // "Official MV" 또는 "official mv"가 제목이나 설명에 포함되어 있는지 확인
     	                if (title.contains("Official MV") || description.contains("Official MV")) {
     	                   youtubeUrl = videoId;
-    	                    System.out.println("Official MV Found: " + youtubeUrl);
     	                    break;  // 첫 번째 공식 MV를 찾으면 반복문 종료
     	                }
     	            }
@@ -222,14 +211,12 @@ public class SpotifyAPI {
     	                JSONObject firstItem = items.getJSONObject(0);
     	                String firstVideoId = firstItem.getJSONObject("id").getString("videoId");
     	                youtubeUrl = firstVideoId;
-    	                System.out.println("No Official MV found, using first video: " + youtubeUrl);
     	            }
 
     	            return youtubeUrl;
     	                	            
     	        } catch (Exception e) {
     	        e.printStackTrace();
-    	        System.out.println("Error occurred while fetching YouTube URL.");
     	    }
     	    return null;
     	}

@@ -13,6 +13,10 @@
 				<div class="cntArea">
 					<div class="midCnt">
 						<form action="/admin/edit" method="post" autocomplete="off">
+							<input type="hidden" name="num" value="${num }">
+							<input type="hidden" name="searchType" value="${searchType }">
+							<input type="hidden" name="keyword" value="${keyword }">
+							<input type="hidden" name="role_id" value="${role_id }">
 							<div class="infoWrap">
 								<p>이름 </p><input type="text" class="txtBx" name="name" value="${modify.name}" placeholder="이름">
 								<p>email </p><input type="email" class="txtBx" name="email" value="${modify.email}" readonly>
@@ -24,8 +28,8 @@
 								<p>최근 수정일 </p><input type="text" class="txtBx" name="up_date" value="${modify.up_date}" disabled>
 							</div>
 							<div class="btnWrap">
-								<button onclick="location.href='/admin/edit?email=${modify.email}'" type="submit" class="btn-full">회원수정</button>
-								<button onclick="location.href='/admin/member'" type="button" class="btn-border">닫기</button>
+								<button type="submit" class="btn-full">회원수정</button>
+								<a href="/admin/member?num=${num}&searchType=${searchType}&keyword=${keyword}&role_id=${role_id}" class="btn-border">닫기</a>
 							</div>
 						</form>
 					</div>

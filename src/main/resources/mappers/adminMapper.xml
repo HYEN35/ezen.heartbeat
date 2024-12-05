@@ -44,6 +44,25 @@
 		inner join user_role_tbl r on u.email = r.email
 		where r.role_id = 2 and u.level = #{level};
 	</select>
+	
+	<!-- 좋아요 많은 게시물 5개 가져오기 -->
+	<select id="getMostLikePost" resultType="kr.heartbeat.vo.likeVO">
+		SELECT 
+		    p.post_id,
+		    p.nickname,
+		    COUNT(l.like_id) AS like_count
+		FROM 
+		    post_tbl p
+		INNER JOIN 
+		    like_tbl l
+		ON 
+		    p.post_id = l.post_id
+		GROUP BY 
+		    p.post_id, p.nickname
+		ORDER BY 
+		    like_count DESC
+		LIMIT 5;
+	</select>
 
 	<!-- ============================== member ============================== -->
 	<select id="user_list" parameterType="hashMap" resultType="kr.heartbeat.vo.UserVO">
@@ -75,7 +94,7 @@
 				AND r.role_id != 0
 			</if>
 		</where>
-		order by u.email DESC
+		order by u.reg_date DESC
 		limit #{displayPost}, #{postNum}
 	</select>
 
@@ -101,8 +120,8 @@
 			</if>
 
 			<!-- Role ID 조건 -->
-			<if test='roleId != null'>
-				and r.role_id in (${roleId})
+			<if test="roleId != null and roleId != ''">
+			    and r.role_id in (${roleId})
 			</if>
 		</where>
 	</select>
@@ -207,12 +226,12 @@
 				post_date like concat('%', #{keyword}, '%')
 			</if>
 			<if test="searchType != null and searchType.equals('content')">
-				content like concat'%', #{keyword}, '%')
+				content like concat('%', #{keyword}, '%')
 			</if>
 
 			<!-- Role ID 조건 -->
-			<if test='roleId != null'>
-				and r.role_id in (${roleId})
+			<if test="roleId != null and roleId != ''">
+			    and r.role_id in (${roleId})
 			</if>
 		</where>
 	</select>
@@ -240,14 +259,15 @@
 				comment_date like concat('%', #{keyword}, '%')
 			</if>
 
-			<if test='searchType.equals("content")'>
-				content like concat('%', #{keyword}, '%')
+			<if test='searchType.equals("comment")'>
+				comment like concat('%', #{keyword}, '%')
 			</if>
 
 			<!-- Role ID 조건 -->
 			<if test='roleId != null and roleId != ""'>
-				AND r.role_id IN (${roleId})
+			    and r.role_id = #{roleId}
 			</if>
+
 
 			<!-- 기본적으로 직원(role_id = 0) 제외 -->
 			<if test='roleId == null or roleId == ""'>
@@ -259,28 +279,33 @@
 	</select>
 
 	<select id="getCommentCount" parameterType="hashMap" resultType="int">
-		select count(*)
-		from comment_tbl c
-		inner join user_role_tbl r on c.email = r.email
-		<if test='searchType.equals("comment_id")'>
-			where comment_id like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("nickname")'>
-			where nickname like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("comment_date")'>
-			where comment_date like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("content")'>
-			where content like concat('%', #{keyword}, '%')
-		</if>
-		<!-- Role ID 조건 -->
-		<if test='roleId != null'>
-			and r.role_id in (${roleId})
-		</if>
+	    select count(*)
+	    from comment_tbl c
+	    inner join user_role_tbl r on c.email = r.email
+	    <where>
+	        <if test='searchType.equals("comment_id")'>
+	            comment_id like concat('%', #{keyword}, '%')
+	        </if>
+	
+	        <if test='searchType.equals("nickname")'>
+	            nickname like concat('%', #{keyword}, '%')
+	        </if>
+	
+	        <if test='searchType.equals("comment_date")'>
+	            comment_date like concat('%', #{keyword}, '%')
+	        </if>
+	
+	        <if test='searchType.equals("comment")'>
+	            comment like concat('%', #{keyword}, '%')
+	        </if>
+	        <!-- Role ID 조건 -->
+	        <if test='roleId != null and roleId != ""'>
+	            and r.role_id = #{roleId}
+	        </if>
+	        <if test='roleId == null or roleId == ""'>
+	            and r.role_id != 0  <!-- 직원(role_id = 0)도 포함 -->
+	        </if>
+	    </where>
 	</select>
 
 	<delete id="codelete" parameterType="int">

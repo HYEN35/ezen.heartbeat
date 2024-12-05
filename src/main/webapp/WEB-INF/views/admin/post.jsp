@@ -43,34 +43,40 @@
 						            </div>
 									<div class="btnWrap">
 										<a href="javascript:void(0);" class="btn-border" onclick="popPostArtistShow('${pvo.post_id}', '${pvo.email}')">보기</a>
-										<button type="button" class="btn-border-01" onclick="deleteItem(${pvo.post_id})">삭제</button>
+										<button type="button" class="btn-border-01" onclick="deletePostItem('${pvo.post_id}','${select }','${searchType }','${keyword}','${role_id }')">삭제</button>
 						            </div>
 						        </li>
 						    </c:forEach>
 						</ul>
 						<%-- Page 객체(DTO)를 사용한 페이징 처리 --%>
 						<div class="pagination">
-							<ul class="page">
-								<c:if test="${page.prev}">
-								<li><a href="/admin/post?num=${page.startPageNum - 1}" class="btn-i-prev"><i class="bi bi-chevron-left"></i></a></li>
-								</c:if>
-								
-								<%-- 페이지 번호 버튼 --%>
-								<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
-								<li>
-									<c:if test="${select != num}">
-									<a href="/admin/post?num=${num}" class="num">${num}</a>
-									</c:if>
-									<c:if test="${select == num}">
-									<a href="" class="num on">${num}</a>
-									</c:if>
-								</li>
-								</c:forEach>
-								
-								<c:if test="${page.next}">
-								<li><a href="/admin/post?num=${page.endPageNum + 1}" class="btn-i-next"><i class="bi bi-chevron-right"></i></a></li>
-								</c:if>
-							</ul>
+						    <!-- 이전 버튼 -->
+						    <c:if test="${page.prev}">
+						        <a href="/admin/post?num=${page.startPageNum - 1}&searchType=${searchType}&keyword=${keyword}&role_id=${role_id}" class="btn-i-prev">
+						            <i class="bi bi-chevron-left"></i>
+						        </a>
+						    </c:if>
+						
+						    <!-- 페이지 번호 -->
+						    <div class="page">
+						        <c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+						            <!-- 현재 페이지가 아닐 때 -->
+						            <c:if test="${select != num}">
+						                <a href="/admin/post?num=${num}&searchType=${searchType}&keyword=${keyword}&role_id=${role_id}" class="num">${num}</a>
+						            </c:if>
+						            <!-- 현재 페이지일 때 -->
+						            <c:if test="${select == num}">
+						                <a href="/admin/post?num=${num}&searchType=${searchType}&keyword=${keyword}&role_id=${role_id}" class="num on">${num}</a>
+						            </c:if>
+						        </c:forEach>
+						    </div>
+						
+						    <!-- 다음 버튼 -->
+						    <c:if test="${page.next}">
+						        <a href="/admin/post?num=${page.endPageNum + 1}&searchType=${searchType}&keyword=${keyword}&role_id=${role_id}" class="btn-i-next">
+						            <i class="bi bi-chevron-right"></i>
+						        </a>
+						    </c:if>
 						</div>
 					</div>
 				</div>
@@ -89,10 +95,8 @@
 			// AJAX 요청으로 데이터를 가져옵니다.
 			
 			$.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
-				console.log(data); // 반환된 데이터 확인
 				// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
 				const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
-				console.log(newContent); // newContent 확인
 				$('.pop-post-artist .cntArea').html(newContent);	
 		
 				// 팝업을 보여줍니다.
@@ -106,10 +110,10 @@
 		}
 		
 		// 게시글 삭제
-		function deleteItem(postId) {
+		function deletePostItem(postId,select,searchType,keyword,role_id) {
 			if (confirm('게시글 번호 ' + postId + '을 삭제하시겠습니까?')) {
 				// 삭제 요청을 서버로 보냄
-				window.location.href = '/admin/post/delete?post_id=' + postId;
+				window.location.href = '/admin/post/delete?post_id=' + postId+'&num='+select+'&searchType='+searchType+'&keyword='+keyword+'&role_id='+role_id;
 			}
 		}
 		

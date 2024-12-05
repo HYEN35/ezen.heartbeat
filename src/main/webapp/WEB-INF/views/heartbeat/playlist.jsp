@@ -100,7 +100,6 @@
 					alert("An error occurred while fetching the track.");
 				} else {
 					youtubeVideoId = youTubeUrl;
-					console.log(youtubeVideoId);
 					onYouTubeIframeAPIReady(youtubeVideoId);
 					
 					$(".nowPlayInfo").show();
@@ -195,7 +194,6 @@
                 selectedTagIdArray.push(tagId);
             });
 
-            console.log("******선택된 해시태그 :", selectedTagArray);
 
             var wrappedTagArray = selectedTagArray.map(function(tagTxt) {
                 return '<i>' + tagTxt + '</i>';
@@ -220,7 +218,6 @@
                     },
 					contentType: 'application/json',
                     success: function(response) {
-                        //console.log('************Response:', response);
 
                         var playlist = response.playlist;
 

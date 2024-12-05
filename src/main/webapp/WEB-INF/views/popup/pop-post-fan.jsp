@@ -21,7 +21,7 @@
 		}
 	}
 	
-	// 게시물 수정 버튼
+	//게시물 수정 버튼
 	function popPostEditShow(button) {
 	    var postDiv = button.closest('.postBx');
 	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
@@ -32,27 +32,85 @@
 	    var postImgFileInput = fanPostDiv.querySelector('#postImgFile');
 	    var postImage = fanPostDiv.querySelector("img.thumb");
 
+	    // 사진 삭제 버튼 찾기
+	    var deleteImageButton = fanButtonDiv.querySelector('.btn-i-del');
+
 	    postText.style.display = 'none'; // 기존 텍스트 숨김
 	    postInput.style.display = 'block'; // 텍스트 박스 표시
 	    postImgFileInput.style.display = 'block'; // 파일 입력 표시
 
+	    
+	    if (deleteImageButton) {
+	        deleteImageButton.style.display = 'inline-block';
+	    }
+
 	    postInput.value = postText.innerText.trim(); // 기존 텍스트를 입력 박스로 복사
 
 	    // 파일 선택 시 미리보기 업데이트
-	    postImgFileInput.addEventListener('change', function () {
-	        if (postImgFileInput.files && postImgFileInput.files[0]) {
-	            var reader = new FileReader();
-	            reader.onload = function (e) {
+		postImgFileInput.addEventListener('change', function () {
+	    if (postImgFileInput.files && postImgFileInput.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            // 선택한 이미지의 미리보기 업데이트
+	            if (postImage) {
 	                postImage.src = e.target.result; // 새로운 이미지로 업데이트
-	            };
-	            reader.readAsDataURL(postImgFileInput.files[0]);
-	        }
-	    });
+	                postImage.style.display = 'block'; // 이미지 표시
+	            } else {
+	                // 이미지를 처음으로 추가하는 경우
+	                var newImage = document.createElement('img');
+	                newImage.src = e.target.result;
+	                newImage.classList.add('thumb');
+	                newImage.style.width = '50%';
+	                fanPostDiv.appendChild(newImage);
+	            }
+	        };
+	        reader.readAsDataURL(postImgFileInput.files[0]);
+	    }
+	});
 
 	    var editButton = fanButtonDiv.querySelector('.btn-i-edit');
 	    var saveButton = fanButtonDiv.querySelector('.btn-i-save');
 	    editButton.style.display = 'none';
 	    saveButton.style.display = 'inline-block';
+	}
+
+	// 사진 삭제 버튼 클릭 시 호출되는 함수
+	function deletePostImage(postId, button) {
+	if (!confirm("사진을 삭제하시겠습니까?")) {
+	    return;
+	}
+
+	$.ajax({
+	    type: "POST",
+	    url: "/community/deletePostImage",
+	    data: JSON.stringify({ post_id: postId }),
+	    contentType: "application/json",
+	    success: function (data) {
+	        alert("삭제되었습니다.");
+
+	        var postDiv = button.closest('.postBx');
+	        var fanPostDiv = postDiv.querySelector('.arti-cnt');
+	        var postImage = fanPostDiv.querySelector("img.thumb");
+
+	        if (postImage) {
+	            postImage.style.display = 'none'; // 이미지 숨기기
+	        }
+
+	        // 버튼 숨기기
+	        var deleteImageButton = postDiv.querySelector('.btn-i-del');
+	        if (deleteImageButton) {
+	            deleteImageButton.style.display = 'none';
+	        }
+
+	        $.post("/community/getUserPost", { post_id: post_id}, function(data) {
+		        const newContent = $(data).find('.cntArea').html(); 
+		        $('.pop-post-fan .cntArea').html(newContent);
+	        });
+	    },
+	    error: function () {
+	        alert("오류가 발생했습니다.");
+	    }
+	});
 	}
 
 	// 게시물 수정 저장 버튼
@@ -92,12 +150,18 @@
 	            if (data.post_img) {
 	                var postImage = fanPostDiv.querySelector("img.thumb");
 	                if (postImage) {
-	                    postImage.src = "/upload/" + data.post_img;
+	                    postImage.src = "/heartbeat-upload/" + data.post_img;
 	                }
 	            }
 
 	            // 파일 입력 숨기기
 	            postImgFileInput.style.display = 'none';
+
+	            // 사진 삭제 버튼 숨기기
+	            var deleteImageButton = fanButtonDiv.querySelector('.btn-i-del');
+	            if (deleteImageButton) {
+	                deleteImageButton.style.display = 'none'; // 사진 삭제 버튼 숨기기
+	            }
 
 	            // 버튼 상태 복구
 	            var editButton = fanButtonDiv.querySelector('.btn-i-edit');
@@ -105,6 +169,7 @@
 	            editButton.style.display = 'inline-block';
 	            saveButton.style.display = 'none';
 
+	            // 파일 입력 값 초기화
 	            postImgFileInput.value = '';
 	        },
 	        error: function () {
@@ -119,17 +184,12 @@
 	function submitComment() {
 		var button = event.target; // 클릭한 버튼을 가져온다.
 		var form = button.closest('.submitCommentTest');
-	    console.log(form);  // 댓글 내용 확인 (디버깅용)
 	    
 	    var post_id = form.querySelector('input[name="post_id"]').value
 	    var email = form.querySelector('input[name="email"]').value
 	    var nickname = form.querySelector('input[name="nickname"]').value
 	    var comment = form.querySelector('input[name="comment"]').value
-	    console.log(post_id);  // 댓글 내용 확인 (디버깅용)
-	    console.log(email);  // 댓글 내용 확인 (디버깅용)
-	    console.log(nickname);  // 댓글 내용 확인 (디버깅용)
-	    console.log(comment);  // 댓글 내용 확인 (디버깅용)
-		
+
 	    // 댓글이 비어있는 경우
 	    if (!comment.trim()) {
 	        alert("댓글 내용을 입력해주세요.");
@@ -148,7 +208,6 @@
 	        },
 	        dataType: 'json',
 	        success: function(response) {
-	    	    console.log("바보야");  // 댓글 내용 확인 (디버깅용)
 
 	        	$.ajax({
 	    			url: '/community/getUserPost',  // 서버 URL을 여기에 넣으세요
@@ -242,7 +301,6 @@
 	            comment: newCommentText
 	        },
 	        success: function(data) {
-	            console.log('서버 응답:', data);  // 서버 응답 로그 추가
 	            if (data === "success") {
 	                // 수정 후 댓글 내용을 업데이트하고, 버튼 전환
 	                commentText.innerText = newCommentText;  // 댓글 텍스트 업데이트
@@ -309,59 +367,70 @@
 	
 	//게시물 이미지 효과 추가 
 	function showPopup(img) {
-        let darkBackground = document.getElementById("dark-background");
+    let darkBackground = document.getElementById("dark-background");
 
-        // 어두운 배경이 없다면 새로 생성
-        if (!darkBackground) {
-            darkBackground = document.createElement("div");
-            darkBackground.id = "dark-background";
-            darkBackground.className = "dark-background";
-            darkBackground.style.position = "fixed";
-            darkBackground.style.top = "0";
-            darkBackground.style.left = "0";
-            darkBackground.style.width = "100%";
-            darkBackground.style.height = "100%";
-            darkBackground.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-            darkBackground.style.zIndex = "9999";
-            darkBackground.style.display = "block";
-            darkBackground.onclick = closePopup;
-            document.body.appendChild(darkBackground);
-        } else {
-            darkBackground.style.display = "block";
-        }
-
-        // 이미지 팝업 생성
-        let popupImg = document.getElementById("popup-img");
-        if (!popupImg) {
-            popupImg = document.createElement("img");
-            popupImg.id = "popup-img";
-            popupImg.src = img.src;
-            popupImg.style.maxWidth = "100%";
-            popupImg.style.maxHeight = "100%";
-            popupImg.style.position = "fixed";
-            popupImg.style.top = "50%";
-            popupImg.style.left = "50%";
-            popupImg.style.transform = "translate(-50%, -50%)";
-            popupImg.style.zIndex = "10000";
-            popupImg.style.display = "block";
-            document.body.appendChild(popupImg);
-        } else {
-            popupImg.src = img.src;
-            popupImg.style.display = "block";
-        }
+    // 어두운 배경이 없다면 새로 생성
+    if (!darkBackground) {
+        darkBackground = document.createElement("div");
+        darkBackground.id = "dark-background";
+        darkBackground.className = "dark-background";
+        darkBackground.style.position = "fixed";
+        darkBackground.style.top = "0";
+        darkBackground.style.left = "0";
+        darkBackground.style.width = "100%";
+        darkBackground.style.height = "100%";
+        darkBackground.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+        darkBackground.style.zIndex = "9999";  
+        darkBackground.style.display = "block";
+        darkBackground.onclick = closePopup;  
+        document.body.appendChild(darkBackground);
+    } else {
+        darkBackground.style.display = "block"; 
     }
 
-	function closePopup() {
-	    // 어두운 배경과 팝업 이미지를 숨깁니다.
-	    const darkBackground = document.getElementById("dark-background");
-	    if (darkBackground) {
-	        darkBackground.style.display = "none";
-	    }
+    // 이미지 팝업 생성
+    let popupImg = document.getElementById("popup-img");
+    if (!popupImg) {
+        popupImg = document.createElement("img");
+        popupImg.id = "popup-img";
+        popupImg.src = img.src;
+        popupImg.style.maxWidth = "100%";
+        popupImg.style.maxHeight = "100%";
+        popupImg.style.position = "fixed"; 
+        popupImg.style.top = "50%";
+        popupImg.style.left = "50%";
+        popupImg.style.transform = "translate(-50%, -50%)"; 
+        popupImg.style.zIndex = "10000"; 
+        popupImg.style.display = "block"; 
+        document.body.appendChild(popupImg);
+    } else {
+        popupImg.src = img.src;
+        popupImg.style.display = "block";
+    }
+}
+
+function closePopup() {
+    // 어두운 배경과 팝업 이미지를 숨깁니다.
+    const darkBackground = document.getElementById("dark-background");
+    if (darkBackground) {
+        darkBackground.style.display = "none";
+    }
+
+    const popupImg = document.getElementById("popup-img");
+    if (popupImg) {
+        popupImg.style.display = "none";
+    }
+}
+
+
 	
-	    const popupImg = document.getElementById("popup-img");
-	    if (popupImg) {
-	        popupImg.style.display = "none";
-	    }
+	function popPostFanHide() {
+	    // 팝업 숨기기
+	    $('.pop-post-artist').hide();
+	    $('.dimmed').hide();
+
+	    // 페이지 새로 고침
+	    location.reload(); // 페이지 새로 고침
 	}
 	
 	// 새로고침 버튼 
@@ -381,17 +450,10 @@
 	        }
 	    });
 	}
-
-	function popPostFanHide() {
-        // 팝업 숨기기
-        $('.pop-post-fan').hide().addClass('test');
-        $('.dimmed').hide();
-
-        // 페이지 새로 고침
-        location.reload(); // 페이지 새로 고침
-    }
+	 
 
 </script>
+
 
 <div class="wrap">
 	<div class="topArea">
@@ -401,8 +463,12 @@
 		<div class="postBx" data-post-id="${PostVO.post_id}">
 			<div class="arti-comment">
 				<div class="arti-top">
-					<div class="arti-profile"><img src="/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
-					<span class="arti-mark"><span class="blind">artist</span></span>
+					<c:if test="${PostVO.profileimg != null && PostVO.profileimg != ''}">
+					    <div class="image"><img src="/heartbeat-upload/${sessionScope.PostVO.profileimg}" alt="닉네임" "></div>
+					</c:if>
+					<c:if test="${PostVO.profileimg == null || PostVO.profileimg == ''}">
+					    <div class="image"><img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임" "></div>
+					</c:if>
 					<span class="arti-name"> ${PostVO.nickname }</span>
 					<span class="arti-date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></span>
 					<c:if test="${PostVO.nickname eq UserVO.nickname}">
@@ -412,18 +478,23 @@
 						<button type="button" class="btn-i-edit" onclick="popPostEditShow(this)"></button>
 						<!--  게시물 저장 버튼 -->
 						<button type="button" class="btn-i-save" onclick="popPostSaveShow(this)" style="display:none;"></button>
+						<!-- 사진만 삭제 버튼 -->
+					</c:if>
+					<c:if test="${not empty PostVO.post_img}">	
+    					<button type="button" class="btn-i-del" onclick="deletePostImage('${PostVO.post_id}', this)" style="display:none;">사진 삭제</button>
 					</c:if>
 				</div>
 				<div class="arti-cnt">
 					<div class="txt">${PostVO.content} </div>
 					<div id="overlay" class="overlay" onclick="closeModal()"></div>
-					 <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
-				    	<textarea class="post-txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
-				    	<input type="file" id="postImgFile" class="post-img-upload" style="display:none; padding:10px 0;" accept="image/*">
-				    </form>
-					<c:if test="${not empty PostVO.post_img}">
-				    	<img id="fan-img" src="/upload/${PostVO.post_img}" alt="newjeans" class="thumb" onclick="showPopup(this)">
+					<c:if test="${not empty PostVO.post_img}">	
+				    	<img id="fan-img" src="/heartbeat-upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:50%;"  onclick="showPopup(this)">
 				    </c:if>
+					 <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
+				    	 <img id="imagePreview" class="thumb" style="display:none; width:50%;" />
+				    	 <input type="file" id="postImgFile" class="post-img-upload" style="display:none; padding:10px 0;" accept="image/*" >
+				    	 <textarea class="post-txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
+				    </form>
 				</div>
 			</div>
 		</div>
@@ -435,27 +506,32 @@
 				</div>
 			</div>
 			<div class="reply">
-				<div class="list" >
+					<div class="list" >
 				<c:forEach items="${commentList }" var="commentVO">
 						<div class="postBx" data-comment-id="${commentVO.comment_id}">
 							<div class="fan-profile">
-								<img src="#none" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+								<c:if test="${commentVO.profileimg != null && commentVO.profileimg != ''}">
+								    <img src="/heartbeat-upload/${commentVO.profileimg}" class="fan-thumb" alt="${commentVO.profileimg}">
+								</c:if>
+								<c:if test="${commentVO.profileimg == null || commentVO.profileimg == ''}">
+								    <img src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="user.png">
+								</c:if>
 								<c:if test="${
-									commentVO.nickname eq '로제' 
-										or commentVO.nickname eq '리사'
-										or commentVO.nickname eq '지수'
-										or commentVO.nickname eq '제니'
-										or commentVO.nickname eq '유나'
-										or commentVO.nickname eq '예지'
-										or commentVO.nickname eq '류진'
-										or commentVO.nickname eq '리아'
-										or commentVO.nickname eq '채령'
-										or commentVO.nickname eq '혜인'
-										or commentVO.nickname eq '하니'
-										or commentVO.nickname eq '다니엘'
-										or commentVO.nickname eq '해린'
-										or commentVO.nickname eq '민지'
-									}">
+								commentVO.nickname eq '로제' 
+								or commentVO.nickname eq '리사'
+								or commentVO.nickname eq '지수'
+								or commentVO.nickname eq '제니'
+								or commentVO.nickname eq '유나'
+								or commentVO.nickname eq '예지'
+								or commentVO.nickname eq '류진'
+								or commentVO.nickname eq '리아'
+								or commentVO.nickname eq '채령'
+								or commentVO.nickname eq '혜인'
+								or commentVO.nickname eq '하니'
+								or commentVO.nickname eq '다니엘'
+								or commentVO.nickname eq '해린'
+								or commentVO.nickname eq '민지'
+								}">
 								    <span class="arti-mark"><span class="blind">artist</span></span>
 								</c:if>	
 								<span class="nickname">${commentVO.nickname }</span>
@@ -476,18 +552,29 @@
 				                    <input type="text" class="txtBx" name="comment" style="display:none;" value="${commentVO.comment }">
 				                </div>
 				            </div>
+							
 						</div>
-				</c:forEach>	
-				</div>			
-			</div>			
-			<div class="submitCommentTest">
-			    <input type="hidden" name="post_id" value="${PostVO.post_id}" />
-			    <input type="hidden" name="email" value="${UserVO.email}" />
-			    <input type="hidden" name="nickname" value="${UserVO.nickname}" />
-			    <div class="input">
-			        <input type="text" class="txtBx" name="comment" placeholder="댓글을 입력하세요." autocomplete="off">
-			        <button type="button" class="btn-i-send" onclick="submitComment()"><i class="fa-regular fa-paper-plane"></i></button>
-			    </div>
+				</c:forEach>				
+			</div>
+				<!--<form action="/community/commentWrite" method="post">
+					<input type="hidden" name="post_id" value="${PostVO.post_id}" />
+					<input type="hidden" name="email" value="${UserVO.email }"/>
+					<input type="hidden" name="nickname" value="${UserVO.nickname}"/>
+					<div class="input">
+						<input type="text" class="txtBx" name="comment" placeholder="댓글을 입력하세요." autocomplete="off" >
+						<button type="submit" class="btn-i-send" ><i class="fa-regular fa-paper-plane"></i></button>
+					</div>				
+				</form>-->
+			
+				<div class="submitCommentTest">
+				    <input type="hidden" name="post_id" value="${PostVO.post_id}" />
+				    <input type="hidden" name="email" value="${UserVO.email}" />
+				    <input type="hidden" name="nickname" value="${UserVO.nickname}" />
+				    <div class="input">
+				        <input type="text" class="txtBx" name="comment" placeholder="댓글을 입력하세요." autocomplete="off">
+				        <button type="button" class="btn-i-send" onclick="submitComment()"><i class="fa-regular fa-paper-plane"></i></button>
+				    </div>
+				</div>
 			</div>
 		</div>
 	</div>

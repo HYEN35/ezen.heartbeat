@@ -53,7 +53,6 @@ public class UserPersistenceImpl implements UserPersistence {
 	//아이디 찾기
 	@Override
 	public UserVO findId(UserVO userVO) {
-		System.out.println("=====================Persistence name: "+ userVO.getName());
 		
 		return sql.selectOne(namespace+".findId", userVO);
 	}
@@ -77,16 +76,12 @@ public class UserPersistenceImpl implements UserPersistence {
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 
 	    map.put("userVO", userVO);
-	    System.out.println("==================Map contents: " + map); 
 
 	    sql.update(namespace + ".modify", map); 
     }
 	//회원 탈퇴
 	@Override
-	public void delete( UserVO uvo) {
-		System.out.println("===================Persistence getEmail"+ uvo.getEmail());
-		System.out.println("===================Persistence level"+ uvo.getPwd());
-			
+	public void delete( UserVO uvo) {			
 		//1. 사용자의 이메일, 비밀번호로 사용자 찾기 (사용자 조회)
 		int searchResult = sql.selectOne(namespace+".userSearch", uvo);
 		//2. 사용자의 정보를 탈퇴유저테이블로 옮기기

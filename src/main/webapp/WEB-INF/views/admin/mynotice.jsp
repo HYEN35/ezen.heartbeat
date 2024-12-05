@@ -50,7 +50,7 @@
 	            // 선택된 게시물 ID를 hidden input에 추가하여 폼에 포함시킴
 	            var input = document.createElement('input');
 	            input.type = 'hidden';
-	            input.name = 'notice_ids'; // 서버에서 받는 파라미터 이름
+	            input.name = 'notice_id'; // 서버에서 받는 파라미터 이름
 	            input.value = noticeIds.join(','); // 콤마로 구분된 문자열로 저장
 	            document.getElementById('deleteForm').appendChild(input);
 
@@ -91,33 +91,33 @@
 								        <button type="button" class="btn-border" id="delete-btn" onclick="confirmDelete()">삭제</button>
 								    </div>
 								</div>
-								<form id="deleteForm" action="/mypage/deleteNotice" method="POST">
+								<form id="deleteForm" action="/admin/deleteNotice" method="POST">
 								    <ul class="itemWrap">
 								    	<c:forEach items="${userNoticeList}" var="userNotice">
 								            <li class="item">
 								                <input type="checkbox" class="check" value="${userNotice.notice_id}">
 								                <div class="num"><i>${userNotice.notice_id}</i></div>
-								                <a href="/admin/getMyPostOne?notice_id=${userNotice.notice_id }&num=${select}" class="tit"><i>${userNotice.title}</i></a>
+								                <a href="/admin/getMyPostOne?notice_id=${userNotice.notice_id }&num=${select}&searchType=${searchType}&keyword=${keyword}" class="tit"><i>${userNotice.title}</i></a>
 								            </li>
 								    	</c:forEach>
 								    </ul>
 								</form>
 								<div class="pagination">
 									<c:if test="${page.prev }">
-										<a href="/admin/mynotice?num=${page.startPageNum-1 }" class="btn-i-prev"></a>
+										<a href="/admin/mynotice?num=${page.startPageNum-1 }&searchType=${searchType}&keyword=${keyword}" class="btn-i-prev"></a>
 										</c:if>
 											<div class="page">
 												<c:forEach begin="${page.startPageNum }" end="${page.endPageNum }" var="num">
 												<c:if test="${select != num}">
-												<a href="/admin/mynotice?num=${num }" class="num">${num }</a>
+												<a href="/admin/mynotice?num=${num }&searchType=${searchType}&keyword=${keyword}" class="num">${num }</a>
 												</c:if>
 												<c:if test="${select == num}">
-												<a href="/admin/mynotice?num=${num }" class="num on">${num }</a>
+												<a href="/admin/mynotice?num=${num }&searchType=${searchType}&keyword=${keyword}" class="num on">${num }</a>
 												</c:if>
 												</c:forEach>
 											</div>
 										<c:if test="${page.next }">
-										<a href="/admin/mynotice?num=${page.endPageNum+1 }" class="btn-i-next"></a>
+										<a href="/admin/mynotice?num=${page.endPageNum+1 }&searchType=${searchType}&keyword=${keyword}" class="btn-i-next"></a>
 									</c:if>
 								</div>
 							</div>

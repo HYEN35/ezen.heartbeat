@@ -7,29 +7,29 @@
 	<div class="topArea">
 		<div class="title">
 			<p>포스트 쓰기</p>
-			<p class="artiName">ITZY</p>
+			<p class="artiName">blackpink</p>
 		</div>
 		<button type="button" class="btn-i-close" onclick="popPostHide();"></button>
 	</div>
 	<div class="cntArea">
-		<form action="/community/itzyPostWrite" method="post" enctype="multipart/form-data" name="popPost">
+		<form action="/community/blackpinkPostWrite" method="post" enctype="multipart/form-data" name="popPost">
 			<input type="hidden" name="email" value="${UserVO.email }">
 			<input type="hidden" name="artist_id" value="${UserVO.artist_id}">
 			<input type="hidden" name="nickname" value="${UserVO.nickname}">
 			<textarea class="txtBx" name="content"></textarea>
 			<div class="btmBx">
-                <div class="imgBx">
-                    <input type="file" id="file2" name="post_Img" accept=".jpg, .jpeg, .png" hidden>
-                    <!-- <input type="file" id="file" name="postImg1" accept=".jpg, .jpeg, .png" > -->  <!-- id가 file이면 안됨 -->
-                    <button type="button" class="btn-under" onclick="$('#file2').click();">첨부파일 선택</button>
-                    <div class="fileName">
-                        <i class="name">${file.name}</i>
-                    </div>
+            <div class="imgBx">
+                <input type="file" id="file2" name="post_Img" accept=".jpg, .jpeg, .png" hidden>
+                <!-- <input type="file" id="file" name="postImg1" accept=".jpg, .jpeg, .png" > -->  <!-- id가 file이면 안됨 --> 
+                <button type="button" class="btn-under" onclick="$('#file2').click();">첨부파일 선택</button>
+                <div class="fileName">
+                    <i class="name">${file.name}</i>
                 </div>
-                <!-- 파일 리스트 영역 -->
-                <div id="fileListContainer" class="file-list-container"></div>
-                <button type="submit" class="btn-full">등록</button>
             </div>
+            <!-- 파일 리스트 영역 -->
+        		<div id="fileListContainer" class="file-list-container"></div>
+	            <button type="submit" class="btn-full">등록</button>
+	        </div>
 		</form>
 	</div>
 </div>
@@ -45,7 +45,7 @@
 
 		// 기존 파일 목록 초기화
 		fileListContainer.innerHTML = '';
-
+		
 		// 파일명 초기화
 		fileNameContainer.textContent = '';
 
@@ -81,7 +81,7 @@
 				alert('1개의 사진 파일만 첨부할 수 있습니다.');
 				fileInput.value = ''; // 파일 입력 초기화
 				fileListContainer.innerHTML = ''; // 파일 목록 초기화
-
+				
 				fileNameContainer.textContent = ''; // 파일명 초기화
 				return;
 			}

@@ -46,12 +46,49 @@
 							</div>
 						</div>
 					</div>
+					<div class="adm-container">
+					    <div class="adm-split-row">
+							<div class="adm-split-col">
+								<h4 class="tit">매출 분석</h4>
+								<p class="total">목표 금액 :<fmt:formatNumber value="${targetAmount}" pattern="##,###.##"/>원</p>
+								
+								<input type="hidden" id="targetAmount" value="${targetAmount}">
+								<div class="itemWrap">
+									<div class="item lev-00">
+										<div class="count">level 1 <b><fmt:formatNumber value="${level1Price}" pattern="##,###.##"/>원</b></div>
+										<progress id="level0Cnt" max="${targetAmount}" value="${level1Price}" class="progressBar"></progress>
+										<strong id="level1-amount-result-txt"></strong> <strong>%</strong>
+									</div>
+									<div class="item lev-01">
+										<div class="count">level 2 <b><fmt:formatNumber value="${level2Price}" pattern="##,###.##"/>원</b></div>
+										<progress id="level1Cnt" max="${targetAmount}" value="${level2Price}" class="progressBar"></progress>
+										<strong id="level2-amount-result-txt"></strong> <strong>%</strong>
+									</div>
+									<div class="item lev-02">
+										<div class="count">total <b><fmt:formatNumber value="${totalPrice}" pattern="##,###.##"/>원</b></div>
+										<progress id="level2Cnt" max="${targetAmount}" value="${totalPrice}" class="progressBar"></progress>
+										<strong id="total-amount-result-txt"></strong> <strong>%</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="adm-container">
+						<p>좋아요가 가장 많은 게시물 top5</p>
+					    <c:forEach items="${lvo }" var="lvo">
+							<a href="javascript:void(0);" onclick="adminPopPostArtistShow('${lvo.post_id}')">게시물 번호  : ${lvo.post_id }/작성자 : ${lvo.nickname} / 좋아요 개수 : ${lvo.like_count }</a>
+						</c:forEach>
+					</div>
 			    </div>
 			</div>
 		</div>
 	</div>
 
-	<div class="dimmed"></div>
+	
+	<div class="dimmed" onclick="popPostArtistHide()"></div>
+
+	<!-- [D] 팝업 아티스트 포스트 -->
+	<div class="popup pop-post-artist"><%@ include file="../popup/pop-post-artist.jsp" %></div>
 
 	<script>
 		window.onload = function() {
@@ -72,12 +109,56 @@
 			document.getElementById('level0-result-txt').textContent = level0Percentage;
 			document.getElementById('level1-result-txt').textContent = level1Percentage;
 			document.getElementById('level2-result-txt').textContent = level2Percentage;
+
+			
+			var targetAmount = parseInt("${targetAmount}"); // 목표 금액 :100만원
+			var level1Price =  parseInt("${level1Price}");
+			var level2Price =  parseInt("${level2Price}");
+			var totalPrice =  parseInt("${totalPrice}"); //level1 + level2 합계
+			
+			function calculateAmountPercentage(count) {
+				return (count/targetAmount * 100).toFixed(2);
+			}
+			
+			var level1PricePercent = calculateAmountPercentage(level1Price);
+			var level2PricePercent = calculateAmountPercentage(level2Price);
+			var totalPricePercent = calculateAmountPercentage(totalPrice);
+			
+			document.getElementById('level1-amount-result-txt').textContent = level1PricePercent;
+			document.getElementById('level2-amount-result-txt').textContent = level2PricePercent;
+			document.getElementById('total-amount-result-txt').textContent = totalPricePercent;
+
+
 		};
 		
-		console.log("총 회원 수:", total);
-		console.log("레벨 0 회원 수:", level0Cnt);
-		console.log("레벨 1 회원 수:", level1Cnt);
-		console.log("레벨 2 회원 수:", level2Cnt);
+
+		
+		//팝업 아티스트포스트
+		function adminPopPostArtistShow(post_id){
+			 // AJAX 요청으로 데이터를 가져옵니다.
+			 
+		    $.post("/community/getArtistPost", {  post_id: post_id }, function(data) {
+		    	// 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
+		        const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
+		        $('.pop-post-artist .cntArea').html(newContent);
+		        
+
+		        
+
+		        // 팝업을 보여줍니다.
+		    }).fail(function() {
+		        console.error('Error loading post data.');
+		    });
+			
+			$('.pop-post-artist').show();
+			$('.dimmed').show();
+
+		}
+		
+		function popPostArtistHide(){
+			$('.pop-post-artist').hide();
+			$('.dimmed').hide();
+		}
 	</script>
 
 </body>

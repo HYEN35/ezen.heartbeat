@@ -1,7 +1,6 @@
 package kr.heartbeat.admin.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +31,7 @@ import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
+import kr.heartbeat.vo.likeVO;
 
 @Controller
 @Transactional
@@ -51,6 +51,7 @@ public class AdminController {
 	@GetMapping("/summary")
 	public String getAdminSummary(Model model) throws Exception {
 	    String today = LocalDate.now().toString();
+	    List<likeVO> lvo = service.getMostLikePost();
 
 	    // 오늘 가입자 수
 	    int todayUserCount = service.count_a(today);
@@ -63,7 +64,6 @@ public class AdminController {
 	    // 가장 많은 구독자를 보유한 아티스트
 	    Map<String, Object> topArtist = service.count_c();
 	    model.addAttribute("count_c", topArtist);
-	    System.out.println("Top Artist: " + topArtist);
 	    
 	    //summary 그래프
 	    int total = service.levelTotalCnt();
@@ -71,17 +71,25 @@ public class AdminController {
 	    int level1Cnt = service.levelCnt(1);
 	    int level2Cnt = service.levelCnt(2);
 	    
+	    int level1Price = level1Cnt * 3900;
+	    int level2Price = level2Cnt * 6900;
+	    int totalPrice = level1Price+ level2Price;
+	    int targetAmount = 1000000;
+	    
 	    	// 뷰로 데이터를 전달
 	    model.addAttribute("total", total);
 	    model.addAttribute("level0Cnt", level0Cnt);
 	    model.addAttribute("level1Cnt", level1Cnt);
 	    model.addAttribute("level2Cnt", level2Cnt);
 	    
-	    System.out.println("총 회원 수: " + total);
-	    System.out.println("레벨 0 회원 수: " + level0Cnt);
-	    System.out.println("레벨 1 회원 수: " + level1Cnt);
-	    System.out.println("레벨 2 회원 수: " + level2Cnt);
-
+	    model.addAttribute("level1Price", level1Price);
+	    model.addAttribute("level2Price", level2Price);
+	    model.addAttribute("totalPrice", totalPrice);
+	    model.addAttribute("targetAmount", targetAmount);
+	    
+	    
+	    model.addAttribute("lvo", lvo);
+	    
 	    return "/admin/summary";
 	}
 
@@ -107,10 +115,9 @@ public class AdminController {
 	    model.addAttribute("urList", urList);
 	    model.addAttribute("page", page);
 	    model.addAttribute("select", num);
-
-	    System.out.println("searchType: " + searchType);
-	    System.out.println("keyword: " + keyword);
-	    System.out.println("roleId: " + roleId);
+	    model.addAttribute("searchType", searchType);
+	    model.addAttribute("keyword", keyword);
+	    model.addAttribute("role_id", roleId);
 	}
 	
 	//member 삭제
@@ -153,14 +160,13 @@ public class AdminController {
 		
 	// post 리스트 구현
 	@RequestMapping("/post")
-	public void getPostList(
+	public String getPostList(
 		Model model,
-	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
+	    @RequestParam(value = "num") int num,
 	    @RequestParam(value = "searchType", required = false, defaultValue = "name") String searchType,
 	    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
 	    @RequestParam(value = "role_id", required = false) String roleId // role_id 값 처리
 	) throws Exception {
-
 	    // 검색 및 페이징 처리 로직
 	    PageDTO page = new PageDTO();
 	    page.setNum(num);
@@ -172,20 +178,24 @@ public class AdminController {
 	    model.addAttribute("poList", poList);
 	    model.addAttribute("page", page);
 	    model.addAttribute("select", num);
+	    model.addAttribute("searchType", searchType);
+	    model.addAttribute("keyword", keyword);
+	    model.addAttribute("role_id", roleId);
 	    
-	    System.out.println("post-roleId: " + roleId);
+	    return "/admin/post";
 	}
 	
 	//post 삭제 구현
 	@GetMapping("/post/delete")
-	public String delete(@RequestParam("post_id") int post_id) throws Exception {
+	public String delete(@RequestParam("post_id") int post_id,int num, String searchType,String keyword,String role_id) throws Exception {
 		service.podelete(post_id);
-		return "redirect:/admin/post";
+		return "redirect:/admin/post?num="+num+"&searchType="+searchType+"&keyword="+keyword+"&role_id="+role_id;
+		
 	}
 	
 	//comment 리스트 구현
 	@RequestMapping("/comment")
-	public void getCommentList(
+	public String getCommentList(
 		Model model,
 	    @RequestParam(value = "num", required = false, defaultValue = "1") int num,
 	    @RequestParam(value = "searchType", required = false, defaultValue = "name") String searchType,
@@ -204,32 +214,42 @@ public class AdminController {
 	    model.addAttribute("coList", coList);
 	    model.addAttribute("page", page);
 	    model.addAttribute("select", num);
+	    model.addAttribute("searchType", searchType);
+	    model.addAttribute("keyword", keyword);
+	    model.addAttribute("role_id", roleId);
 	    
-	    System.out.println("Comment-roleId: " + roleId);
+	    return "/admin/comment";
 	}
 	
 	@GetMapping("/comment/delete")
-	public String commentdelete(@RequestParam("comment_id") int comment_id) throws Exception {
+	public String commentdelete(@RequestParam("comment_id") int comment_id,int num, String searchType,String keyword,String role_id) throws Exception {
 		service.codelete(comment_id);
-		return "redirect:/admin/comment";
+
+		return "redirect:/admin/comment?num="+num+"&searchType="+searchType+"&keyword="+keyword+"&role_id="+role_id;
 	}
 
 	//edit
 	@GetMapping("/edit")
-	public void modify(@RequestParam("email") String email, Model model) throws Exception {
+	public void modify(@RequestParam("email") String email,String num,String searchType,String keyword,String role_id,Model model) throws Exception {
 		UserVO uvo = service.getUserOne(email);
 		model.addAttribute("email", email);
-		System.out.println("view==========================="+uvo);
 		model.addAttribute("modify", uvo);
+		model.addAttribute("num", num);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("role_id", role_id);
 	}
 	
 	//edit 데이터처리
 	@PostMapping("/edit")
-	public String update(UserVO uvo, RedirectAttributes redirectAttributes) throws Exception {
-	    System.out.println("전달된 데이터: " + uvo); // 모든 필드 출력
+	public String update(UserVO uvo,String num,String searchType,String keyword,String role_id, RedirectAttributes redirectAttributes) throws Exception {
 	    service.update(uvo);
 		redirectAttributes.addFlashAttribute("success", "success");
-		return "redirect:/admin/member";
+		redirectAttributes.addFlashAttribute("num", num);
+		redirectAttributes.addFlashAttribute("searchType", searchType);
+		redirectAttributes.addFlashAttribute("keyword", keyword);
+		redirectAttributes.addFlashAttribute("role_id", role_id);
+		return "redirect:/admin/member?num="+num+"&searchType="+searchType+"&keyword="+keyword+"&role_id="+role_id;
 	}
 
 	@GetMapping("/adminjoin")
@@ -255,7 +275,6 @@ public class AdminController {
 	                              @RequestParam(value = "start_date", required = false) String start_date,
 	                              @RequestParam(value = "end_date", required = false) String end_date,
 	                              RedirectAttributes redirectAttributes) {
-	System.out.println("========== Controller member(admin) email: " + email);
 	    
 	// 비밀번호 확인 검증
 	if (!pwd.equals(pwdCheck)) {
@@ -389,6 +408,8 @@ public class AdminController {
  		model.addAttribute("userPost", userPost);		
  		model.addAttribute("page", page);		
  		model.addAttribute("select", num);	
+ 		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);	
  		
  		return "/admin/notice";
  		
@@ -409,7 +430,7 @@ public class AdminController {
  	}
  	
  	@RequestMapping("/getPostOne") // 게시물 상세보기
- 	public String getPostOne(@RequestParam("notice_id")int notice_id,int num, Model model)throws Exception {
+ 	public String getPostOne(@RequestParam("notice_id")int notice_id,int num,String searchType, String keyword, Model model)throws Exception {
  		NoticeVO noticeVO = noticeService.getPostOne(notice_id);
  		List<NoticeCommentVO> commentVO = noticeService.getComment(notice_id);
  		
@@ -417,21 +438,25 @@ public class AdminController {
  		model.addAttribute("num", num);
  		model.addAttribute("commentVO", commentVO);
  		model.addAttribute("noticeVO", noticeVO);
+ 		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);
 
  		return "/admin/noticeShow";
  	}
  	
  	@PostMapping("/noticeModifyShow") // 게시물 수정 페이지 이동
- 	public String noticeModifyShow(int notice_id,int num,Model model) throws Exception{
+ 	public String noticeModifyShow(int notice_id,int num,String searchType, String keyword,Model model) throws Exception{
  		NoticeVO noticeVO = noticeService.getPostOne(notice_id);
  		
  		model.addAttribute("num", num);
  		model.addAttribute("noticeVO", noticeVO);
+ 		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);
  		return "/admin/noticeModify";
  	}
  	
  	@PostMapping("/noticeModify") // 게시물 수정
- 	public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,Model model) throws Exception{
+ 	public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,String searchType, String keyword,Model model) throws Exception{
  		
  		noticeService.noticeModify(noticeVO);
  		NoticeVO dbnoticeVO = noticeService.getPostOne(noticeVO.getNotice_id());
@@ -439,6 +464,8 @@ public class AdminController {
  		model.addAttribute("num", num);
  		model.addAttribute("noticeVO", dbnoticeVO);
  		model.addAttribute("commentVO", commentVO);
+ 		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);
  		return "/admin/noticeShow";
  	}
  	
@@ -480,7 +507,6 @@ public class AdminController {
 	public String mynotice(int num, String searchType, String keyword,Model model,HttpServletRequest request,HttpSession session) throws Exception {
 		UserVO uvo = (UserVO) session.getAttribute("UserVO");
 		String email = uvo.getEmail();
-		System.out.println(email);
 		
 		PageDTO page = new PageDTO();
 		page.setNum(num);
@@ -493,13 +519,15 @@ public class AdminController {
 		model.addAttribute("userNoticeList", userNoticeList);
 		model.addAttribute("page", page);		
 		model.addAttribute("select", num);
+		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);
 		
 		return "/admin/mynotice";
 	}
 	
 	// 내 문의 상세보기
 	@RequestMapping("/getMyPostOne") // 게시물 상세보기
-	public String getMyPostOne(@RequestParam("notice_id")int notice_id,int num, Model model)throws Exception {
+	public String getMyPostOne(@RequestParam("notice_id")int notice_id,int num,String searchType, String keyword, Model model)throws Exception {
 		NoticeVO noticeVO = noticeService.getPostOne(notice_id);
 		List<NoticeCommentVO> commentVO = noticeService.getComment(notice_id);
 		
@@ -507,21 +535,25 @@ public class AdminController {
 		model.addAttribute("num", num);
 		model.addAttribute("commentVO", commentVO);
 		model.addAttribute("noticeVO", noticeVO);
+		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);
 
 		return "/admin/myNoticeShow";
 	}
 	
 	@PostMapping("/myNoticeModifyShow") // 게시물 수정 페이지 이동
-	public String adminnoticeModifyShow(int notice_id,int num,Model model) throws Exception{
+	public String adminnoticeModifyShow(int notice_id,int num,String searchType, String keyword,Model model) throws Exception{
 		NoticeVO noticeVO = noticeService.getPostOne(notice_id);
 		
 		model.addAttribute("num", num);
 		model.addAttribute("noticeVO", noticeVO);
+		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);
 		return "/admin/myNoticeModify";
 	}
 	
 	@PostMapping("/myNoticeModify") // 게시물 수정
-	public String adminnoticeModify(@RequestParam("num")int num,NoticeVO noticeVO,Model model) throws Exception{
+	public String adminnoticeModify(@RequestParam("num")int num,NoticeVO noticeVO,String searchType, String keyword,Model model) throws Exception{
 		
 		noticeService.noticeModify(noticeVO);
 		NoticeVO dbnoticeVO = noticeService.getPostOne(noticeVO.getNotice_id());
@@ -529,6 +561,8 @@ public class AdminController {
 		model.addAttribute("num", num);
 		model.addAttribute("noticeVO", dbnoticeVO);
 		model.addAttribute("commentVO", commentVO);
+		model.addAttribute("searchType", searchType);	
+ 		model.addAttribute("keyword", keyword);
 		return "/admin/myNoticeShow";
 	}
 	
@@ -553,7 +587,7 @@ public class AdminController {
 	
 	
 	// 내 공지 삭제 
-	@PostMapping("/mypage/deleteNotice")
+	@PostMapping("/deleteNotice")
 	public String deleteNotice(@RequestParam("notice_id") String notice_id) throws Exception {
 		// postIds는 콤마로 구분된 문자열이므로, 이를 분리하여 배열로 변환
 		String[] noticeIdArray = notice_id.split(",");

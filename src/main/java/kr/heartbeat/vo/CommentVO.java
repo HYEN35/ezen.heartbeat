@@ -12,4 +12,5 @@ public class CommentVO {
 	private String nickname;
 	private String comment;
 	private Date comment_date;
+	private String profileimg;
 }

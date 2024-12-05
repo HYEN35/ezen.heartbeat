@@ -146,7 +146,6 @@
 					alert("An error occurred while fetching the track.");
 				} else {
 					youtubeVideoId = youTubeUrl;
-					console.log(youtubeVideoId);
 					onYouTubeIframeAPIReady(youtubeVideoId);
 					
 					$(".nowPlayInfo").show();

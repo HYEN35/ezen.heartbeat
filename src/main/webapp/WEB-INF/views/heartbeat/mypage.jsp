@@ -15,12 +15,10 @@
 			
 			// 프로필 사진 변경 선택시 이름 출력
 		    $('#profileImageInput').on('change', function () {
-		        console.log('파일 선택 이벤트 발생');
 		        
 		        var file = this.files[0]; // 선택된 파일 객체
 		        var fileName = file ? file.name : '선택된 파일 없음'; // 파일 이름 추출
 	
-		        console.log('선택된 파일 이름:', fileName);
 		        
 		        $('#fileNameDisplay').text(fileName); // 화면에 파일명 표시
 		    });

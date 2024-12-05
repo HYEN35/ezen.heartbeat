@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
 	//회원가입
 	@Override
 	public int insertUser(UserVO userVO) {
-		System.out.println("========== Service member email(id) : "+userVO.getEmail());
 		return userPersistenceImpl.insertUser(userVO);
 	}
 	//회원가입 시 유저 역할 추가
@@ -58,13 +57,11 @@ public class UserServiceImpl implements UserService {
 	//로그인
 	@Override
 	public UserVO login(UserVO userVO) {
-		System.out.println("========== 로그인 Service member email(id) : "+userVO.getEmail());
 		return userPersistenceImpl.login(userVO);
 	}
 	//아이디찾기
 	@Override
 	public UserVO findId(UserVO userVO) {
-		System.out.println("=====================Service name: "+ userVO.getName());
 		return userPersistenceImpl.findId(userVO);
 	}
 	//비밀번호 찾기 - 메일 전송 버전
@@ -87,7 +84,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private String createNewPassword() { //난수로 새 비밀번호 생성
-		System.out.println("[AdminMemberService] createNewPassword()");
 
 		char[] chars = new char[] {
 				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -113,15 +109,12 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		System.out.println("[AdminMemberService] NEW PASSWORD: " + stringBuffer.toString());
 
 		return stringBuffer.toString(); //새 비밀번호
 
 	}
 
 	private void sendNewPasswordByMail(String toMailAddr, String newPassword, UserVO userVO) {
-		System.out.println("[AdminMemberService] sendNewPasswordByMail()");
-		System.out.println("============이메일 주소 : "+userVO.getEmail());
 
 		final MimeMessagePreparator mimeMessagePreparator = new MimeMessagePreparator() {
 
@@ -144,7 +137,6 @@ public class UserServiceImpl implements UserService {
 	//회원수정
 	@Override
 	public void modify(UserVO userVO) {
-		System.out.println("========== 로그인 Service member getNickname : "+userVO.getNickname());
 		userPersistenceImpl.modify(userVO);
 	}
 
@@ -157,7 +149,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserroleVO role(UserroleVO userrolevo) {
-		System.out.println("=============서비스role : "+userrolevo.getRole_id());
 		return userPersistenceImpl.role(userrolevo);
 	}
 	

@@ -27,7 +27,14 @@
 							                <input type="hidden" name="post_id" value="${itzyVO.post_id}"/>
 											<a href="javascript:void(0);" onclick="popPostArtistShow('${itzyVO.post_id}','${UserVO.email }');">
 												<div>
-													<div class="arti-profile"><img src="/upload/${itzyVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
+													<div class="arti-profile">
+														<c:if test="${itzyVO.profileimg != null && itzyVO.profileimg != ''}">
+														    <img src="/heartbeat-upload/${itzyVO.profileimg}" alt="닉네임" class="arti-thumb">
+														</c:if>
+														<c:if test="${itzyVO.profileimg == null || itzyVO.profileimg == ''}">
+														    <img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임" class="arti-thumb">
+														</c:if>
+													</div>
 													<div class="arti-comment">
 														<div class="arti-top">
 															<span class="arti-mark"><span class="blind">artist</span></span>
@@ -47,10 +54,12 @@
 					</div>
 					<div class="section-fan-post">
 						<div class="fanWrap">
-							<div class="posting" onclick="popPostShow(${num});">
-								<p>당신의 아티스트에게 포스트를 남겨보세요.</p>
-								<i class="i-img"><i class="fa-regular fa-image"></i></i>
-							</div>
+							<c:if test="${UserVO != null && UserVO.email != 'admin'}">
+							    <div class="posting" onclick="popPostShow(${num});">
+							        <p>당신의 아티스트에게 포스트를 남겨보세요.</p>
+							        <i class="i-img"><i class="fa-regular fa-image"></i></i>
+							    </div>
+							</c:if>
 							<div class="postWrap">
 								<c:forEach items="${itzyFanPosts}" var="PostVO">
 									<div class="postBx">
@@ -59,14 +68,19 @@
 											<a href="javascript:void(0);" onclick="popPostFanShow(${PostVO.post_id})" >
 												<div>
 													<div class="fan-profile">
-														<img src="${pageContext.request.contextPath}/upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+														<c:if test="${PostVO.profileimg != null && PostVO.profileimg != ''}">
+														    <img src="/heartbeat-upload/${PostVO.profileimg}" alt="닉네임" class="fan-thumb">
+														</c:if>
+														<c:if test="${PostVO.profileimg == null || PostVO.profileimg == ''}">
+														    <img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임" class="fan-thumb">
+														</c:if>
 														<span class="nickname">${PostVO.nickname}</span>
 														<div class="date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></div>
 													</div>
 													<div class="fan-comment">
 														<div class="fan-cnt">
 															<c:if test="${not empty PostVO.post_img}">
-																<img src="/upload/${PostVO.post_img}" alt="게시판 이미지"><br><br>
+																<img src="/heartbeat-upload/${PostVO.post_img}" alt="게시판 이미지"><br><br>
 															</c:if>
 															<div class="txt">${PostVO.content }</div>
 														</div>
@@ -80,20 +94,20 @@
 						</div>
 						<div class="pagination">
 							<c:if test="${page.prev }">
-							<a href="/community/artist/newjeans?email=${UserVO.email }&num=${page.startPageNum-1 }" class="btn-i-prev"></a>
+							<a href="/community/artist/itzy?email=${UserVO.email }&num=${page.startPageNum-1 }" class="btn-i-prev"></a>
 							</c:if>
 							<div class="page">
 								<c:forEach begin="${page.startPageNum }" end="${page.endPageNum }" var="num">
 									<c:if test="${select != num}">
-									<a href="/community/artist/newjeans?email=${UserVO.email }&num=${num }" class="num">${num }</a>
+									<a href="/community/artist/itzy?email=${UserVO.email }&num=${num }" class="num">${num }</a>
 									</c:if>
 									<c:if test="${select == num}">
-									<a href="/community/artist/newjeans?email=${UserVO.email }&num=${num }"class="num on">${num }</a>
+									<a href="/community/artist/itzy?email=${UserVO.email }&num=${num }"class="num on">${num }</a>
 									</c:if>
 								</c:forEach>							
 							</div>
 							<c:if test="${page.next }">
-							<a href="/community/artist/newjeans?email=${UserVO.email }&num=${page.endPageNum+1 }" class="btn-i-next"></a>
+							<a href="/community/artist/itzy?email=${UserVO.email }&num=${page.endPageNum+1 }" class="btn-i-next"></a>
 							</c:if>
 						</div>
 					</div>
@@ -154,10 +168,8 @@
              // AJAX 요청으로 데이터를 가져옵니다.
 
             $.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
-                console.log(data); // 반환된 데이터 확인
                 // 기존의 cntArea를 비우지 않고 데이터를 추가하거나 수정합니다.
                 const newContent = $(data).find('.cntArea').html(); // JSP에서 cntArea만 가져오기
-                console.log(newContent); // newContent 확인
                 $('.pop-post-artist .cntArea').html(newContent);
                 // 팝업을 보여줍니다.
             }).fail(function() {

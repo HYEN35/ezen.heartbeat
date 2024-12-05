@@ -84,6 +84,34 @@
 	    and email not in (#{chaeryeong},#{lia},#{ryujin},#{yeji},#{yuna})  
 	    AND email IS NOT NULL
 	</select>
+	
+	<!-- 블랙핑크 팬 게시물만 가져오기 -->
+  	<select id="getBlackpinkFanPostList" parameterType="hashMap" resultType="kr.heartbeat.vo.PostVO">
+  		select A.post_id,
+        A.email,
+        A.artist_id,
+        B.nickname,
+        A.content,
+        A.post_img AS post_img_name,
+        A.post_date,
+        A.post_img,
+        B.profileimg  
+    FROM post_tbl A
+	    INNER JOIN user_tbl B ON A.email = B.email 
+	    WHERE A.artist_id = 20119
+	    AND A.email not in (#{jennie},#{jisoo},#{lisa},#{rose}) 
+	    ORDER BY A.post_id DESC
+    	LIMIT #{displayPost}, #{postNum}
+  	</select>
+  	
+  	<!-- 블랙핑크 팬 게시물 몇개인지 가져오기 -->
+  	<select id="getBlackpinkFanPostCount" parameterType="hashMap" resultType="int">
+	    SELECT COUNT(*)
+	    FROM post_tbl
+	    WHERE artist_id = 20119
+	    and email not in (#{jennie},#{jisoo},#{lisa},#{rose})  
+	    AND email IS NOT NULL
+	</select>
  	
   	<select id="getPost" resultType="kr.heartbeat.vo.PostVO" parameterType="kr.heartbeat.vo.PostVO">
   		select 
@@ -102,47 +130,73 @@
   		 where A.post_id = #{post_id} 
   	</select>	
   	<!-- 게시물 수정 -->
-  	<update id="modifyPost" parameterType="kr.heartbeat.vo.PostVO">
-  		update post_tbl set content = #{content}, post_img = #{post_img} where post_id = #{post_id}
-  	</update>
+	 <update id="modifyPost" parameterType="kr.heartbeat.vo.PostVO">
+      update post_tbl set content = #{content}
+       <if test="post_img != null and post_img != ''">
+         , post_img = #{post_img}
+       </if>
+      where post_id = #{post_id}
+     </update>
  
-  	
+  	<!-- 게시물 삭제 -->
   	<select id="deletePost">
   		delete from post_tbl where post_id = #{post_id}
   	</select>
   	
-  		
+  	<!-- 아티스트 이름 가져오기 -->
   	<select id="getArtistName" resultType="String" parameterType="int">
   		select art_name from artist_tbl where artist_id = #{artist_id}
   	</select>
-  	
+  	<!-- 댓글 작성 -->
   	<insert id="commentWrite" parameterType="kr.heartbeat.vo.CommentVO">
   		insert into comment_tbl (email, post_id, nickname, comment, comment_date)
   		value (#{email}, #{post_id}, #{nickname}, #{comment}, now())
   	</insert>
-  	
+  	<!-- 댓글 목록 가져오기 -->
   	<select id="getComment" parameterType="kr.heartbeat.vo.PostVO" resultType="kr.heartbeat.vo.CommentVO">
-  		select * from comment_tbl where post_id = #{post_id} order by comment_id desc
+  		SELECT 
+		    A.post_id,
+		    B.comment_id,
+		    B.email,
+		    C.nickname,
+		    B.comment,
+		    B.comment_date,
+		    C.profileimg
+		FROM 
+		    post_tbl A
+		INNER JOIN 
+		    comment_tbl B
+		ON 
+		    B.post_id = A.post_id
+		INNER JOIN 
+		    user_tbl C
+		ON 
+		    C.email = B.email
+		WHERE 
+		    A.post_id = #{post_id}
+		ORDER BY 
+		    B.comment_id DESC;
+
   	</select>
-  	
+  	<!-- 댓글 개수  -->
   	<select id="totalComment" parameterType="kr.heartbeat.vo.PostVO" resultType="int">
   		select count(*) from comment_tbl where post_id = #{post_id}
   	</select>
-  	
+  	<!-- 댓글 수정 -->
   	<update id="modifyComment" parameterType="kr.heartbeat.vo.CommentVO">
   		UPDATE comment_tbl
 		SET comment = #{comment}
 		WHERE comment_id = #{comment_id}
   	</update>
-  	
+  	<!-- 수정할 댓글 가져오기 -->
   	<select id="getmodifyComment" parameterType="kr.heartbeat.vo.CommentVO" resultType="kr.heartbeat.vo.CommentVO">
   		select * from comment_tbl where comment_id = #{comment_id}
   	</select>
-  	
+  	<!-- 댓글 삭제 -->
   	<delete id="commentdelete" parameterType="kr.heartbeat.vo.CommentVO">
   		delete from comment_tbl where comment_id = #{comment_id}
   	</delete>
-  	
+  	<!-- 수정된 댓글 가져오기 -->
   	<select id="getNewComment" parameterType="kr.heartbeat.vo.CommentVO" resultType="kr.heartbeat.vo.CommentVO">
   		SELECT * from comment_tbl WHERE post_id = #{post_id} order by comment_id desc limit 1;
   	</select>
@@ -166,4 +220,11 @@
   	<select id="totalLike" parameterType="int" resultType="int">
   		select count(*) from like_tbl where post_id = #{post_id}
   	</select>
+  	
+  	<!-- 포스트이미지 삭제  -->
+  	<update id="deletePostImg" parameterType="Map">
+  		update post_tbl
+  		   set post_img = ""
+  		 where post_id = #{post_id}
+  	</update>
   </mapper>
