@@ -32,26 +32,48 @@
 	</select>
 
 	<!-- 회원 연령대별 분류 -->
-	<select id="countAgeGroup" resultType="kr.heartbeat.vo.AgeGroupDTO">
-		SELECT 
-			case 
-			 	when age &lt; 20 THEN '10대'
-				when age BETWEEN 20 AND 29 then '20대'
-				when age BETWEEN 30 AND 39 then '30대'
-				when age BETWEEN 40 AND 49 then '40대'
-				when age BETWEEN 50 AND 59 then '50대'
-				ELSE '60대이상'
-			END AS ageGroup
-			, COUNT(*) totalCnt
-		FROM (
-			SELECT u.email, u.birth, 
-           	DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(u.birth, '%Y') AS age
-		    FROM user_tbl u
-		    JOIN user_role_tbl ur ON u.email = ur.email
-    		WHERE ur.role_id = 2
-			) AS c
-		GROUP BY ageGroup
-		ORDER BY ageGroup;
+	 <select id="countAgeGroup" resultType="kr.heartbeat.vo.AgeGroupDTO">
+	    SELECT 
+	        AgeGroups.ageGroup, 
+	        IFNULL(counts.totalCnt, 0) AS totalCnt
+	    FROM (
+	        SELECT '10대' AS ageGroup
+	        UNION ALL
+	        SELECT '20대'
+	        UNION ALL
+	        SELECT '30대'
+	        UNION ALL
+	        SELECT '40대'
+	        UNION ALL
+	        SELECT '50대'
+	        UNION ALL
+	        SELECT '60대이상'
+	    ) AS AgeGroups
+	    LEFT JOIN (
+	        SELECT 
+	            CASE 
+	                when age &lt; 20 THEN '10대'
+	                WHEN age BETWEEN 20 AND 29 THEN '20대'
+	                WHEN age BETWEEN 30 AND 39 THEN '30대'
+	                WHEN age BETWEEN 40 AND 49 THEN '40대'
+	                WHEN age BETWEEN 50 AND 59 THEN '50대'
+	                ELSE '60대이상'
+	            END AS ageGroup,
+	            COUNT(*) AS totalCnt
+	        FROM (
+	            SELECT 
+	                u.email, 
+	                DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(u.birth, '%Y') AS age
+	            FROM 
+	                user_tbl u
+	            JOIN 
+	                user_role_tbl ur ON u.email = ur.email
+	            WHERE 
+	                ur.role_id = 2
+	        ) AS c
+	        GROUP BY ageGroup
+	    ) AS counts ON AgeGroups.ageGroup = counts.ageGroup
+	    ORDER BY AgeGroups.ageGroup;
 	</select>
 
 	<!-- 전체 유저 수 조회 -->
