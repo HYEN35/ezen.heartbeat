@@ -31,6 +31,29 @@
 		LIMIT 1;
 	</select>
 
+	<!-- 회원 연령대별 분류 -->
+	<select id="countAgeGroup" resultType="kr.heartbeat.vo.AgeGroupDTO">
+		SELECT 
+			case 
+			 	when age &lt; 20 THEN '10대'
+				when age BETWEEN 20 AND 29 then '20대'
+				when age BETWEEN 30 AND 39 then '30대'
+				when age BETWEEN 40 AND 49 then '40대'
+				when age BETWEEN 50 AND 59 then '50대'
+				ELSE '60대이상'
+			END AS ageGroup
+			, COUNT(*) totalCnt
+		FROM (
+			SELECT u.email, u.birth, 
+           	DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(u.birth, '%Y') AS age
+		    FROM user_tbl u
+		    JOIN user_role_tbl ur ON u.email = ur.email
+    		WHERE ur.role_id = 2
+			) AS c
+		GROUP BY ageGroup
+		ORDER BY ageGroup;
+	</select>
+
 	<!-- 전체 유저 수 조회 -->
 	<select id="levelTotalCnt" resultType="int">
 		select count(email)

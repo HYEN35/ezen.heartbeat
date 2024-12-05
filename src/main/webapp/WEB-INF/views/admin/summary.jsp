@@ -49,6 +49,22 @@
 					<div class="adm-container">
 					    <div class="adm-split-row">
 							<div class="adm-split-col">
+								<h4 class="tit">  회원 연령대별 분석 </h4>
+								<div class="itemWrap">
+								<c:forEach items="${ageGroup}" var="ageGroup" varStatus="status">
+									<div class="item lev-00">
+										<div class="count">${ageGroup.ageGroup }<b> ${ageGroup.totalCnt}명</b></div>
+										<progress id="level0Cnt" max="${total}" value="${ageGroup.totalCnt}" class="progressBar"></progress>
+										<strong id="ageGroup-result-txt-${status.index}"></strong> <strong>%</strong>
+									</div>
+								</c:forEach>	
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="adm-container">
+					    <div class="adm-split-row">
+							<div class="adm-split-col">
 								<h4 class="tit">회원 등급 분석</h4>
 								<p class="total">목표 금액 :<fmt:formatNumber value="${targetAmount}" pattern="##,###.##"/>원</p>
 								
@@ -73,6 +89,8 @@
 							</div>
 						</div>
 					</div>
+
+
 			    </div>
 			</div>
 		</div>
@@ -117,14 +135,34 @@
 			document.getElementById('level1-amount-result-txt').textContent = level1PricePercent;
 			document.getElementById('level2-amount-result-txt').textContent = level2PricePercent;
 			document.getElementById('total-amount-result-txt').textContent = totalPricePercent;
-
+			
+			//회원 연령대별 분석
+			var ageGroups = [];	
+		 	var total = ${total};
+		 	 // AgeGroupDTO 객체의 속성을 JavaScript 객체로 변환
+		 	<c:forEach items="${ageGroup}" var="ageGroup">
+		        ageGroups.push({
+		            ageGroup: '${ageGroup.ageGroup}', 
+		            totalCnt: ${ageGroup.totalCnt}   
+		        });
+   	 		</c:forEach>
+   	 	 
+			 ageGroups.forEach(function(ageGroup, index) {
+				    var ageTotal = ageGroup.totalCnt;
+				    var percentage = calculateAgeAmountPercentage(ageTotal, total);
+					
+				    function calculateAgeAmountPercentage(count, total) {
+				        if (total === 0) return 0; 
+				        return ((count / total) * 100).toFixed(2);
+				    }
+				    
+				    // 각 연령대별 비율을 출력할 요소를 id로 찾아서 비율 삽입
+				    var elementId = "ageGroup-result-txt-" + index;
+				    document.getElementById(elementId).textContent = percentage;
+				});
 
 		};
 		
-		console.log("총 회원 수:", total);
-		console.log("레벨 0 회원 수:", level0Cnt);
-		console.log("레벨 1 회원 수:", level1Cnt);
-		console.log("레벨 2 회원 수:", level2Cnt);
 	</script>
 
 </body>

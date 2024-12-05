@@ -3,6 +3,7 @@ package kr.heartbeat.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.heartbeat.vo.AgeGroupDTO;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
@@ -18,6 +19,9 @@ public interface AdminService {
 	public int count_b() throws Exception;
 	
 	public Map<String, Object> count_c() throws Exception;
+
+	// 회원 연령대별 분류
+	public List<AgeGroupDTO> countAgeGroup() throws Exception;
 	
 	//summary 그래프
 	// 회원 총 인원

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.heartbeat.admin.persistence.AdminPersistenceImpl;
+import kr.heartbeat.vo.AgeGroupDTO;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
@@ -38,6 +39,12 @@ public class AdminServiceImpl implements AdminService {
 	    return persistence.count_c();
 	}
 	
+	// 회원 연령대별 분류
+	@Override
+	public List<AgeGroupDTO> countAgeGroup() throws Exception {
+		return persistence.countAgeGroup();
+	}
+
 	//summary 그래프
 	// 회원 총 인원
 	@Override
