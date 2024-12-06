@@ -3,6 +3,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
+	function checkSessionAndExecute(callback) {
+		$.ajax({
+			url: '/purchase/getEmail',  // 이메일을 가져오는 서버 URL
+		    type: 'GET',       // GET 방식으로 서버에 요청
+		    success: function(data) {
+		    	console.log(data);  // 서버에서 반환된 데이터를 확인
+	
+		        var email = data.email;  // 서버에서 받아온 이메일 값
+		        var name = data.name;    // 서버에서 받아온 이름
+		        var phone = data.phone;  // 서버에서 받아온 전화번호
+	
+		        console.log("콜백 실행 전:", email);
+		    	if (email == null || email.trim() === "") {
+		            alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
+		            window.location.href = '/login'; // 로그인 페이지로 이동
+		            return false; // 더 이상 진행하지 않도록 막음
+		        }
+		    	else {
+		    		console.log("콜백 실행 조건 충족");
+		    		callback();
+		    	}
+		    }
+		});
+	}
+
+
 	function deletePost(post_id){
 		// 사용자에게 삭제 확인 메세지 띄우기
 		var ifconfrimed = confirm("게시물을 삭제하시겠습니까?");
@@ -23,6 +49,9 @@
 	
 	//게시물 수정 버튼
 	function popPostEditShow(button) {
+		checkSessionAndExecute(function() {
+			
+		});
 	    var postDiv = button.closest('.postBx');
 	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
 	    var fanButtonDiv = postDiv.querySelector('.arti-top');
@@ -182,6 +211,10 @@
 	
 	//댓글 작성
 	function submitComment() {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 		var button = event.target; // 클릭한 버튼을 가져온다.
 		var form = button.closest('.submitCommentTest');
 	    
@@ -229,6 +262,10 @@
 	
 	// 댓글 수정 버튼 
 	function popCommentEditShow(button) {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 	    var commentDiv = button.closest('.postBx'); // 댓글을 포함한 가장 가까운 div인 .postBx를 찾기
 	    var fanCommentDiv = commentDiv.querySelector('.fan-comment'); // .fan-comment를 찾기
 	    var fanProfileDiv = commentDiv.querySelector('.fan-profile'); // .fan-profile를 찾기
@@ -330,6 +367,10 @@
 	}
 
 	function deleteComment(comment_id,totalComment,post_id) {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 		// 사용자에게 삭제 확인 메세지 띄우기
 		var isConfirmed = confirm("댓글을 삭제하시겠습니까?");
 		
@@ -435,6 +476,10 @@ function closePopup() {
 	
 	// 새로고침 버튼 
 	function resetPopup(post_id) {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 	    // AJAX 요청을 통해 서버에서 데이터를 불러온 후 팝업 업데이트
 	    $.ajax({
 	        url: '/community/getUserPost',  // 서버 URL을 여기에 넣으세요

@@ -1,3 +1,4 @@
+
 //common.js
 $(function(){
 	uploadFileName();
@@ -92,3 +93,6 @@ function multipleUploadFile(){
 //	$(e).hide().siblings().show();
 //	$(e).parent('.fan-profile').siblings('.fan-comment').children().find('.comment').show().siblings('.txtBx').hide();
 //}
+
+
+

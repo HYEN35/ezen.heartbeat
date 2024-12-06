@@ -132,7 +132,7 @@ public class UserController {
 	//로그인
 	@PostMapping("/login")
 	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr, Model model) throws Exception {
-		session.setMaxInactiveInterval(60); // 세션 유지시간을 설정
+		session.setMaxInactiveInterval(10); // 세션 유지시간을 설정
 		
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		UserroleVO rolelevel = userServiceImpl.role(userrolevo);

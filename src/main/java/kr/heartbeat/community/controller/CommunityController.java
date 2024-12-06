@@ -380,16 +380,6 @@ public class CommunityController {
 	    return response;
 	}
 
-
-	// 댓글 작성
-//	@PostMapping("/commentWrites")
-//	@ResponseBody
-//	public String commentWrite(CommentVO commentVO, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
-//		communityService.commentWrite(commentVO);
-//	    
-//		return "success";
-//	}
-
 	// 댓글 작성
 	@PostMapping("/commentWrite")
 	@ResponseBody
@@ -406,11 +396,6 @@ public class CommunityController {
 
 	    // 응답 데이터 설정
 	    response.put("data", "success");
-	    // 새 댓글 정보만 넣기 (commentVO 객체를 그대로 넣지 않음)
-//	    response.put("newComment", newComment.getComment()); // 새 댓글 내용
-//	    response.put("newnick", newComment.getNickname());   // 새 댓글 작성자
-//	    response.put("newComment_date", newComment.getComment_date()); // 새 댓글 작성 시간
-//	    response.put("totalComment", totalComment); // 최신 댓글 수
 
 	    return ResponseEntity.ok(response); // 클라이언트에게 성공 메시지 전달
 	}

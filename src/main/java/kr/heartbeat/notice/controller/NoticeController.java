@@ -135,7 +135,7 @@ public class NoticeController {
 	@ResponseBody
 	public String commentDelete(int notice_comment_id)throws Exception {
 		noticeService.commentDelete(notice_comment_id);
-		return "댓글 삭제 성공";
+		return "success";
 	}
 	
 }

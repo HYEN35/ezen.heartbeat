@@ -22,12 +22,6 @@
 
 %>
 
-<c:if test="${empty UserVO}">
-    <script>
-        alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
-        window.location.href = '/login';
-    </script>
-</c:if>
 
 <div id="menu" class="menu">
 	<div class="wrap">

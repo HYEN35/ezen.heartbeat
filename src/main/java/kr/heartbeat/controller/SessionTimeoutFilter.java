@@ -34,34 +34,42 @@ public class SessionTimeoutFilter implements Filter {
          * 정적 리소스 경로 (CSS, JS, 이미지 등)에 대한 요청은 필터를 통과시킴
          * 예: /resources/, /css/, /js/, /img/ 경로
          */
-        if (requestURI.startsWith(contextPath + "/resources/")
-                || requestURI.startsWith(contextPath + "/css/")
-                || requestURI.startsWith(contextPath + "/js/")
-                || requestURI.startsWith(contextPath + "/video/")
-                || requestURI.startsWith(contextPath + "/img/")) {
+        if (requestURI.startsWith(contextPath + "/resources/") || requestURI.startsWith(contextPath + "/css/") 
+            || requestURI.startsWith(contextPath + "/js/") || requestURI.startsWith(contextPath + "/video/") 
+            || requestURI.startsWith(contextPath + "/img/") || requestURI.startsWith(contextPath + "/heartbeat-upload/")) {
             chain.doFilter(request, response); // 필터를 통과하여 요청 계속 처리
             return;
         }
 
         /**
-         * 2. 로그인 및 회원가입 페이지 요청 제외 처리
-         * 로그인 페이지(/login), 회원가입 페이지(/join), 또는 루트 페이지(/)에 대한 요청은 필터를 통과시킴
+         * 2. 로그인, 회원가입, 루트 페이지, 로그아웃 제외 처리
+         * 로그인 페이지(/login), 회원가입 페이지(/join), 루트 페이지(/), 로그아웃 요청(/logout) 은 필터를 통과시킴
          */
-        if (requestURI.endsWith("/login") || requestURI.endsWith("/join") || requestURI.equals(contextPath + "/") || requestURI.endsWith("/admin/*") ) {
+        if (requestURI.endsWith("/login") || requestURI.endsWith("/join") || requestURI.equals(contextPath + "/")
+            || requestURI.endsWith("/logout") || requestURI.endsWith("/login/findId") || requestURI.endsWith("/login/searchPwd")
+            || requestURI.endsWith("/community/getArtistPost") || requestURI.endsWith("/community/getUserPost")) {
             chain.doFilter(request, response); // 필터를 통과하여 요청 계속 처리
             return;
         }
 
+
         /**
-         * 3. 세션 유효성 검사
-         * 세션에서 "UserVO"라는 이름의 속성을 확인하여 사용자가 로그인 상태인지 검사
+         * 4. /join/으로 시작하는 경로에 대해서는 세션 만료를 제외하고 처리
+         */
+        if (requestURI.startsWith(contextPath + "/join/") ) {
+            chain.doFilter(request, response); // /admin/ 경로는 세션 만료 확인을 하지 않고 계속 진행
+            return;
+        }
+
+
+        /**
+         * 5. 세션이 유효한 경우 요청 계속 처리
+         * 세션이 유효하면 다음 필터 또는 컨트롤러로 요청을 전달
          */
         Object user = httpRequest.getSession().getAttribute("UserVO");
 
         if (user == null) {
             // 세션이 만료된 경우 처리
-
-            // 응답의 Content-Type을 설정 (HTML 응답, UTF-8 인코딩 사용)
             httpResponse.setContentType("text/html; charset=UTF-8");
 
             // HTML 응답 작성: 경고 메시지를 표시하고 로그인 페이지로 리다이렉트
@@ -83,10 +91,7 @@ public class SessionTimeoutFilter implements Filter {
             return;
         }
 
-        /**
-         * 4. 세션이 유효한 경우 요청 계속 처리
-         * 세션이 유효하면 다음 필터 또는 컨트롤러로 요청을 전달
-         */
+        // 세션이 유효한 경우 요청 계속 처리
         chain.doFilter(request, response);
     }
 
