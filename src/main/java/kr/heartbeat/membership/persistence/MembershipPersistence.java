@@ -18,5 +18,7 @@ public interface MembershipPersistence {
 	public SubscriptionVO checkEndDate(String email) throws Exception;
 	// 맴버십 레벨 확인
 	public int checkLevel(String email) throws Exception;
+	// 아티스트 아이디 확인
+	public int checkArtistID(String email) throws Exception;
 	
 }

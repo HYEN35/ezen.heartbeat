@@ -46,6 +46,7 @@ public class MembershipPersistenceImpl implements MembershipPersistence {
 	// 레벨 1로 변경
 	@Override
 	public void deleteAndUpdateLevel1(String email) throws Exception {
+		System.out.println("여기 오냐?");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("email", email);
 		map.put("artist_id", 0);
@@ -63,5 +64,10 @@ public class MembershipPersistenceImpl implements MembershipPersistence {
 	@Override
 	public int checkLevel(String email) throws Exception {
 		return sql.selectOne(namespace+".checkLevel", email);
+	}
+	// 아티스트 아이디 확인
+	@Override
+	public int checkArtistID(String email) throws Exception {
+		return sql.selectOne(namespace+".checkArtistID", email);
 	}
 }

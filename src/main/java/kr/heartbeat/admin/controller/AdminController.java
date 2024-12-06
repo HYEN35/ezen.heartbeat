@@ -263,16 +263,20 @@ public class AdminController {
 			int level = membershipService.checkLevel(uvo.getEmail());
 			System.out.println(level);
 			if (level == 0) {
-				System.out.println("레벨 0이나 2일떄");
+				System.out.println("레벨 0일때");
 				membershipService.insertSubscription(uvo.getEmail(), 0, 1);
 				membershipService.updateLevel(uvo.getEmail(), 0, 1);			
 
 			} else {
-				System.out.println("레벨 1일떄");
-				membershipService.deleteAndUpdateLevel1(uvo.getEmail());
+				System.out.println("레벨 1이나 2일떄");
 				membershipService.updateLevel(uvo.getEmail(), 0, 1);			
+				membershipService.deleteAndUpdateLevel1(uvo.getEmail());
 			}
-		} else { 
+		} else if (uvo.getLevel() == 2) { 
+			int checkArtistID = membershipService.checkArtistID(uvo.getEmail());
+	//		if (checkArtistID  0) {
+				membershipService.deleteLevel(uvo.getEmail());
+//			} 				
 			membershipService.updateLevel(uvo.getEmail(), uvo.getArtist_id(),uvo.getLevel()); //맴버십 레벨 업데이트
 			membershipService.insertSubscription(uvo.getEmail(), uvo.getArtist_id(),uvo.getLevel()); // subscription에 insert
 		}

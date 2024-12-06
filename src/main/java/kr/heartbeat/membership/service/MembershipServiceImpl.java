@@ -33,7 +33,7 @@ public class MembershipServiceImpl implements MembershipService {
 	}
 	@Override // 레벨 1로 변경
 	public void deleteAndUpdateLevel1(String email) throws Exception {
-		membershipPersistence.deleteLevel(email);
+		membershipPersistence.deleteAndUpdateLevel1(email);
 	}
 	// 맴버십 종료 날짜 확인
 	@Override
@@ -45,5 +45,11 @@ public class MembershipServiceImpl implements MembershipService {
 	@Override
 	public int checkLevel(String email) throws Exception {
 		return membershipPersistence.checkLevel(email);
+	}
+	
+	// 아티스트 아이디 확인
+	@Override
+	public int checkArtistID(String email) throws Exception {
+		return membershipPersistence.checkArtistID(email);
 	}
 }
