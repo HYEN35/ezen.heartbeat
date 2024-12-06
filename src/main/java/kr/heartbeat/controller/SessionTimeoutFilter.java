@@ -54,7 +54,7 @@ public class SessionTimeoutFilter implements Filter {
 
 
         /**
-         * 4. /join/으로 시작하는 경로에 대해서는 세션 만료를 제외하고 처리
+         * 3. /join/으로 시작하는 경로에 대해서는 세션 만료를 제외하고 처리
          */
         if (requestURI.startsWith(contextPath + "/join/") ) {
             chain.doFilter(request, response); // /admin/ 경로는 세션 만료 확인을 하지 않고 계속 진행
@@ -63,7 +63,7 @@ public class SessionTimeoutFilter implements Filter {
 
 
         /**
-         * 5. 세션이 유효한 경우 요청 계속 처리
+         * 4. 세션이 유효한 경우 요청 계속 처리
          * 세션이 유효하면 다음 필터 또는 컨트롤러로 요청을 전달
          */
         Object user = httpRequest.getSession().getAttribute("UserVO");

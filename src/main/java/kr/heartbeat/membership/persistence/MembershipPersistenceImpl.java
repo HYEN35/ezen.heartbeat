@@ -36,17 +36,32 @@ public class MembershipPersistenceImpl implements MembershipPersistence {
 		map.put("email", email);
 		map.put("artist_id", artist_id);
 		map.put("level", level);
-		sql.update(namespace+".insertSubscription", map);
+		sql.insert(namespace+".insertSubscription", map);
 	}
 	// 레벨 삭제 
 	@Override
 	public void deleteLevel(String email) throws Exception {
 		sql.delete(namespace+".deleteLevel", email);
 	}
+	// 레벨 1로 변경
+	@Override
+	public void deleteAndUpdateLevel1(String email) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		map.put("artist_id", 0);
+		map.put("level", 1);
+		sql.update(namespace+".deleteAndUpdateLevel1", map);
+	}
 	
 	// 맴버십 종료 날짜 확인
 	@Override
 	public SubscriptionVO checkEndDate(String email) throws Exception {
 		return sql.selectOne(namespace+".checkEndDate", email);
+	}
+	
+	// 맴버십 레벨 확인
+	@Override
+	public int checkLevel(String email) throws Exception {
+		return sql.selectOne(namespace+".checkLevel", email);
 	}
 }

@@ -31,9 +31,19 @@ public class MembershipServiceImpl implements MembershipService {
 	public void deleteLevel(String email) throws Exception {
 		membershipPersistence.deleteLevel(email);
 	}
+	@Override // 레벨 1로 변경
+	public void deleteAndUpdateLevel1(String email) throws Exception {
+		membershipPersistence.deleteLevel(email);
+	}
 	// 맴버십 종료 날짜 확인
 	@Override
 	public SubscriptionVO checkEndDate(String email) throws Exception {
 		return membershipPersistence.checkEndDate(email);
+	}
+	
+	// 맴버십 레벨 확인
+	@Override
+	public int checkLevel(String email) throws Exception {
+		return membershipPersistence.checkLevel(email);
 	}
 }

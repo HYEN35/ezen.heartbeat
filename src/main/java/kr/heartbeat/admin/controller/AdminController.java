@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.heartbeat.admin.service.AdminServiceImpl;
+import kr.heartbeat.membership.service.MembershipService;
 import kr.heartbeat.notice.service.NoticeService;
 import kr.heartbeat.service.UserServiceImpl;
 import kr.heartbeat.vo.AgeGroupDTO;
@@ -47,6 +48,8 @@ public class AdminController {
 	
 	@Inject
 	private UserServiceImpl userServiceImpl;
+	@Autowired
+	private MembershipService membershipService;
 	
 	//summary
 	@GetMapping("/summary")
@@ -252,6 +255,27 @@ public class AdminController {
 	//edit 데이터처리
 	@PostMapping("/edit")
 	public String update(UserVO uvo,String num,String searchType,String keyword,String role_id, RedirectAttributes redirectAttributes) throws Exception {
+		System.out.println(uvo);
+		if(uvo.getLevel() == 0) {
+			membershipService.deleteLevel(uvo.getEmail());
+			membershipService.updateLevel(uvo.getEmail(), 0, 0);
+		} else if(uvo.getLevel() == 1){
+			int level = membershipService.checkLevel(uvo.getEmail());
+			System.out.println(level);
+			if (level == 0) {
+				System.out.println("레벨 0이나 2일떄");
+				membershipService.insertSubscription(uvo.getEmail(), 0, 1);
+				membershipService.updateLevel(uvo.getEmail(), 0, 1);			
+
+			} else {
+				System.out.println("레벨 1일떄");
+				membershipService.deleteAndUpdateLevel1(uvo.getEmail());
+				membershipService.updateLevel(uvo.getEmail(), 0, 1);			
+			}
+		} else { 
+			membershipService.updateLevel(uvo.getEmail(), uvo.getArtist_id(),uvo.getLevel()); //맴버십 레벨 업데이트
+			membershipService.insertSubscription(uvo.getEmail(), uvo.getArtist_id(),uvo.getLevel()); // subscription에 insert
+		}
 	    service.update(uvo);
 		redirectAttributes.addFlashAttribute("success", "success");
 		redirectAttributes.addFlashAttribute("num", num);
