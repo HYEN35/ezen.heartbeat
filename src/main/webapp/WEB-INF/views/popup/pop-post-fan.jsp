@@ -464,7 +464,7 @@ function closePopup() {
 			<div class="arti-comment">
 				<div class="arti-top">
 					<c:if test="${PostVO.profileimg != null && PostVO.profileimg != ''}">
-					    <div class="image"><img src="/heartbeat-upload/${sessionScope.PostVO.profileimg}" alt="닉네임" "></div>
+					    <div class="image"><img src="/heartbeat-upload/${PostVO.profileimg}" alt="닉네임" "></div>
 					</c:if>
 					<c:if test="${PostVO.profileimg == null || PostVO.profileimg == ''}">
 					    <div class="image"><img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임" "></div>

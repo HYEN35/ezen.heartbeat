@@ -2,6 +2,7 @@ package kr.heartbeat.persistence;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -79,6 +80,13 @@ public class UserPersistenceImpl implements UserPersistence {
 
 	    sql.update(namespace + ".modify", map); 
     }
+	
+	//프로필 이미지 초기화
+	@Override
+	public void resetProfileImage(Map<String, Object> Params) {
+		sql.update(namespace + ".resetProfileImage", Params);
+	}
+	
 	//회원 탈퇴
 	@Override
 	public void delete( UserVO uvo) {			

@@ -142,7 +142,7 @@ public class CommunityController {
 		List<PostVO> itzyFanPosts = communityService.getItzyFanPostList(page.getDisplayPost(), page.getPostNum()); // 있지 팬 게시물
 		List<PostVO> postList = communityService.getPostList(); // 전체 게시물
 		String artist_name = communityService.getArtistName(uservo.getArtist_id()); // 구독중인 아티스트 이름 가져오기
-
+		
 
 		String url = null;
 		List<PostVO> itzyPosts = new ArrayList<>(); // 있지 게시물

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.heartbeat.admin.service.AdminServiceImpl;
 import kr.heartbeat.notice.service.NoticeService;
 import kr.heartbeat.service.UserServiceImpl;
+import kr.heartbeat.vo.AgeGroupDTO;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.NoticeCommentVO;
 import kr.heartbeat.vo.NoticeVO;
@@ -56,6 +57,10 @@ public class AdminController {
 	    // 오늘 가입자 수
 	    int todayUserCount = service.count_a(today);
 	    model.addAttribute("count_a", todayUserCount);
+	    
+	    // 오늘 탈퇴한 유저 수
+ 		int todayDeleteUser = service.todayDeleteUser(today);
+ 		model.addAttribute("todayDeleteUser", todayDeleteUser);
 
 	    // 총 구독자 수
 	    int totalSubscribers = service.count_b();
@@ -76,6 +81,9 @@ public class AdminController {
 	    int totalPrice = level1Price+ level2Price;
 	    int targetAmount = 1000000;
 	    
+	    // 회원 연령대별 분류
+ 		List<AgeGroupDTO> ageGroup = service.countAgeGroup();
+	    
 	    	// 뷰로 데이터를 전달
 	    model.addAttribute("total", total);
 	    model.addAttribute("level0Cnt", level0Cnt);
@@ -86,6 +94,7 @@ public class AdminController {
 	    model.addAttribute("level2Price", level2Price);
 	    model.addAttribute("totalPrice", totalPrice);
 	    model.addAttribute("targetAmount", targetAmount);
+	    model.addAttribute("ageGroup", ageGroup);
 	    
 	    
 	    model.addAttribute("lvo", lvo);

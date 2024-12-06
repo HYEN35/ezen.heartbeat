@@ -22,6 +22,13 @@
 
 %>
 
+<c:if test="${empty UserVO}">
+    <script>
+        alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
+        window.location.href = '/login';
+    </script>
+</c:if>
+
 <div id="menu" class="menu">
 	<div class="wrap">
 		<h1 class="logo"><a href="${pageContext.request.contextPath}/chart">HeartBeat</a></h1>
@@ -31,7 +38,7 @@
 				    <div class="image"><img src="/heartbeat-upload/${UserVO.profileimg}" alt="닉네임"></div>
 				</c:if>
 				<c:if test="${UserVO.profileimg == null || UserVO.profileimg == ''}">
-				    <div class="image"><img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임"></div>
+				    <div class="image"><img id="profileImage" src="${pageContext.request.contextPath}/img/user.png " alt="닉네임"></div>
 				</c:if>
 				<div class="name"><p>${UserVO.nickname }</p></div>
 			</div>

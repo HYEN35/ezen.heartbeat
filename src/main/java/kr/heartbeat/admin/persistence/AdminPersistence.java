@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.heartbeat.vo.AgeGroupDTO;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
@@ -16,10 +17,14 @@ public interface AdminPersistence {
 	
 	//summary
 	public int count_a(String reg_date) throws Exception;
+	//탈퇴 유저
+	public int todayDeleteUser(String reg_date) throws Exception; 
 	
 	public int count_b() throws Exception;
 	
 	public Map<String, Object> count_c() throws Exception;
+	// 회원 연령대별 분류
+	public List<AgeGroupDTO> countAgeGroup() throws Exception;
 	//좋아요 많은 게시물 5개 가져오기
 	public List<likeVO> getMostLikePost() throws Exception;
 	

@@ -2,6 +2,7 @@ package kr.heartbeat.service;
 
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -139,6 +140,17 @@ public class UserServiceImpl implements UserService {
 	public void modify(UserVO userVO) {
 		userPersistenceImpl.modify(userVO);
 	}
+	
+
+	//프로필 사진 초기화
+	@Override
+	public void resetProfileImage(String email) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("email", email);
+
+        userPersistenceImpl.resetProfileImage(params);
+
+    }
 
 	//회원 탈퇴
 	@Override

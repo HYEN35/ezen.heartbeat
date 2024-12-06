@@ -91,6 +91,11 @@
     	where email = #{userVO.email}
 	</update>
 	
+	<!-- 프로필 사진 초기화 -->
+	<update id="resetProfileImage" parameterType="map">
+		update user_tbl set profileimg = null where email= #{email} 
+	</update>
+	
 	
 
 	<!-- 1.사용자 조회 -->

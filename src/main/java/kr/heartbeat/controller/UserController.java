@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -130,6 +132,8 @@ public class UserController {
 	//로그인
 	@PostMapping("/login")
 	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr, Model model) throws Exception {
+		session.setMaxInactiveInterval(60); // 세션 유지시간을 설정
+		
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		UserroleVO rolelevel = userServiceImpl.role(userrolevo);
 		String email = userVO.getEmail();
@@ -248,7 +252,6 @@ public class UserController {
 		// 마이페이지 
 		@RequestMapping("/mypage") 
 		public String mypage() throws Exception {
-			
 			return "heartbeat/mypage"; 
 		}
 		
@@ -476,6 +479,27 @@ public class UserController {
 				userServiceImpl.deleteMyNotice(Integer.parseInt(noticeId));  // 삭제 서비스 호출
 			}
 			return "redirect:/mynotice?num=1";
+		}
+		
+		// 프로필 사진 초기화
+		@PostMapping("/mypage/resetProfileImage")
+		public String resetProfileImage(UserVO userVO,HttpSession session)throws Exception {
+			
+		   // Map<String, Object> response = new HashMap<>();
+		    
+	        userServiceImpl.resetProfileImage(userVO.getEmail()); // 프로필 이미지 초기화 서비스 호출
+	        
+	        UserVO dbuserVO = userServiceImpl.login(userVO);
+
+//	        // 세션에서 UserVO 또는 사용자 정보를 가져와 업데이트
+//	        UserVO user = (UserVO) session.getAttribute("UserVO");
+//	        if (user != null) {
+//	            user.setProfileimg("/img/user.png"); // 초기화된 기본 이미지 경로로 업데이트
+//	            session.setAttribute("UserVO", user); // 세션 업데이트
+	        session.setAttribute("UserVO", dbuserVO);
+	        
+
+		    return "redirect:/mypage";
 		}
 
 

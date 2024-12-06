@@ -271,6 +271,7 @@ br.mob{display:none}
 [class*="my-"] .tabCnt .searchWrap .btnBx{display:flex;justify-content:flex-start;align-items:center}
 .my-page .cnt .nickname .dd .txtBx{float:left;margin-right:10px}
 .my-page .cnt .nickname .dd button{float:left}
+.my-page .cnt .image .dd{margin-bottom:10px}
 .my-page .cnt .image .dd:after{display:block;clear:both;content:""}
 .my-page .cnt .image .dd button{float:left;margin-right:10px}
 .my-page .cnt .image .dd .fileName{overflow:hidden;display:block;float:left;width:80%;height:100%;line-height:40px;text-overflow:ellipsis;white-space:nowrap}

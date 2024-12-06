@@ -1,14 +1,18 @@
 package kr.heartbeat.membership.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.heartbeat.membership.service.MembershipService;
@@ -69,6 +73,28 @@ public class MembershipController {
 			session.setAttribute("UserVO", dbuserVO);
 			return "redirect:/purchase";
 		}
+		
+		 @RequestMapping("/getEmail")
+		 public Map<String, Object> getEmail(HttpSession session) {
+	        System.out.println("getEmail 호출됨");
+	        
+	        UserVO user = (UserVO) session.getAttribute("UserVO");
+	        Map<String, Object> response = new HashMap<>();
+	        
+	        if (user != null) {
+	            response.put("email", user.getEmail());
+	            response.put("name", user.getName());
+	            response.put("phone", user.getPhone());
+	        } else {
+	            response.put("email", "");
+	            response.put("name", "");
+	            response.put("phone", "");
+	        }
+
+	        return response;  
+	    }
+
+
 	}
 
 	

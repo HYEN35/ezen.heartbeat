@@ -53,7 +53,7 @@
 <c:if test="${not empty alertMsg}">
     <script type="text/javascript">
         alert("${alertMsg}");  // 서버에서 전달한 경고 메시지 표시
-        window.location.href = "${pageContext.request.contextPath}/membership";  // 경고 후 리디렉션
+        window.location.href = "${pageContext.request.contextPath}/purchase";  // 경고 후 리디렉션
     </script>
 </c:if>
 

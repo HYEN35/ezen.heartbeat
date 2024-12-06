@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import kr.heartbeat.vo.AgeGroupDTO;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
@@ -30,6 +31,11 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	public int count_a(String reg_date) throws Exception {
 	    return sql.selectOne(namespace + ".count_a", reg_date);
 	}
+	//탈퇴 유저
+	@Override
+	public int todayDeleteUser(String reg_date) throws Exception {
+		return sql.selectOne(namespace +".todayDeleteUser", reg_date);
+	}
 	
 	@Override
 	public int count_b() throws Exception {
@@ -39,6 +45,11 @@ public class AdminPersistenceImpl implements AdminPersistence {
 	@Override
 	public Map<String, Object> count_c() throws Exception {
 	    return sql.selectOne(namespace + ".count_c");
+	}
+	//회원 연령대별 분류
+	@Override
+	public List<AgeGroupDTO> countAgeGroup() throws Exception {
+		return sql.selectList(namespace + ".countAgeGroup");
 	}
 	//좋아요 많은 게시물 5개 가져오기
 	public List<likeVO> getMostLikePost() throws Exception {
