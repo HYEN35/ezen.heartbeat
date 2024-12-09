@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,14 +93,11 @@ public class UserController {
 	//회원가입
 	@PostMapping("/join")
 	public String insertUser(UserVO userVO, RedirectAttributes rttr) throws IOException {
-		System.out.println("========== Presentaion member email(id) : "+userVO.getEmail());
-		System.out.println("========== Presentaion member getBirth : "+userVO.getBirth());
 		String email = userVO.getEmail();
 		
 		//비밀번호 암호화
 		String pwd =userVO.getPwd();
 		String encodePwd = bCryptPasswordEncoder.encode(pwd);
-		System.out.println("========= Presentation member pwd : "+ encodePwd);
 		userVO.setPwd(encodePwd);
 		
 		String url = null;
@@ -108,7 +107,6 @@ public class UserController {
         String file1, file2 = "";
         
         MultipartFile uploadfilef = userVO.getProfileimgf(); 
-        System.out.println("================"+uploadfilef);
         if (uploadfilef != null && !uploadfilef.isEmpty()) {
             String fileName = UUID.randomUUID().toString() + "_" + uploadfilef.getOriginalFilename();
             file1 = realPath + fileName; 
@@ -134,6 +132,8 @@ public class UserController {
 	//로그인
 	@PostMapping("/login")
 	public String login(UserVO userVO, HttpSession session,UserroleVO userrolevo, RedirectAttributes rttr, Model model) throws Exception {
+		session.setMaxInactiveInterval(1800); // 세션 유지시간을 설정
+		
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		UserroleVO rolelevel = userServiceImpl.role(userrolevo);
 		String email = userVO.getEmail();
@@ -144,7 +144,6 @@ public class UserController {
 		// Date 객체를 원하는 형식의 문자열로 포맷팅
 		String formattedDate = desiredFormat.format(date);
 		// 출력
-		System.out.println(formattedDate);  // 예시: 2024-11-20
 
 		if (dbuserVO != null) {
 			boolean passMatch = bCryptPasswordEncoder.matches(userVO.getPwd(), dbuserVO.getPwd());
@@ -156,7 +155,6 @@ public class UserController {
 				if (subscriptionVO != null) {
 					Date endDate = desiredFormat.parse(subscriptionVO.getEnd_date());
 					long now = nowDate.getTime() - endDate.getTime();
-					System.out.println(now);
 
 					// 맴버십 종료 여부 확인
 					if (now >= 0) {
@@ -234,7 +232,6 @@ public class UserController {
 		//비밀번호 찾기 - 메일 전송 버전
 		@PostMapping("/login/searchPwd")
 		public String searchPwd(UserVO userVO, RedirectAttributes redirectAttributes) {
-			System.out.println("(============ : " +userVO.getEmail());
 			
 			int result = userServiceImpl.searchPwd(userVO);
 			if(result == 1) {
@@ -255,7 +252,6 @@ public class UserController {
 		// 마이페이지 
 		@RequestMapping("/mypage") 
 		public String mypage() throws Exception {
-			
 			return "heartbeat/mypage"; 
 		}
 		
@@ -269,7 +265,6 @@ public class UserController {
 
 			UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		    
-			System.out.println("회원 수정 비빌번호 +++++++++ "+userVO.getPwd());
 			
 		    // 비밀번호 수정 처리
 		    if (newPwd != null && !newPwd.isEmpty()) {
@@ -345,9 +340,7 @@ public class UserController {
 		@RequestMapping("/mymembership")
 		public String mymembership(HttpSession session, Model model) throws Exception {
 			UserVO userVO = (UserVO) session.getAttribute("UserVO");
-			System.out.println("유저 정보 확인 : "+userVO);
 			SubscriptionVO subscriptionVO = userServiceImpl.checkMyMembershipDate(userVO.getEmail());
-			System.out.println("맴버십 날짜 확인 : "+subscriptionVO);
 			if (subscriptionVO != null) {
 				model.addAttribute("startDate", subscriptionVO.getStart_date());
 				model.addAttribute("endDate", subscriptionVO.getEnd_date());				
@@ -408,13 +401,15 @@ public class UserController {
 			model.addAttribute("userNoticeList", userNoticeList);
 			model.addAttribute("page", page);		
 			model.addAttribute("select", num);
+			model.addAttribute("searchType", searchType);	
+			model.addAttribute("keyword", keyword);	
 			
 			return "heartbeat/mynotice";
 		}
 		
 		// 내 문의 상세보기
 		@RequestMapping("/getMyPostOne") // 게시물 상세보기
-		public String getMyPostOne(@RequestParam("notice_id")int notice_id,int num, Model model)throws Exception {
+		public String getMyPostOne(@RequestParam("notice_id")int notice_id,int num,String searchType, String keyword, Model model)throws Exception {
 			NoticeVO noticeVO = noticeService.getPostOne(notice_id);
 			List<NoticeCommentVO> commentVO = noticeService.getComment(notice_id);
 			
@@ -422,21 +417,25 @@ public class UserController {
 			model.addAttribute("num", num);
 			model.addAttribute("commentVO", commentVO);
 			model.addAttribute("noticeVO", noticeVO);
+			model.addAttribute("searchType", searchType);	
+			model.addAttribute("keyword", keyword);	
 
 			return "/heartbeat/myNoticeShow";
 		}
 		
 		@PostMapping("/myNoticeModifyShow") // 게시물 수정 페이지 이동
-		public String noticeModifyShow(int notice_id,int num,Model model) throws Exception{
+		public String noticeModifyShow(int notice_id,int num,String searchType, String keyword,Model model) throws Exception{
 			NoticeVO noticeVO = noticeService.getPostOne(notice_id);
 			
 			model.addAttribute("num", num);
 			model.addAttribute("noticeVO", noticeVO);
+			model.addAttribute("searchType", searchType);	
+			model.addAttribute("keyword", keyword);	
 			return "/heartbeat/myNoticeModify";
 		}
 		
 		@PostMapping("/myNoticeModify") // 게시물 수정
-		public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,Model model) throws Exception{
+		public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,String searchType, String keyword, Model model) throws Exception{
 			
 			noticeService.noticeModify(noticeVO);
 			NoticeVO dbnoticeVO = noticeService.getPostOne(noticeVO.getNotice_id());
@@ -444,6 +443,8 @@ public class UserController {
 			model.addAttribute("num", num);
 			model.addAttribute("noticeVO", dbnoticeVO);
 			model.addAttribute("commentVO", commentVO);
+			model.addAttribute("searchType", searchType);	
+			model.addAttribute("keyword", keyword);	
 			return "/heartbeat/myNoticeShow";
 		}
 		
@@ -478,6 +479,27 @@ public class UserController {
 				userServiceImpl.deleteMyNotice(Integer.parseInt(noticeId));  // 삭제 서비스 호출
 			}
 			return "redirect:/mynotice?num=1";
+		}
+		
+		// 프로필 사진 초기화
+		@PostMapping("/mypage/resetProfileImage")
+		public String resetProfileImage(UserVO userVO,HttpSession session)throws Exception {
+			
+		   // Map<String, Object> response = new HashMap<>();
+		    
+	        userServiceImpl.resetProfileImage(userVO.getEmail()); // 프로필 이미지 초기화 서비스 호출
+	        
+	        UserVO dbuserVO = userServiceImpl.login(userVO);
+
+//	        // 세션에서 UserVO 또는 사용자 정보를 가져와 업데이트
+//	        UserVO user = (UserVO) session.getAttribute("UserVO");
+//	        if (user != null) {
+//	            user.setProfileimg("/img/user.png"); // 초기화된 기본 이미지 경로로 업데이트
+//	            session.setAttribute("UserVO", user); // 세션 업데이트
+	        session.setAttribute("UserVO", dbuserVO);
+	        
+
+		    return "redirect:/mypage";
 		}
 
 

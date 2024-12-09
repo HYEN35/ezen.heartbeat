@@ -3,6 +3,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
+	function checkSessionAndExecute(callback) {
+		$.ajax({
+			url: '/purchase/getEmail',  // 이메일을 가져오는 서버 URL
+		    type: 'GET',       // GET 방식으로 서버에 요청
+		    success: function(data) {
+		    	console.log(data);  // 서버에서 반환된 데이터를 확인
+	
+		        var email = data.email;  // 서버에서 받아온 이메일 값
+		        var name = data.name;    // 서버에서 받아온 이름
+		        var phone = data.phone;  // 서버에서 받아온 전화번호
+	
+		        console.log("콜백 실행 전:", email);
+		    	if (email == null || email.trim() === "") {
+		            alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
+		            window.location.href = '/login'; // 로그인 페이지로 이동
+		            return false; // 더 이상 진행하지 않도록 막음
+		        }
+		    	else {
+		    		console.log("콜백 실행 조건 충족");
+		    		callback();
+		    	}
+		    }
+		});
+	}
+
+
 	function deletePost(post_id){
 		// 사용자에게 삭제 확인 메세지 띄우기
 		var ifconfrimed = confirm("게시물을 삭제하시겠습니까?");
@@ -23,6 +49,9 @@
 	
 	//게시물 수정 버튼
 	function popPostEditShow(button) {
+		checkSessionAndExecute(function() {
+			
+		});
 	    var postDiv = button.closest('.postBx');
 	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
 	    var fanButtonDiv = postDiv.querySelector('.arti-top');
@@ -182,19 +211,18 @@
 	
 	//댓글 작성
 	function submitComment() {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 		var button = event.target; // 클릭한 버튼을 가져온다.
 		var form = button.closest('.submitCommentTest');
-	    console.log(form);  // 댓글 내용 확인 (디버깅용)
 	    
 	    var post_id = form.querySelector('input[name="post_id"]').value
 	    var email = form.querySelector('input[name="email"]').value
 	    var nickname = form.querySelector('input[name="nickname"]').value
 	    var comment = form.querySelector('input[name="comment"]').value
-	    console.log(post_id);  // 댓글 내용 확인 (디버깅용)
-	    console.log(email);  // 댓글 내용 확인 (디버깅용)
-	    console.log(nickname);  // 댓글 내용 확인 (디버깅용)
-	    console.log(comment);  // 댓글 내용 확인 (디버깅용)
-		
+
 	    // 댓글이 비어있는 경우
 	    if (!comment.trim()) {
 	        alert("댓글 내용을 입력해주세요.");
@@ -213,7 +241,6 @@
 	        },
 	        dataType: 'json',
 	        success: function(response) {
-	    	    console.log("바보야");  // 댓글 내용 확인 (디버깅용)
 
 	        	$.ajax({
 	    			url: '/community/getUserPost',  // 서버 URL을 여기에 넣으세요
@@ -235,6 +262,10 @@
 	
 	// 댓글 수정 버튼 
 	function popCommentEditShow(button) {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 	    var commentDiv = button.closest('.postBx'); // 댓글을 포함한 가장 가까운 div인 .postBx를 찾기
 	    var fanCommentDiv = commentDiv.querySelector('.fan-comment'); // .fan-comment를 찾기
 	    var fanProfileDiv = commentDiv.querySelector('.fan-profile'); // .fan-profile를 찾기
@@ -307,7 +338,6 @@
 	            comment: newCommentText
 	        },
 	        success: function(data) {
-	            console.log('서버 응답:', data);  // 서버 응답 로그 추가
 	            if (data === "success") {
 	                // 수정 후 댓글 내용을 업데이트하고, 버튼 전환
 	                commentText.innerText = newCommentText;  // 댓글 텍스트 업데이트
@@ -337,6 +367,10 @@
 	}
 
 	function deleteComment(comment_id,totalComment,post_id) {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 		// 사용자에게 삭제 확인 메세지 띄우기
 		var isConfirmed = confirm("댓글을 삭제하시겠습니까?");
 		
@@ -442,6 +476,10 @@ function closePopup() {
 	
 	// 새로고침 버튼 
 	function resetPopup(post_id) {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 	    // AJAX 요청을 통해 서버에서 데이터를 불러온 후 팝업 업데이트
 	    $.ajax({
 	        url: '/community/getUserPost',  // 서버 URL을 여기에 넣으세요
@@ -457,7 +495,10 @@ function closePopup() {
 	        }
 	    });
 	}
+	 
+
 </script>
+
 
 <div class="wrap">
 	<div class="topArea">
@@ -467,7 +508,12 @@ function closePopup() {
 		<div class="postBx" data-post-id="${PostVO.post_id}">
 			<div class="arti-comment">
 				<div class="arti-top">
-					<div class="arti-profile"><img src="/heartbeat-upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="닉네임1"></div>
+					<c:if test="${PostVO.profileimg != null && PostVO.profileimg != ''}">
+					    <div class="image"><img src="/heartbeat-upload/${PostVO.profileimg}" alt="닉네임" "></div>
+					</c:if>
+					<c:if test="${PostVO.profileimg == null || PostVO.profileimg == ''}">
+					    <div class="image"><img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임" "></div>
+					</c:if>
 					<span class="arti-name"> ${PostVO.nickname }</span>
 					<span class="arti-date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></span>
 					<c:if test="${PostVO.nickname eq UserVO.nickname}">
@@ -486,10 +532,10 @@ function closePopup() {
 				<div class="arti-cnt">
 					<div class="txt">${PostVO.content} </div>
 					<div id="overlay" class="overlay" onclick="closeModal()"></div>
-					<c:if test="${not empty PostVO.post_img}">
+					<c:if test="${not empty PostVO.post_img}">	
 				    	<img id="fan-img" src="/heartbeat-upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:50%;"  onclick="showPopup(this)">
 				    </c:if>
-					 <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">
+					 <form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
 				    	 <img id="imagePreview" class="thumb" style="display:none; width:50%;" />
 				    	 <input type="file" id="postImgFile" class="post-img-upload" style="display:none; padding:10px 0;" accept="image/*" >
 				    	 <textarea class="post-txtBx" name="content" style="display:none;">${PostVO.content}</textarea>
@@ -509,7 +555,12 @@ function closePopup() {
 				<c:forEach items="${commentList }" var="commentVO">
 						<div class="postBx" data-comment-id="${commentVO.comment_id}">
 							<div class="fan-profile">
-								<img src="/heartbeat-upload/${commentVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+								<c:if test="${commentVO.profileimg != null && commentVO.profileimg != ''}">
+								    <img src="/heartbeat-upload/${commentVO.profileimg}" class="fan-thumb" alt="${commentVO.profileimg}">
+								</c:if>
+								<c:if test="${commentVO.profileimg == null || commentVO.profileimg == ''}">
+								    <img src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="user.png">
+								</c:if>
 								<c:if test="${
 								commentVO.nickname eq '로제' 
 								or commentVO.nickname eq '리사'

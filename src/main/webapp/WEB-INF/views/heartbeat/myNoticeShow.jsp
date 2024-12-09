@@ -6,6 +6,31 @@
 %>
 
 <script>
+	function checkSessionAndExecute(callback) {
+		$.ajax({
+			url: '/purchase/getEmail',  // 이메일을 가져오는 서버 URL
+		    type: 'GET',       // GET 방식으로 서버에 요청
+		    success: function(data) {
+		    	console.log(data);  // 서버에서 반환된 데이터를 확인
+	
+		        var email = data.email;  // 서버에서 받아온 이메일 값
+		        var name = data.name;    // 서버에서 받아온 이름
+		        var phone = data.phone;  // 서버에서 받아온 전화번호
+	
+		        console.log("콜백 실행 전:", email);
+		    	if (email == null || email.trim() === "") {
+		            alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
+		            window.location.href = '/login'; // 로그인 페이지로 이동
+		            return false; // 더 이상 진행하지 않도록 막음
+		        }
+		    	else {
+		    		console.log("콜백 실행 조건 충족");
+		    		callback();
+		    	}
+		    }
+		});
+	}
+
 	// 게시물 삭제 확인 함수
 	function confirmDelete() {
 	    // 확인 대화 상자 띄우기
@@ -26,6 +51,9 @@
 
 	// 댓글 수정 버튼
 	function commentEditShow(button) {
+		checkSessionAndExecute(function() {
+			
+		});
 		// 클릭된 버튼의 부모 요소에서 댓글과 관련된 요소를 찾음
 	    var parentDiv = button.closest('div');
 	    
@@ -55,7 +83,6 @@
 	        alert("댓글 내용을 입력해주세요.");  // 경고창 띄우기
 	        return;  // 함수 종료, 댓글 수정 작업 진행 안함
 	    }
-	    console.log(newCommentValue);
 
 	    // AJAX 요청을 보내기
 	    $.ajax({
@@ -67,7 +94,6 @@
 	        },
 	        success: function(response) {
 	            // 서버 응답이 성공적이면 처리
-	            console.log('댓글 수정 성공:', response);
 
 	            // 수정 후 화면 업데이트 (예: 댓글 내용 갱신)
 	            var commentText = parentDiv.querySelector('.comment'); // 댓글 내용
@@ -87,6 +113,9 @@
 	
 	// 댓글 삭제
 	function commentDelete(notice_comment_id) {
+		checkSessionAndExecute(function() {
+			
+		});
 		var isConfirm = confirm("댓글을 삭제하시겠습니까?");
 		
 		if (isConfirm) {
@@ -95,9 +124,11 @@
 				type : 'post',
 				data : {notice_comment_id : notice_comment_id},
 				success:function(response){
-					alert('댓글이 삭제되었습니다');
-					// 댓글 삭제 후 새로 고침
-	                location.reload();  // 페이지 새로 고침
+					if(response === "success") {
+						alert('댓글이 삭제되었습니다');
+						// 댓글 삭제 후 새로 고침
+		                location.reload();  // 페이지 새로 고침						
+					}
 				}
 			})
 		}
@@ -116,6 +147,8 @@
 						<form action="/myNoticeModifyShow" method="post">
 							<input type="hidden" name="notice_id" value="${noticeVO.notice_id }">
 							<input type="hidden" name="num" value="${num }">
+							<input type="hidden" name="searchType" value="${searchType }">
+							<input type="hidden" name="keyword" value="${keyword }">
 							<div class="writer">${noticeVO.nickname }</div>
 							<div class="tit">${noticeVO.title }</div>
 							<div class="date"><fmt:formatDate value="${noticeVO.post_date}" pattern="yyyy-MM-dd HH:mm"/></div>
@@ -125,7 +158,7 @@
 									<button type="submit" class="btn-full">수정하기</button>
 									<a href="/myNoticeDelete?notice_id=${noticeVO.notice_id }" onclick="return confirmDelete()" class="btn-border-01">삭제</a>
 								</c:if>
-								<a href="/mynotice?num=${num }" class="btn-border">목록</a>
+								<a href="/mynotice?num=${num }&searchType=${searchType}&keyword=${keyword}" class="btn-border">목록</a>
 							</div>
 						</form>
 					</div>

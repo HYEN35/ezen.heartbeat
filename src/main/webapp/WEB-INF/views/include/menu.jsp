@@ -22,12 +22,18 @@
 
 %>
 
+
 <div id="menu" class="menu">
 	<div class="wrap">
 		<h1 class="logo"><a href="${pageContext.request.contextPath}/chart">HeartBeat</a></h1>
 		<div class="userCnt">
 			<div class="user" onclick="dropMenuShow();">
-				<div class="image"><img src="/heartbeat-upload/${sessionScope.UserVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" alt="닉네임" style="width:40px;border-radius:20px;"></div>
+				<c:if test="${UserVO.profileimg != null && UserVO.profileimg != ''}">
+				    <div class="image"><img src="/heartbeat-upload/${UserVO.profileimg}" alt="닉네임"></div>
+				</c:if>
+				<c:if test="${UserVO.profileimg == null || UserVO.profileimg == ''}">
+				    <div class="image"><img id="profileImage" src="${pageContext.request.contextPath}/img/user.png " alt="닉네임"></div>
+				</c:if>
 				<div class="name"><p>${UserVO.nickname }</p></div>
 			</div>
 			<div class="dropMenu">

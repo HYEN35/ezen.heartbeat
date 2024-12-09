@@ -1,6 +1,7 @@
 package kr.heartbeat.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.heartbeat.vo.NoticeVO;
 import kr.heartbeat.vo.PostVO;
@@ -31,6 +32,8 @@ public interface UserPersistence {
 
 	//회원수정
 	public void modify(UserVO userVO);
+	//프로필 이미지 초기화
+	public void resetProfileImage(Map<String, Object> Params);
 
 	//회원 탈퇴
 	public void delete(UserVO uvo);

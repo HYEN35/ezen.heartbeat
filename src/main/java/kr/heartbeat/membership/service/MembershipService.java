@@ -11,6 +11,12 @@ public interface MembershipService {
 	public void insertSubscription(String email, int artist_id, int level) throws Exception;
 	// 레벨 삭제 
 	public void deleteLevel(String email) throws Exception;
+	// 레벨 1로 변경 
+	public void deleteAndUpdateLevel1(String email) throws Exception;
 	// 맴버십 종료 날짜 확인
 	public SubscriptionVO checkEndDate(String email) throws Exception;
+	// 맴버십 레벨 확인
+	public int checkLevel(String email) throws Exception;
+	// 아티스트 아이디 확인
+	public int checkArtistID(String email) throws Exception;
 }

@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.heartbeat.admin.persistence.AdminPersistenceImpl;
+import kr.heartbeat.vo.AgeGroupDTO;
 import kr.heartbeat.vo.CommentVO;
 import kr.heartbeat.vo.PostVO;
 import kr.heartbeat.vo.RoleVO;
 import kr.heartbeat.vo.SubscriptionVO;
 import kr.heartbeat.vo.UserVO;
 import kr.heartbeat.vo.UserroleVO;
+import kr.heartbeat.vo.likeVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -27,15 +29,30 @@ public class AdminServiceImpl implements AdminService {
 	public int count_a(String reg_date) throws Exception {
 	    return persistence.count_a(reg_date);
 	}
+	//탈퇴유저
+	@Override
+	public int todayDeleteUser(String reg_date) throws Exception {
+		return persistence.todayDeleteUser(reg_date);
+	}
 	
 	@Override
 	public int count_b() throws Exception {
 	    return persistence.count_b();
 	}
+	// 회원 연령대별 분류
+	@Override
+	public List<AgeGroupDTO> countAgeGroup() throws Exception {
+		return persistence.countAgeGroup();
+	}
 	
 	@Override
 	public Map<String, Object> count_c() throws Exception {
 	    return persistence.count_c();
+	}
+	
+	//좋아요 많은 게시물 5개 가져오기
+	public List<likeVO> getMostLikePost() throws Exception {
+		return persistence.getMostLikePost();
 	}
 	
 	//summary 그래프

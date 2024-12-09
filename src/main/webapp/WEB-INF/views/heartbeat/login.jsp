@@ -2,6 +2,7 @@
 <%@ include file="../include/layout.jsp" %>
 
 <body>
+
 	<script>
 		//팝업 아이디찾기
 		function popFindIdShow(){

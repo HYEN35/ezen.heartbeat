@@ -11,12 +11,21 @@
 		from user_tbl
 		where DATE(reg_date) = CURDATE();
 	</select>
+	
+	<!--탈퇴 유저-->
+	<select id="todayDeleteUser" resultType="int" parameterType="String" >
+		select count(del_email)
+		from delete_user_tbl
+		where DATE(del_reg_date) = CURDATE();
+	</select>
 
+	<!-- 가입자 수  -->			
 	<select id="count_b" resultType="int">
-		select count(s.email)
-		from subscription_tbl s
-		join user_role_tbl u on s.email = u.email
-		where u.role_id IN (2);
+	    select count(s.email)
+	    from subscription_tbl s
+	    join user_role_tbl u on s.email = u.email
+	    where u.role_id IN (2)
+	    and (s.level = 1 or s.level = 2);
 	</select>
 
 	<select id="count_c" resultType="map">
@@ -29,6 +38,51 @@
 		GROUP BY a.artist_id, a.art_name
 		ORDER BY email_count DESC
 		LIMIT 1;
+	</select>
+	
+	<!-- 회원 연령대별 분류 -->
+	 <select id="countAgeGroup" resultType="kr.heartbeat.vo.AgeGroupDTO">
+	    SELECT 
+	        AgeGroups.ageGroup, 
+	        IFNULL(counts.totalCnt, 0) AS totalCnt
+	    FROM (
+	        SELECT '10대' AS ageGroup
+	        UNION ALL
+	        SELECT '20대'
+	        UNION ALL
+	        SELECT '30대'
+	        UNION ALL
+	        SELECT '40대'
+	        UNION ALL
+	        SELECT '50대'
+	        UNION ALL
+	        SELECT '60대이상'
+	    ) AS AgeGroups
+	    LEFT JOIN (
+	        SELECT 
+	            CASE 
+	                when age &lt; 20 THEN '10대'
+	                WHEN age BETWEEN 20 AND 29 THEN '20대'
+	                WHEN age BETWEEN 30 AND 39 THEN '30대'
+	                WHEN age BETWEEN 40 AND 49 THEN '40대'
+	                WHEN age BETWEEN 50 AND 59 THEN '50대'
+	                ELSE '60대이상'
+	            END AS ageGroup,
+	            COUNT(*) AS totalCnt
+	        FROM (
+	            SELECT 
+	                u.email, 
+	                DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(u.birth, '%Y') AS age
+	            FROM 
+	                user_tbl u
+	            JOIN 
+	                user_role_tbl ur ON u.email = ur.email
+	            WHERE 
+	                ur.role_id = 2
+	        ) AS c
+	        GROUP BY ageGroup
+	    ) AS counts ON AgeGroups.ageGroup = counts.ageGroup
+	    ORDER BY AgeGroups.ageGroup;
 	</select>
 
 	<!-- 전체 유저 수 조회 -->
@@ -43,6 +97,25 @@
 		from user_tbl u
 		inner join user_role_tbl r on u.email = r.email
 		where r.role_id = 2 and u.level = #{level};
+	</select>
+	
+	<!-- 좋아요 많은 게시물 5개 가져오기 -->
+	<select id="getMostLikePost" resultType="kr.heartbeat.vo.likeVO">
+		SELECT 
+		    p.post_id,
+		    p.nickname,
+		    COUNT(l.like_id) AS like_count
+		FROM 
+		    post_tbl p
+		INNER JOIN 
+		    like_tbl l
+		ON 
+		    p.post_id = l.post_id
+		GROUP BY 
+		    p.post_id, p.nickname
+		ORDER BY 
+		    like_count DESC
+		LIMIT 5;
 	</select>
 
 	<!-- ============================== member ============================== -->
@@ -101,8 +174,8 @@
 			</if>
 
 			<!-- Role ID 조건 -->
-			<if test='roleId != null'>
-				and r.role_id in (${roleId})
+			<if test="roleId != null and roleId != ''">
+			    and r.role_id in (${roleId})
 			</if>
 		</where>
 	</select>
@@ -207,12 +280,12 @@
 				post_date like concat('%', #{keyword}, '%')
 			</if>
 			<if test="searchType != null and searchType.equals('content')">
-				content like concat'%', #{keyword}, '%')
+				content like concat('%', #{keyword}, '%')
 			</if>
 
 			<!-- Role ID 조건 -->
-			<if test='roleId != null'>
-				and r.role_id in (${roleId})
+			<if test="roleId != null and roleId != ''">
+			    and r.role_id in (${roleId})
 			</if>
 		</where>
 	</select>
@@ -240,14 +313,15 @@
 				comment_date like concat('%', #{keyword}, '%')
 			</if>
 
-			<if test='searchType.equals("content")'>
-				content like concat('%', #{keyword}, '%')
+			<if test='searchType.equals("comment")'>
+				comment like concat('%', #{keyword}, '%')
 			</if>
 
 			<!-- Role ID 조건 -->
 			<if test='roleId != null and roleId != ""'>
-				AND r.role_id IN (${roleId})
+			    and r.role_id = #{roleId}
 			</if>
+
 
 			<!-- 기본적으로 직원(role_id = 0) 제외 -->
 			<if test='roleId == null or roleId == ""'>
@@ -259,28 +333,33 @@
 	</select>
 
 	<select id="getCommentCount" parameterType="hashMap" resultType="int">
-		select count(*)
-		from comment_tbl c
-		inner join user_role_tbl r on c.email = r.email
-		<if test='searchType.equals("comment_id")'>
-			where comment_id like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("nickname")'>
-			where nickname like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("comment_date")'>
-			where comment_date like concat('%', #{keyword}, '%')
-		</if>
-
-		<if test='searchType.equals("content")'>
-			where content like concat('%', #{keyword}, '%')
-		</if>
-		<!-- Role ID 조건 -->
-		<if test='roleId != null'>
-			and r.role_id in (${roleId})
-		</if>
+	    select count(*)
+	    from comment_tbl c
+	    inner join user_role_tbl r on c.email = r.email
+	    <where>
+	        <if test='searchType.equals("comment_id")'>
+	            comment_id like concat('%', #{keyword}, '%')
+	        </if>
+	
+	        <if test='searchType.equals("nickname")'>
+	            nickname like concat('%', #{keyword}, '%')
+	        </if>
+	
+	        <if test='searchType.equals("comment_date")'>
+	            comment_date like concat('%', #{keyword}, '%')
+	        </if>
+	
+	        <if test='searchType.equals("comment")'>
+	            comment like concat('%', #{keyword}, '%')
+	        </if>
+	        <!-- Role ID 조건 -->
+	        <if test='roleId != null and roleId != ""'>
+	            and r.role_id = #{roleId}
+	        </if>
+	        <if test='roleId == null or roleId == ""'>
+	            and r.role_id != 0  <!-- 직원(role_id = 0)도 포함 -->
+	        </if>
+	    </where>
 	</select>
 
 	<delete id="codelete" parameterType="int">

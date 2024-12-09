@@ -38,9 +38,7 @@
 	// 파일 선택 후 검증 및 목록 추가
 	document.getElementById('file2').addEventListener('change', function(event) {
 		var fileInput = event.target;
-		console.log(fileInput);
 		var files = fileInput.files;
-		console.log(files);
 
 		var fileListContainer = document.getElementById('fileListContainer');
 		var fileNameContainer = document.querySelector('.fileName .name');
@@ -59,7 +57,6 @@
 			var file = files[i];
 			var fileName = file.name;
 			var fileExtension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
-			console.log('파일 이름: '+file.name  +', 크기: '+file.size +'bytes');
 
 			// 파일 확장자 확인
 			if (validExtensions.indexOf('.' + fileExtension) === -1) {

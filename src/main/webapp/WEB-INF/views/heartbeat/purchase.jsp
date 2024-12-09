@@ -25,7 +25,6 @@
 
     // 부모 페이지에서 pgToken을 받는 함수
     function receivePgToken(pgToken) {
-        console.log("Received PG Token:", pgToken);
         
         // 서버로 결제 정보 전송
         $.ajax({
@@ -54,7 +53,7 @@
 <c:if test="${not empty alertMsg}">
     <script type="text/javascript">
         alert("${alertMsg}");  // 서버에서 전달한 경고 메시지 표시
-        window.location.href = "${pageContext.request.contextPath}/membership";  // 경고 후 리디렉션
+        window.location.href = "${pageContext.request.contextPath}/purchase";  // 경고 후 리디렉션
     </script>
 </c:if>
 

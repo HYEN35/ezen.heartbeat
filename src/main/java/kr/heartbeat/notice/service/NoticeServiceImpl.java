@@ -15,7 +15,7 @@ public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private NoticePersistence noticePersistence;
 	
-	@Override
+	@Override // 공지 작성
 	public void postNotice(NoticeVO noticeVO) throws Exception {
 		noticePersistence.postNotice(noticeVO);
 	}

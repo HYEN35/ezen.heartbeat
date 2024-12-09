@@ -10,7 +10,7 @@
 
 	</script>
 
-	<script>	
+	<script>
 		// 맴버십 결제
 		function artistPayShow() {
 	        $('.artist').show();
@@ -51,8 +51,9 @@
 						<div><!--class="cntBx tab-membership"-->
 							<div class="cnt">
 								<div class="current">
-									<div>현재 사용하고 계신 이용권은 <i id="nowLevel">Level  ${UserVO.level }</i>입니다. <p><c:if test="${not empty startDate and not empty endDate}">(이용기간 : <i>${startDate} ~ ${endDate}</i>)</c:if></p></div>
-								</div>
+									<div>현재 사용하고 계신 이용권은 <i id="nowLevel">Level  ${UserVO.level }</i>입니다. <p><c:if test="${not empty startDate and not empty endDate}">
+																													(이용기간 : <i>${startDate} ~ ${endDate}</i>)
+																													</c:if></p></div>								</div>
 									<ul class="itemWrap">
 										<li class="item ${UserVO.level == 1 ||UserVO.level == 2 ? 'disabled' : '' }">
 											<p class="thumb"><i class="fa-solid fa-coins"></i></p>

@@ -5,8 +5,10 @@
 <body>
 	<script>
 		<c:if test="${not empty message}">
-		alert("${message}");
+			alert("${message}");
 		</c:if>
+		
+
 	</script>
 
 	<script>
@@ -15,12 +17,10 @@
 			
 			// 프로필 사진 변경 선택시 이름 출력
 		    $('#profileImageInput').on('change', function () {
-		        console.log('파일 선택 이벤트 발생');
 		        
 		        var file = this.files[0]; // 선택된 파일 객체
 		        var fileName = file ? file.name : '선택된 파일 없음'; // 파일 이름 추출
 	
-		        console.log('선택된 파일 이름:', fileName);
 		        
 		        $('#fileNameDisplay').text(fileName); // 화면에 파일명 표시
 		    });
@@ -28,6 +28,41 @@
 
 		//닉네임 중복 확인 여부
 		let isNickAvailable = false; // 중복된 값이 아닌지 맞는지 여부 
+		
+		// 프로필 이미지 초기화 
+        <%--function resetProfileImage() {
+		     if (confirm("프로필 사진을 초기화 하시겠습니까?")) {
+		         const email = '${sessionScope.UserVO.email}'; 
+		         const defaultImgPath = '/img/user.png';
+		         $.ajax({
+		             url: '/mypage/resetProfileImage', 
+		             type: 'POST',
+		             data: {
+		                 email: email
+		             },
+		             
+		             success: function(response) {
+		               document.getElementById('profileImage').src = defaultImgPath + '?v=' + new Date().getTime();
+		                 alert('프로필 사진이 초기화되었습니다.');
+		                 
+		             },
+		             error: function() {
+		                 alert('사진 초기화에 실패했습니다.');
+		             }
+		         });
+					
+		     }
+		 }--%>
+		 
+		 function resetProfileImage() {
+	            if (confirm("프로필 사진을 초기화 하시겠습니까?")) {
+	            	
+	            	const form = document.getElementById('resetProfileImageForm'); // 숨겨진 폼 가져오기
+	                // 폼 제출
+	                form.submit();
+	            	alert("프로필 사진이 초기화되었습니다.")
+	            }
+	        }
 
 		//닉네임 중복확인
 		function nicknameCheck(nickname) {
@@ -198,6 +233,7 @@
 												<button type="button" class="btn-border" onclick="$(this).siblings('input').click();">사진 변경</button>
 												<p id="fileNameDisplay" class="fileName">선택된 파일 없음</p>
 											</div>
+												<button type="button" class="btn-border" onclick="resetProfileImage()">프로필 사진 초기화</button>
 										</li>
 										<li class="item">
 											<p class="dt">회원 탈퇴</p>
@@ -218,6 +254,10 @@
 			</div>
 		</div>
 	</div>
+	<form id="resetProfileImageForm" action="/mypage/resetProfileImage" method="post">
+		<input type="hidden" name="email" value=${UserVO.email }>
+	</form>
+
 
 	<div class="dimmed" onclick="popAlertCheckHide()"></div>
 	<div class="dimmed" onclick="popDeleteUserHide();"></div>

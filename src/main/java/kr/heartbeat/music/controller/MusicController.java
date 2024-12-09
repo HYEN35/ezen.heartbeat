@@ -44,19 +44,11 @@ public class MusicController {
 		String hashtag2 = request.getParameter("hashtag2");
 		String hashtag3 = request.getParameter("hashtag3");
 
-		//System.out.println("************* 선택된 해시태그들의 값 : 해시태그1 " + hashtag1 + ", 해시태그2 " + hashtag2 + ", 해스태그3 " + hashtag3);
 
 		List<PlaylistDTO> playlistDTO = musicPersistence.findAllMusicAjax(hashtag1, hashtag2, hashtag3);
 
 		HashMap<String, Object> response = new HashMap<String, Object>();
 
-		// null 체크
-		/*if (playlistDTO == null) {
-			System.out.println("******* 반환된 PlaylistDTO가 null입니다.");
-		} else {
-			System.out.println("******* 반환된 PlaylistDTO: " + playlistDTO);
-		}*/
-		//System.out.println("******* 해시태그(MusicController) : " + response);
 		response.put("playlist", playlistDTO);
 
 		return response;

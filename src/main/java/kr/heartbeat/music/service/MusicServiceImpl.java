@@ -34,7 +34,6 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public List<PlaylistDTO> findAllMusicAjax(String hashtag1, String hashtag2, String hashtag3){
-        //System.out.println("************* 선택된 해시태그들의 값(MusicServiceImpl) : 해시태그1 " + hashtag1 + ", 해시태그2 " + hashtag2 + ", 해스태그3 " + hashtag3);
         return musicPersistence.findAllMusicAjax(hashtag1, hashtag2, hashtag3);
     }
 }

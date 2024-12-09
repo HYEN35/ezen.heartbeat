@@ -40,8 +40,10 @@ public class NoticeController {
 		
 		model.addAttribute("adminPost", adminPost);		
 		model.addAttribute("userPost", userPost);		
-		model.addAttribute("page", page);		
+		model.addAttribute("page", page);
 		model.addAttribute("select", num);	
+		model.addAttribute("searchType", searchType);	
+		model.addAttribute("keyword", keyword);	
 		
 		return "heartbeat/notice";	
 		
@@ -62,7 +64,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/getPostOne") // 게시물 상세보기
-	public String getPostOne(@RequestParam("notice_id")int notice_id,int num, Model model)throws Exception {
+	public String getPostOne(@RequestParam("notice_id")int notice_id,int num,String searchType, String keyword, Model model)throws Exception {
 		NoticeVO noticeVO = noticeService.getPostOne(notice_id);
 		List<NoticeCommentVO> commentVO = noticeService.getComment(notice_id);
 		
@@ -70,21 +72,27 @@ public class NoticeController {
 		model.addAttribute("num", num);
 		model.addAttribute("commentVO", commentVO);
 		model.addAttribute("noticeVO", noticeVO);
+		model.addAttribute("searchType", searchType);	
+		model.addAttribute("keyword", keyword);	
 
 		return "/heartbeat/noticeShow";
 	}
 	
 	@PostMapping("/noticeModifyShow") // 게시물 수정 페이지 이동
-	public String noticeModifyShow(int notice_id,int num,Model model) throws Exception{
+	public String noticeModifyShow(int notice_id,int num,String searchType, String keyword, Model model) throws Exception{
 		NoticeVO noticeVO = noticeService.getPostOne(notice_id);
 		
 		model.addAttribute("num", num);
 		model.addAttribute("noticeVO", noticeVO);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("keyword", keyword);
 		return "/heartbeat/noticeModify";
 	}
 	
 	@PostMapping("/noticeModify") // 게시물 수정
-	public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,Model model) throws Exception{
+	public String noticeModify(@RequestParam("num")int num,NoticeVO noticeVO,
+								@RequestParam("searchType")String searchType, 
+								@RequestParam("keyword")String keyword,Model model) throws Exception{
 		
 		noticeService.noticeModify(noticeVO);
 		NoticeVO dbnoticeVO = noticeService.getPostOne(noticeVO.getNotice_id());
@@ -92,6 +100,8 @@ public class NoticeController {
 		model.addAttribute("num", num);
 		model.addAttribute("noticeVO", dbnoticeVO);
 		model.addAttribute("commentVO", commentVO);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("keyword", keyword);
 		return "/heartbeat/noticeShow";
 	}
 	
@@ -125,7 +135,7 @@ public class NoticeController {
 	@ResponseBody
 	public String commentDelete(int notice_comment_id)throws Exception {
 		noticeService.commentDelete(notice_comment_id);
-		return "댓글 삭제 성공";
+		return "success";
 	}
 	
 }

@@ -3,196 +3,225 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
-//게시물 수정 버튼
-function popPostEditShow(button) {
-    var postDiv = button.closest('.postBx');
-    var fanPostDiv = postDiv.querySelector('.arti-cnt');
-    var fanButtonDiv = postDiv.querySelector('.arti-top');
-
-    var postText = fanPostDiv.querySelector('.txt');
-    var postInput = fanPostDiv.querySelector('.post-txtBx');
-    var postImgFileInput = fanPostDiv.querySelector('#postImgFile');
-    var postImage = fanPostDiv.querySelector("img.thumb");
-
-    // 사진 삭제 버튼 찾기
-    var deleteImageButton = fanButtonDiv.querySelector('.btn-i-del');
-
-    postText.style.display = 'none'; // 기존 텍스트 숨김
-    postInput.style.display = 'block'; // 텍스트 박스 표시
-    postImgFileInput.style.display = 'block'; // 파일 입력 표시
-
-    
-    if (deleteImageButton) {
-        deleteImageButton.style.display = 'inline-block';
-    }
-
-    postInput.value = postText.innerText.trim(); // 기존 텍스트를 입력 박스로 복사
-
-    // 파일 선택 시 미리보기 업데이트
-	postImgFileInput.addEventListener('change', function () {
-    if (postImgFileInput.files && postImgFileInput.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            // 선택한 이미지의 미리보기 업데이트
-            if (postImage) {
-                postImage.src = e.target.result; // 새로운 이미지로 업데이트
-                postImage.style.display = 'block'; // 이미지 표시
-            } else {
-                // 이미지를 처음으로 추가하는 경우
-                var newImage = document.createElement('img');
-                newImage.src = e.target.result;
-                newImage.classList.add('thumb');
-                newImage.style.width = '50%';
-                fanPostDiv.appendChild(newImage);
-            }
-        };
-        reader.readAsDataURL(postImgFileInput.files[0]);
-    }
-});
-
-    var editButton = fanButtonDiv.querySelector('.btn-i-edit');
-    var saveButton = fanButtonDiv.querySelector('.btn-i-save');
-    editButton.style.display = 'none';
-    saveButton.style.display = 'inline-block';
-}
-
-// 사진 삭제 버튼 클릭 시 호출되는 함수
-function deletePostImage(postId, button) {
-if (!confirm("사진을 삭제하시겠습니까?")) {
-    return;
-}
-
-$.ajax({
-    type: "POST",
-    url: "/community/deletePostImage",
-    data: JSON.stringify({ post_id: postId }),
-    contentType: "application/json",
-    success: function (data) {
-        alert("삭제되었습니다.");
-
-        var postDiv = button.closest('.postBx');
-        var fanPostDiv = postDiv.querySelector('.arti-cnt');
-        var postImage = fanPostDiv.querySelector("img.thumb");
-
-        if (postImage) {
-            postImage.style.display = 'none'; // 이미지 숨기기
-        }
-
-        // 버튼 숨기기
-        var deleteImageButton = postDiv.querySelector('.btn-i-del');
-        if (deleteImageButton) {
-            deleteImageButton.style.display = 'none';
-        }
-
-        $.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
-	        const newContent = $(data).find('.cntArea').html(); 
-	        $('.pop-post-artist .cntArea').html(newContent);
-        });
-    },
-    error: function () {
-        alert("오류가 발생했습니다.");
-    }
-});
-}
-
-// 게시물 수정 저장 버튼
-function popPostSaveShow(button) {
-    var postDiv = button.closest('.postBx');
-    var fanPostDiv = postDiv.querySelector('.arti-cnt');
-    var fanButtonDiv = postDiv.querySelector('.arti-top');
-
-    var postText = fanPostDiv.querySelector('.txt');
-    var postInput = fanPostDiv.querySelector('.post-txtBx');
-    var postImgFileInput = fanPostDiv.querySelector('#postImgFile');
-
-    var newPostText = postInput.value.trim();
-    var post_id = postDiv.getAttribute('data-post-id');
-    var postImgFile = postImgFileInput.files[0];
-
-    var formData = new FormData();
-    formData.append('post_id', post_id);
-    formData.append('content', newPostText);
-    if (postImgFile) {
-        formData.append('post_img_name', postImgFile);
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "/community/modifyPost",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            // 텍스트 업데이트
-            postText.innerText = newPostText;
-            postText.style.display = 'block';
-            postInput.style.display = 'none';
-
-            // 이미지 업데이트
-            if (data.post_img) {
-                var postImage = fanPostDiv.querySelector("img.thumb");
-                if (postImage) {
-                    postImage.src = "/heartbeat-upload/" + data.post_img;
-                }
-            }
-
-            // 파일 입력 숨기기
-            postImgFileInput.style.display = 'none';
-
-            // 사진 삭제 버튼 숨기기
-            var deleteImageButton = fanButtonDiv.querySelector('.btn-i-del');
-            if (deleteImageButton) {
-                deleteImageButton.style.display = 'none'; // 사진 삭제 버튼 숨기기
-            }
-
-            // 버튼 상태 복구
-            var editButton = fanButtonDiv.querySelector('.btn-i-edit');
-            var saveButton = fanButtonDiv.querySelector('.btn-i-save');
-            editButton.style.display = 'inline-block';
-            saveButton.style.display = 'none';
-
-            // 파일 입력 값 초기화
-            postImgFileInput.value = '';
-        },
-        error: function () {
-            alert("게시물 수정 중 오류가 발생했습니다.");
-        }
-    });
-}
-
-	// 게시물 삭제
-	function deletePost(post_id){
-		// 사용자에게 삭제 확인 메세지 띄우기
-		var ifconfrimed = confirm("게시물을 삭제하시겠습니까?");
-		
-		// 확인을 누르면 폼을 제출
-		if (ifconfrimed	) {
-			// AJAX 요청을 통해 댓글 삭제
-			$.ajax({
-				type : "POST",
-				url : "/community/deletePost",
-				data : {post_id : post_id},
-				success : function(response) {
-					window.location.reload();
-				}
-			});
-		}
+	function checkSessionAndExecute(callback) {
+		$.ajax({
+			url: '/purchase/getEmail',  // 이메일을 가져오는 서버 URL
+		    type: 'GET',       // GET 방식으로 서버에 요청
+		    success: function(data) {
+		    	console.log(data);  // 서버에서 반환된 데이터를 확인
+	
+		        var email = data.email;  // 서버에서 받아온 이메일 값
+		        var name = data.name;    // 서버에서 받아온 이름
+		        var phone = data.phone;  // 서버에서 받아온 전화번호
+	
+		        console.log("콜백 실행 전:", email);
+		    	if (email == null || email.trim() === "") {
+		            alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
+		            window.location.href = '/login'; // 로그인 페이지로 이동
+		            return false; // 더 이상 진행하지 않도록 막음
+		        }
+		    	else {
+		    		console.log("콜백 실행 조건 충족");
+		    		callback();
+		    	}
+		    }
+		});
 	}
+
+	//게시물 수정 버튼
+	function popPostEditShow(button) {	
+		checkSessionAndExecute(function() {
+			console.log("asdsadqweqweqw");
+		
+	    var postDiv = button.closest('.postBx');
+	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
+	    var fanButtonDiv = postDiv.querySelector('.arti-top');
+	
+	    var postText = fanPostDiv.querySelector('.txt');
+	    var postInput = fanPostDiv.querySelector('.post-txtBx');
+	    var postImgFileInput = fanPostDiv.querySelector('#postImgFile');
+	    var postImage = fanPostDiv.querySelector("img.thumb");
+	
+	    // 사진 삭제 버튼 찾기
+	    var deleteImageButton = fanButtonDiv.querySelector('.btn-i-del');
+	
+	    postText.style.display = 'none'; // 기존 텍스트 숨김
+	    postInput.style.display = 'block'; // 텍스트 박스 표시
+	    postImgFileInput.style.display = 'block'; // 파일 입력 표시
+	
+	    
+	    if (deleteImageButton) {
+	        deleteImageButton.style.display = 'inline-block';
+	    }
+	
+	    postInput.value = postText.innerText.trim(); // 기존 텍스트를 입력 박스로 복사
+	
+	    // 파일 선택 시 미리보기 업데이트
+		postImgFileInput.addEventListener('change', function () {
+	    if (postImgFileInput.files && postImgFileInput.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            // 선택한 이미지의 미리보기 업데이트
+	            if (postImage) {
+	                postImage.src = e.target.result; // 새로운 이미지로 업데이트
+	                postImage.style.display = 'block'; // 이미지 표시
+	            } else {
+	                // 이미지를 처음으로 추가하는 경우
+	                var newImage = document.createElement('img');
+	                newImage.src = e.target.result;
+	                newImage.classList.add('thumb');
+	                newImage.style.width = '50%';
+	                fanPostDiv.appendChild(newImage);
+	            }
+	        };
+	        reader.readAsDataURL(postImgFileInput.files[0]);
+	    }
+		});
+	});
+	
+	    var editButton = fanButtonDiv.querySelector('.btn-i-edit');
+	    var saveButton = fanButtonDiv.querySelector('.btn-i-save');
+	    editButton.style.display = 'none';
+	    saveButton.style.display = 'inline-block';
+	}
+	
+	// 사진 삭제 버튼 클릭 시 호출되는 함수
+	function deletePostImage(postId, button) {
+	if (!confirm("사진을 삭제하시겠습니까?")) {
+	    return;
+	}
+	
+	$.ajax({
+	    type: "POST",
+	    url: "/community/deletePostImage",
+	    data: JSON.stringify({ post_id: postId }),
+	    contentType: "application/json",
+	    success: function (data) {
+	        alert("삭제되었습니다.");
+	
+	        var postDiv = button.closest('.postBx');
+	        var fanPostDiv = postDiv.querySelector('.arti-cnt');
+	        var postImage = fanPostDiv.querySelector("img.thumb");
+	
+	        if (postImage) {
+	            postImage.style.display = 'none'; // 이미지 숨기기
+	        }
+	
+	        // 버튼 숨기기
+	        var deleteImageButton = postDiv.querySelector('.btn-i-del');
+	        if (deleteImageButton) {
+	            deleteImageButton.style.display = 'none';
+	        }
+	
+	        $.post("/community/getArtistPost", { post_id: post_id, email : email }, function(data) {
+		        const newContent = $(data).find('.cntArea').html(); 
+		        $('.pop-post-artist .cntArea').html(newContent);
+	        });
+	    },
+	    error: function () {
+	        alert("오류가 발생했습니다.");
+	    }
+	});
+	}
+	
+	// 게시물 수정 저장 버튼
+	function popPostSaveShow(button) {
+	    var postDiv = button.closest('.postBx');
+	    var fanPostDiv = postDiv.querySelector('.arti-cnt');
+	    var fanButtonDiv = postDiv.querySelector('.arti-top');
+	
+	    var postText = fanPostDiv.querySelector('.txt');
+	    var postInput = fanPostDiv.querySelector('.post-txtBx');
+	    var postImgFileInput = fanPostDiv.querySelector('#postImgFile');
+	
+	    var newPostText = postInput.value.trim();
+	    var post_id = postDiv.getAttribute('data-post-id');
+	    var postImgFile = postImgFileInput.files[0];
+	
+	    var formData = new FormData();
+	    formData.append('post_id', post_id);
+	    formData.append('content', newPostText);
+	    if (postImgFile) {
+	        formData.append('post_img_name', postImgFile);
+	    }
+	
+	    $.ajax({
+	        type: "POST",
+	        url: "/community/modifyPost",
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        success: function (data) {
+	            // 텍스트 업데이트
+	            postText.innerText = newPostText;
+	            postText.style.display = 'block';
+	            postInput.style.display = 'none';
+	
+	            // 이미지 업데이트
+	            if (data.post_img) {
+	                var postImage = fanPostDiv.querySelector("img.thumb");
+	                if (postImage) {
+	                    postImage.src = "/heartbeat-upload/" + data.post_img;
+	                }
+	            }
+	
+	            // 파일 입력 숨기기
+	            postImgFileInput.style.display = 'none';
+	
+	            // 사진 삭제 버튼 숨기기
+	            var deleteImageButton = fanButtonDiv.querySelector('.btn-i-del');
+	            if (deleteImageButton) {
+	                deleteImageButton.style.display = 'none'; // 사진 삭제 버튼 숨기기
+	            }
+	
+	            // 버튼 상태 복구
+	            var editButton = fanButtonDiv.querySelector('.btn-i-edit');
+	            var saveButton = fanButtonDiv.querySelector('.btn-i-save');
+	            editButton.style.display = 'inline-block';
+	            saveButton.style.display = 'none';
+	
+	            // 파일 입력 값 초기화
+	            postImgFileInput.value = '';
+	        },
+	        error: function () {
+	            alert("게시물 수정 중 오류가 발생했습니다.");
+	        }
+	    });
+	}
+	
+		// 게시물 삭제
+		function deletePost(post_id){
+			// 사용자에게 삭제 확인 메세지 띄우기
+			var ifconfrimed = confirm("게시물을 삭제하시겠습니까?");
+			
+			// 확인을 누르면 폼을 제출
+			if (ifconfrimed	) {
+				// AJAX 요청을 통해 댓글 삭제
+				$.ajax({
+					type : "POST",
+					url : "/community/deletePost",
+					data : {post_id : post_id},
+					success : function(response) {
+						window.location.reload();
+					}
+				});
+			}
+		}
 	
 	// 댓글 작성 후 처리
 	function submitCommentA() {
+		checkSessionAndExecute(function() {
+					
+		});
+		
+		
 		var button = event.target; // 클릭한 버튼을 가져온다.
 		var form = button.closest('.submitCommentTestArtist');
-	    console.log(form);  // 댓글 내용 확인 (디버깅용)
 	    
 	    var post_id = form.querySelector('input[name="post_id"]').value
 	    var email = form.querySelector('input[name="email"]').value
 	    var nickname = form.querySelector('input[name="nickname"]').value
 	    var comment = form.querySelector('input[name="comment"]').value
-	    console.log(post_id);  // 댓글 내용 확인 (디버깅용)
-	    console.log(email);  // 댓글 내용 확인 (디버깅용)
-	    console.log(nickname);  // 댓글 내용 확인 (디버깅용)
-	    console.log(comment);  // 댓글 내용 확인 (디버깅용)
 		
 	    // 댓글이 비어있는 경우
 	    if (!comment.trim()) {
@@ -212,7 +241,6 @@ function popPostSaveShow(button) {
 	        },
 	        dataType: 'json',
 	        success: function(response) {
-	    	    console.log(response);  // 댓글 내용 확인 (디버깅용)
 	        }
 	    });
 		 // 댓글 작성 후 게시물 새로고침
@@ -221,7 +249,6 @@ function popPostSaveShow(button) {
 	        method: 'POST',  // 서버에서 데이터를 가져오는 방식
 	        data: { post_id: post_id },
 	        success: function(response) {
-	            console.log("바보 아니다")           
 	            // 서버에서 받은 응답으로 팝업 내용 업데이트
 	            $('.pop-post-artist').html(response);  // 응답 받은 내용을 팝업에 표시
 	            $('.pop-post-artist').show();  // 팝업 다시 보이게 하기
@@ -237,7 +264,6 @@ function popPostSaveShow(button) {
 	                success: function(response) {
 	                    // 서버에서 받은 checkLike 값을 업데이트
 	                    var checkLike = response.checkLike;  // 서버에서 전달된 checkLike 값
-	                    console.log('Updated checkLike:', checkLike);
 
 	                    // 좋아요 버튼 상태 업데이트
 	                    if (checkLike === 1) {
@@ -257,15 +283,21 @@ function popPostSaveShow(button) {
 	            console.error('에러 발생:', error);
 	        }
 	    });
-
+	
         
 	}
 	
 	// 댓글 수정 버튼 
 	function popCommentEditShow(button) {
+		checkSessionAndExecute(function() {
+			
+		
+		
+		   
 	    var commentDiv = button.closest('.postBx'); // 댓글을 포함한 가장 가까운 div인 .postBx를 찾기
 	    var fanCommentDiv = commentDiv.querySelector('.fan-comment'); // .fan-comment를 찾기
 	    var fanProfileDiv = commentDiv.querySelector('.fan-profile'); // .fan-profile를 찾기
+	    
 
 
 	    if (!fanCommentDiv) {
@@ -297,6 +329,7 @@ function popPostSaveShow(button) {
 
 	    // 기존 댓글 내용을 입력란에 설정
 	    commentInput.value = commentText.innerText.trim();
+		});
 	}
 
 	// 댓글 수정 저장
@@ -335,7 +368,6 @@ function popPostSaveShow(button) {
 	            comment: newCommentText
 	        },
 	        success: function(data) {
-	            console.log('서버 응답:', data);  // 서버 응답 로그 추가
 	            if (data === "success") {
 	                // 수정 후 댓글 내용을 업데이트하고, 버튼 전환
 	                commentText.innerText = newCommentText;  // 댓글 텍스트 업데이트
@@ -367,11 +399,16 @@ function popPostSaveShow(button) {
 
 	// 댓글 삭제
 	function deleteComment(comment_id,totalComment,post_id) {
+		checkSessionAndExecute(function() {
+					
+		
+						
 		// 사용자에게 삭제 확인 메세지 띄우기
 		var isConfirmed = confirm("댓글을 삭제하시겠습니까?");
-		
+			
 		// 확인을 누르면 폼을 제출
 	    if (isConfirmed) {
+	    	
 	        // AJAX 요청을 통해 댓글 삭제
 	        $.ajax({
 	            type: "POST",
@@ -400,6 +437,8 @@ function popPostSaveShow(button) {
 	            }
 	        });
 	    }
+		});
+		
 	}
 	
 	function popPostArtistHide() {
@@ -413,6 +452,10 @@ function popPostSaveShow(button) {
 	
 	// 새로고침 버튼 
 	function resetArtistPopup(email, post_id) {
+		checkSessionAndExecute(function() {
+			
+		});
+		
 	    $.ajax({
 	        url: '/community/getArtistPost',  // 서버 URL
 	        method: 'POST',  // 서버에서 데이터를 가져오는 방식
@@ -433,7 +476,6 @@ function popPostSaveShow(button) {
 	                success: function(response) {
 	                    // 서버에서 받은 checkLike 값을 업데이트
 	                    var checkLike = response.checkLike;  // 서버에서 전달된 checkLike 값
-	                    console.log('Updated checkLike:', checkLike);
 
 	                    // 좋아요 버튼 상태 업데이트
 	                    if (checkLike === 1) {
@@ -457,8 +499,10 @@ function popPostSaveShow(button) {
 	
 	// 좋아요 버튼
 	function likeToggle(email , post_id,e) {
+		checkSessionAndExecute(function() {
+			
+	    });
 		$(e).toggleClass('on');
-	    console.log(post_id);  // 댓글 내용 확인 (디버깅용)
 		
 		$.ajax({
 			url: '/community/likeToggle',
@@ -469,7 +513,6 @@ function popPostSaveShow(button) {
 			},
 			dataType: 'json',
 			success : function(response) {
-				console.log(response);
 				//var newTotalLike = response.totalLike;
 				$(".like .num").text(response);
 			},
@@ -479,12 +522,6 @@ function popPostSaveShow(button) {
 		});
 	}
 	
-	/*
-	//아티스트 포스트 하트 토글
-		function likeToggle(e){
-			$(e).toggleClass('on');
-		}
-	*/
 	//아티스트 이미지 효과 추가 
 	function showPopup(img) {
     let darkBackground = document.getElementById("dark-background");
@@ -514,8 +551,8 @@ function popPostSaveShow(button) {
         popupImg = document.createElement("img");
         popupImg.id = "popup-img";
         popupImg.src = img.src;
-        popupImg.style.width = "700px";
-        popupImg.style.height = "700px"; 
+        popupImg.style.maxWidth = "100%";
+        popupImg.style.maxHeight = "100%"; 
         popupImg.style.position = "fixed"; 
         popupImg.style.top = "50%";
         popupImg.style.left = "50%";
@@ -557,7 +594,12 @@ function closePopup() {
 		<div class="postBx" data-post-id="${PostVO.post_id }">
 			<div class="arti-comment">
 				<div class="arti-top">
-					<div class="arti-profile"><img src="/heartbeat-upload/${PostVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="arti-thumb" alt="민지"></div>
+					<c:if test="${PostVO.profileimg != null && PostVO.profileimg != ''}">
+					    <div class="image"><img src="/heartbeat-upload/${PostVO.profileimg}" alt="닉네임"></div>
+					</c:if>
+					<c:if test="${PostVO.profileimg == null || PostVO.profileimg == ''}">
+					    <div class="image"><img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임"></div>
+					</c:if>
 					<span class="arti-mark"><span class="blind">artist</span></span>
 					<span class="arti-name">${PostVO.nickname}</span>
 					<span class="arti-date"><fmt:formatDate value="${PostVO.post_date}" pattern="yy-MM-dd HH:mm"/></span>
@@ -577,8 +619,7 @@ function closePopup() {
 				<div class="arti-cnt">
 					<div class="txt">${PostVO.content}</div>
 					<c:if test="${not empty PostVO.post_img}">	
-						<div id="dark-background" class="dark-background" onclick="closePopup()"></div>
-						<img id="arti-img" src="/heartbeat-upload/${PostVO.post_img}" alt="newjeans" class="thumb" style="width:50%;" onclick="showPopup(this)">
+						<img id="arti-img" src="/heartbeat-upload/${PostVO.post_img}" alt="newjeans" class="thumb" onclick="showPopup(this)">
 					</c:if>
 					<form id="modifyPostForm" action="/community/modifyPost" method="POST" enctype="multipart/form-data">	
 						 <img id="imagePreview" class="thumb" style="display:none; width:50%;" />
@@ -613,7 +654,13 @@ function closePopup() {
 								}">
 					<div class="count">
 						<div class="like"><i class="num">${totalLike }</i>개의 좋아요</div>
-						<button type="button" class="btn-i-like  ${checkLike eq 1 ? 'on' : ''}" onclick="likeToggle('${UserVO.email}','${PostVO.post_id }',this);"><i class="fa-solid fa-heart"></i></button>					
+						<c:if test="${UserVO.email eq 'admin' }">
+							<button type="button" class="btn-i-like  ${checkLike eq 1 ? 'on' : ''}" onclick="likeToggle('${UserVO.email}','${PostVO.post_id }',this);" style="display:none;'"><i class="fa-solid fa-heart"></i></button>
+						</c:if>
+						<c:if test="${UserVO.email != 'admin' }">
+							<button type="button" class="btn-i-like  ${checkLike eq 1 ? 'on' : ''}" onclick="likeToggle('${UserVO.email}','${PostVO.post_id }',this);"><i class="fa-solid fa-heart"></i></button>
+						</c:if>
+											
 					</div>
 					</c:if>
 			</div>
@@ -622,7 +669,12 @@ function closePopup() {
 					<c:forEach items="${commentList }" var="commentVO">
 						<div class="postBx" data-comment-id="${commentVO.comment_id}">
 							<div class="fan-profile">
-								<img src="/heartbeat-upload/${commentVO.profileimg}" onerror=this.src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="닉네임1">
+								<c:if test="${commentVO.profileimg != null && commentVO.profileimg != ''}">
+								    <img src="/heartbeat-upload/${commentVO.profileimg}" class="fan-thumb" alt="${commentVO.profileimg}">
+								</c:if>
+								<c:if test="${commentVO.profileimg == null || commentVO.profileimg == ''}">
+								    <img src="${pageContext.request.contextPath}/img/user.png" class="fan-thumb" alt="user.png">
+								</c:if>						
 								<c:if test="${
 								commentVO.nickname eq '로제' 
 								or commentVO.nickname eq '리사'

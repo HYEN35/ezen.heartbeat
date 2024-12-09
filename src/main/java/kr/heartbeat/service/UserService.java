@@ -28,6 +28,8 @@ public interface UserService {
 
 	//회원정보 수정
 	public void modify(UserVO userVO);
+	//프로필 사진 초기화
+	public void resetProfileImage(String email); 
 
 	//회원탈퇴
 	public void delete(UserVO uvo);

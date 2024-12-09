@@ -25,7 +25,6 @@ public class MusicPersistenceImpl implements MusicPersistence{
 	}
 
 	public List<PlaylistDTO> findAllMusicAjax(String hashtag1, String hashtag2, String hashtag3){
-		System.out.println("********** 선택된 해시태그들(MusicPersistenceImpl) : " + hashtag1 + ", " + hashtag2 + ", " + hashtag3);
 
 		HashMap<String, String> map = new HashMap<>();
 		map.put("hashtag1", hashtag1);
@@ -34,7 +33,6 @@ public class MusicPersistenceImpl implements MusicPersistence{
 
 		// 쿼리 실행 후 결과 확인
 		List<PlaylistDTO> resultList = sqlSession.selectList(namespace + ".findAllMusicAjax", map);
-		//System.out.println("********** 쿼리 결과 리스트: " + resultList);
 
 		return (resultList != null && !resultList.isEmpty()) ? resultList : new ArrayList<>();
 	}

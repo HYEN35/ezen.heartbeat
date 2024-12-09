@@ -33,10 +33,11 @@
 	        birth, 
 	        phone, 
 	        profileimg, 
+	        level
 	        reg_date, 
 	        up_date
 	    ) values (
-	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, #{profileimg}, now(), now())
+	        #{email}, 0, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone}, #{profileimg}, 0, now(), now())
 	</insert>
 	
 	<!-- 회원가입 시 유저 역할 추가 -->
@@ -89,6 +90,11 @@
         profileimg = #{userVO.profileimg},
         up_date = now()
     	where email = #{userVO.email}
+	</update>
+	
+	<!-- 프로필 사진 초기화 -->
+	<update id="resetProfileImage" parameterType="map">
+		update user_tbl set profileimg = null where email= #{email} 
 	</update>
 	
 	

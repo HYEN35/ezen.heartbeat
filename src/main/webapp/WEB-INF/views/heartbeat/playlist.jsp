@@ -8,6 +8,28 @@
 
 <body>
 	<script>
+		function checkSessionAndExecute(callback) {
+			$.ajax({
+				url: '/purchase/getEmail',  // 이메일을 가져오는 서버 URL
+			    type: 'GET',       // GET 방식으로 서버에 요청
+			    success: function(data) {
+			    	console.log(data);  // 서버에서 반환된 데이터를 확인
+		
+			        var email = data.email;  // 서버에서 받아온 이메일 값		
+			    	
+			    	if (email == null || email.trim() === "") {
+			            alert("세션이 만료되었습니다. 로그인 페이지로 이동합니다.");
+			            window.location.href = '/login'; // 로그인 페이지로 이동
+			            return false; // 더 이상 진행하지 않도록 막음
+			        }
+			    	else {
+			    		callback();
+			    	}
+			    }
+			});
+		}
+	
+	
 		$(function(){
 			popAlertPurchaseShow();
 		})
@@ -100,7 +122,6 @@
 					alert("An error occurred while fetching the track.");
 				} else {
 					youtubeVideoId = youTubeUrl;
-					console.log(youtubeVideoId);
 					onYouTubeIframeAPIReady(youtubeVideoId);
 					
 					$(".nowPlayInfo").show();
@@ -177,6 +198,10 @@
 		});
 
 		function playListReset(){
+			checkSessionAndExecute(function() {
+				
+			});
+			
 		    $('#listTitle').empty();
 		    $('#musicList').empty();
 		    $('.section-list').hide();
@@ -184,6 +209,10 @@
 		}
 
 		function playListShow() {
+			checkSessionAndExecute(function() {
+				
+			
+			
 			var selectedTags = $('.tagList .tag.on').length;
             var selectedTagArray = [];
             var selectedTagIdArray = [];
@@ -195,7 +224,6 @@
                 selectedTagIdArray.push(tagId);
             });
 
-            console.log("******선택된 해시태그 :", selectedTagArray);
 
             var wrappedTagArray = selectedTagArray.map(function(tagTxt) {
                 return '<i>' + tagTxt + '</i>';
@@ -220,7 +248,6 @@
                     },
 					contentType: 'application/json',
                     success: function(response) {
-                        //console.log('************Response:', response);
 
                         var playlist = response.playlist;
 
@@ -257,6 +284,7 @@
                     }
                 });
             }
+			});
 		}
 		// 해시태그 랜덤 컬러 설정
 		function colorRandom() {

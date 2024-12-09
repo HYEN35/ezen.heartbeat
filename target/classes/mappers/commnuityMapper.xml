@@ -178,25 +178,25 @@
 		    B.comment_id DESC;
 
   	</select>
-  	
+  	<!-- 댓글 개수  -->
   	<select id="totalComment" parameterType="kr.heartbeat.vo.PostVO" resultType="int">
   		select count(*) from comment_tbl where post_id = #{post_id}
   	</select>
-  	
+  	<!-- 댓글 수정 -->
   	<update id="modifyComment" parameterType="kr.heartbeat.vo.CommentVO">
   		UPDATE comment_tbl
 		SET comment = #{comment}
 		WHERE comment_id = #{comment_id}
   	</update>
-  	
+  	<!-- 수정할 댓글 가져오기 -->
   	<select id="getmodifyComment" parameterType="kr.heartbeat.vo.CommentVO" resultType="kr.heartbeat.vo.CommentVO">
   		select * from comment_tbl where comment_id = #{comment_id}
   	</select>
-  	
+  	<!-- 댓글 삭제 -->
   	<delete id="commentdelete" parameterType="kr.heartbeat.vo.CommentVO">
   		delete from comment_tbl where comment_id = #{comment_id}
   	</delete>
-  	
+  	<!-- 수정된 댓글 가져오기 -->
   	<select id="getNewComment" parameterType="kr.heartbeat.vo.CommentVO" resultType="kr.heartbeat.vo.CommentVO">
   		SELECT * from comment_tbl WHERE post_id = #{post_id} order by comment_id desc limit 1;
   	</select>

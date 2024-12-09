@@ -23,7 +23,12 @@
 	    <h1 class="logo"><a href="${pageContext.request.contextPath}/chart">HeartBeat</a></h1>
 	   	<div class="userCnt">
 	   		<div class="user" onclick="dropMenuShow();">
-	   			<div class="image"><img src="${pageContext.request.contextPath}/img/profile/user.png" onerror=this.src="${pageContext.request.contextPath}/img/user.png" alt="닉네임"></div>
+		   			<c:if test="${UserVO.profileimg != null && UserVO.profileimg != ''}">
+					    <div class="image"><img src="/heartbeat-upload/${UserVO.profileimg}" alt="닉네임"></div>
+					</c:if>
+					<c:if test="${UserVO.profileimg == null || UserVO.profileimg == ''}">
+					    <div class="image"><img src="${pageContext.request.contextPath}/img/user.png" alt="닉네임"></div>
+					</c:if>
 	   			<div class="name">${UserVO.nickname}</div>
 	   		</div>
 	   		<div class="dropMenu">
@@ -37,8 +42,8 @@
 					<a href="${pageContext.request.contextPath}/admin/member" class="<%=member %> <%="member".equals(request.getAttribute("memberPage")) ? "on" : "" %>"><i class="fa-solid fa-users"></i>회원 리스트
 					</a>
 				</li>
-	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/post" class="<%=post %>"><i class="fa-solid fa-list-check"></i>게시글 확인</a></li>
-	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/comment" class="<%=comment %>"><i class="fa-solid fa-comments"></i>댓글 확인</a></li>
+	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/post?num=1" class="<%=post %>"><i class="fa-solid fa-list-check"></i>게시글 확인</a></li>
+	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/comment?num=1" class="<%=comment %>"><i class="fa-solid fa-comments"></i>댓글 확인</a></li>
 	   			<li class="item"><a href="${pageContext.request.contextPath}/admin/notice?num=1" class="<%=notice %>"><i class="fa-solid fa-bell"></i>공지 및 문의</a></li>
 	   		</ul>
 	   	</div>

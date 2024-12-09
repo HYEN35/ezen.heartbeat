@@ -48,7 +48,6 @@ public class CommunityController {
 		UserVO userVO = (UserVO) session.getAttribute("UserVO");
 		UserVO dbuserVO = userServiceImpl.login(userVO);
 		int level =2;
-		System.out.println(dbuserVO);
 
 		model.addAttribute("uvo", dbuserVO);
 		model.addAttribute("level", level);
@@ -143,7 +142,7 @@ public class CommunityController {
 		List<PostVO> itzyFanPosts = communityService.getItzyFanPostList(page.getDisplayPost(), page.getPostNum()); // 있지 팬 게시물
 		List<PostVO> postList = communityService.getPostList(); // 전체 게시물
 		String artist_name = communityService.getArtistName(uservo.getArtist_id()); // 구독중인 아티스트 이름 가져오기
-
+		
 
 		String url = null;
 		List<PostVO> itzyPosts = new ArrayList<>(); // 있지 게시물
@@ -381,16 +380,6 @@ public class CommunityController {
 	    return response;
 	}
 
-
-	// 댓글 작성
-//	@PostMapping("/commentWrites")
-//	@ResponseBody
-//	public String commentWrite(CommentVO commentVO, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
-//		communityService.commentWrite(commentVO);
-//	    
-//		return "success";
-//	}
-
 	// 댓글 작성
 	@PostMapping("/commentWrite")
 	@ResponseBody
@@ -407,11 +396,6 @@ public class CommunityController {
 
 	    // 응답 데이터 설정
 	    response.put("data", "success");
-	    // 새 댓글 정보만 넣기 (commentVO 객체를 그대로 넣지 않음)
-//	    response.put("newComment", newComment.getComment()); // 새 댓글 내용
-//	    response.put("newnick", newComment.getNickname());   // 새 댓글 작성자
-//	    response.put("newComment_date", newComment.getComment_date()); // 새 댓글 작성 시간
-//	    response.put("totalComment", totalComment); // 최신 댓글 수
 
 	    return ResponseEntity.ok(response); // 클라이언트에게 성공 메시지 전달
 	}
