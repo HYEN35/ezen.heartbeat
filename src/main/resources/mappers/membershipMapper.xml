@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="kr.heartbeat.mappers.membership">
+		<!-- 아티스트 아이디확인  -->
+		<select id="checkArtistId" parameterType="String" resultType="int">
+			select artist_id from artist_tbl where art_name = #{custom_data}
+		</select>
+		<!-- 맴버십 레벨 업데이트 -->
+		<update id="updateLevel" parameterType="hashMap">
+			update user_tbl set artist_id = #{artist_id} , level = #{level} where email = #{email}
+		</update>
+		<!-- 맴버십 등록 -->
+		<insert id="insertSubscription" parameterType="hashMap">
+			INSERT INTO Subscription_tbl (level, email, artist_id, start_date, end_date)
+			VALUES (#{level}, #{email}, #{artist_id}, NOW(), DATE_ADD(NOW(), INTERVAL 1 MONTH));
+		</insert>
+		<!-- 맴버십 레벨 삭제 -->
+		<delete id="deleteLevel" parameterType="String">
+			delete from subscription_tbl where email = #{email}
+		</delete>
+		<!-- 맴버십 레벨 1로업데이트 -->
+		<update id="deleteAndUpdateLevel1" parameterType="hashMap">
+			update Subscription_tbl set artist_id = #{artist_id} , level = #{level} where email = #{email}
+		</update>
+		<!-- 맴버십 종료 날짜 확인 -->
+		<select id="checkEndDate" parameterType="String" resultType="kr.heartbeat.vo.SubscriptionVO">
+			select * from subscription_tbl where email = #{email}
+		</select>
+		<!-- 맴버십 레벨 확인 -->
+		<select id="checkLevel" parameterType="String" resultType="int">
+			select level from user_tbl where email = #{email}
+		</select>
+		<!-- 아티스트 아이디 확인 -->
+		<select id="checkArtistID" parameterType="String" resultType="int">
+			select artist_id from user_tbl where email = #{email}
+		</select>
+		
+		
+	</mapper>
