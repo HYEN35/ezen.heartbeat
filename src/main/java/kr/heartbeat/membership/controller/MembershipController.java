@@ -6,13 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.heartbeat.membership.service.MembershipService;
@@ -28,14 +25,8 @@ public class MembershipController {
 	@Autowired
 	private UserServiceImpl userServiceImpl;
 
-	private static final String IMP_KEY = "8222383208550316"; // 본인의 API Key
-	private static final String IMP_SECRET = "Ef2oRQvlageeXJiHoZ7IgmMWhJQZ9NaVazj9VBxBoPWpkspP7YCKhNy87dena5UzEOuVM5mmlxPwouxl"; // 본인의
-																																	// API
-																																	// Secret
-
 	@PostMapping("/artistPay")
     public String artistPay(@RequestBody Map<String, Object> paymentData,HttpSession session,Model model) throws Exception {
-        String pgToken = (String) paymentData.get("pg_token");
         String custom_data = (String)paymentData.get("custom_data");
         String email = (String)paymentData.get("buyer_email");
         
@@ -74,26 +65,25 @@ public class MembershipController {
 			return "redirect:/purchase";
 		}
 		
-		 @RequestMapping("/getEmail")
-		 public Map<String, Object> getEmail(HttpSession session) {
-	        System.out.println("getEmail 호출됨");
+		@RequestMapping("/getEmail")
+		public Map<String, Object> getEmail(HttpSession session) {
+	       System.out.println("getEmail 호출됨");
 	        
-	        UserVO user = (UserVO) session.getAttribute("UserVO");
-	        Map<String, Object> response = new HashMap<>();
-	        
-	        if (user != null) {
-	            response.put("email", user.getEmail());
-	            response.put("name", user.getName());
-	            response.put("phone", user.getPhone());
-	        } else {
-	            response.put("email", "");
-	            response.put("name", "");
-	            response.put("phone", "");
-	        }
+	       UserVO user = (UserVO) session.getAttribute("UserVO");
+	       Map<String, Object> response = new HashMap<>();
+	       
+	       if (user != null) {
+	           response.put("email", user.getEmail());
+	           response.put("name", user.getName());
+	           response.put("phone", user.getPhone());
+	       } else {
+	           response.put("email", "");
+	           response.put("name", "");
+	           response.put("phone", "");
+	       }
 
-	        return response;  
-	    }
-
+	       return response;  
+	   }
 
 	}
 
